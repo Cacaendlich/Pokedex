@@ -3,7 +3,10 @@
 
     <style name="Theme.Pokedex" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="colorPrimaryVariant">@color/read</item>
+        <item name="colorSecondaryVariant">@color/yellow</item>
+
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:navigationBarColor">?attr/colorSecondaryVariant</item>
     </style>
     
 </resources>
