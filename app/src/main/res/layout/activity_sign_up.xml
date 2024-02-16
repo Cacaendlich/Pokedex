@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<androidx.core.widget.NestedScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".LoginActivity">
+    tools:context=".SignUpActivity">
 
     <ImageView
         android:id="@+id/logo_pokebola"
@@ -42,6 +36,17 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <EditText
+        android:id="@+id/edit_name"
+        style="@style/edit_text"
+        android:autofillHints="emailAddress"
+        android:hint="@string/name"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/containerComponents"
+        app:layout_constraintStart_toStartOf="@+id/containerComponents"
+        app:layout_constraintTop_toTopOf="@+id/containerComponents"
+        tools:ignore="TextContrastCheck" />
+
+    <EditText
         android:id="@+id/edit_email"
         style="@style/edit_text"
         android:autofillHints="emailAddress"
@@ -49,7 +54,7 @@
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="@+id/containerComponents"
         app:layout_constraintStart_toStartOf="@+id/containerComponents"
-        app:layout_constraintTop_toTopOf="@+id/containerComponents"
+        app:layout_constraintTop_toBottomOf="@+id/edit_name"
         tools:ignore="TextContrastCheck" />
 
     <EditText
@@ -66,7 +71,7 @@
     <Button
         android:id="@+id/button_login"
         style="@style/button_login"
-        android:text="@string/login"
+        android:text="@string/sigin"
         app:layout_constraintEnd_toEndOf="@+id/containerComponents"
         app:layout_constraintStart_toStartOf="@+id/containerComponents"
         app:layout_constraintTop_toBottomOf="@+id/edit_password"
@@ -78,18 +83,7 @@
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_login"
-        app:layout_constraintBottom_toTopOf="@+id/sigin"/>
+        app:layout_constraintTop_toBottomOf="@+id/button_login" />
 
-    <TextView
-        android:id="@+id/sigin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/sigin_up"
-        style="@style/sigin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progress_bar"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
