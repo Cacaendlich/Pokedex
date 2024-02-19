@@ -47,7 +47,7 @@
         tools:ignore="TextContrastCheck" />
 
     <EditText
-        android:id="@+id/edit_email"
+        android:id="@+id/edit_email_sign"
         style="@style/edit_text"
         android:autofillHints="emailAddress"
         android:hint="@string/email"
@@ -58,23 +58,23 @@
         tools:ignore="TextContrastCheck" />
 
     <EditText
-        android:id="@+id/edit_password"
+        android:id="@+id/edit_password_sign"
         style="@style/edit_text"
         android:autofillHints="password"
         android:hint="@string/password"
         android:inputType="numberPassword"
         app:layout_constraintEnd_toEndOf="@+id/containerComponents"
         app:layout_constraintStart_toStartOf="@+id/containerComponents"
-        app:layout_constraintTop_toBottomOf="@+id/edit_email"
+        app:layout_constraintTop_toBottomOf="@+id/edit_email_sign"
         tools:ignore="TextContrastCheck" />
 
     <Button
-        android:id="@+id/button_login"
+        android:id="@+id/button_sign"
         style="@style/button_login"
         android:text="@string/sigin"
         app:layout_constraintEnd_toEndOf="@+id/containerComponents"
         app:layout_constraintStart_toStartOf="@+id/containerComponents"
-        app:layout_constraintTop_toBottomOf="@+id/edit_password"
+        app:layout_constraintTop_toBottomOf="@+id/edit_password_sign"
         tools:ignore="TextContrastCheck" />
 
     <ProgressBar
@@ -83,7 +83,7 @@
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_login" />
+        app:layout_constraintTop_toBottomOf="@+id/button_sign" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

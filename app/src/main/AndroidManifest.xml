@@ -13,9 +13,6 @@
         android:theme="@style/Theme.Pokedex"
         tools:targetApi="s">
         <activity
-            android:name=".SignUpActivity"
-            android:exported="false" />
-        <activity
             android:name=".LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.Pokedex">
