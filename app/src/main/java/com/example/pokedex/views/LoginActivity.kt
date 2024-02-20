@@ -1,4 +1,4 @@
-package com.example.pokedex
+package com.example.pokedex.views
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -16,7 +16,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(view)
 
         // Initialize a ViewModel thousand ViewModelProvider
-        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+        viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
 
         binding.buttonLogin.setOnClickListener {
             val email = binding.editEmail.text.toString()
@@ -24,7 +24,7 @@ class LoginActivity : AppCompatActivity() {
 
             if(viewModel.userIsNotEmpty(email = email, password = password)){
                 if (viewModel.userIsValid(email = email, password = password)){
-                    Toast.makeText(this, "Email: $email Password: $password", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "LOGIN SUCCESS", Toast.LENGTH_SHORT).show()
 
                 }else{
                     Toast.makeText(this, "Your email or password is incorrect. Please try again.", Toast.LENGTH_SHORT).show()

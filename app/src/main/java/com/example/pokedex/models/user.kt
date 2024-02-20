@@ -1,6 +1,6 @@
 package com.example.pokedex.models
 
-data class Users(
+data class User(
     var id: Int,
     var email: String,
     var password: String
