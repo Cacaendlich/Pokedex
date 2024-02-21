@@ -22,16 +22,7 @@ class LoginActivity : AppCompatActivity() {
             val email = binding.editEmail.text.toString()
             val password = binding.editPassword.text.toString()
 
-            if(viewModel.userIsNotEmpty(email = email, password = password)){
-                if (viewModel.userIsValid(email = email, password = password)){
-                    Toast.makeText(this, "LOGIN SUCCESS", Toast.LENGTH_SHORT).show()
-
-                }else{
-                    Toast.makeText(this, "Your email or password is incorrect. Please try again.", Toast.LENGTH_SHORT).show()
-                }
-            }else{
-                Toast.makeText(this, "Please enter an email and password", Toast.LENGTH_SHORT).show()
-            }
+            viewModel.loginIsValid(email = email, password = password, context = this)
         }
     }
 }
