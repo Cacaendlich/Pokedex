@@ -5,11 +5,11 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModel
 
 class LoginViewModel : ViewModel() {
-    private fun userIsNotEmpty(email: String, password: String): Boolean {
+    private fun checkNotEmptyCredentials(email: String, password: String): Boolean {
         return email.isNotEmpty() && password.isNotEmpty()
     }
 
-    private fun userIsValid(email: String, password: String): Boolean {
+    private fun isValidTestUser(email: String, password: String): Boolean {
         return email == "teste@email.com" && password == "1234"
     }
 
@@ -26,8 +26,8 @@ class LoginViewModel : ViewModel() {
     }
 
     fun loginIsValid(email: String, password: String, context: Context){
-        if(userIsNotEmpty(email = email, password = password)){
-            if (userIsValid(email = email, password = password)){
+        if(checkNotEmptyCredentials(email = email, password = password)){
+            if (isValidTestUser(email = email, password = password)){
                 msgSuccess(context = context)
             }else{
                 msgErrorEmailOrPassword(context = context)
