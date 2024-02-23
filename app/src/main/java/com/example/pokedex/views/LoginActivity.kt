@@ -1,8 +1,8 @@
 package com.example.pokedex.views
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.pokedex.databinding.ActivityFormLoginBinding
 import com.example.pokedex.viewmodels.LoginViewModel
@@ -24,5 +24,6 @@ class LoginActivity : AppCompatActivity() {
 
             viewModel.loginIsValid(email = email, password = password, context = this)
         }
+
     }
 }
