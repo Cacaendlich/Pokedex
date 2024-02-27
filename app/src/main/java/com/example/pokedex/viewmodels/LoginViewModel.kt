@@ -1,6 +1,7 @@
 package com.example.pokedex.viewmodels
 
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 
@@ -28,6 +29,7 @@ class LoginViewModel : ViewModel() {
     fun loginIsValid(email: String, password: String, context: Context){
         if(checkNotEmptyCredentials(email = email, password = password)){
             if (isValidTestUser(email = email, password = password)){
+                saveLoginData(context, email)
                 msgSuccess(context = context)
             }else{
                 msgErrorEmailOrPassword(context = context)
@@ -36,6 +38,22 @@ class LoginViewModel : ViewModel() {
             msgErrorIsEmpty(context = context)
         }
     }
+
+    private fun saveLoginData(context: Context, email: String) {
+        val sharedPreferences = context.getSharedPreferences("MySharedPrefs_login", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+
+        editor.putString("email", email)
+
+        editor.apply()
+    }
+
+    fun getStoredLoginData(context: Context): String {
+        val sharedPreferences = context.getSharedPreferences("MySharedPrefs_login", MODE_PRIVATE)
+        return sharedPreferences.getString("email", "") ?: ""
+    }
+    fun sharedPrefsIsNotEmpty(context: Context): Boolean = getStoredLoginData(context).isNotEmpty()
+
 }
 
 
