@@ -1,9 +1,9 @@
 package com.example.pokedex.views
 
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.pokedex.databinding.ActivityFormLoginBinding
 import com.example.pokedex.viewmodels.LoginViewModel
@@ -33,5 +33,13 @@ class LoginActivity : AppCompatActivity() {
             viewModel.loginIsValid(email = emailEditText.text.toString(), password = passwordEditText.text.toString(), context = this)
         }
 
+        viewModel.loginState.observe(this) { state ->
+            when (state) {
+                LoginViewModel.LoginState.SUCCESS -> viewModel.showMessage(this,"LOGIN SUCCESS!")
+                LoginViewModel.LoginState.INVALID_CREDENTIALS -> viewModel.showMessage(this,"Invalid credentials.")
+                LoginViewModel.LoginState.EMPTY_FIELDS -> viewModel.showMessage(this,"Please enter an email and password.")
+                null -> viewModel.showMessage(this,"ERROR")
+            }
+        }
     }
 }
