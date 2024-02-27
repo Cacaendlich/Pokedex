@@ -49,7 +49,7 @@ class LoginViewModel : ViewModel() {
         val sharedPreferences = context.getSharedPreferences("MySharedPrefs_login", MODE_PRIVATE)
         return sharedPreferences.getString("email", "") ?: ""
     }
-    
+
     fun sharedPrefsIsNotEmpty(context: Context): Boolean = getStoredLoginData(context).isNotEmpty()
 
     fun showMessage(context: Context,message: String) {
