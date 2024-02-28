@@ -29,12 +29,12 @@ class LoginViewModel : ViewModel() {
         if(checkNotEmptyCredentials(email = email, password = password)){
             if (isValidTestUser(email = email, password = password)){
                 saveLoginData(context, email)
-                _loginState.value = LoginState.SUCCESS
+                _loginState.setValue(LoginState.SUCCESS)
             }else{
-                _loginState.value = LoginState.INVALID_CREDENTIALS
+                _loginState.setValue(LoginState.INVALID_CREDENTIALS)
             }
         }else{
-            _loginState.value = LoginState.EMPTY_FIELDS
+            _loginState.setValue(LoginState.EMPTY_FIELDS)
         }
     }
 
