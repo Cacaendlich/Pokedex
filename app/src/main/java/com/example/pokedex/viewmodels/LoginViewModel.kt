@@ -22,13 +22,12 @@ class LoginViewModel : ViewModel() {
     }
 
     private fun isValidTestUser(email: String, password: String): Boolean {
-        return email == "teste@email.com" && password == "1234"
+        return email == "admin@email.com" && password == "1234"
     }
 
-    fun loginIsValid(email: String, password: String, context: Context){
+    fun loginIsValid(email: String, password: String){
         if(checkNotEmptyCredentials(email = email, password = password)){
             if (isValidTestUser(email = email, password = password)){
-                saveLoginData(context, email)
                 _loginState.setValue(LoginState.SUCCESS)
             }else{
                 _loginState.setValue(LoginState.INVALID_CREDENTIALS)
@@ -38,7 +37,7 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-    private fun saveLoginData(context: Context, email: String) {
+    fun saveLoginData(context: Context, email: String) {
         val sharedPreferences = context.getSharedPreferences("MySharedPrefs_login", MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putString("email", email)

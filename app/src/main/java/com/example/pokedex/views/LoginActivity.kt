@@ -29,7 +29,11 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.buttonLogin.setOnClickListener {
-            viewModel.loginIsValid(email = emailEditText.text.toString(), password = passwordEditText.text.toString(), context = this)
+            viewModel.loginIsValid(
+                email = emailEditText.text.toString(),
+                password = passwordEditText.text.toString()
+            )
+            viewModel.saveLoginData(this, emailEditText.text.toString())
         }
 
         viewModel.loginState.observe(this) { state ->
