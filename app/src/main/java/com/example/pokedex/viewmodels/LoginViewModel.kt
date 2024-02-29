@@ -2,7 +2,7 @@ package com.example.pokedex.viewmodels
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
-import android.widget.EditText
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,16 +13,9 @@ class LoginViewModel : ViewModel() {
         INVALID_CREDENTIALS,
         EMPTY_FIELDS
     }
-    enum class LoginSharedPrefsState {
-        HAS_LOGIN_DATA,
-        NO_LOGIN_DATA
-    }
 
     private val _loginState = MutableLiveData<LoginState>()
     val loginState: LiveData<LoginState> = _loginState
-
-    private val _loginSharedPrefsState = MutableLiveData<LoginSharedPrefsState>()
-    val loginSharedPrefsState: LiveData<LoginSharedPrefsState> = _loginSharedPrefsState
 
     private fun checkNotEmptyCredentials(email: String, password: String): Boolean {
         return email.isNotEmpty() && password.isNotEmpty()
@@ -35,19 +28,20 @@ class LoginViewModel : ViewModel() {
     fun loginIsValid(email: String, password: String, context: Context){
         if(checkNotEmptyCredentials(email = email, password = password)){
             if (isValidTestUser(email = email, password = password)){
+                saveLoginData(context, email)
                 _loginState.setValue(LoginState.SUCCESS)
             }else{
                 _loginState.setValue(LoginState.INVALID_CREDENTIALS)
             }
-        }else {
+        }else{
             _loginState.setValue(LoginState.EMPTY_FIELDS)
         }
     }
 
-    fun saveLoginData(context: Context, email: EditText) {
+    private fun saveLoginData(context: Context, email: String) {
         val sharedPreferences = context.getSharedPreferences("MySharedPrefs_login", MODE_PRIVATE)
         val editor = sharedPreferences.edit()
-        editor.putString("email", email.toString())
+        editor.putString("email", email)
         editor.apply()
     }
 
@@ -56,12 +50,10 @@ class LoginViewModel : ViewModel() {
         return sharedPreferences.getString("email", "") ?: ""
     }
 
-    fun sharedPrefsIsNotEmpty(context: Context) {
-        if(getStoredLoginData(context).isNotEmpty()){
-            _loginSharedPrefsState.setValue(LoginSharedPrefsState.HAS_LOGIN_DATA)
-        }else{
-            _loginSharedPrefsState.setValue(LoginSharedPrefsState.NO_LOGIN_DATA)
-        }
+    fun sharedPrefsIsNotEmpty(context: Context): Boolean = getStoredLoginData(context).isNotEmpty()
+
+    fun showMessage(context: Context,message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
 }
