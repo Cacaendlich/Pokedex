@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.core.widget.NestedScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.core.widget.NestedScrollView xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
@@ -19,7 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         style="@style/logo"
-        android:src="@drawable/logo_pokebola"/>
+        android:src="@drawable/logo_pokebola"
+        android:importantForAccessibility="no" />
 
     <TextView
         android:id="@+id/titulo"
@@ -34,19 +34,22 @@
         style="@style/edit_text"
         android:autofillHints="emailAddress"
         android:hint="@string/email"
-        android:inputType="textEmailAddress" />
+        android:inputType="textEmailAddress"
+        tools:ignore="TextContrastCheck" />
 
     <EditText
         android:id="@+id/edit_password"
         style="@style/edit_text"
         android:autofillHints="password"
         android:hint="@string/password"
-        android:inputType="numberPassword"/>
+        android:inputType="numberPassword"
+        tools:ignore="TextContrastCheck" />
 
     <Button
         android:id="@+id/button_login"
         style="@style/button_login"
-        android:text="@string/login_link" />
+        android:text="@string/login_link"
+        tools:ignore="TextContrastCheck" />
 
     <ProgressBar
         android:id="@+id/progress_bar"
