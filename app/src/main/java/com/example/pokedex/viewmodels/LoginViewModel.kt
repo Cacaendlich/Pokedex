@@ -2,7 +2,6 @@ package com.example.pokedex.viewmodels
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -50,9 +49,5 @@ class LoginViewModel : ViewModel() {
     }
 
     fun sharedPrefsIsNotEmpty(context: Context): Boolean = getStoredLoginData(context).isNotEmpty()
-
-    fun showMessage(context: Context,message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-    }
 
 }
