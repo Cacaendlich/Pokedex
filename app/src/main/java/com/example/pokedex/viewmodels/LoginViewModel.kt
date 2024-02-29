@@ -21,7 +21,7 @@ class LoginViewModel : ViewModel() {
     }
 
     private fun isValidTestUser(email: String, password: String): Boolean {
-        return email == "teste@teste.com" && password == "1234"
+        return email == "admin@email.com" && password == "1234"
     }
 
     fun loginIsValid(email: String, password: String){
