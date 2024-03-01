@@ -1,45 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.core.widget.NestedScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.core.widget.NestedScrollView xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
+    android:orientation="vertical"
     tools:context=".views.LoginActivity">
 
     <ImageView
         android:id="@+id/logo_pokebola"
-        android:layout_width="200dp"
+        android:layout_width="match_parent"
         android:layout_height="200dp"
         style="@style/logo"
         android:src="@drawable/logo_pokebola"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:importantForAccessibility="no" />
 
     <TextView
         android:id="@+id/titulo"
+        style="@style/titulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/Pokedex"
-        style="@style/titulo"
-        app:layout_constraintTop_toBottomOf="@+id/logo_pokebola"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <View
-        android:id="@+id/containerComponents"
-        style="@style/containerComponents"
-        app:layout_constraintTop_toBottomOf="@id/titulo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        android:layout_gravity="center_horizontal"/>
 
     <EditText
         android:id="@+id/edit_email"
@@ -47,9 +35,6 @@
         android:autofillHints="emailAddress"
         android:hint="@string/email"
         android:inputType="textEmailAddress"
-        app:layout_constraintEnd_toEndOf="@+id/containerComponents"
-        app:layout_constraintStart_toStartOf="@+id/containerComponents"
-        app:layout_constraintTop_toTopOf="@+id/containerComponents"
         tools:ignore="TextContrastCheck" />
 
     <EditText
@@ -58,28 +43,18 @@
         android:autofillHints="password"
         android:hint="@string/password"
         android:inputType="numberPassword"
-        app:layout_constraintEnd_toEndOf="@+id/containerComponents"
-        app:layout_constraintStart_toStartOf="@+id/containerComponents"
-        app:layout_constraintTop_toBottomOf="@+id/edit_email"
         tools:ignore="TextContrastCheck" />
 
     <Button
         android:id="@+id/button_login"
         style="@style/button_login"
         android:text="@string/login_link"
-        app:layout_constraintEnd_toEndOf="@+id/containerComponents"
-        app:layout_constraintStart_toStartOf="@+id/containerComponents"
-        app:layout_constraintTop_toBottomOf="@+id/edit_password"
         tools:ignore="TextContrastCheck" />
 
     <ProgressBar
         android:id="@+id/progress_bar"
         style="@style/progress_bar"
-        android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_login"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        android:visibility="invisible"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
 </androidx.core.widget.NestedScrollView>
