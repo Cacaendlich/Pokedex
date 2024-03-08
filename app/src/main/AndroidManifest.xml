@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Pokedex"
         tools:targetApi="s">
         <activity
+            android:name=".representation.main.MainActivity"
+            android:exported="false" />
+        <activity
             android:name=".representation.login.LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.Pokedex">
