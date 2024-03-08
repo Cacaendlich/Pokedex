@@ -11,7 +11,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/background"
     android:orientation="vertical"
-    tools:context=".views.LoginActivity">
+    tools:context=".representation.login.LoginActivity">
 
     <ImageView
         android:id="@+id/logo_pokebola"

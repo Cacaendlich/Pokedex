@@ -13,7 +13,7 @@
         android:theme="@style/Theme.Pokedex"
         tools:targetApi="s">
         <activity
-            android:name=".views.LoginActivity"
+            android:name=".representation.login.LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.Pokedex">
             <intent-filter>

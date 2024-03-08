@@ -1,4 +1,4 @@
-package com.example.pokedex.viewmodels
+package com.example.pokedex.representation.login
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE

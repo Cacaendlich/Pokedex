@@ -1,4 +1,4 @@
-package com.example.pokedex.views
+package com.example.pokedex.representation.login
 
 import android.content.Context
 import android.os.Bundle
@@ -7,7 +7,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.pokedex.databinding.ActivityFormLoginBinding
-import com.example.pokedex.viewmodels.LoginViewModel
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var viewModel: LoginViewModel
