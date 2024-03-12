@@ -1,7 +1,6 @@
 package com.example.pokedex.domain.model
 
 data class Pokemon(
-    val id: Int,
     val img: String,
     val name: String,
     val type: List<String>,
@@ -11,38 +10,34 @@ data class Pokemon(
     val spd: Int,
     val xp: Int
 ) {
-    fun getId(): Int {
-        return id
-    }
-
-    fun getImg(): String {
+    fun getPokemonImg(): String {
         return img
     }
 
-    fun getName(): String {
+    fun getPokemonName(): String {
         return name
     }
 
-    fun getType(): List<String> {
+    fun getPokemonType(): List<String> {
         return type
     }
 
-    fun getHp(): Int {
+    fun getPokemonHp(): Int {
         return hp
     }
 
-    fun getAtk(): Int {
+    fun getPokemonAtk(): Int {
         return atk
     }
-    fun getDef(): Int {
+    fun getPokemonDef(): Int {
         return def
     }
 
-    fun getSpd(): Int {
+    fun getPokemonSpd(): Int {
         return spd
     }
 
-    fun getXp(): Int {
+    fun getPokemonXp(): Int {
         return xp
     }
 
