@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModelProvider
+import com.example.pokedex.R
 import com.example.pokedex.databinding.ActivityFormLoginBinding
 import com.example.pokedex.representation.main.MainActivity
 
@@ -55,6 +57,8 @@ class LoginActivity : AppCompatActivity() {
                 null -> showMessage(this,"ERROR")
             }
         }
+
+        window.statusBarColor = getColor(R.color.read)
     }
     private fun showMessage(context: Context, message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
