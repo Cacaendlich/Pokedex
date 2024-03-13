@@ -4,6 +4,6 @@ import com.example.pokedex.domain.model.PokemonResponse
 import retrofit2.http.GET
 
 interface PokemonApiService {
-    @GET("pokemon/random")
+    @GET("pokemon_item.xml/random")
     suspend fun getRandomPokemon(): PokemonResponse
 }
