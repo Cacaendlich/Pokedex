@@ -2,6 +2,7 @@ pluginManagement {
     repositories {
         google()
         mavenCentral()
+        maven(url = "https://dl.bintray.com/sargunv/maven")
         gradlePluginPortal()
     }
 }
