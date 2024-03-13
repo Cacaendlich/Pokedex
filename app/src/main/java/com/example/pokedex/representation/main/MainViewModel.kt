@@ -1,4 +1,6 @@
 package com.example.pokedex.representation.main
 
-class MainViewModel {
+import androidx.lifecycle.ViewModel
+
+class MainViewModel: ViewModel() {
 }
