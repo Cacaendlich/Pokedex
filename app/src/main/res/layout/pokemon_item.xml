@@ -28,7 +28,7 @@
             android:id="@+id/name_view_pokemon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/snorlax"
+            android:text="@string/bulbasaur"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:textSize="20sp"
