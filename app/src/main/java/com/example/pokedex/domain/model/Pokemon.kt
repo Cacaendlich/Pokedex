@@ -1,6 +1,7 @@
 package com.example.pokedex.domain.model
 
 data class Pokemon(
+    val number: Int,
     val img: String,
     val name: String,
     val type: List<String>,
@@ -10,7 +11,10 @@ data class Pokemon(
     val spd: Int,
     val xp: Int
 ) {
-    fun getPokemonImg(): String {
+    fun getPokemonNumber(): Int {
+        return number
+    }
+fun getPokemonImg(): String {
         return img
     }
 
