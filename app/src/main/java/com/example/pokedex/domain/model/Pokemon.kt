@@ -2,8 +2,12 @@ package com.example.pokedex.domain.model
 
 //modelo pokemon list
 data class Pokemon(
-    val imageUrl: String? = null,
-    val number: Int? = null,
+    val number: Int,
     val name: String,
-    val url: String
-)
+) {
+    val imageUrl by lazy { "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$formattedNumber.png" }
+
+    private val formattedNumber = number.toString().padStart(3, '0')
+
+
+}
