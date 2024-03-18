@@ -34,10 +34,15 @@ object RetrofitClient {
 
         return call.execute().body()
     }
-
-    fun getPokemon(id: Int): PokemonApiResult? {
-        val call = service.getPokemon(id)
-
-        return call.execute().body()
-    }
+//    fun listPokemons(limit: Int = 100): PokemonsApiResult? {
+//        val call = service.listPokemons(limit)
+//
+//        return call.execute().body()
+//    }
+//
+//    fun getPokemon(id: Int): PokemonApiResult? {
+//        val call = service.getPokemon(id)
+//
+//        return call.execute().body()
+//    }
 }
