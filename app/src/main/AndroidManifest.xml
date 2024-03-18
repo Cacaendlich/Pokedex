@@ -15,10 +15,10 @@
         android:theme="@style/Theme.Pokedex"
         tools:targetApi="s">
         <activity
-            android:name=".representation.main.MainActivity"
+            android:name=".presentation.main.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".representation.login.LoginActivity"
+            android:name=".presentation.login.LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.Pokedex">
             <intent-filter>
