@@ -5,14 +5,9 @@ data class PokemonsApiResult(
     val count: Int,
     val next: String?,
     val previous: String?,
-    val results: List<PokemonResult>
+    val results: List<Pokemon>
 )
 
-// Representa um resultado individual de Pokémon na lista.
-data class PokemonResult(
-    val name: String,
-    val url: String,
-)
 
 // Representa os dados necessários de um Pokémon, incluindo a URL da imagem.
 data class PokemonApiResult(

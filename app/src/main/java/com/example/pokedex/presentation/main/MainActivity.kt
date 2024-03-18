@@ -1,10 +1,12 @@
 package com.example.pokedex.presentation.main
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.pokedex.data.network.RetrofitClient
 import com.example.pokedex.databinding.ActivityMainBinding
 import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presentation.adapter.PokemonAdapter
@@ -28,14 +30,25 @@ class MainActivity : AppCompatActivity() {
         mRecyclerView = binding.recyclerViewMain
         mRecyclerView.setHasFixedSize(true)
 
-        val bulbasaur = Pokemon("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/1.png", "bulbasaur")
-        val pokemons = listOf(bulbasaur,bulbasaur,bulbasaur,bulbasaur,bulbasaur,bulbasaur,bulbasaur,bulbasaur,bulbasaur,bulbasaur,bulbasaur,bulbasaur)
+        Thread(Runnable {
+            loadPokemons()
 
+        }).start()
 
-        mLayoutManager = GridLayoutManager(this, 2)
-        mRecyclerView.layoutManager = mLayoutManager
+    }
 
-        mPokemonAdapter = PokemonAdapter(pokemons)
-        mRecyclerView.adapter = mPokemonAdapter
+    private fun loadPokemons() {
+        val pokemonsApiResult = RetrofitClient.listPokemons()
+
+        pokemonsApiResult?.results?.let {
+            mLayoutManager = GridLayoutManager(this, 2)
+            mPokemonAdapter = PokemonAdapter(it)
+
+            mRecyclerView.post {
+                mRecyclerView.layoutManager = mLayoutManager
+                mRecyclerView.adapter = mPokemonAdapter
+            }
+        }
+
     }
 }

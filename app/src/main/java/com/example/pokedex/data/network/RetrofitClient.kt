@@ -33,6 +33,26 @@ object RetrofitClient {
         val call = service.listPokemons(limit)
 
         return call.execute().body()
+
+//        call.enqueue(object : Callback<PokemonsApiResult> {
+//            override fun onResponse(
+//                call: Call<PokemonsApiResult>,
+//                response: Response<PokemonsApiResult>
+//            ) {
+//                if(response.isSuccessful) {
+//                    val body = response.body()
+//                    body?.results?.let {
+//                        Log.e("POKEMON_API", it[4].name)
+//                    }
+//                }
+//                Log.e("POKEMON_API", "Pokemons list load.")
+//            }
+//
+//            override fun onFailure(call: Call<PokemonsApiResult>, t: Throwable) {
+//                Log.e("POKEMON_API", "Error load pokemons list.", t)
+//            }
+//
+//        })
     }
 //    fun listPokemons(limit: Int = 100): PokemonsApiResult? {
 //        val call = service.listPokemons(limit)
