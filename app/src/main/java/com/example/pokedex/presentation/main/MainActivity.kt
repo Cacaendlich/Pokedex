@@ -41,8 +41,23 @@ class MainActivity : AppCompatActivity() {
         val pokemonsApiResult = RetrofitClient.listPokemons()
 
         pokemonsApiResult?.results?.let {
+
+
+            val pokemons: List<Pokemon?> = it.map { pokemonResult ->
+                val number = pokemonResult.url.replace("https://pokeapi.co/api/v2/pokemon/", "").toInt()
+
+                val pokemonApiResult = RetrofitClient.getPokemon(number)
+
+                pokemonApiResult?.let {
+                    Pokemon(
+                        pokemonApiResult.id,
+                        pokemonApiResult.name,
+                    )
+                }
+            }
+
             mLayoutManager = GridLayoutManager(this, 2)
-            mPokemonAdapter = PokemonAdapter(it)
+            mPokemonAdapter = PokemonAdapter(pokemons)
 
             mRecyclerView.post {
                 mRecyclerView.layoutManager = mLayoutManager
