@@ -1,8 +1,10 @@
 package com.example.pokedex.presentation.main
 
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,6 +22,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mLayoutManager: GridLayoutManager
     private lateinit var mPokemonAdapter: PokemonAdapter
 
+    private var pokemons = emptyList<Pokemon?>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityMainBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
@@ -30,42 +34,19 @@ class MainActivity : AppCompatActivity() {
         mRecyclerView = binding.recyclerViewMain
         mRecyclerView.setHasFixedSize(true)
 
-        Thread(Runnable {
-            loadPokemons()
-
-        }).start()
+        viewModel.pokemons.observe(this) { pokemons ->
+            pokemons?.let { updateRecyclerView(it) }
+        }
 
     }
 
-    private fun loadPokemons() {
-        val pokemonsApiResult = RetrofitClient.listPokemons()
-
-        pokemonsApiResult?.results?.let {
 
 
-            val pokemons: List<Pokemon?> = it.map { pokemonResult ->
-                val number = pokemonResult.url
-                    .removePrefix("https://pokeapi.co/api/v2/pokemon/")
-                    .removeSuffix("/").toInt()
+    private fun updateRecyclerView(pokemons: List<Pokemon?>) {
+        mLayoutManager = GridLayoutManager(this, 2)
+        mPokemonAdapter = PokemonAdapter(pokemons)
 
-                val pokemonApiResult = RetrofitClient.getPokemon(number)
-                Log.d("Number", number.toString())
-                pokemonApiResult?.let {
-                    Pokemon(
-                        pokemonApiResult.id,
-                        pokemonApiResult.name
-                    )
-                }
-            }
-
-            mLayoutManager = GridLayoutManager(this, 2)
-            mPokemonAdapter = PokemonAdapter(pokemons)
-
-            mRecyclerView.post {
-                mRecyclerView.layoutManager = mLayoutManager
-                mRecyclerView.adapter = mPokemonAdapter
-            }
-        }
-
+        mRecyclerView.layoutManager = mLayoutManager
+        mRecyclerView.adapter = mPokemonAdapter
     }
 }
