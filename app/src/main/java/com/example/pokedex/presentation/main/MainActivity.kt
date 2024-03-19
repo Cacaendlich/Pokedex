@@ -44,14 +44,16 @@ class MainActivity : AppCompatActivity() {
 
 
             val pokemons: List<Pokemon?> = it.map { pokemonResult ->
-                val number = pokemonResult.url.replace("https://pokeapi.co/api/v2/pokemon/", "").toInt()
+                val number = pokemonResult.url
+                    .removePrefix("https://pokeapi.co/api/v2/pokemon/")
+                    .removeSuffix("/").toInt()
 
                 val pokemonApiResult = RetrofitClient.getPokemon(number)
-
+                Log.d("Number", number.toString())
                 pokemonApiResult?.let {
                     Pokemon(
                         pokemonApiResult.id,
-                        pokemonApiResult.name,
+                        pokemonApiResult.name
                     )
                 }
             }

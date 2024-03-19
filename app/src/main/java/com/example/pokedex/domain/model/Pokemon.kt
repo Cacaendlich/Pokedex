@@ -5,9 +5,6 @@ data class Pokemon(
     val number: Int,
     val name: String,
 ) {
-    val imageUrl by lazy { "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$formattedNumber.png" }
-
-    private val formattedNumber = number.toString().padStart(3, '0')
-
+    val imageUrl by lazy { "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${number}.png" }
 
 }

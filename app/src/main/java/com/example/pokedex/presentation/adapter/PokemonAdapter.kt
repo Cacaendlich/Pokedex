@@ -12,7 +12,7 @@ import com.example.pokedex.R
 import com.example.pokedex.domain.model.Pokemon
 
 class PokemonAdapter(
-    private val mPokemonList: List<Pokemon>
+    private val mPokemonList: List<Pokemon?>
 ): RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonViewHolder {
@@ -24,23 +24,22 @@ class PokemonAdapter(
 
     override fun onBindViewHolder(holder: PokemonViewHolder, position: Int) {
         val currentItem = mPokemonList[position]
-        Log.d("PokemonAdapter", "onBindViewHolder: Position: $position, Pokemon: $currentItem")
         holder.bindView(currentItem)
     }
 
     inner class PokemonViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        fun bindView(currentItem: Pokemon) = with(itemView) {
-            Log.d("PokemonAdapter", "bindView: Pokemon: $currentItem")
+        fun bindView(currentItem: Pokemon?) = with(itemView) {
             val mImageViewPokemon = findViewById<ImageView>(R.id.image_view_pokemon)
             val mNameViewPokemon = findViewById<TextView>(R.id.name_view_pokemon)
 
-            Glide.with(itemView)
-                .load(currentItem.imageUrl)
-                .placeholder(R.mipmap.ic_launcher_round) // Imagem de placeholder, se desejar
-                .error(R.mipmap.ic_launcher_round) // Imagem de erro, se a carga falhar
-                .into(mImageViewPokemon)
+            currentItem?.let {
+                Glide.with(itemView.context)
+                    .load(it.imageUrl)
+                    .into(mImageViewPokemon)
 
-            mNameViewPokemon.text = currentItem.name
+                mNameViewPokemon.text = currentItem.name
+            }
+
 
         }
     }
