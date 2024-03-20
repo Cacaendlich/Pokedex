@@ -1,6 +1,5 @@
 package com.example.pokedex.presentation.main
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.pokedex.data.network.RetrofitClient

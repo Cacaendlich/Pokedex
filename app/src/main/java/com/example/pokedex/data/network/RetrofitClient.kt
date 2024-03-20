@@ -13,8 +13,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 
 object RetrofitClient {
-    //https://pokeapi.co/api/v2/pokemon/?limit=100
-    //https://pokeapi.co/api/v2/pokemon/
     private const val BASE_URL = "https://pokeapi.co/api/v2/"
     private val service: PokemonApiService
 
