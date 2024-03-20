@@ -104,4 +104,8 @@ dependencies {
     // Glide para carregamento de imagens
     implementation("com.github.bumptech.glide:glide:4.12.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
+
+    //biblioteca de processamento de imagem
+    implementation("androidx.palette:palette-ktx:1.0.0")
+
 }
