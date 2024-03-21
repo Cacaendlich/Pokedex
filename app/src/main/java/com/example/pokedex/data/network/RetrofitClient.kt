@@ -28,7 +28,7 @@ object RetrofitClient {
     //chamadas à API
 
     // Método para listar os Pokémons
-    fun listPokemons(limit: Int = 50): PokemonsApiResult? {
+    fun listPokemons(limit: Int = 150): PokemonsApiResult? {
         val call = service.listPokemons(limit)
 
         return call.execute().body()

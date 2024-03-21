@@ -34,9 +34,10 @@ class PokemonAdapter(
     }
 
     inner class PokemonViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+        //referencias de dados
         private val mImageViewPokemon: ImageView = itemView.findViewById(R.id.image_view_pokemon)
         private val mNameViewPokemon: TextView = itemView.findViewById(R.id.name_view_pokemon)
-
+        private val mCardViewPokemon: CardView = itemView.findViewById(R.id.card_view_pokemon)
         private val sampleSize = 100
 
         fun bindView(currentItem: Pokemon?) {
@@ -48,7 +49,8 @@ class PokemonAdapter(
                     override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                         mImageViewPokemon.setImageBitmap(resource)
                         extractMainColor(resource) { color ->
-                            itemView.setBackgroundColor(color)
+                            mCardViewPokemon.setCardBackgroundColor(color)
+
 
                         }
                     }
