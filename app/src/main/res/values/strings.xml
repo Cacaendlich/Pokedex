@@ -5,4 +5,7 @@
     <string name="email">Email</string>
     <string name="password">password</string>
     <string name="login_link">Login</string>
+    <string name="pokemonImg">pokemon image</string>
+    <string name="snorlax">Snorlax</string>
+    <string name="bulbasaur">bulbasaur</string>
 </resources>
