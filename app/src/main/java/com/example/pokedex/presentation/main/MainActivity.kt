@@ -28,9 +28,9 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
         mRecyclerView = binding.recyclerViewMain
-        mRecyclerView.setHasFixedSize(true)
+        mRecyclerView.setHasFixedSize(true) //informar ao RecyclerView que o tamanho dos itens não mudará durante a execução.
 
-        viewModel.pokemons.observe(this) { pokemons ->
+        viewModel.pokemonsState.observe(this) { pokemons ->
             pokemons?.let { updateRecyclerView(it) }
         }
 

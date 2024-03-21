@@ -6,7 +6,7 @@ import com.example.pokedex.data.network.RetrofitClient
 import com.example.pokedex.domain.model.Pokemon
 
 class MainViewModel: ViewModel() {
-    var pokemons = MutableLiveData<List<Pokemon?>>()
+    var pokemonsState = MutableLiveData<List<Pokemon?>>()
 
     init {
         Thread(Runnable {
@@ -15,12 +15,12 @@ class MainViewModel: ViewModel() {
     }
 
     private fun loadPokemons() {
-        val pokemonsApiResult = RetrofitClient.listPokemons()
+        val pokemonsApiResultAPI = RetrofitClient.listPokemons()
 
-        pokemonsApiResult?.results?.let {
+        pokemonsApiResultAPI?.results?.let {
 
 
-            pokemons.postValue(it.map { pokemonResult ->
+            pokemonsState.postValue(it.map { pokemonResult ->
                 val number = pokemonResult.url
                     .removePrefix("https://pokeapi.co/api/v2/pokemon/")
                     .removeSuffix("/").toInt()
