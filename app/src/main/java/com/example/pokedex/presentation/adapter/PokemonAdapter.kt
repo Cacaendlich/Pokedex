@@ -83,20 +83,14 @@ class PokemonAdapter(
     }
 
     private fun cropBitmap(bitmap: Bitmap): Bitmap {
-        // Determinar as dimensões do retângulo de recorte (pode precisar ser ajustado dependendo da imagem)
+        // Determinar as dimensões do retângulo de recorte
         val cropLeft = bitmap.width / 4
         val cropTop = bitmap.height / 4
         val cropRight = bitmap.width * 3 / 4
         val cropBottom = bitmap.height * 3 / 4
 
         // Recortar a imagem
-        return Bitmap.createBitmap(
-            bitmap,
-            cropLeft,
-            cropTop,
-            cropRight - cropLeft,
-            cropBottom - cropTop
-        )
+        return Bitmap.createBitmap(bitmap, cropLeft, cropTop, cropRight - cropLeft, cropBottom - cropTop)
     }
 
 
