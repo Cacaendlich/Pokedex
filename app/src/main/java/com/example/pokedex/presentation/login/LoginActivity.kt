@@ -28,11 +28,14 @@ class LoginActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
 
         if(viewModel.sharedPrefsIsNotEmpty(this)){
-            val emailConsult = viewModel.getStoredLoginData(this)
-            emailEditText.setText(emailConsult)
-            passwordEditText.requestFocus()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+            return
         }else {
             emailEditText.requestFocus()
+            val emailConsult = viewModel.getStoredLoginData(this)
+            emailEditText.setText(emailConsult)
         }
 
         binding.buttonLogin.setOnClickListener {

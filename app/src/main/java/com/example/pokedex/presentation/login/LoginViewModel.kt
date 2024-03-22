@@ -36,6 +36,8 @@ class LoginViewModel : ViewModel() {
         }
     }
 
+
+
     fun saveLoginData(context: Context, email: String) {
         val sharedPreferences = context.getSharedPreferences("MySharedPrefs_login", MODE_PRIVATE)
         val editor = sharedPreferences.edit()
