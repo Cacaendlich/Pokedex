@@ -5,10 +5,22 @@
     android:layout_height="match_parent"
     tools:context=".presentation.main.MainActivity">
 
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/background_list"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerInParent="true"
+        android:progressTint="@color/white"
+        android:indeterminateTint="@color/yellow"
+        android:visibility="visible" />
+
 
 </RelativeLayout>

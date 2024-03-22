@@ -1,6 +1,7 @@
 package com.example.pokedex.presentation.main
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -30,9 +31,18 @@ class MainActivity : AppCompatActivity() {
         mRecyclerView = binding.recyclerViewMain
         mRecyclerView.setHasFixedSize(true) //informar ao RecyclerView que o tamanho dos itens não mudará durante a execução.
 
+        val progressBar = binding.progressBar
+
         viewModel.pokemonsState.observe(this) { pokemons ->
-            pokemons?.let { updateRecyclerView(it) }
+            pokemons?.let {
+                updateRecyclerView(it)
+                progressBar.visibility = View.GONE
+
+            }
+
         }
+        progressBar.visibility = View.VISIBLE
+
 
     }
 
