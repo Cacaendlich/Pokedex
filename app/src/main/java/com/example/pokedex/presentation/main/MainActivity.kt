@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.pokedex.databinding.ActivityMainBinding
 import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presentation.adapter.PokemonAdapter
+import android.content.res.Configuration
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -43,13 +45,14 @@ class MainActivity : AppCompatActivity() {
         }
         progressBar.visibility = View.VISIBLE
 
-
     }
 
-
-
     private fun updateRecyclerView(pokemons: List<Pokemon?>) {
-        mLayoutManager = GridLayoutManager(this, 2)
+        mLayoutManager = if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            GridLayoutManager(this, 3) // Define 3 colunas em modo paisagem
+        } else {
+            GridLayoutManager(this, 2) // Define 2 colunas em modo retrato
+        }
         mPokemonAdapter = PokemonAdapter(pokemons)
 
         mRecyclerView.layoutManager = mLayoutManager
