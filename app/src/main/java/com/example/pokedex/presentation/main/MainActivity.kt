@@ -49,9 +49,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateRecyclerView(pokemons: List<Pokemon?>) {
         mLayoutManager = if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            GridLayoutManager(this, 3) // Define 3 colunas em modo paisagem
+            GridLayoutManager(this, 3)
         } else {
-            GridLayoutManager(this, 2) // Define 2 colunas em modo retrato
+            GridLayoutManager(this, 2)
         }
         mPokemonAdapter = PokemonAdapter(pokemons)
 
