@@ -3,6 +3,7 @@ package com.example.pokedex.presentation.login
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -28,9 +29,7 @@ class LoginActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
 
         if(viewModel.sharedPrefsIsNotEmpty(this)){
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+            goToMainActivity()
             return
         }else {
             emailEditText.requestFocus()
@@ -39,20 +38,23 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.buttonLogin.setOnClickListener {
-            viewModel.loginIsValid(
-                email = emailEditText.text.toString(),
-                password = passwordEditText.text.toString()
-            )
-            viewModel.saveLoginData(this, emailEditText.text.toString())
+            performLogin()
+        }
+
+        passwordEditText.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                performLogin()
+                true
+            } else {
+                false
+            }
         }
 
         viewModel.loginState.observe(this) { state ->
             when (state) {
                 LoginViewModel.LoginState.SUCCESS -> {
                     showMessage(this, "LOGIN SUCCESS!")
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
+                    goToMainActivity()
                 }
                 LoginViewModel.LoginState.INVALID_CREDENTIALS -> showMessage(this,"Invalid credentials.")
                 LoginViewModel.LoginState.EMPTY_FIELDS -> showMessage(this,"Please enter an email and password.")
@@ -62,6 +64,21 @@ class LoginActivity : AppCompatActivity() {
 
         window.statusBarColor = getColor(R.color.read)
     }
+
+    private fun goToMainActivity() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    private fun performLogin() {
+        viewModel.loginIsValid(
+            email = emailEditText.text.toString(),
+            password = passwordEditText.text.toString()
+        )
+        viewModel.saveLoginData(this, emailEditText.text.toString())
+    }
+
     private fun showMessage(context: Context, message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
