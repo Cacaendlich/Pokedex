@@ -61,8 +61,6 @@ class LoginActivity : AppCompatActivity() {
                 null -> showMessage(this,"ERROR")
             }
         }
-
-        window.statusBarColor = getColor(R.color.read)
     }
 
     private fun goToMainActivity() {
