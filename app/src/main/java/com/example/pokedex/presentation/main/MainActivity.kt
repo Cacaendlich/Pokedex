@@ -21,8 +21,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mLayoutManager: GridLayoutManager
     private lateinit var mPokemonAdapter: PokemonAdapter
 
-    private var pokemons = emptyList<Pokemon?>()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityMainBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
