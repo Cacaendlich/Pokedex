@@ -35,8 +35,8 @@ object RetrofitClient {
     }
 
     // Método para obter os detalhes de um Pokémon específico
-    fun getPokemon(number: Int): PokemonApiResult? {
-        val call = service.getPokemon(number)
+    fun getPokemon(name: String): PokemonApiResult? {
+        val call = service.getPokemon(name)
 
         return call.execute().body()
     }
