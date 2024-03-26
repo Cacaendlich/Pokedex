@@ -21,11 +21,9 @@ class MainViewModel: ViewModel() {
 
 
             pokemonsState.postValue(it.map { pokemonResult ->
-                val number = pokemonResult.url
-                    .removePrefix("https://pokeapi.co/api/v2/pokemon/")
-                    .removeSuffix("/").toInt()
+                val name = pokemonResult.name
 
-                val pokemonApiResult = RetrofitClient.getPokemon(number)
+                val pokemonApiResult = RetrofitClient.getPokemon(name)
 
                 pokemonApiResult?.let {
                     Pokemon(
