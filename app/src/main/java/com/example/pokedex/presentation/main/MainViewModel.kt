@@ -9,9 +9,9 @@ class MainViewModel: ViewModel() {
     var pokemonsState = MutableLiveData<List<Pokemon?>>()
 
     init {
-        Thread(Runnable {
+        Thread {
             loadPokemons()
-        }).start()
+        }.start()
     }
 
     private fun loadPokemons() {
