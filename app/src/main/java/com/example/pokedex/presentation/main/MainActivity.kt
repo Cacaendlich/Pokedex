@@ -35,17 +35,18 @@ class MainActivity : AppCompatActivity() {
         mRecyclerView = binding.recyclerViewMain
         mRecyclerView.setHasFixedSize(true) //informar ao RecyclerView que o tamanho dos itens não mudará durante a execução.
 
+
         val progressBar = binding.progressBar
+
 
         viewModel.pokemonsState.observe(this) { pokemons ->
             pokemons?.let {
                 updateRecyclerView(it)
-                progressBar.visibility = View.GONE
+                progressBar.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
 
             }
 
         }
-        progressBar.visibility = View.VISIBLE
 
         mNsvView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener{ v, scrollX, scrollY, oldScrollX, oldScrollY ->
             val totalHeight = mNsvView.getChildAt(0).height
