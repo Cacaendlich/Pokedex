@@ -10,6 +10,7 @@ import com.example.pokedex.databinding.ActivityMainBinding
 import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presentation.adapter.PokemonAdapter
 import android.content.res.Configuration
+import androidx.core.widget.NestedScrollView
 
 
 class MainActivity : AppCompatActivity() {
@@ -17,9 +18,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
 
+    private lateinit var mNsvView: NestedScrollView
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var mLayoutManager: GridLayoutManager
     private lateinit var mPokemonAdapter: PokemonAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -28,6 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
+        mNsvView = binding.nsvView
         mRecyclerView = binding.recyclerViewMain
         mRecyclerView.setHasFixedSize(true) //informar ao RecyclerView que o tamanho dos itens não mudará durante a execução.
 
@@ -42,6 +46,14 @@ class MainActivity : AppCompatActivity() {
 
         }
         progressBar.visibility = View.VISIBLE
+
+        mNsvView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener{ v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            val totalHeight = mNsvView.getChildAt(0).height
+            val currentScroll = mNsvView.scrollY + mNsvView.height
+            if (currentScroll >= totalHeight && !viewModel.isLoading) {
+                viewModel.loadMorePokemons()
+            }
+        })
 
     }
 
