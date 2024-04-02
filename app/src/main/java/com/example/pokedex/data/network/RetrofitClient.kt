@@ -1,8 +1,8 @@
 package com.example.pokedex.data.network
 
 import com.example.pokedex.data.remote.PokemonApiService
-import com.example.pokedex.domain.model.PokemonApiResult
-import com.example.pokedex.domain.model.PokemonsApiResult
+import com.example.pokedex.data.model.PokemonApiResult
+import com.example.pokedex.data.model.PokemonListResponse
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -28,7 +28,7 @@ object RetrofitClient {
     //chamadas à API
 
     // Método para listar os Pokémons
-    fun listPokemons(limit: Int = 15, offset: Int = 0): PokemonsApiResult? {
+    fun listPokemons(limit: Int = 15, offset: Int = 0): PokemonListResponse? {
         val call = service.listPokemons(limit, offset)
 
         return call.execute().body()
