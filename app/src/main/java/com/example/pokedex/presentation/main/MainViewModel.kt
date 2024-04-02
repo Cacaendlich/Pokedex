@@ -9,7 +9,7 @@ class MainViewModel: ViewModel() {
 
     var pokemonsState = MutableLiveData<List<Pokemon?>>()
 
-    var isLoading = false
+    var isLoading = MutableLiveData<Boolean>().apply { value = false }
 
     init {
 
@@ -42,8 +42,8 @@ class MainViewModel: ViewModel() {
     }
 
     fun loadMorePokemons() {
-        if (!isLoading) {
-            isLoading = true
+        if (!isLoading.value!!) {
+            isLoading.value = true
             val currentOffset = pokemonsState.value?.size ?: 0
             Thread {
 
@@ -65,7 +65,7 @@ class MainViewModel: ViewModel() {
 
                 }
 
-                isLoading = false
+                isLoading.postValue(false)
 
             }.start()
         }

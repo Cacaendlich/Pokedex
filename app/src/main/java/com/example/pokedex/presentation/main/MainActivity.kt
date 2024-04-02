@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity() {
 
 
         val progressBar = binding.progressBar
-        val progressBarLoadMore = binding.progressBarLoadMore
 
 
         viewModel.pokemonsState.observe(this) { pokemons ->
@@ -48,13 +47,19 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+        viewModel.isLoading.observe(this) { isLoading ->
+            if (isLoading) {
+                binding.progressBarLoadMore.visibility = View.VISIBLE
+            } else {
+                binding.progressBarLoadMore.visibility = View.GONE
+            }
+        }
+
         mNsvView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener{ v, scrollX, scrollY, oldScrollX, oldScrollY ->
             val totalHeight = mNsvView.getChildAt(0).height
             val currentScroll = mNsvView.scrollY + mNsvView.height
-            if (currentScroll >= totalHeight && !viewModel.isLoading) {
+            if (currentScroll >= totalHeight && !viewModel.isLoading.value!!) {
                 viewModel.loadMorePokemons()
-//                progressBarLoadMore.visibility = View.VISIBLE
-//                progressBarLoadMore.visibility = View.GONE
             }
         })
     }
