@@ -7,8 +7,7 @@
         android:id="@+id/nsvView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/background_list"
-       > <!-- Margem inferior para acomodar o ProgressBar -->
+        android:background="@drawable/background_list">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -22,7 +21,6 @@
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- ProgressBar -->
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="120dp"
