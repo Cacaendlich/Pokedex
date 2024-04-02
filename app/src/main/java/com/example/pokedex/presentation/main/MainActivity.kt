@@ -37,13 +37,13 @@ class MainActivity : AppCompatActivity() {
 
 
         val progressBar = binding.progressBar
+        val progressBarLoadMore = binding.progressBarLoadMore
 
 
         viewModel.pokemonsState.observe(this) { pokemons ->
             pokemons?.let {
                 updateRecyclerView(it)
                 progressBar.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
-
             }
 
         }
@@ -53,9 +53,10 @@ class MainActivity : AppCompatActivity() {
             val currentScroll = mNsvView.scrollY + mNsvView.height
             if (currentScroll >= totalHeight && !viewModel.isLoading) {
                 viewModel.loadMorePokemons()
+//                progressBarLoadMore.visibility = View.VISIBLE
+//                progressBarLoadMore.visibility = View.GONE
             }
         })
-
     }
 
     private fun updateRecyclerView(pokemons: List<Pokemon?>) {
