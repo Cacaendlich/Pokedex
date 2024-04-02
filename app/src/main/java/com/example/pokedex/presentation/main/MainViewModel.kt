@@ -47,7 +47,7 @@ class MainViewModel: ViewModel() {
             val currentOffset = pokemonsState.value?.size ?: 0
             Thread {
 
-                val pokemonsApiResultAPI = RetrofitClient.listPokemons(limit = 10, offset = currentOffset)
+                val pokemonsApiResultAPI = RetrofitClient.listPokemons(limit = 15, offset = currentOffset)
 
                 pokemonsApiResultAPI?.results?.let { newPokemons ->
 

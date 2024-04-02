@@ -55,9 +55,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        mNsvView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener{ v, scrollX, scrollY, oldScrollX, oldScrollY ->
+        mNsvView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener{ view, scrollX, scrollY, oldScrollX, oldScrollY ->
             val totalHeight = mNsvView.getChildAt(0).height
-            val currentScroll = mNsvView.scrollY + mNsvView.height
+            val currentScroll = view.scrollY + view.height
+
             if (currentScroll >= totalHeight && !viewModel.isLoading.value!!) {
                 viewModel.loadMorePokemons()
             }
