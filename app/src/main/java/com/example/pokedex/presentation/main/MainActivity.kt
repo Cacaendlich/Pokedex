@@ -10,7 +10,6 @@ import com.example.pokedex.databinding.ActivityMainBinding
 import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presentation.adapter.PokemonAdapter
 import android.content.res.Configuration
-import android.util.Log
 import androidx.core.widget.NestedScrollView
 
 
@@ -58,10 +57,9 @@ class MainActivity : AppCompatActivity() {
 
         mNsvView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener{ view, scrollX, scrollY, oldScrollX, oldScrollY ->
             val totalHeight = view.getChildAt(0).height
-            Log.d("TOTALHEIGT", totalHeight.toString())
             val currentScroll = view.scrollY + view.height
 
-            val buffer = 4500
+            val buffer = 1000
 
             if (currentScroll >= totalHeight - buffer && !viewModel.isLoading.value!!) {
                 viewModel.loadMorePokemons()
