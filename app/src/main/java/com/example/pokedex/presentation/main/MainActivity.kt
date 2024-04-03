@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        mNsvView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener{ view, scrollX, scrollY, oldScrollX, oldScrollY ->
+        mNsvView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener{ view, _, _, _, _ ->
             val totalHeight = view.getChildAt(0).height
             val currentScroll = view.scrollY + view.height
 
