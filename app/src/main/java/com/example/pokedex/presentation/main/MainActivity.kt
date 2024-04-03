@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
             val totalHeight = view.getChildAt(0).height
             val currentScroll = view.scrollY + view.height
 
-            val buffer = 1000
+            val buffer = 1500
 
             if (currentScroll >= totalHeight - buffer && !viewModel.isLoading.value!!) {
                 viewModel.loadMorePokemons()
