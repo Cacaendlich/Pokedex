@@ -13,6 +13,7 @@ object RetrofitClient {
     private val service: PokemonApiService
     // Configuração do cliente HTTP
     private val okHttpClient = OkHttpClient.Builder().build()
+    // TODO: Configurar o cache aqui
 
     init {
         // Configuração do Retrofit
