@@ -11,6 +11,7 @@ import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presentation.adapter.PokemonAdapter
 import android.content.res.Configuration
 import androidx.core.widget.NestedScrollView
+import com.example.pokedex.data.network.RetrofitClient
 
 
 class MainActivity : AppCompatActivity() {
@@ -28,6 +29,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        RetrofitClient.initialize(this)
 
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
