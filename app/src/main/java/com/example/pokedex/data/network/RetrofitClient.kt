@@ -40,7 +40,6 @@ object RetrofitClient {
 
     // Método para listar os Pokémons
     fun listPokemons(limit: Int = 14, offset: Int = 0): PokemonListResponse? {
-        Log.d("RetrofitClient", "Cache size before listPokemons(): ${cache?.size()} bytes")
         val call = service.listPokemons(limit, offset)
         Log.d("RetrofitClient", "Cache size after listPokemons(): ${cache?.size()} bytes")
         return call.execute().body()
@@ -48,7 +47,6 @@ object RetrofitClient {
 
     // Método para obter os detalhes de um Pokémon específico
     fun getPokemon(name: String): PokemonApiResult? {
-        Log.d("RetrofitClient", "Cache size before getPokemon($name): ${cache?.size()} bytes")
         val call = service.getPokemon(name)
         Log.d("RetrofitClient", "Cache size after getPokemon($name): ${cache?.size()} bytes")
         return call.execute().body()

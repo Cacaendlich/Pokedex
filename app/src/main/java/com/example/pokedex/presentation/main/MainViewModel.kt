@@ -1,5 +1,6 @@
 package com.example.pokedex.presentation.main
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.pokedex.data.network.RetrofitClient
@@ -44,28 +45,39 @@ class MainViewModel: ViewModel() {
     fun loadMorePokemons() {
         if (!isLoading.value!!) {
             isLoading.value = true
+
+            val maxSize = 56
+
             val currentOffset = pokemonsState.value?.size ?: 0
+
             Thread {
 
-                val pokemonsApiResultAPI = RetrofitClient.listPokemons(limit = 14, offset = currentOffset)
+                if (currentOffset <= maxSize) {
+                    Log.d("offset", currentOffset.toString())
 
-                pokemonsApiResultAPI?.results?.let { newPokemons ->
+                    val pokemonsApiResultAPI = RetrofitClient.listPokemons(14, currentOffset)
 
-                    val currentList = pokemonsState.value?.toMutableList() ?: mutableListOf()
+                    pokemonsApiResultAPI?.results?.let { newPokemons ->
 
-                    currentList.addAll(newPokemons.mapNotNull { pokemonResult ->
+                        val currentList = pokemonsState.value?.toMutableList() ?: mutableListOf()
 
-                        val name = pokemonResult.name
-                        val pokemonApiResult = RetrofitClient.getPokemon(name)
-                        pokemonApiResult?.let { Pokemon(it.id, it.name) }
+                        currentList.addAll(newPokemons.mapNotNull { pokemonResult ->
 
-                    })
+                            val name = pokemonResult.name
+                            val pokemonApiResult = RetrofitClient.getPokemon(name)
+                            pokemonApiResult?.let { Pokemon(it.id, it.name) }
 
-                    pokemonsState.postValue(currentList)
+                        })
 
+                        pokemonsState.postValue(currentList)
+
+                    }
+
+                    isLoading.postValue(false)
+                } else {
+                    // TODO: preciso adicionar um Toast quando o usuário chegar ao final da lista e,
+                    //  pensar em uma opção para implementar a navegação entre os itens já carregados.
                 }
-
-                isLoading.postValue(false)
 
             }.start()
         }
