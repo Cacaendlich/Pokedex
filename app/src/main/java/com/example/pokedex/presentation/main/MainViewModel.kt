@@ -1,41 +1,87 @@
 package com.example.pokedex.presentation.main
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.pokedex.data.network.RetrofitClient
 import com.example.pokedex.domain.model.Pokemon
 
 class MainViewModel: ViewModel() {
+
     var pokemonsState = MutableLiveData<List<Pokemon?>>()
 
+    var isLoading = MutableLiveData<Boolean>().apply { value = false }
+
+   var endOfPokemonList = MutableLiveData<Boolean>().apply { value = false }
+
     init {
+
         Thread {
+
             loadPokemons()
+
         }.start()
+
     }
 
     private fun loadPokemons() {
+
         val pokemonsApiResultAPI = RetrofitClient.listPokemons()
 
         pokemonsApiResultAPI?.results?.let {
 
-
             pokemonsState.postValue(it.map { pokemonResult ->
+
                 val name = pokemonResult.name
 
                 val pokemonApiResult = RetrofitClient.getPokemon(name)
 
-                pokemonApiResult?.let {
-                    Pokemon(
-                        pokemonApiResult.id,
-                        pokemonApiResult.name
-                    )
-                }
+                pokemonApiResult?.let { Pokemon(pokemonApiResult.id, pokemonApiResult.name) }
+
             })
 
         }
 
     }
 
+    fun loadMorePokemons() {
+        if (!isLoading.value!!) {
+            isLoading.value = true
 
+            val maxSize = 56
+
+            val currentOffset = pokemonsState.value?.size ?: 0
+
+
+            Thread {
+                    if (currentOffset >= maxSize){
+                        endOfPokemonList.postValue(true)
+                    }
+
+                    Log.d("offset", currentOffset.toString())
+
+                    val pokemonsApiResultAPI = RetrofitClient.listPokemons(14, currentOffset)
+
+                    pokemonsApiResultAPI?.results?.let { newPokemons ->
+
+                        val currentList = pokemonsState.value?.toMutableList() ?: mutableListOf()
+
+                        currentList.addAll(newPokemons.mapNotNull { pokemonResult ->
+
+                            val name = pokemonResult.name
+                            val pokemonApiResult = RetrofitClient.getPokemon(name)
+                            pokemonApiResult?.let { Pokemon(it.id, it.name) }
+
+                        })
+
+                        pokemonsState.postValue(currentList)
+
+                    }
+
+                    isLoading.postValue(false)
+
+            }.start()
+
+        }
+    }
 }

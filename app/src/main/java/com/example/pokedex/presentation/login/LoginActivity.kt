@@ -53,7 +53,6 @@ class LoginActivity : AppCompatActivity() {
         viewModel.loginState.observe(this) { state ->
             when (state) {
                 LoginViewModel.LoginState.SUCCESS -> {
-                    showMessage(this, "LOGIN SUCCESS!")
                     goToMainActivity()
                 }
                 LoginViewModel.LoginState.INVALID_CREDENTIALS -> showMessage(this,"Invalid credentials.")
