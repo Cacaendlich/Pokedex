@@ -12,6 +12,8 @@ class MainViewModel: ViewModel() {
 
     var isLoading = MutableLiveData<Boolean>().apply { value = false }
 
+   var endOfPokemonList = MutableLiveData<Boolean>().apply { value = false }
+
     init {
 
         Thread {
@@ -50,9 +52,12 @@ class MainViewModel: ViewModel() {
 
             val currentOffset = pokemonsState.value?.size ?: 0
 
-            Thread {
 
-                if (currentOffset <= maxSize) {
+            Thread {
+                    if (currentOffset >= maxSize){
+                        endOfPokemonList.postValue(true)
+                    }
+
                     Log.d("offset", currentOffset.toString())
 
                     val pokemonsApiResultAPI = RetrofitClient.listPokemons(14, currentOffset)
@@ -74,12 +79,9 @@ class MainViewModel: ViewModel() {
                     }
 
                     isLoading.postValue(false)
-                } else {
-                    // TODO: preciso adicionar um Toast quando o usuário chegar ao final da lista e,
-                    //  pensar em uma opção para implementar a navegação entre os itens já carregados.
-                }
 
             }.start()
+
         }
     }
 }
