@@ -48,7 +48,7 @@ class MainViewModel: ViewModel() {
         if (!isLoading.value!!) {
             isLoading.value = true
 
-            val maxSize = 56
+            val maxSize = 98
 
             val currentOffset = pokemonsState.value?.size ?: 0
 
@@ -57,8 +57,6 @@ class MainViewModel: ViewModel() {
                     if (currentOffset >= maxSize){
                         endOfPokemonList.postValue(true)
                     }
-
-                    Log.d("offset", currentOffset.toString())
 
                     val pokemonsApiResultAPI = RetrofitClient.listPokemons(14, currentOffset)
 
