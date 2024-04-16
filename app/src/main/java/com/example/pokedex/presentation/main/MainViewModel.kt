@@ -12,8 +12,6 @@ class MainViewModel: ViewModel() {
 
     var isLoading = MutableLiveData<Boolean>().apply { value = false }
 
-   var endOfPokemonList = MutableLiveData<Boolean>().apply { value = false }
-
     init {
 
         Thread {
@@ -48,16 +46,9 @@ class MainViewModel: ViewModel() {
         if (!isLoading.value!!) {
             isLoading.value = true
 
-            val maxSize = 98
-
             val currentOffset = pokemonsState.value?.size ?: 0
 
-
             Thread {
-                    if (currentOffset >= maxSize){
-                        endOfPokemonList.postValue(true)
-                    }
-
                     val pokemonsApiResultAPI = RetrofitClient.listPokemons(14, currentOffset)
 
                     pokemonsApiResultAPI?.results?.let { newPokemons ->
