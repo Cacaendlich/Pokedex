@@ -62,9 +62,7 @@ class PokemonAdapter(
             }
 
             override fun onLoadCleared(placeholder: android.graphics.drawable.Drawable?) {
-                // TODO: Implementar a lógica para limpar recursos
-                // quando a carga da imagem é cancelada ou quando
-                // a imagem não está mais disponível.
+                mImageViewPokemon.setImageBitmap(null)
             }
         }
     }
