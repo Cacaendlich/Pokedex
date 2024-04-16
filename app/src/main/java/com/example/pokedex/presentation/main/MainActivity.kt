@@ -10,6 +10,7 @@ import com.example.pokedex.databinding.ActivityMainBinding
 import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presentation.adapter.PokemonAdapter
 import android.content.res.Configuration
+import android.widget.LinearLayout
 import androidx.core.widget.NestedScrollView
 import com.example.pokedex.data.network.RetrofitClient
 
@@ -19,7 +20,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
 
-    private lateinit var mNsvView: NestedScrollView
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var mLayoutManager: GridLayoutManager
     private lateinit var mPokemonAdapter: PokemonAdapter
@@ -34,7 +34,6 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
-        mNsvView = binding.nsvView
         mRecyclerView = binding.recyclerViewMain
         mRecyclerView.setHasFixedSize(true) //informar ao RecyclerView que o tamanho dos itens não mudará durante a execução.
 
@@ -58,14 +57,17 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        mNsvView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener{ view, _, _, _, _ ->
-            val totalHeight = view.getChildAt(0).height
-            val currentScroll = view.scrollY + view.height
+        mRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val totalHeight = recyclerView.getChildAt(0)?.height ?: 0
+                val currentScroll = recyclerView.computeVerticalScrollOffset() + recyclerView.height
 
-            val buffer = 1500
+                val buffer = 1500
 
-            if (currentScroll >= totalHeight - buffer && !viewModel.isLoading.value!! && !viewModel.endOfPokemonList.value!!) {
-                viewModel.loadMorePokemons()
+                if (currentScroll >= totalHeight - buffer && !viewModel.isLoading.value!!) {
+                    viewModel.loadMorePokemons()
+                }
             }
         })
     }
