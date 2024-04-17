@@ -62,27 +62,16 @@ class MainActivity : AppCompatActivity() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
-                // Obtém o LayoutManager associado ao RecyclerView
                 val layoutManager = recyclerView.layoutManager as GridLayoutManager
-
-                // Obtém a posição do último item completamente visível na tela
                 val lastVisibleItemPosition = layoutManager.findLastCompletelyVisibleItemPosition()
-                Log.d("lastVisibleItemPosition", lastVisibleItemPosition.toString())
-
-                // Obtém o número total de itens no RecyclerView
                 val totalItemCount = layoutManager.itemCount
-                Log.d("totalItemCount", totalItemCount.toString())
-
-                // Define um buffer para determinar quando carregar mais itens
                 val limitLoading = lastVisibleItemPosition + 2
 
-                // Verifica se o usuário está perto do final da lista
                 if (limitLoading >= totalItemCount && !viewModel.isLoading.value!!) {
                     viewModel.loadMorePokemons()
                 }
 
                 currentPosition = lastVisibleItemPosition - 4
-                Log.d("currentPosition", currentPosition.toString())
 
             }
         })
