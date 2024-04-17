@@ -10,7 +10,8 @@ import com.example.pokedex.databinding.ActivityMainBinding
 import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presentation.adapter.PokemonAdapter
 import android.content.res.Configuration
-import androidx.core.widget.NestedScrollView
+import android.util.Log
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pokedex.data.network.RetrofitClient
 
 
@@ -19,11 +20,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
 
-    private lateinit var mNsvView: NestedScrollView
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var mLayoutManager: GridLayoutManager
     private lateinit var mPokemonAdapter: PokemonAdapter
 
+    private var currentPosition = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -34,7 +35,6 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
-        mNsvView = binding.nsvView
         mRecyclerView = binding.recyclerViewMain
         mRecyclerView.setHasFixedSize(true) //informar ao RecyclerView que o tamanho dos itens não mudará durante a execução.
 
@@ -58,16 +58,24 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        mNsvView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener{ view, _, _, _, _ ->
-            val totalHeight = view.getChildAt(0).height
-            val currentScroll = view.scrollY + view.height
+        mRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
 
-            val buffer = 1500
+                val layoutManager = recyclerView.layoutManager as GridLayoutManager
+                val lastVisibleItemPosition = layoutManager.findLastCompletelyVisibleItemPosition()
+                val totalItemCount = layoutManager.itemCount
+                val limitLoading = lastVisibleItemPosition + 2
 
-            if (currentScroll >= totalHeight - buffer && !viewModel.isLoading.value!! && !viewModel.endOfPokemonList.value!!) {
-                viewModel.loadMorePokemons()
+                if (limitLoading >= totalItemCount && !viewModel.isLoading.value!!) {
+                    viewModel.loadMorePokemons()
+                }
+
+                currentPosition = lastVisibleItemPosition - 4
+
             }
         })
+
     }
 
     private fun updateRecyclerView(pokemons: List<Pokemon?>) {
@@ -80,5 +88,7 @@ class MainActivity : AppCompatActivity() {
 
         mRecyclerView.layoutManager = mLayoutManager
         mRecyclerView.adapter = mPokemonAdapter
+
+        mRecyclerView.scrollToPosition(currentPosition)
     }
 }

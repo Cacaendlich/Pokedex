@@ -46,7 +46,7 @@
         <ImageView
             android:id="@+id/image_view_pokemon"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="130dp"
             android:contentDescription="@string/pokemonImg"
             android:src="@drawable/pokebola"
             tools:ignore="ImageContrastCheck"
