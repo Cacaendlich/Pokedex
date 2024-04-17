@@ -73,6 +73,7 @@ dependencies {
 
     // Anotações de suporte do Android
     implementation("com.android.support:support-annotations:28.0.0")
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
 
     // Testes unitários e de instrumentação
     testImplementation("junit:junit:4.13.2")

@@ -3,32 +3,5 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/background_list"/>
-
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_gravity="center"
-        android:visibility="visible"
-        android:progressTint="@color/white"
-        android:indeterminateTint="@color/yellow"
-        android:background="@drawable/pokeball_background"/>
-
-    <ProgressBar
-        android:id="@+id/progressBarLoadMore"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginBottom="10sp"
-        android:layout_gravity="center_horizontal|bottom"
-        android:visibility="gone"
-        android:progressTint="@color/white"
-        android:indeterminateTint="@color/yellow"
-        android:background="@drawable/pokeball_background"/>
 
 </FrameLayout>
