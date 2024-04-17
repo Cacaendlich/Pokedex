@@ -10,8 +10,8 @@ import com.example.pokedex.databinding.ActivityMainBinding
 import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presentation.adapter.PokemonAdapter
 import android.content.res.Configuration
-import android.widget.LinearLayout
-import androidx.core.widget.NestedScrollView
+import android.util.Log
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pokedex.data.network.RetrofitClient
 
 
@@ -60,16 +60,28 @@ class MainActivity : AppCompatActivity() {
         mRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                val totalHeight = recyclerView.getChildAt(0)?.height ?: 0
-                val currentScroll = recyclerView.computeVerticalScrollOffset() + recyclerView.height
 
-                val buffer = 1500
+                // Obtém o LayoutManager associado ao RecyclerView
+                val layoutManager = recyclerView.layoutManager as GridLayoutManager
 
-                if (currentScroll >= totalHeight - buffer && !viewModel.isLoading.value!!) {
+                // Obtém a posição do último item completamente visível na tela
+                val lastVisibleItemPosition = layoutManager.findLastCompletelyVisibleItemPosition()
+                Log.d("lastVisibleItemPosition", lastVisibleItemPosition.toString())
+
+                // Obtém o número total de itens no RecyclerView
+                val totalItemCount = layoutManager.itemCount
+                Log.d("totalItemCount", totalItemCount.toString())
+
+                // Define um buffer para determinar quando carregar mais itens
+                val limitLoading = lastVisibleItemPosition + 2
+
+                // Verifica se o usuário está perto do final da lista
+                if (limitLoading >= totalItemCount && !viewModel.isLoading.value!!) {
                     viewModel.loadMorePokemons()
                 }
             }
         })
+
     }
 
     private fun updateRecyclerView(pokemons: List<Pokemon?>) {
