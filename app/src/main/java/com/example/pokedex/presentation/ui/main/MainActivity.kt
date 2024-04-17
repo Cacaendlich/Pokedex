@@ -1,4 +1,4 @@
-package com.example.pokedex.presentation.main
+package com.example.pokedex.presentation.ui.main
 
 import android.os.Bundle
 import android.view.View

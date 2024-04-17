@@ -1,4 +1,4 @@
-package com.example.pokedex.presentation.login
+package com.example.pokedex.presentation.ui.login
 
 import android.content.Context
 import android.content.Intent
@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.pokedex.R
 import com.example.pokedex.databinding.ActivityFormLoginBinding
-import com.example.pokedex.presentation.main.MainActivity
+import com.example.pokedex.presentation.ui.main.MainActivity
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var viewModel: LoginViewModel
