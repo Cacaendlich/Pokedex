@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mLayoutManager: GridLayoutManager
     private lateinit var mPokemonAdapter: PokemonAdapter
 
+    private var currentPosition = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -79,6 +80,10 @@ class MainActivity : AppCompatActivity() {
                 if (limitLoading >= totalItemCount && !viewModel.isLoading.value!!) {
                     viewModel.loadMorePokemons()
                 }
+
+                currentPosition = lastVisibleItemPosition - 4
+                Log.d("currentPosition", currentPosition.toString())
+
             }
         })
 
@@ -94,5 +99,7 @@ class MainActivity : AppCompatActivity() {
 
         mRecyclerView.layoutManager = mLayoutManager
         mRecyclerView.adapter = mPokemonAdapter
+
+        mRecyclerView.scrollToPosition(currentPosition)
     }
 }
