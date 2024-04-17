@@ -10,8 +10,6 @@ import com.example.pokedex.databinding.ActivityMainBinding
 import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presentation.adapter.PokemonAdapter
 import android.content.res.Configuration
-import android.util.Log
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pokedex.data.network.RetrofitClient
 
 
