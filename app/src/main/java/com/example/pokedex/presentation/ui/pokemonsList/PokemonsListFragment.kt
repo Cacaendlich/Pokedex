@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pokedex.R
@@ -23,7 +24,8 @@ class PokemonsListFragment : Fragment() {
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var mLayoutManager: GridLayoutManager
     private lateinit var mPokemonAdapter: PokemonAdapter
-    private val progressBar = binding.progressBar
+    private lateinit var progressBar: ProgressBar
+
 
     private var currentPosition = 0
 
@@ -37,6 +39,7 @@ class PokemonsListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentPokemonsListBinding.inflate(inflater, container, false)
+        progressBar = binding.progressBar
         return binding.root
     }
 
