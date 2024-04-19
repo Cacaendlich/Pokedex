@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pokedex.R
@@ -108,6 +109,7 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
 
     override fun onFavoriteClick(position: Int, imageView: ImageView) {
         Log.d("FRAGMENT", "CLICKOU!!!!")
+        Toast.makeText(requireActivity(), "CLICKOU no $position", Toast.LENGTH_SHORT).show()
     }
 
 
