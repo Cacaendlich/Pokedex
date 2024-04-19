@@ -42,7 +42,7 @@ class PokemonAdapter(
 
         holder.itemView.setOnClickListener {
             Log.d("ADAPTER_onBindViewHolder", "CLICKOU!!!! na position $position")
-            holder.addFavorites(position, holder.mImageViewFavoriteOFF)
+            holder.toggleFavorite(position, holder.mImageViewFavoriteOFF)
         }
     }
 
@@ -82,7 +82,7 @@ class PokemonAdapter(
             }
         }
 
-        fun addFavorites(position: Int, imageView: ImageView) {
+        fun toggleFavorite(position: Int, imageView: ImageView) {
             mListener?.onFavoriteClick(position, imageView)
         }
     }
