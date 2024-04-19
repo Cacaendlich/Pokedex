@@ -1,6 +1,7 @@
 package com.example.pokedex.presentation.adapter
 
 import android.graphics.Bitmap
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,15 @@ class PokemonAdapter(
     private val mPokemonList: List<Pokemon?>
 ) : RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder>() {
 
+    private var mListener: OnItemClickListener? = null
+
+    interface OnItemClickListener {
+        fun onFavoriteClick(position: Int, imageView: ImageView)
+    }
+
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        mListener = listener
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.pokemon_item, parent, false)
         return PokemonViewHolder(view)
@@ -29,6 +39,11 @@ class PokemonAdapter(
     override fun onBindViewHolder(holder: PokemonViewHolder, position: Int) {
         val currentItem = mPokemonList[position]
         holder.bindView(currentItem)
+
+        holder.itemView.setOnClickListener {
+            Log.d("ADAPTER_onBindViewHolder", "CLICKOU!!!! na position $position")
+            holder.addFavorites(position, holder.mImageViewFavoriteOFF)
+        }
     }
 
     inner class PokemonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -36,6 +51,7 @@ class PokemonAdapter(
         private val mImageViewPokemon: ImageView = itemView.findViewById(R.id.image_view_pokemon)
         private val mNameViewPokemon: TextView = itemView.findViewById(R.id.name_view_pokemon)
         private val mCardViewPokemon: CardView = itemView.findViewById(R.id.card_view_pokemon)
+        val mImageViewFavoriteOFF: ImageView = itemView.findViewById(R.id.favorite_off)
 
         fun bindView(currentItem: Pokemon?) {
             currentItem?.let { pokemon ->
@@ -64,6 +80,10 @@ class PokemonAdapter(
             override fun onLoadCleared(placeholder: android.graphics.drawable.Drawable?) {
                 mImageViewPokemon.setImageBitmap(null)
             }
+        }
+
+        fun addFavorites(position: Int, imageView: ImageView) {
+            mListener?.onFavoriteClick(position, imageView)
         }
     }
 

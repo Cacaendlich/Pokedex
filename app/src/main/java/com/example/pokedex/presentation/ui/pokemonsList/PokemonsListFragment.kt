@@ -3,10 +3,12 @@ package com.example.pokedex.presentation.ui.pokemonsList
 import android.content.res.Configuration
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,7 +19,7 @@ import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presentation.adapter.PokemonAdapter
 import com.example.pokedex.presentation.ui.main.MainViewModel
 
-class PokemonsListFragment : Fragment() {
+class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
 
     private lateinit var binding: FragmentPokemonsListBinding
     private lateinit var viewModel: PokemonsListViewModel
@@ -100,7 +102,12 @@ class PokemonsListFragment : Fragment() {
         mRecyclerView.layoutManager = mLayoutManager
         mRecyclerView.adapter = mPokemonAdapter
 
+        mPokemonAdapter.setOnItemClickListener(this)
         mRecyclerView.scrollToPosition(currentPosition)
+    }
+
+    override fun onFavoriteClick(position: Int, imageView: ImageView) {
+        Log.d("FRAGMENT", "CLICKOU!!!!")
     }
 
 
