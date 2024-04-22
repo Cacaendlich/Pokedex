@@ -48,7 +48,7 @@ class PokemonAdapter(
         private val mNameViewPokemon: TextView = itemView.findViewById(R.id.name_view_pokemon)
         private val mCardViewPokemon: CardView = itemView.findViewById(R.id.card_view_pokemon)
         private val mImageViewFavoriteOFF: ImageView = itemView.findViewById(R.id.favorite_off)
-        private val mImageViewFavoriteON: ImageView = itemView.findViewById(R.id.favorite_on)
+
 
         init {
             mImageViewFavoriteOFF.setOnClickListener {
@@ -76,7 +76,7 @@ class PokemonAdapter(
                     mImageViewFavoriteOFF.setImageResource(R.drawable.favorite_on)
                     Log.d("PokemonAdapter", "Pokémon favorito: ${currentItem.name}")
                 } else {
-                    mImageViewFavoriteON.setImageResource(R.drawable.favorite_off)
+                    mImageViewFavoriteOFF.setImageResource(R.drawable.favorite_off)
                     Log.d("PokemonAdapter", "Pokémon não é mais favorito: ${currentItem.name}")
                 }
             }
