@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.RecyclerView
@@ -54,6 +55,14 @@ class PokemonAdapter(
             mImageViewFavoriteOFF.setOnClickListener {
                 bindingAdapterPosition.let { position ->
                     mListener?.onFavoriteClick(position, mImageViewFavoriteOFF)
+
+                    // Alterando o valor de favorite para true
+                    val favoriteState = mPokemonList[position]?.favorite
+                    mPokemonList[position]?.favorite = favoriteState != true
+
+                    // Notificando o adapter sobre a mudança no item
+                    notifyItemChanged(position)
+
                     Log.d("PokemonAdapter", "Ícone favorite_off clicado na posição: $position")
                 }
             }
@@ -63,6 +72,14 @@ class PokemonAdapter(
             currentItem?.let { pokemon ->
                 loadPokemonImage(pokemon.imageUrl)
                 mNameViewPokemon.text = currentItem.name
+
+                if (pokemon.favorite) {
+                    mImageViewFavoriteOFF.setImageResource(R.drawable.favorite_on)
+                    Log.d("PokemonAdapter", "Pokémon favorito: ${currentItem.name}")
+                } else {
+                    mImageViewFavoriteON.setImageResource(R.drawable.favorite_off)
+                    Log.d("PokemonAdapter", "Pokémon não é mais favorito: ${currentItem.name}")
+                }
             }
         }
 
