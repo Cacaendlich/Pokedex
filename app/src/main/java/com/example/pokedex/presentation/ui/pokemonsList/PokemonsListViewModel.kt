@@ -71,4 +71,6 @@ class PokemonsListViewModel : ViewModel() {
 
         }
     }
+
+    //TODO: criar a função guardar favoritos aqui
 }
