@@ -49,9 +49,11 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
 }
 
 dependencies {
+    val roomVersion = "2.6.1"
     // Kotlin coroutines para facilitar a programação assíncrona
     implementation("androidx.core:core-ktx:1.13.0")
 
@@ -114,5 +116,14 @@ dependencies {
 
     // Kotlin
     implementation("androidx.fragment:fragment-ktx:1.6.2")
+
+    //Room
+    implementation("androidx.room:room-runtime:$roomVersion")
+    annotationProcessor("androidx.room:room-compiler:$roomVersion")
+    //noinspection KaptUsageInsteadOfKsp
+    kapt("androidx.room:room-compiler:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+    testImplementation("androidx.room:room-testing:$roomVersion")
+    implementation("androidx.room:room-common")
 
 }

@@ -1,8 +1,6 @@
 package com.example.pokedex.data.network
 
 import android.content.Context
-import android.util.Log
-import com.example.pokedex.data.remote.PokemonApiService
 import com.example.pokedex.data.model.PokemonApiResult
 import com.example.pokedex.data.model.PokemonListResponse
 import okhttp3.Cache
