@@ -5,7 +5,6 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.example.pokedex.data.local.model.PokemonEntity
-import com.example.pokedex.domain.model.Pokemon
 
 @Dao
 interface PokemonDao {
