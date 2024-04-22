@@ -40,10 +40,6 @@ class PokemonAdapter(
         val currentItem = mPokemonList[position]
         holder.bindView(currentItem)
 
-        holder.itemView.setOnClickListener {
-            Log.d("ADAPTER_onBindViewHolder", "CLICKOU!!!! na position $position")
-            holder.toggleFavorite(position, holder.mImageViewFavoriteOFF)
-        }
     }
 
     inner class PokemonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -51,7 +47,17 @@ class PokemonAdapter(
         private val mImageViewPokemon: ImageView = itemView.findViewById(R.id.image_view_pokemon)
         private val mNameViewPokemon: TextView = itemView.findViewById(R.id.name_view_pokemon)
         private val mCardViewPokemon: CardView = itemView.findViewById(R.id.card_view_pokemon)
-        val mImageViewFavoriteOFF: ImageView = itemView.findViewById(R.id.favorite_off)
+        private val mImageViewFavoriteOFF: ImageView = itemView.findViewById(R.id.favorite_off)
+        private val mImageViewFavoriteON: ImageView = itemView.findViewById(R.id.favorite_on)
+
+        init {
+            mImageViewFavoriteOFF.setOnClickListener {
+                bindingAdapterPosition.let { position ->
+                    mListener?.onFavoriteClick(position, mImageViewFavoriteOFF)
+                    Log.d("PokemonAdapter", "Ícone favorite_off clicado na posição: $position")
+                }
+            }
+        }
 
         fun bindView(currentItem: Pokemon?) {
             currentItem?.let { pokemon ->
@@ -82,9 +88,6 @@ class PokemonAdapter(
             }
         }
 
-        fun toggleFavorite(position: Int, imageView: ImageView) {
-            mListener?.onFavoriteClick(position, imageView)
-        }
     }
 
     // Extrai a cor principal do Pokémon da imagem usando a biblioteca Palette
