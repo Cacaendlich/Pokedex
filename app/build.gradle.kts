@@ -53,6 +53,8 @@ android {
 }
 
 dependencies {
+    implementation("androidx.test:core-ktx:1.5.0")
+    implementation("androidx.test.ext:junit-ktx:1.1.5")
     val roomVersion = "2.6.1"
     // Kotlin coroutines para facilitar a programação assíncrona
     implementation("androidx.core:core-ktx:1.13.0")
@@ -127,5 +129,7 @@ dependencies {
     implementation("androidx.room:room-ktx:$roomVersion")
     testImplementation("androidx.room:room-testing:$roomVersion")
     implementation("androidx.room:room-common")
+
+    testImplementation("org.mockito:mockito-core:3.11.2")
 
 }
