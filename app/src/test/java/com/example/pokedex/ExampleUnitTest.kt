@@ -3,9 +3,7 @@ package com.example.pokedex
 import com.example.pokedex.data.local.dao.PokemonDao
 import com.example.pokedex.data.local.model.PokemonEntity
 import kotlinx.coroutines.runBlocking
-import org.junit.After
 import org.junit.Test
-
 import org.junit.Assert.*
 import org.junit.Before
 import org.mockito.Mock
@@ -18,15 +16,15 @@ import org.mockito.MockitoAnnotations
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 class PokemonDaoUnitTest {
-    @Mock ////@Mock é usada para criar um mock de uma classe ou interface
+    @Mock ////@Mock Esta é uma anotação que é usada para criar um mock de uma classe ou interface
     lateinit var pokemonDao: PokemonDao
 
-    @Before //@Before é usada em métodos de teste para indicar que eles devem ser executados antes de cada método de teste na classe.
+    @Before //@Before Esta é uma anotação que é usada em métodos de teste para indicar que eles devem ser executados antes de cada método de teste na classe.
     fun setUp() {
         MockitoAnnotations.openMocks(this)
     }
 
-    @Test // Esta é uma anotação que indica que este é um método de teste
+    @Test //@Test Esta é uma anotação que indica que este é um método de teste
     fun insertPokemon() = runBlocking { // Aqui estamos definindo o nome do teste e indicando que ele pode ser executado
 
         val pokemon = PokemonEntity(1,"bulbasaur") // Aqui estamos criando uma instância de PokemonEntity
