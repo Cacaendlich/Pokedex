@@ -25,20 +25,20 @@ import org.junit.Before
 class PokemonDaoUnitTest {
 
     private lateinit var pokemonDao: PokemonDao
-    private lateinit var db: PokemonDataBase
+    private lateinit var pokemonDataBase: PokemonDataBase
 
     @Before
-    fun setup() {
-        db = Room.inMemoryDatabaseBuilder(
+    fun createDb() {
+        pokemonDataBase = Room.inMemoryDatabaseBuilder(
             ApplicationProvider.getApplicationContext(),
             PokemonDataBase::class.java
         ).build()
-        pokemonDao = db.PokemonDao()
+        pokemonDao = pokemonDataBase.PokemonDao()
     }
 
     @After
-    fun teardown() {
-        db.close()
+    fun closeDb() {
+        pokemonDataBase.close()
     }
 
     @Test
