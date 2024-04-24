@@ -39,7 +39,7 @@ class PokemonDaoUnitTest {
     }
 
     @Test
-    fun deletePokemon() = runBlocking {
+    fun deletePokemon1() = runBlocking {
         val pokemon = PokemonEntity(1,"bulbasaur")
 
         `when`(pokemonDao.getAllPokemons()).thenReturn(emptyList())
@@ -52,5 +52,39 @@ class PokemonDaoUnitTest {
 
         assertFalse(allPokemons.contains(pokemon))
     }
+    @Test
+    fun deletePokemon2() = runBlocking {
+        val pokemon1 = PokemonEntity(1, "bulbasaur")
+        val pokemon2 = PokemonEntity(2, "charmander")
 
+        `when`(pokemonDao.getAllPokemons()).thenReturn(listOf(pokemon2))
+
+        pokemonDao.insertPokemon(pokemon1)
+        pokemonDao.insertPokemon(pokemon2)
+
+        pokemonDao.deletePokemon(pokemon1)
+
+        val allPokemons = pokemonDao.getAllPokemons()
+
+        assertTrue(allPokemons.contains(pokemon2))
+        assertFalse(allPokemons.contains(pokemon1))
+    }
+    @Test
+    fun deletePokemon3() = runBlocking {
+        val pokemon1 = PokemonEntity(1, "bulbasaur")
+        val pokemon2 = PokemonEntity(2, "charmander")
+
+        `when`(pokemonDao.getAllPokemons()).thenReturn(emptyList())
+
+        pokemonDao.insertPokemon(pokemon1)
+        pokemonDao.insertPokemon(pokemon2)
+
+        pokemonDao.deletePokemon(pokemon1)
+        pokemonDao.deletePokemon(pokemon2)
+
+        val allPokemons = pokemonDao.getAllPokemons()
+
+        assertFalse(allPokemons.contains(pokemon2))
+        assertFalse(allPokemons.contains(pokemon1))
+    }
 }
