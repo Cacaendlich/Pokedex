@@ -1,13 +1,8 @@
 package com.example.pokedex
 
-import android.content.Context
-import androidx.room.Room
-import androidx.test.core.app.ApplicationProvider
 import com.example.pokedex.data.local.dao.PokemonDao
-import com.example.pokedex.data.local.database.PokemonDataBase
 import com.example.pokedex.data.local.model.PokemonEntity
 import kotlinx.coroutines.runBlocking
-import org.junit.After
 import org.junit.Test
 import org.junit.Assert.*
 import org.junit.Before
