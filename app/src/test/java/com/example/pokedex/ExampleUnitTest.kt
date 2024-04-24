@@ -16,31 +16,26 @@ import org.mockito.MockitoAnnotations
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 class PokemonDaoUnitTest {
-    @Mock // Referência simulada para PokemonDao
+    @Mock
     lateinit var pokemonDao: PokemonDao
 
-    @Before // Configuração pré-teste
+    @Before
     fun setUp() {
         MockitoAnnotations.openMocks(this)
     }
 
-    @Test //Aqui é o teste mesmo
-    fun insertPokemon() = runBlocking { //definindo o nome do teste e indicando que ele pode ser executado
+    @Test
+    fun insertPokemon() = runBlocking {
 
-        val pokemon = PokemonEntity(1,"bulbasaur") // instânciei PokemonEntity
+        val pokemon = PokemonEntity(1,"bulbasaur")
 
-        //configurando o comportamento esperado do mock pokemonDao
         `when`(pokemonDao.getAllPokemons()).thenReturn(listOf(pokemon))
-        // Quando o método getAllPokemons() for chamado, ele deveria retornar uma lista contendo o Pokémon "bulbasaur"
 
-        // Em seguida, chamamos o método insertPokemon() do mock pokemonDao para inserir o Pokémon "bulbasaur" no banco de dados
         pokemonDao.insertPokemon(pokemon)
 
-        // Agora, allPokemons recebe a lógica de buscar todos os Pokémon do banco de dados
         val allPokemons = pokemonDao.getAllPokemons()
 
-        // Finalmente, estamos verificando se o Pokémon "bulbasaur" está presente na lista de todos os Pokémon recuperados do banco de dados
-        assertTrue(allPokemons.contains(pokemon)) // Isso verifica se a lista de todos os Pokémon contém o Pokémon "bulbasaur"
+        assertTrue(allPokemons.contains(pokemon))
     }
 
     @Test
