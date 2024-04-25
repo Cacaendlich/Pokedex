@@ -55,7 +55,7 @@ class PokemonAdapter(
                 bindingAdapterPosition.let { position ->
                     mListener?.onFavoriteClick(position, mImageViewFavoriteOFF)
 
-                    // Alterando o valor de favorite para true
+                    // Alterando o icon de favorite para true
                     val favoriteState = mPokemonList[position]?.favorite
                     mPokemonList[position]?.favorite = favoriteState != true
 
