@@ -29,11 +29,11 @@ class PokemonDaoUnitTest {
 
         val pokemon = PokemonEntity(1,"bulbasaur")
 
-        `when`(pokemonDao.getAllPokemons()).thenReturn(listOf(pokemon))
+        `when`(pokemonDao.getAllPokemonsFavorites()).thenReturn(listOf(pokemon))
 
-        pokemonDao.insertPokemon(pokemon)
+        pokemonDao.insertPokemonFavorite(pokemon)
 
-        val allPokemons = pokemonDao.getAllPokemons()
+        val allPokemons = pokemonDao.getAllPokemonsFavorites()
 
         assertTrue(allPokemons.contains(pokemon))
     }
@@ -42,13 +42,13 @@ class PokemonDaoUnitTest {
     fun deletePokemon1() = runBlocking {
         val pokemon = PokemonEntity(1,"bulbasaur")
 
-        `when`(pokemonDao.getAllPokemons()).thenReturn(emptyList())
+        `when`(pokemonDao.getAllPokemonsFavorites()).thenReturn(emptyList())
 
-        pokemonDao.insertPokemon(pokemon)
+        pokemonDao.insertPokemonFavorite(pokemon)
 
-        pokemonDao.deletePokemon(pokemon)
+        pokemonDao.deletePokemonFavorite(pokemon)
 
-        val allPokemons = pokemonDao.getAllPokemons()
+        val allPokemons = pokemonDao.getAllPokemonsFavorites()
 
         assertFalse(allPokemons.contains(pokemon))
     }
@@ -57,14 +57,14 @@ class PokemonDaoUnitTest {
         val pokemon1 = PokemonEntity(1, "bulbasaur")
         val pokemon2 = PokemonEntity(2, "charmander")
 
-        `when`(pokemonDao.getAllPokemons()).thenReturn(listOf(pokemon2))
+        `when`(pokemonDao.getAllPokemonsFavorites()).thenReturn(listOf(pokemon2))
 
-        pokemonDao.insertPokemon(pokemon1)
-        pokemonDao.insertPokemon(pokemon2)
+        pokemonDao.insertPokemonFavorite(pokemon1)
+        pokemonDao.insertPokemonFavorite(pokemon2)
 
-        pokemonDao.deletePokemon(pokemon1)
+        pokemonDao.deletePokemonFavorite(pokemon1)
 
-        val allPokemons = pokemonDao.getAllPokemons()
+        val allPokemons = pokemonDao.getAllPokemonsFavorites()
 
         assertTrue(allPokemons.contains(pokemon2))
         assertFalse(allPokemons.contains(pokemon1))
@@ -74,15 +74,15 @@ class PokemonDaoUnitTest {
         val pokemon1 = PokemonEntity(1, "bulbasaur")
         val pokemon2 = PokemonEntity(2, "charmander")
 
-        `when`(pokemonDao.getAllPokemons()).thenReturn(emptyList())
+        `when`(pokemonDao.getAllPokemonsFavorites()).thenReturn(emptyList())
 
-        pokemonDao.insertPokemon(pokemon1)
-        pokemonDao.insertPokemon(pokemon2)
+        pokemonDao.insertPokemonFavorite(pokemon1)
+        pokemonDao.insertPokemonFavorite(pokemon2)
 
-        pokemonDao.deletePokemon(pokemon1)
-        pokemonDao.deletePokemon(pokemon2)
+        pokemonDao.deletePokemonFavorite(pokemon1)
+        pokemonDao.deletePokemonFavorite(pokemon2)
 
-        val allPokemons = pokemonDao.getAllPokemons()
+        val allPokemons = pokemonDao.getAllPokemonsFavorites()
 
         assertFalse(allPokemons.contains(pokemon2))
         assertFalse(allPokemons.contains(pokemon1))
