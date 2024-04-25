@@ -2,7 +2,6 @@ package com.example.pokedex
 
 import com.example.pokedex.data.local.dao.PokemonDao
 import com.example.pokedex.data.local.model.PokemonEntity
-import com.example.pokedex.presentation.ui.pokemonsList.PokemonsListViewModel
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.junit.Assert.*
