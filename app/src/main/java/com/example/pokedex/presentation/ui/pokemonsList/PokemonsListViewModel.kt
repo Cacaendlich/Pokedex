@@ -87,9 +87,9 @@ class PokemonsListViewModel(
 
     suspend fun addFavorites(pokemon: PokemonEntity) {
         pokemonDataBase.PokemonDao().insertPokemonFavorite(pokemon)
+    }
 
-        suspend fun deleteFavorites(pokemon: PokemonEntity) {
-            pokemonDataBase.PokemonDao().deletePokemonFavorite(pokemon)
-        }
+    suspend fun deleteFavorites(pokemon: PokemonEntity) {
+        pokemonDataBase.PokemonDao().deletePokemonFavorite(pokemon)
     }
 }
