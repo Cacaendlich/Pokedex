@@ -2,10 +2,14 @@ package com.example.pokedex.presentation.ui.pokemonsList
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.pokedex.data.local.database.PokemonDataBase
+import com.example.pokedex.data.local.model.PokemonEntity
 import com.example.pokedex.data.network.RetrofitClient
 import com.example.pokedex.domain.model.Pokemon
 
-class PokemonsListViewModel : ViewModel() {
+class PokemonsListViewModel(
+    private val pokemonDataBase: PokemonDataBase
+) : ViewModel() {
     var pokemonsState = MutableLiveData<List<Pokemon?>>()
 
     var isLoading = MutableLiveData<Boolean>().apply { value = false }
@@ -72,5 +76,20 @@ class PokemonsListViewModel : ViewModel() {
         }
     }
 
-    //TODO: criar a função guardar favoritos aqui
+    suspend fun loadFavorites(pokemon: PokemonEntity) {
+        isLoading.value = true
+        val pokemons = pokemonDataBase.PokemonDao().getAllPokemonsFavorites().map { pokemonEntity ->
+            Pokemon(pokemonEntity.pokemonId, pokemonEntity.name)
+        }
+        pokemonsState.postValue(pokemons)
+        isLoading.value = false
+    }
+
+    suspend fun addFavorites(pokemon: PokemonEntity) {
+        pokemonDataBase.PokemonDao().insertPokemonFavorite(pokemon)
+
+        suspend fun deleteFavorites(pokemon: PokemonEntity) {
+            pokemonDataBase.PokemonDao().deletePokemonFavorite(pokemon)
+        }
+    }
 }
