@@ -110,7 +110,6 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
     override fun onFavoriteClick(position: Int, imageView: ImageView) {
         Log.d("FRAGMENT", "CLICKOU!!!!")
         Toast.makeText(requireActivity(), "CLICKOU no $position", Toast.LENGTH_SHORT).show()
-        //TODO: chamar a função guardar favoritos do viewmodel
     }
 
 
