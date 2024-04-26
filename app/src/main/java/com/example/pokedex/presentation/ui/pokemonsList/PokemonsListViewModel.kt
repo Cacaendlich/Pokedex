@@ -1,5 +1,6 @@
 package com.example.pokedex.presentation.ui.pokemonsList
 
+
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -75,20 +76,20 @@ class PokemonsListViewModel : ViewModel() {
         }
     }
 
-    suspend fun loadFavorites(pokemon: PokemonEntity, context: Context) {
-        isLoading.value = true
-        val pokemons = PokemonDataBase.getDataBase(context).PokemonDao().getAllPokemonsFavorites().map { pokemonEntity ->
-            Pokemon(pokemonEntity.pokemonId, pokemonEntity.name)
-        }
-        pokemonsState.postValue(pokemons)
-        isLoading.value = false
-    }
+//    suspend fun loadFavorites(pokemon: PokemonEntity, context: Context) {
+//        isLoading.value = true
+//        val pokemons = PokemonDataBase.getDataBase(context).PokemonDao().getAllPokemonsFavorites().map { pokemonEntity ->
+//            Pokemon(pokemonEntity.pokemonId, pokemonEntity.name)
+//        }
+//        pokemonsState.postValue(pokemons)
+//        isLoading.value = false
+//    }
 
     suspend fun addFavorites(pokemon: PokemonEntity, context: Context) {
         PokemonDataBase.getDataBase(context).PokemonDao().insertPokemonFavorite(pokemon)
     }
 
-    suspend fun deleteFavorites(pokemon: PokemonEntity, context: Context) {
-        PokemonDataBase.getDataBase(context).PokemonDao().deletePokemonFavorite(pokemon)
-    }
+//    suspend fun deleteFavorites(pokemon: PokemonEntity, context: Context) {
+//        PokemonDataBase.getDataBase(context).PokemonDao().deletePokemonFavorite(pokemon)
+//    }
 }
