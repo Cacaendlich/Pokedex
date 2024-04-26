@@ -57,15 +57,7 @@ class PokemonAdapter(
             mImageViewFavoriteOFF.setOnClickListener {
                 bindingAdapterPosition.let { position ->
                     mListener?.onFavoriteClick(position, mImageViewFavoriteOFF)
-
-                    // Alterando o icon de favorite para true
-                    val favoriteState = mPokemonList[position]?.favorite
-                    mPokemonList[position]?.favorite = favoriteState != true
-
-                    mFavoriteState.postValue(favoriteState)
-                    // Notificando o adapter sobre a mudança no item
-                    notifyItemChanged(position)
-
+                    updateFavoriteState(position)
                     Log.d("PokemonAdapter", "Ícone favorite_off clicado na posição: $position")
                 }
             }
@@ -75,7 +67,6 @@ class PokemonAdapter(
             currentItem?.let { pokemon ->
                 loadPokemonImage(pokemon.imageUrl)
                 mNameViewPokemon.text = currentItem.name
-
                 changeIcon(pokemon.favorite, mImageViewFavoriteOFF)
             }
         }
@@ -123,7 +114,6 @@ class PokemonAdapter(
         val cropTop = bitmap.height / 4
         val cropRight = bitmap.width * 3 / 4
         val cropBottom = bitmap.height * 3 / 4
-
         // Recortar a imagem
         return Bitmap.createBitmap(bitmap, cropLeft, cropTop, cropRight - cropLeft, cropBottom - cropTop)
     }
@@ -134,6 +124,13 @@ class PokemonAdapter(
         } else {
             imageView.setImageResource(R.drawable.favorite_off)
         }
+    }
+
+    private fun updateFavoriteState(position: Int) {
+        val favoriteState = mPokemonList[position]?.favorite
+        mPokemonList[position]?.favorite = favoriteState != true
+        mFavoriteState.postValue(favoriteState)
+        notifyItemChanged(position)
     }
 
 
