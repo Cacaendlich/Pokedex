@@ -1,5 +1,6 @@
 package com.example.pokedex.presentation.ui.pokemonsList
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.pokedex.data.local.database.PokemonDataBase
@@ -7,9 +8,7 @@ import com.example.pokedex.data.local.model.PokemonEntity
 import com.example.pokedex.data.network.RetrofitClient
 import com.example.pokedex.domain.model.Pokemon
 
-class PokemonsListViewModel(
-    private val pokemonDataBase: PokemonDataBase
-) : ViewModel() {
+class PokemonsListViewModel : ViewModel() {
     var pokemonsState = MutableLiveData<List<Pokemon?>>()
 
     var isLoading = MutableLiveData<Boolean>().apply { value = false }
@@ -76,20 +75,20 @@ class PokemonsListViewModel(
         }
     }
 
-    suspend fun loadFavorites(pokemon: PokemonEntity) {
+    suspend fun loadFavorites(pokemon: PokemonEntity, context: Context) {
         isLoading.value = true
-        val pokemons = pokemonDataBase.PokemonDao().getAllPokemonsFavorites().map { pokemonEntity ->
+        val pokemons = PokemonDataBase.getDataBase(context).PokemonDao().getAllPokemonsFavorites().map { pokemonEntity ->
             Pokemon(pokemonEntity.pokemonId, pokemonEntity.name)
         }
         pokemonsState.postValue(pokemons)
         isLoading.value = false
     }
 
-    suspend fun addFavorites(pokemon: PokemonEntity) {
-        pokemonDataBase.PokemonDao().insertPokemonFavorite(pokemon)
+    suspend fun addFavorites(pokemon: PokemonEntity, context: Context) {
+        PokemonDataBase.getDataBase(context).PokemonDao().insertPokemonFavorite(pokemon)
     }
 
-    suspend fun deleteFavorites(pokemon: PokemonEntity) {
-        pokemonDataBase.PokemonDao().deletePokemonFavorite(pokemon)
+    suspend fun deleteFavorites(pokemon: PokemonEntity, context: Context) {
+        PokemonDataBase.getDataBase(context).PokemonDao().deletePokemonFavorite(pokemon)
     }
 }
