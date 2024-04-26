@@ -1,7 +1,6 @@
 package com.example.pokedex.presentation.adapter
 
 import android.graphics.Bitmap
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -55,10 +54,8 @@ class PokemonAdapter(
 
         init {
             mImageViewFavoriteOFF.setOnClickListener {
-                bindingAdapterPosition.let { position ->
-                    mListener?.onFavoriteClick(position, mImageViewFavoriteOFF)
-                    updateFavoriteState(position)
-                    Log.d("PokemonAdapter", "Ícone favorite_off clicado na posição: $position")
+                bindingAdapterPosition.let {
+                    mListener?.onFavoriteClick(it, mImageViewFavoriteOFF)
                 }
             }
         }
@@ -124,13 +121,6 @@ class PokemonAdapter(
         } else {
             imageView.setImageResource(R.drawable.favorite_off)
         }
-    }
-
-    private fun updateFavoriteState(position: Int) {
-        val favoriteState = mPokemonList[position]?.favorite
-        mPokemonList[position]?.favorite = favoriteState != true
-        mFavoriteState.postValue(favoriteState)
-        notifyItemChanged(position)
     }
 
 

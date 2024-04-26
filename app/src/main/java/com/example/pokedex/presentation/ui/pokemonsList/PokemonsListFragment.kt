@@ -10,15 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.pokedex.R
 import com.example.pokedex.data.network.RetrofitClient
 import com.example.pokedex.databinding.FragmentPokemonsListBinding
 import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presentation.adapter.PokemonAdapter
-import com.example.pokedex.presentation.ui.main.MainViewModel
 
 class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
 
@@ -93,11 +90,12 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
     }
 
     private fun updateRecyclerView(pokemons: List<Pokemon?>) {
-        mLayoutManager = if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            GridLayoutManager(requireActivity(), 3)
-        } else {
-            GridLayoutManager(requireActivity(), 2)
-        }
+        mLayoutManager =
+            if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                GridLayoutManager(requireActivity(), 3)
+            } else {
+                GridLayoutManager(requireActivity(), 2)
+            }
         mPokemonAdapter = PokemonAdapter(pokemons)
 
         mRecyclerView.layoutManager = mLayoutManager
@@ -109,23 +107,20 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
 
     override fun onFavoriteClick(position: Int, imageView: ImageView) {
         Log.d("PokemonsListFragment", "Clique no item de favorito na posição: $position")
-//        mPokemonAdapter.mFavoriteState.observe(viewLifecycleOwner) { favoriteState ->
-//            // Obtenha o Pokémon na posição clicada
-//            val pokemon = mPokemonAdapter.mPokemonList[position]
-//            pokemon?.let {
-//                // Inverta o estado do favorito
-//                val newFavoriteState = !(pokemon.favorite ?: false)
-//                pokemon.favorite = newFavoriteState
-//
-//                Log.d("PokemonsListFragment", "Estado do Pokémon ${pokemon.name}: favorito = $newFavoriteState")
-//                // Notifique o adapter sobre a mudança
-//                mPokemonAdapter.notifyItemChanged(position)
-//
-//                // Aqui você pode lidar com a lógica de adicionar/remover favoritos no ViewModel se necessário
-//                // viewModel.addFavorite(pokemon) ou viewModel.removeFavorite(pokemon)
-//            }
-//        }
+
+        val pokemon = mPokemonAdapter.mPokemonList[position]
+        pokemon?.let {
+            updateFavoriteState(position)
+            Log.d("PokemonsListFragment", "Clique no item de favorito : ${pokemon.name}, e seu estado: ${pokemon.favorite}")
+        }
+
     }
 
+    private fun updateFavoriteState(position: Int) {
+        val favoriteState = mPokemonAdapter.mPokemonList[position]?.favorite
+        mPokemonAdapter.mPokemonList[position]?.favorite = favoriteState != true
+        mPokemonAdapter.mFavoriteState.postValue(favoriteState)
+        mPokemonAdapter.notifyItemChanged(position)
+    }
 
 }
