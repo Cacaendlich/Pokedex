@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.lifecycle.MutableLiveData
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -17,8 +18,10 @@ import com.example.pokedex.R
 import com.example.pokedex.domain.model.Pokemon
 
 class PokemonAdapter(
-    private val mPokemonList: List<Pokemon?>
+    val mPokemonList: List<Pokemon?>
 ) : RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder>() {
+
+    var mFavoriteState = MutableLiveData<Boolean>().apply { value = false }
 
     private var mListener: OnItemClickListener? = null
 
@@ -59,6 +62,7 @@ class PokemonAdapter(
                     val favoriteState = mPokemonList[position]?.favorite
                     mPokemonList[position]?.favorite = favoriteState != true
 
+                    mFavoriteState.postValue(favoriteState)
                     // Notificando o adapter sobre a mudança no item
                     notifyItemChanged(position)
 
@@ -72,13 +76,7 @@ class PokemonAdapter(
                 loadPokemonImage(pokemon.imageUrl)
                 mNameViewPokemon.text = currentItem.name
 
-                if (pokemon.favorite) {
-                    mImageViewFavoriteOFF.setImageResource(R.drawable.favorite_on)
-                    Log.d("PokemonAdapter", "Pokémon favorito: ${currentItem.name}")
-                } else {
-                    mImageViewFavoriteOFF.setImageResource(R.drawable.favorite_off)
-                    Log.d("PokemonAdapter", "Pokémon não é mais favorito: ${currentItem.name}")
-                }
+                trocarIcon(pokemon.favorite, mImageViewFavoriteOFF)
             }
         }
 
@@ -128,6 +126,14 @@ class PokemonAdapter(
 
         // Recortar a imagem
         return Bitmap.createBitmap(bitmap, cropLeft, cropTop, cropRight - cropLeft, cropBottom - cropTop)
+    }
+
+    private fun trocarIcon(pokemon: Boolean, imageView: ImageView) {
+        if (pokemon) {
+            imageView.setImageResource(R.drawable.favorite_on)
+        } else {
+            imageView.setImageResource(R.drawable.favorite_off)
+        }
     }
 
 
