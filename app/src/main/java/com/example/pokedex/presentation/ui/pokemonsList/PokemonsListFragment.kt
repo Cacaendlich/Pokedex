@@ -108,8 +108,23 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
     }
 
     override fun onFavoriteClick(position: Int, imageView: ImageView) {
-        Log.d("FRAGMENT", "CLICKOU!!!!")
-        Toast.makeText(requireActivity(), "CLICKOU no $position", Toast.LENGTH_SHORT).show()
+        Log.d("PokemonsListFragment", "Clique no item de favorito na posição: $position")
+//        mPokemonAdapter.mFavoriteState.observe(viewLifecycleOwner) { favoriteState ->
+//            // Obtenha o Pokémon na posição clicada
+//            val pokemon = mPokemonAdapter.mPokemonList[position]
+//            pokemon?.let {
+//                // Inverta o estado do favorito
+//                val newFavoriteState = !(pokemon.favorite ?: false)
+//                pokemon.favorite = newFavoriteState
+//
+//                Log.d("PokemonsListFragment", "Estado do Pokémon ${pokemon.name}: favorito = $newFavoriteState")
+//                // Notifique o adapter sobre a mudança
+//                mPokemonAdapter.notifyItemChanged(position)
+//
+//                // Aqui você pode lidar com a lógica de adicionar/remover favoritos no ViewModel se necessário
+//                // viewModel.addFavorite(pokemon) ou viewModel.removeFavorite(pokemon)
+//            }
+//        }
     }
 
 
