@@ -20,8 +20,6 @@ class PokemonAdapter(
     val mPokemonList: List<Pokemon?>
 ) : RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder>() {
 
-    var mFavoriteState = MutableLiveData<Boolean>().apply { value = false }
-
     private var mListener: OnItemClickListener? = null
 
     interface OnItemClickListener {
