@@ -9,11 +9,11 @@ import com.example.pokedex.data.local.model.PokemonEntity
 @Dao
 interface PokemonDao {
     @Insert
-    suspend fun insertPokemonFavorite(pokemon: PokemonEntity)
+    fun insertPokemonFavorite(pokemon: PokemonEntity)
 
     @Delete
     suspend fun deletePokemonFavorite(pokemon: PokemonEntity)
 
-    @Query("SELECT * FROM Pokemons_favorites")
+    @Query("SELECT * FROM PokeFavorites_table")
     suspend fun getAllPokemonsFavorites(): List<PokemonEntity>
 }

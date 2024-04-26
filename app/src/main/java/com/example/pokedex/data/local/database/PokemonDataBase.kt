@@ -19,7 +19,7 @@ abstract class PokemonDataBase : RoomDatabase() {
            return INSTANCE ?: synchronized(this) {
                val instance = Room.databaseBuilder(
                    context,
-                   PokemonDataBase::class.java, "Pokemons_favorites"
+                   PokemonDataBase::class.java, "PokeFavorites_table"
                ).build()
                INSTANCE = instance
                instance
