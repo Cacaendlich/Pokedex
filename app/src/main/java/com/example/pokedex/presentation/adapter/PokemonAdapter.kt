@@ -76,7 +76,7 @@ class PokemonAdapter(
                 loadPokemonImage(pokemon.imageUrl)
                 mNameViewPokemon.text = currentItem.name
 
-                trocarIcon(pokemon.favorite, mImageViewFavoriteOFF)
+                changeIcon(pokemon.favorite, mImageViewFavoriteOFF)
             }
         }
 
@@ -128,7 +128,7 @@ class PokemonAdapter(
         return Bitmap.createBitmap(bitmap, cropLeft, cropTop, cropRight - cropLeft, cropBottom - cropTop)
     }
 
-    private fun trocarIcon(pokemon: Boolean, imageView: ImageView) {
+    private fun changeIcon(pokemon: Boolean, imageView: ImageView) {
         if (pokemon) {
             imageView.setImageResource(R.drawable.favorite_on)
         } else {
