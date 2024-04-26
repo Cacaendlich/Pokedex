@@ -12,6 +12,7 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.pokedex.data.local.model.PokemonEntity
 import com.example.pokedex.data.network.RetrofitClient
 import com.example.pokedex.databinding.FragmentPokemonsListBinding
 import com.example.pokedex.domain.model.Pokemon
@@ -111,6 +112,8 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
         val pokemon = mPokemonAdapter.mPokemonList[position]
         pokemon?.let {
             updateFavoriteState(position)
+            val pokemonFavorite = PokemonEntity(pokemon.number, pokemon.name)
+            viewModel.addFavorites(pokemonFavorite, requireContext())
             Log.d("PokemonsListFragment", "Clique no item de favorito : ${pokemon.name}, e seu estado: ${pokemon.favorite}")
         }
 
