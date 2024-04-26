@@ -119,7 +119,6 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
     private fun updateFavoriteState(position: Int) {
         val favoriteState = mPokemonAdapter.mPokemonList[position]?.favorite
         mPokemonAdapter.mPokemonList[position]?.favorite = favoriteState != true
-        mPokemonAdapter.mFavoriteState.postValue(favoriteState)
         mPokemonAdapter.notifyItemChanged(position)
     }
 
