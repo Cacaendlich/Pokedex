@@ -21,7 +21,6 @@
             android:id="@+id/favorite_off"
             android:layout_width="30sp"
             android:layout_height="30sp"
-            android:src="@drawable/favorite_off"
             android:layout_gravity="end"
             android:contentDescription="@string/star_white_favorite"
             android:visibility="visible"/>
