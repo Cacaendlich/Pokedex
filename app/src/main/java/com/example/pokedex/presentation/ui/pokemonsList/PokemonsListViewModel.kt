@@ -77,13 +77,18 @@ class PokemonsListViewModel : ViewModel() {
         }
     }
 
-//    suspend fun loadFavorites(pokemon: PokemonEntity, context: Context) {
-//        isLoading.value = true
-//        val pokemons = PokemonDataBase.getDataBase(context).PokemonDao().getAllPokemonsFavorites().map { pokemonEntity ->
-//            Pokemon(pokemonEntity.pokemonId, pokemonEntity.name)
-//        }
-//        pokemonsState.postValue(pokemons)
-//        isLoading.value = false
+//    fun loadFavorites(pokemon: PokemonEntity, context: Context, callback: () -> Unit) {
+//        Thread{
+//            isLoading.postValue(true)
+//            val pokemons =
+//                PokemonDataBase.getDataBase(context).PokemonDao().getAllPokemonsFavorites()
+//                    .map { pokemonEntity ->
+//                        Pokemon(pokemonEntity.pokemonId, pokemonEntity.name)
+//                    }
+//            callback()
+//            pokemonsState.postValue(pokemons)
+//            isLoading.postValue(true)
+//        }.start()
 //    }
 
     fun addFavorites(pokemon: PokemonEntity, context: Context, callback: () -> Unit) {
@@ -93,7 +98,7 @@ class PokemonsListViewModel : ViewModel() {
         }.start()
     }
 
-//    suspend fun deleteFavorites(pokemon: PokemonEntity, context: Context) {
-//        PokemonDataBase.getDataBase(context).PokemonDao().deletePokemonFavorite(pokemon)
-//    }
+    suspend fun deleteFavorites(pokemon: PokemonEntity, context: Context) {
+        PokemonDataBase.getDataBase(context).PokemonDao().deletePokemonFavorite(pokemon)
+    }
 }
