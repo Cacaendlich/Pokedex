@@ -10,13 +10,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.pokedex.data.local.database.PokemonDataBase
 import com.example.pokedex.data.local.model.PokemonEntity
 import com.example.pokedex.data.network.RetrofitClient
 import com.example.pokedex.databinding.FragmentPokemonsListBinding
 import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presentation.adapter.PokemonAdapter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
 
@@ -47,10 +52,25 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        lifecycleScope.launch {
+            // Obtém a lista de Pokémon favoritos em uma coroutine
+            val favorites = withContext(Dispatchers.IO) {
+                PokemonDataBase.getDataBase(requireContext()).PokemonDao().getAllPokemonsFavorites()
+            }
+
+            // Registra a lista de Pokémon favoritos em um log
+            Log.d("PokemonsListFragment", "Pokémon Favoritos Salvos: $favorites")
+
+            // Restante do seu código...
+        }
+
+
         RetrofitClient.initialize(requireActivity())
 
 
         viewModel = ViewModelProvider(requireActivity())[PokemonsListViewModel::class.java]
+
+
 
         mRecyclerView = binding.recyclerViewMain
         mRecyclerView.setHasFixedSize(true)
