@@ -15,5 +15,5 @@ interface PokemonDao {
     suspend fun deletePokemonFavorite(pokemon: PokemonEntity)
 
     @Query("SELECT * FROM PokeFavorites_table")
-    suspend fun getAllPokemonsFavorites(): List<PokemonEntity>
+    fun getAllPokemonsFavorites(): List<PokemonEntity>
 }
