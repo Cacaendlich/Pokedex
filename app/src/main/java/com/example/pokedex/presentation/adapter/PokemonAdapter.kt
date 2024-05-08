@@ -1,6 +1,7 @@
 package com.example.pokedex.presentation.adapter
 
 import android.graphics.Bitmap
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -62,6 +63,8 @@ class PokemonAdapter(
                 loadPokemonImage(pokemon.imageUrl)
                 mNameViewPokemon.text = currentItem.name
                 changeIcon(pokemon.favorite, mImageViewFavoriteOFF)
+
+                Log.d("PokemonAdapter", "Pokémon ${currentItem.name} na posição $position é favorito? ${pokemon.favorite}")
             }
         }
 
