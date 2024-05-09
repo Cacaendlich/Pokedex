@@ -8,7 +8,6 @@ import com.example.pokedex.data.local.database.PokemonDataBase
 import com.example.pokedex.data.local.model.PokemonEntity
 import com.example.pokedex.data.network.RetrofitClient
 import com.example.pokedex.domain.model.Pokemon
-import okhttp3.Call
 
 class PokemonsListViewModel : ViewModel() {
     var pokemonsState = MutableLiveData<List<Pokemon?>>()
@@ -98,7 +97,10 @@ class PokemonsListViewModel : ViewModel() {
         }.start()
     }
 
-    suspend fun deleteFavorites(pokemon: PokemonEntity, context: Context) {
-        PokemonDataBase.getDataBase(context).PokemonDao().deletePokemonFavorite(pokemon)
+    fun deleteFavorites(pokemon: PokemonEntity, context: Context, callback: () -> Unit) {
+        Thread{
+            PokemonDataBase.getDataBase(context).PokemonDao().deletePokemonFavorite(pokemon)
+            callback()
+        }.start()
     }
 }
