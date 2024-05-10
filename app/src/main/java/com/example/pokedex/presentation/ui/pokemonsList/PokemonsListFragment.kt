@@ -131,19 +131,12 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
 
         val pokemon = mPokemonAdapter.mPokemonList[position]
         pokemon?.let {
-            updateFavoriteState(position)
             val pokemonFavorite = PokemonEntity(pokemon.number, pokemon.name)
             viewModel.addFavorites(pokemonFavorite, requireContext()){
                 Log.d("PokemonsListFragment", "Clique no item de favorito : ${pokemon.name}, e seu estado: ${pokemon.favorite}")
             }
         }
 
-    }
-
-    private fun updateFavoriteState(position: Int) {
-        val favoriteState = mPokemonAdapter.mPokemonList[position]?.favorite
-        mPokemonAdapter.mPokemonList[position]?.favorite = favoriteState != true
-        mPokemonAdapter.notifyItemChanged(position)
     }
 
 }
