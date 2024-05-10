@@ -31,6 +31,8 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
     private lateinit var mLayoutManager: GridLayoutManager
     private lateinit var mPokemonAdapter: PokemonAdapter
     private lateinit var progressBar: ProgressBar
+    private lateinit var mfavoriteList: List<Pokemon>
+
 
 
     private var currentPosition = 0
@@ -52,6 +54,7 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         lifecycleScope.launch {
             // Obtém a lista de Pokémon favoritos em uma coroutine
             val favorites = withContext(Dispatchers.IO) {
@@ -70,7 +73,10 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
 
         viewModel = ViewModelProvider(requireActivity())[PokemonsListViewModel::class.java]
 
-
+        viewModel.loadFavorites(requireContext()) { favorites ->
+            mfavoriteList = favorites
+            Log.d("PokemonsListFragment", "Pokémon Favoritos Salvos: $mfavoriteList")
+        }
 
         mRecyclerView = binding.recyclerViewMain
         mRecyclerView.setHasFixedSize(true)
