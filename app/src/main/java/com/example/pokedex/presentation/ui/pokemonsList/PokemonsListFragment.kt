@@ -56,12 +56,8 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
 
         mRecyclerView = binding.recyclerViewMain
         mRecyclerView.setHasFixedSize(true)
-
-        viewModel.loadFavorites(requireContext()) { favorites ->
-            mfavoriteList = favorites
-//            mPokemonAdapter.updateFavorite(mfavoriteList)
-            Log.d("PokemonsListFragment", "Pokémon Favoritos Salvos: $mfavoriteList")
-        }
+        mPokemonAdapter = PokemonAdapter(emptyList())
+        mRecyclerView.adapter = mPokemonAdapter
 
         viewModel.pokemonsState.observe(requireActivity()) { pokemons ->
             pokemons?.let {
@@ -95,6 +91,12 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
 
             }
         })
+
+        viewModel.loadFavorites(requireContext()) { favorites ->
+            mfavoriteList = favorites
+            mPokemonAdapter.updateFavorite(mfavoriteList)
+            Log.d("PokemonsListFragment", "Pokémon Favoritos Salvos: $mfavoriteList")
+        }
 
     }
 
