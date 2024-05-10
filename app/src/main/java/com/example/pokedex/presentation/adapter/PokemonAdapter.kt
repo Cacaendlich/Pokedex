@@ -14,10 +14,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.example.pokedex.R
+import com.example.pokedex.data.local.model.PokemonEntity
 import com.example.pokedex.domain.model.Pokemon
 
 class PokemonAdapter(
-    val mPokemonList: List<Pokemon?>
+    val mPokemonList: List<Pokemon?>,
+    private var mFavoriteList: List<PokemonEntity> = emptyList()
 ) : RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder>() {
 
     private var mListener: OnItemClickListener? = null
@@ -120,6 +122,11 @@ class PokemonAdapter(
         } else {
             imageView.setImageResource(R.drawable.favorite_off)
         }
+    }
+
+    fun updateFavorite(favorite: List<PokemonEntity>) {
+        mFavoriteList = favorite
+        notifyDataSetChanged()
     }
 
 }

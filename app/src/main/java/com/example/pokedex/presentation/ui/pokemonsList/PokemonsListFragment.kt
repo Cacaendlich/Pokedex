@@ -1,27 +1,22 @@
 package com.example.pokedex.presentation.ui.pokemonsList
 
 import android.content.res.Configuration
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.pokedex.data.local.database.PokemonDataBase
 import com.example.pokedex.data.local.model.PokemonEntity
 import com.example.pokedex.data.network.RetrofitClient
 import com.example.pokedex.databinding.FragmentPokemonsListBinding
 import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presentation.adapter.PokemonAdapter
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
 
@@ -59,13 +54,14 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
 
         viewModel = ViewModelProvider(requireActivity())[PokemonsListViewModel::class.java]
 
-        viewModel.loadFavorites(requireContext()) { favorites ->
-            mfavoriteList = favorites
-            Log.d("PokemonsListFragment", "Pokémon Favoritos Salvos: $mfavoriteList")
-        }
-
         mRecyclerView = binding.recyclerViewMain
         mRecyclerView.setHasFixedSize(true)
+
+        viewModel.loadFavorites(requireContext()) { favorites ->
+            mfavoriteList = favorites
+            mPokemonAdapter.updateFavorite(mfavoriteList)
+            Log.d("PokemonsListFragment", "Pokémon Favoritos Salvos: $mfavoriteList")
+        }
 
         viewModel.pokemonsState.observe(requireActivity()) { pokemons ->
             pokemons?.let {
