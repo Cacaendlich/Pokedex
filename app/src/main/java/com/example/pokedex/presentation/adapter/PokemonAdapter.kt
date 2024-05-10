@@ -63,7 +63,9 @@ class PokemonAdapter(
             currentItem?.let { pokemon ->
                 loadPokemonImage(pokemon.imageUrl)
                 mNameViewPokemon.text = currentItem.name
-                changeIcon(pokemon.favorite, mImageViewFavoriteOFF)
+
+                val isFavorite = favoriteValue(mFavoriteList, pokemon)
+                changeIcon(isFavorite, mImageViewFavoriteOFF)
 
                 Log.d("PokemonAdapter", "Pokémon ${currentItem.name} na posição $position é favorito? ${pokemon.favorite}")
             }
@@ -127,6 +129,17 @@ class PokemonAdapter(
     fun updateFavorite(favorite: List<PokemonEntity>) {
         mFavoriteList = favorite
         notifyDataSetChanged()
+        Log.d("PokemonAdapter", "Lista de favoritos atualizada no adapter: $mFavoriteList")
+    }
+
+    fun favoriteValue(favoriteList: List<PokemonEntity>, pokemon: Pokemon): Boolean {
+        mFavoriteList = favoriteList
+
+        mFavoriteList.map {
+            pokemon.favorite = it.pokemonId == pokemon.number
+        }
+        Log.d("favoriteValue", "$favoriteList")
+        return pokemon.favorite
     }
 
 }
