@@ -77,7 +77,7 @@ class PokemonsListViewModel : ViewModel() {
         }
     }
 
-    fun loadFavorites(context: Context, callback: (List<Pokemon>) -> Unit) {
+    fun loadFavorites(context: Context, callback: (List<PokemonEntity>) -> Unit) {
         Thread{
             isLoading.postValue(true)
             val favorites = PokemonDataBase
@@ -85,7 +85,7 @@ class PokemonsListViewModel : ViewModel() {
                     .PokemonDao()
                     .getAllPokemonsFavorites()
                     .map { pokemonEntity ->
-                        Pokemon(pokemonEntity.pokemonId, pokemonEntity.name)
+                        PokemonEntity(pokemonEntity.pokemonId, pokemonEntity.name)
                     }
             isLoading.postValue(false)
             callback(favorites)
