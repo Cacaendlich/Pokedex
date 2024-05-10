@@ -85,7 +85,7 @@ class PokemonsListViewModel : ViewModel() {
                     .PokemonDao()
                     .getAllPokemonsFavorites()
                     .map { pokemonEntity ->
-                        PokemonEntity(pokemonEntity.pokemonId, pokemonEntity.name)
+                        PokemonEntity(pokemonEntity.pokemonId)
                     }
             isLoading.postValue(false)
             callback(favorites)
