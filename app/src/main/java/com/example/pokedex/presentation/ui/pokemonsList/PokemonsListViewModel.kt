@@ -77,19 +77,20 @@ class PokemonsListViewModel : ViewModel() {
         }
     }
 
-//    fun loadFavorites(pokemon: PokemonEntity, context: Context, callback: () -> Unit) {
-//        Thread{
-//            isLoading.postValue(true)
-//            val pokemons =
-//                PokemonDataBase.getDataBase(context).PokemonDao().getAllPokemonsFavorites()
-//                    .map { pokemonEntity ->
-//                        Pokemon(pokemonEntity.pokemonId, pokemonEntity.name)
-//                    }
-//            callback()
-//            pokemonsState.postValue(pokemons)
-//            isLoading.postValue(true)
-//        }.start()
-//    }
+    fun loadFavorites(context: Context, callback: (List<Pokemon>) -> Unit) {
+        Thread{
+            isLoading.postValue(true)
+            val favorites = PokemonDataBase
+                    .getDataBase(context)
+                    .PokemonDao()
+                    .getAllPokemonsFavorites()
+                    .map { pokemonEntity ->
+                        Pokemon(pokemonEntity.pokemonId, pokemonEntity.name)
+                    }
+            isLoading.postValue(false)
+            callback(favorites)
+        }.start()
+    }
 
     fun addFavorites(pokemon: PokemonEntity, context: Context, callback: () -> Unit) {
         Thread{
