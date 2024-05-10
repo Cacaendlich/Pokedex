@@ -53,7 +53,6 @@ class PokemonAdapter(
             mImageViewFavoriteOFF.setOnClickListener {
                 bindingAdapterPosition.let {
                     mListener?.onFavoriteClick(it, mImageViewFavoriteOFF)
-                    updateFavoriteState(it)
                 }
             }
         }
@@ -121,12 +120,6 @@ class PokemonAdapter(
         } else {
             imageView.setImageResource(R.drawable.favorite_off)
         }
-    }
-
-    private fun updateFavoriteState(position: Int) {
-        val favoriteState = mPokemonList[position]?.favorite
-        mPokemonList[position]?.favorite = favoriteState != true
-        notifyItemChanged(position)
     }
 
 }
