@@ -59,7 +59,7 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
 
         viewModel.loadFavorites(requireContext()) { favorites ->
             mfavoriteList = favorites
-            mPokemonAdapter.updateFavorite(mfavoriteList)
+//            mPokemonAdapter.updateFavorite(mfavoriteList)
             Log.d("PokemonsListFragment", "Pokémon Favoritos Salvos: $mfavoriteList")
         }
 
