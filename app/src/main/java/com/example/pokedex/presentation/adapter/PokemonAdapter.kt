@@ -133,13 +133,10 @@ class PokemonAdapter(
     }
 
     fun favoriteValue(favoriteList: List<PokemonEntity>, pokemon: Pokemon): Boolean {
-        mFavoriteList = favoriteList
-
-        mFavoriteList.map {
-            pokemon.favorite = it.pokemonId == pokemon.number
-        }
-        Log.d("favoriteValue", "$favoriteList")
-        return pokemon.favorite
+        Log.d("PokemonAdapter", "Lista de favoritos dentro de favoriteValue: $favoriteList")
+       return favoriteList.any {
+            it.pokemonId == pokemon.number
+       }
     }
 
 }
