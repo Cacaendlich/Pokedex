@@ -31,7 +31,7 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
     private lateinit var mLayoutManager: GridLayoutManager
     private lateinit var mPokemonAdapter: PokemonAdapter
     private lateinit var progressBar: ProgressBar
-    private lateinit var mfavoriteList: List<Pokemon>
+    private lateinit var mfavoriteList: List<PokemonEntity>
 
 
 
@@ -53,20 +53,6 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
-        lifecycleScope.launch {
-            // Obtém a lista de Pokémon favoritos em uma coroutine
-            val favorites = withContext(Dispatchers.IO) {
-                PokemonDataBase.getDataBase(requireContext()).PokemonDao().getAllPokemonsFavorites()
-            }
-
-            // Registra a lista de Pokémon favoritos em um log
-            Log.d("PokemonsListFragment", "Pokémon Favoritos Salvos: $favorites")
-
-            // Restante do seu código...
-        }
-
 
         RetrofitClient.initialize(requireActivity())
 
