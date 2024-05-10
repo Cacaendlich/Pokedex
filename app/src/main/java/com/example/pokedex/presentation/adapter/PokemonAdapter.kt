@@ -39,7 +39,6 @@ class PokemonAdapter(
     override fun onBindViewHolder(holder: PokemonViewHolder, position: Int) {
         val currentItem = mPokemonList[position]
         holder.bindView(currentItem)
-
     }
 
     inner class PokemonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -54,6 +53,7 @@ class PokemonAdapter(
             mImageViewFavoriteOFF.setOnClickListener {
                 bindingAdapterPosition.let {
                     mListener?.onFavoriteClick(it, mImageViewFavoriteOFF)
+                    updateFavoriteState(it)
                 }
             }
         }
@@ -123,5 +123,10 @@ class PokemonAdapter(
         }
     }
 
+    private fun updateFavoriteState(position: Int) {
+        val favoriteState = mPokemonList[position]?.favorite
+        mPokemonList[position]?.favorite = favoriteState != true
+        notifyItemChanged(position)
+    }
 
 }
