@@ -39,8 +39,9 @@ class PokemonAdapter(
     override fun getItemCount() = mPokemonList.size
 
     override fun onBindViewHolder(holder: PokemonViewHolder, position: Int) {
+//        Log.d("PokemonAdapter", "onBindViewHolder called for position $position")
         val currentItem = mPokemonList[position]
-        holder.bindView(currentItem)
+        holder.bindView(currentItem, mFavoriteList)
     }
 
     inner class PokemonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -59,12 +60,13 @@ class PokemonAdapter(
             }
         }
 
-        fun bindView(currentItem: Pokemon?) {
+        fun bindView(currentItem: Pokemon?, favoriteList: List<PokemonEntity>) {
             currentItem?.let { pokemon ->
                 loadPokemonImage(pokemon.imageUrl)
                 mNameViewPokemon.text = currentItem.name
 
-                val isFavorite = favoriteValue(mFavoriteList, pokemon)
+                val isFavorite = favoriteValue(favoriteList, pokemon)
+                Log.d("PokemonAdapter", "Favorite list in bindView(): $mFavoriteList")
                 changeIcon(isFavorite, mImageViewFavoriteOFF)
 
                 Log.d("PokemonAdapter", "Pokémon ${currentItem.name} na posição $position é favorito? ${pokemon.favorite}")
@@ -127,15 +129,16 @@ class PokemonAdapter(
     }
 
     fun updateFavorite(favorite: List<PokemonEntity>) {
+        Log.d("PokemonAdapter", "Update favorite called with list: $favorite")
         mFavoriteList = favorite
         notifyDataSetChanged()
-        Log.d("PokemonAdapter", "Lista de favoritos atualizada no adapter: $mFavoriteList")
+        Log.d("PokemonAdapter", "Favorite list updated: $mFavoriteList")
     }
 
     fun favoriteValue(favoriteList: List<PokemonEntity>, pokemon: Pokemon): Boolean {
-        Log.d("PokemonAdapter", "Lista de favoritos dentro de favoriteValue: $favoriteList")
+//        Log.d("PokemonAdapter", "Lista de favoritos dentro de favoriteValue: $favoriteList")
        return favoriteList.any {
-            it.pokemonId == pokemon.number
+           it.name == pokemon.name
        }
     }
 
