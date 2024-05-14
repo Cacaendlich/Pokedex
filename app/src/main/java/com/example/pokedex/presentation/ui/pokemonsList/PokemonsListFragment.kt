@@ -89,6 +89,11 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
 
             }
         })
+
+        viewModel.loadFavorites(requireContext()) { favorites ->
+            mfavoriteList = favorites
+            Log.d("PokemonsListFragment", "Pokémon Favoritos Salvos: $mfavoriteList")
+        }
     }
 
     private fun updateRecyclerView(pokemons: List<Pokemon?>) {
@@ -100,11 +105,7 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
             }
         mPokemonAdapter = PokemonAdapter(pokemons)
 
-        viewModel.loadFavorites(requireContext()) { favorites ->
-            mfavoriteList = favorites
-            mPokemonAdapter.updateFavorite(mfavoriteList)
-            Log.d("PokemonsListFragment", "Pokémon Favoritos Salvos: $mfavoriteList")
-        }
+        mPokemonAdapter.updateFavorite(mfavoriteList)
 
         mRecyclerView.layoutManager = mLayoutManager
         mRecyclerView.adapter = mPokemonAdapter
