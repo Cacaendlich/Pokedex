@@ -120,7 +120,6 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
             val pokemonFavorite = PokemonEntity(pokemon.number, pokemon.name)
 
             val isFavorite = viewModel.isFavorite(mfavoriteList, pokemon)
-            Log.d("PokemonListFragment", "onFavoriteClick: $isFavorite")
 
             if(!isFavorite) {
                 viewModel.addFavorites(pokemonFavorite, requireContext()) {
