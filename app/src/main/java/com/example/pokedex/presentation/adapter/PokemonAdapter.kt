@@ -65,10 +65,7 @@ class PokemonAdapter(
                 mNameViewPokemon.text = currentItem.name
 
                 val isFavorite = favoriteValue(favoriteList, pokemon)
-                Log.d("PokemonAdapter", "Favorite list in bindView(): $mFavoriteList")
-                changeIcon(isFavorite, mImageViewFavoriteOFF)
-
-                Log.d("PokemonAdapter", "Pokémon ${currentItem.name} na posição $position é favorito? ${pokemon.favorite}")
+                changeIcon(isFavorite,pokemon.favorite, mImageViewFavoriteOFF)
             }
         }
 
@@ -119,8 +116,8 @@ class PokemonAdapter(
         return Bitmap.createBitmap(bitmap, cropLeft, cropTop, cropRight - cropLeft, cropBottom - cropTop)
     }
 
-    private fun changeIcon(isFavoriteItem: Boolean, imageView: ImageView) {
-        if (isFavoriteItem) {
+    private fun changeIcon(isFavoriteItem: Boolean, favoriteState: Boolean, imageView: ImageView) {
+        if (isFavoriteItem || favoriteState) {
             imageView.setImageResource(R.drawable.favorite_on)
         } else {
             imageView.setImageResource(R.drawable.favorite_off)

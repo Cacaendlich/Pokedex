@@ -2,7 +2,6 @@ package com.example.pokedex.presentation.ui.pokemonsList
 
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -92,7 +91,6 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
 
         viewModel.loadFavorites(requireContext()) { favorites ->
             mfavoriteList = favorites
-            Log.d("PokemonsListFragment", "Pokémon Favoritos Salvos: $mfavoriteList")
         }
     }
 
@@ -115,17 +113,13 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
     }
 
     override fun onFavoriteClick(position: Int, imageView: ImageView) {
-        Log.d("PokemonsListFragment", "Clique no item de favorito na posição: $position")
-
         val pokemon = mPokemonAdapter.mPokemonList[position]
         pokemon?.let {
             viewModel.updateFavoriteState(position, mPokemonAdapter)
             val pokemonFavorite = PokemonEntity(pokemon.number, pokemon.name)
             viewModel.addFavorites(pokemonFavorite, requireContext()){
-                Log.d("PokemonsListFragment", "Clique no item de favorito : ${pokemon.name}, e seu estado: ${pokemon.favorite}")
             }
         }
-
     }
 
 }
