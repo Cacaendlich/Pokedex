@@ -106,13 +106,6 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
 
         mPokemonAdapter.updateFavorite(mfavoriteList)
 
-        // Adicione logs para mostrar o estado de pokemon.favorite antes do clique
-        for ((index, pokemon) in pokemons.withIndex()) {
-            pokemon?.let {
-                Log.d("PokemonListFragment", "Pokemon at position $index, nome ${pokemon.name} - Favorite state: ${pokemon.favorite}")
-            }
-        }
-
         mRecyclerView.layoutManager = mLayoutManager
         mRecyclerView.adapter = mPokemonAdapter
 
