@@ -99,16 +99,22 @@ class PokemonsListViewModel : ViewModel() {
         }.start()
     }
 
-//    fun deleteFavorites(pokemon: PokemonEntity, context: Context, callback: () -> Unit) {
-//        Thread{
-//            PokemonDataBase.getDataBase(context).PokemonDao().deletePokemonFavorite(pokemon)
-//            callback()
-//        }.start()
-//    }
+    fun deleteFavorites(pokemonId: Int, context: Context, callback: () -> Unit) {
+        Thread{
+            PokemonDataBase.getDataBase(context).PokemonDao().deletePokemonFavorite(pokemonId)
+            callback()
+        }.start()
+    }
 
     fun updateFavoriteState(position: Int, adapter: PokemonAdapter) {
         val favoriteState = adapter.mPokemonList[position]?.favorite
         adapter.mPokemonList[position]?.favorite = favoriteState != true
         adapter.notifyItemChanged(position)
+    }
+
+    fun isFavorite(favoriteList: List<PokemonEntity>, pokemon: Pokemon): Boolean {
+        return favoriteList.any {
+            it.name == pokemon.name
+        }
     }
 }
