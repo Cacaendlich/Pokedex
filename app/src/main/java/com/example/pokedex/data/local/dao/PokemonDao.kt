@@ -11,8 +11,8 @@ interface PokemonDao {
     @Insert
     fun insertPokemonFavorite(pokemon: PokemonEntity)
 
-    @Delete
-    fun deletePokemonFavorite(pokemon: PokemonEntity)
+    @Query("DELETE FROM PokeFavorites_table WHERE pokemonId = :pokemonId")
+    fun deletePokemonFavorite(pokemonId: Int)
 
     @Query("SELECT * FROM PokeFavorites_table")
     fun getAllPokemonsFavorites(): List<PokemonEntity>
