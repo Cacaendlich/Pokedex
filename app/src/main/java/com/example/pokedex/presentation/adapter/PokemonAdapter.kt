@@ -1,7 +1,7 @@
 package com.example.pokedex.presentation.adapter
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -64,8 +64,8 @@ class PokemonAdapter(
                 loadPokemonImage(pokemon.imageUrl)
                 mNameViewPokemon.text = currentItem.name
 
-                val isFavorite = favoriteValue(favoriteList, pokemon)
-                changeIcon(isFavorite,pokemon.favorite, mImageViewFavoriteOFF)
+                val isFavorite = isFavorite(favoriteList, pokemon)
+                updateFavoriteIcon(isFavorite,pokemon.favorite, mImageViewFavoriteOFF)
             }
         }
 
@@ -116,20 +116,21 @@ class PokemonAdapter(
         return Bitmap.createBitmap(bitmap, cropLeft, cropTop, cropRight - cropLeft, cropBottom - cropTop)
     }
 
-    private fun changeIcon(isFavoriteItem: Boolean, favoriteState: Boolean, imageView: ImageView) {
-        if (isFavoriteItem || favoriteState) {
+    private fun updateFavoriteIcon(isFavorite: Boolean, favoriteState: Boolean, imageView: ImageView) {
+        if (isFavorite || favoriteState) {
             imageView.setImageResource(R.drawable.favorite_on)
         } else {
             imageView.setImageResource(R.drawable.favorite_off)
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateFavorite(favorite: List<PokemonEntity>) {
         mFavoriteList = favorite
         notifyDataSetChanged()
     }
 
-    fun favoriteValue(favoriteList: List<PokemonEntity>, pokemon: Pokemon): Boolean {
+    fun isFavorite(favoriteList: List<PokemonEntity>, pokemon: Pokemon): Boolean {
        return favoriteList.any {
            it.name == pokemon.name
        }
