@@ -2,6 +2,7 @@ package com.example.pokedex.presentation.ui.pokemonsList
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -105,6 +106,13 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
 
         mPokemonAdapter.updateFavorite(mfavoriteList)
 
+        // Adicione logs para mostrar o estado de pokemon.favorite antes do clique
+        for ((index, pokemon) in pokemons.withIndex()) {
+            pokemon?.let {
+                Log.d("PokemonListFragment", "Pokemon at position $index, nome ${pokemon.name} - Favorite state: ${pokemon.favorite}")
+            }
+        }
+
         mRecyclerView.layoutManager = mLayoutManager
         mRecyclerView.adapter = mPokemonAdapter
 
@@ -117,7 +125,18 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
         pokemon?.let {
             viewModel.updateFavoriteState(position, mPokemonAdapter)
             val pokemonFavorite = PokemonEntity(pokemon.number, pokemon.name)
-            viewModel.addFavorites(pokemonFavorite, requireContext()){
+
+            val isFavorite = viewModel.isFavorite(mfavoriteList, pokemon)
+            Log.d("PokemonListFragment", "onFavoriteClick: $isFavorite")
+
+            if(!isFavorite) {
+                viewModel.addFavorites(pokemonFavorite, requireContext()) {
+                    Log.d("PokemonListFragment", "${pokemon.name} adicionado como SUCESSO!")
+                }
+            } else {
+                viewModel.deleteFavorites(pokemon.number, requireContext()) {
+                    Log.d("PokemonListFragment", "${pokemon.name} excluido como SUCESSO!")
+                }
             }
         }
     }
