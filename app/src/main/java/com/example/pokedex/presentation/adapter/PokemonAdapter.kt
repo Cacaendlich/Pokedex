@@ -39,7 +39,6 @@ class PokemonAdapter(
     override fun getItemCount() = mPokemonList.size
 
     override fun onBindViewHolder(holder: PokemonViewHolder, position: Int) {
-//        Log.d("PokemonAdapter", "onBindViewHolder called for position $position")
         val currentItem = mPokemonList[position]
         holder.bindView(currentItem, mFavoriteList)
     }
@@ -120,8 +119,8 @@ class PokemonAdapter(
         return Bitmap.createBitmap(bitmap, cropLeft, cropTop, cropRight - cropLeft, cropBottom - cropTop)
     }
 
-    private fun changeIcon(pokemon: Boolean, imageView: ImageView) {
-        if (pokemon) {
+    private fun changeIcon(isFavoriteItem: Boolean, imageView: ImageView) {
+        if (isFavoriteItem) {
             imageView.setImageResource(R.drawable.favorite_on)
         } else {
             imageView.setImageResource(R.drawable.favorite_off)
@@ -129,14 +128,11 @@ class PokemonAdapter(
     }
 
     fun updateFavorite(favorite: List<PokemonEntity>) {
-        Log.d("PokemonAdapter", "Update favorite called with list: $favorite")
         mFavoriteList = favorite
         notifyDataSetChanged()
-        Log.d("PokemonAdapter", "Favorite list updated: $mFavoriteList")
     }
 
     fun favoriteValue(favoriteList: List<PokemonEntity>, pokemon: Pokemon): Boolean {
-//        Log.d("PokemonAdapter", "Lista de favoritos dentro de favoriteValue: $favoriteList")
        return favoriteList.any {
            it.name == pokemon.name
        }
