@@ -2,6 +2,7 @@ package com.example.pokedex.presentation.adapter
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -63,8 +64,8 @@ class PokemonAdapter(
             currentItem?.let { pokemon ->
                 loadPokemonImage(pokemon.imageUrl)
                 mNameViewPokemon.text = currentItem.name
-
                 val isFavorite = isFavorite(favoriteList, pokemon)
+                Log.d("PokemonAdapter", "${pokemon.name} estado antes de updateFavoriteState  ${pokemon.favorite}")
                 updateFavoriteIcon(isFavorite,pokemon.favorite, mImageViewFavoriteOFF)
             }
         }
