@@ -134,6 +134,7 @@ class PokemonAdapter(
     fun updateFavoriteState(favoriteList: List<PokemonEntity>, pokemon: Pokemon, position: Int) {
         val isFavorite = isFavorite(favoriteList, pokemon)
         pokemon.favorite = !isFavorite
+        Log.d("PokemonAdapter", "${pokemon.name} - Após a atualização do estado de favorito: ${pokemon.favorite}")
         notifyItemChanged(position)
     }
 
@@ -141,7 +142,6 @@ class PokemonAdapter(
        val isFavorite = favoriteList.any {
            it.name == pokemon.name
        }
-        pokemon.favorite = isFavorite
         return  isFavorite
     }
 
