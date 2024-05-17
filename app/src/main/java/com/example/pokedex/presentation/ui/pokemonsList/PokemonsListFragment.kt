@@ -117,29 +117,21 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
         val pokemon = mPokemonAdapter.mPokemonList[position]
         pokemon?.let {
             Log.d("PokemonListFragment", "${pokemon.name} estado antes de updateFavoriteState  ${pokemon.favorite}")
-
             mPokemonAdapter.updateFavoriteState (mfavoriteList,pokemon,position)
             Log.d("PokemonListFragment", "${pokemon.name} estado depois de updateFavoriteState  ${pokemon.favorite}")
 
             val pokemonFavorite = PokemonEntity(pokemon.number, pokemon.name)
 
             val isFavorite = viewModel.isFavorite(mfavoriteList, pokemon)
-
             Log.d("PokemonListFragment", "${pokemon.name} Lista de favoritos:  $isFavorite")
 
 
             if(!isFavorite) {
                 viewModel.addFavorites(pokemonFavorite, requireContext()) {
-                    viewModel.loadFavorites(requireContext()) { favorites ->
-                        mfavoriteList = favorites
-                    }
                     Log.d("PokemonListFragment", "${pokemon.name} adicionado como SUCESSO! ${pokemon.favorite}")
                 }
             } else {
                 viewModel.deleteFavorites(pokemon.number, requireContext()) {
-                    viewModel.loadFavorites(requireContext()) { favorites ->
-                        mfavoriteList = favorites
-                    }
                     Log.d("PokemonListFragment", "${pokemon.name} excluido como SUCESSO! ${pokemon.favorite}")
                 }
             }
