@@ -132,9 +132,11 @@ class PokemonAdapter(
     }
 
     fun isFavorite(favoriteList: List<PokemonEntity>, pokemon: Pokemon): Boolean {
-       return favoriteList.any {
+       val isFavorite = favoriteList.any {
            it.name == pokemon.name
        }
+        pokemon.favorite = isFavorite
+        return  isFavorite
     }
 
 }
