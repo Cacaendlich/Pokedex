@@ -142,6 +142,7 @@ class PokemonAdapter(
        val isFavorite = favoriteList.any {
            it.name == pokemon.name
        }
+        pokemon.favorite = isFavorite
         return  isFavorite
     }
 
