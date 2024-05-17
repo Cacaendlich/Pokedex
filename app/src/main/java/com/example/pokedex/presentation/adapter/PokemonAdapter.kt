@@ -65,7 +65,7 @@ class PokemonAdapter(
                 loadPokemonImage(pokemon.imageUrl)
                 mNameViewPokemon.text = currentItem.name
                 val isFavorite = isFavorite(favoriteList, pokemon)
-                Log.d("PokemonAdapter", "${pokemon.name} estado antes de updateFavoriteState  ${pokemon.favorite}")
+                Log.d("PokemonAdapter", "${pokemon.name} - Antes da atualização do estado de favorito:  ${pokemon.favorite}")
                 updateFavoriteIcon(isFavorite,pokemon.favorite, mImageViewFavoriteOFF)
             }
         }
