@@ -112,12 +112,6 @@ class PokemonsListViewModel : ViewModel() {
         adapter.notifyItemChanged(position)
     }
 
-//    fun lastFavoriteState(favoriteList: List<PokemonEntity>, pokemon: Pokemon, position: Int, adapter: PokemonAdapter) {
-//        val isFavorite = isFavorite(favoriteList, pokemon)
-//        adapter.mPokemonList[position]?.favorite = isFavorite
-//        adapter.notifyItemChanged(position)
-//    }
-
     fun isFavorite(favoriteList: List<PokemonEntity>, pokemon: Pokemon): Boolean {
         return favoriteList.any {
             it.name == pokemon.name
