@@ -133,7 +133,7 @@ class PokemonAdapter(
 
     fun updateFavoriteState(favoriteList: List<PokemonEntity>, pokemon: Pokemon, position: Int) {
         val isFavorite = isFavorite(favoriteList, pokemon)
-        mPokemonList[position]?.favorite = !isFavorite
+        pokemon.favorite = !isFavorite
         notifyItemChanged(position)
     }
 
