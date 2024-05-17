@@ -116,25 +116,30 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
     override fun onFavoriteClick(position: Int, imageView: ImageView) {
         val pokemon = mPokemonAdapter.mPokemonList[position]
         pokemon?.let {
-            Log.d("PokemonListFragment", "${pokemon.name} estado antes de updateFavoriteState  ${pokemon.favorite}")
-            mPokemonAdapter.updateFavoriteState (mfavoriteList,pokemon,position)
-            Log.d("PokemonListFragment", "${pokemon.name} estado depois de updateFavoriteState  ${pokemon.favorite}")
+            Log.d("PokemonsListFragment", "---------------------------------------------------------------------------------")
+            Log.d("PokemonsListFragment", "${pokemon.name} - Antes da atualização do estado de favorito: ${pokemon.favorite}")
 
             val pokemonFavorite = PokemonEntity(pokemon.number, pokemon.name)
 
             val isFavorite = viewModel.isFavorite(mfavoriteList, pokemon)
-            Log.d("PokemonListFragment", "${pokemon.name} Lista de favoritos:  $isFavorite")
-
+            Log.d("PokemonsListFragment", "${pokemon.name} - Está na lista de favoritos: $isFavorite")
 
             if(!isFavorite) {
                 viewModel.addFavorites(pokemonFavorite, requireContext()) {
-                    Log.d("PokemonListFragment", "${pokemon.name} adicionado como SUCESSO! ${pokemon.favorite}")
+                    Log.d("PokemonsListFragment", "${pokemon.name} - Adicionado aos favoritos com sucesso! ${pokemon.favorite}")
                 }
+                mPokemonAdapter.updateFavoriteState(mfavoriteList, pokemon, position)
+                Log.d("PokemonsListFragment", "${pokemon.name} - Após a atualização do estado de favorito: ${pokemon.favorite}")
             } else {
                 viewModel.deleteFavorites(pokemon.number, requireContext()) {
-                    Log.d("PokemonListFragment", "${pokemon.name} excluido como SUCESSO! ${pokemon.favorite}")
+                    Log.d("PokemonsListFragment", "${pokemon.name} - Excluido dos favoritos com sucesso! ${pokemon.favorite}")
                 }
+                mPokemonAdapter.updateFavoriteState(mfavoriteList, pokemon, position)
+                Log.d("PokemonsListFragment", "${pokemon.name} - Após a atualização do estado de favorito: ${pokemon.favorite}")
             }
+
+            Log.d("PokemonsListFragment", "---------------------------------------------------------------------------------")
+
         }
     }
 
