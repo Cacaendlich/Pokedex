@@ -131,13 +131,6 @@ class PokemonAdapter(
         notifyDataSetChanged()
     }
 
-    fun updateFavoriteState(favoriteList: List<PokemonEntity>, pokemon: Pokemon, position: Int) {
-        val isFavorite = isFavorite(favoriteList, pokemon)
-        pokemon.favorite = !isFavorite
-        Log.d("PokemonAdapter", "${pokemon.name} - Após a atualização do estado de favorito: ${pokemon.favorite}")
-        notifyItemChanged(position)
-    }
-
     fun isFavorite(favoriteList: List<PokemonEntity>, pokemon: Pokemon): Boolean {
        val isFavorite = favoriteList.any {
            it.name == pokemon.name
