@@ -93,7 +93,6 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
         viewModel.loadFavorites(requireContext()) { favorites ->
             mfavoriteList = favorites
             Log.d("PokemonsListFragment", "Está é a lista de favoritos: $mfavoriteList")
-
         }
     }
 
