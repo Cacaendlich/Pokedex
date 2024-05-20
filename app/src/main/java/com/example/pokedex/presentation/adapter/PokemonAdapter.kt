@@ -66,7 +66,7 @@ class PokemonAdapter(
                 mNameViewPokemon.text = currentItem.name
                 val isFavorite = isFavorite(favoriteList, pokemon)
                 Log.d("PokemonAdapter", "${pokemon.name} - Antes da atualização do estado de favorito:  ${pokemon.favorite}")
-                updateFavoriteIcon(isFavorite,pokemon.favorite, mImageViewFavoriteOFF)
+                updateFavoriteIcon(isFavorite, mImageViewFavoriteOFF)
             }
         }
 
@@ -117,8 +117,8 @@ class PokemonAdapter(
         return Bitmap.createBitmap(bitmap, cropLeft, cropTop, cropRight - cropLeft, cropBottom - cropTop)
     }
 
-    private fun updateFavoriteIcon(isFavorite: Boolean, favoriteState: Boolean, imageView: ImageView) {
-        if (isFavorite || favoriteState) {
+    private fun updateFavoriteIcon(isFavorite: Boolean, imageView: ImageView) {
+        if (isFavorite) {
             imageView.setImageResource(R.drawable.favorite_on)
         } else {
             imageView.setImageResource(R.drawable.favorite_off)
