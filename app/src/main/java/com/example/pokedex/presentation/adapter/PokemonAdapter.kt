@@ -1,6 +1,5 @@
 package com.example.pokedex.presentation.adapter
 
-import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.util.Log
 import android.view.LayoutInflater
@@ -41,7 +40,7 @@ class PokemonAdapter(
 
     override fun onBindViewHolder(holder: PokemonViewHolder, position: Int) {
         val currentItem = mPokemonList[position]
-        holder.bindView(currentItem, mFavoriteList)
+        holder.bindView(currentItem)
     }
 
     inner class PokemonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -60,13 +59,12 @@ class PokemonAdapter(
             }
         }
 
-        fun bindView(currentItem: Pokemon?, favoriteList: List<PokemonEntity>) {
+        fun bindView(currentItem: Pokemon?) {
             currentItem?.let { pokemon ->
                 loadPokemonImage(pokemon.imageUrl)
                 mNameViewPokemon.text = currentItem.name
-                val isFavorite = isFavorite(favoriteList, pokemon)
-                Log.d("PokemonAdapter", "${pokemon.name} - Valor atual de favorito:  $isFavorite")
-                updateFavoriteIcon(isFavorite, mImageViewFavoriteOFF)
+                Log.d("PokemonAdapter", "${pokemon.name} - Valor ATUAL de favorito:  ${pokemon.favorite}")
+                updateFavoriteIcon(pokemon.favorite, mImageViewFavoriteOFF)
             }
         }
 
@@ -125,17 +123,11 @@ class PokemonAdapter(
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun updateFavorite(favorite: List<PokemonEntity>) {
-        mFavoriteList = favorite
-        notifyDataSetChanged()
-    }
+//    fun updateFavoriteStatus(position: Int, isFavorite: Boolean) {
+//        // Atualiza apenas o item alterado
+//        mPokemonList[position]?.favorite = isFavorite
+//        notifyItemChanged(position)
+//    }
 
-    fun isFavorite(favoriteList: List<PokemonEntity>, pokemon: Pokemon): Boolean {
-       val isFavorite = favoriteList.any {
-           it.name == pokemon.name
-       }
-        return  isFavorite
-    }
 
 }
