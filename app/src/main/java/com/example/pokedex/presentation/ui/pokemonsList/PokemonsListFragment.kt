@@ -118,22 +118,7 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
     override fun onFavoriteClick(position: Int, imageView: ImageView) {
         val pokemon = mPokemonAdapter.mPokemonList[position]
         pokemon?.let {
-            val pokemonFavorite = PokemonEntity(pokemon.number, pokemon.name)
-
-            val isFavorite = viewModel.isFavorite(mfavoriteList, pokemon)
-            Log.d("PokemonsListFragment", "${pokemon.name} - Está na lista de favoritos: $isFavorite")
-
-            if (!isFavorite && !pokemon.favorite  || isFavorite && !pokemon.favorite) {
-                viewModel.addFavorites(pokemonFavorite, requireContext()) {
-                    Log.d("PokemonsListFragment", "${pokemon.name} - Add aos favoritos com SUCESSO!")
-                    mPokemonAdapter.updateFavoriteStatus(position, true)
-                }
-            } else {
-                viewModel.deleteFavorites(pokemon.number, requireContext()) {
-                    Log.d("PokemonsListFragment", "${pokemon.name} - Delete dos favoritos com SUCESSO!")
-                    mPokemonAdapter.updateFavoriteStatus(position, false)
-                }
-            }
+            viewModel.updateFavoritesList(position, it, mfavoriteList, mPokemonAdapter, requireContext())
         }
     }
 

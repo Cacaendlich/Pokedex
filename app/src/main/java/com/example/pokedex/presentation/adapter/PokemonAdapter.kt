@@ -61,7 +61,7 @@ class PokemonAdapter(
             currentItem?.let { pokemon ->
                 loadPokemonImage(pokemon.imageUrl)
                 mNameViewPokemon.text = currentItem.name
-                Log.d("PokemonAdapter", "${pokemon.name} - Current Favorite Status:  ${pokemon.favorite}")
+                Log.d("PokemonAdapter", "${pokemon.name} - Actual Favorite Status:  ${pokemon.favorite}")
                 updateFavoriteIcon(pokemon.favorite, mImageViewFavoriteOFF)
             }
         }
