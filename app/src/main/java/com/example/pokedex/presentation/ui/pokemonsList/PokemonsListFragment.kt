@@ -128,12 +128,12 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
 
             if (!isFavorite) {
                 viewModel.addFavorites(pokemonFavorite, requireContext()) {
-                    Log.d("PokemonsListFragment", "${pokemon.name} - Adicionado aos favoritos com sucesso!")
+                    Log.d("PokemonsListFragment", "${pokemon.name} - Adicionado aos favoritos com SUCESSO!")
                     mPokemonAdapter.updateFavoriteStatus(position, true)
                 }
             } else {
                 viewModel.deleteFavorites(pokemon.number, requireContext()) {
-                    Log.d("PokemonsListFragment", "${pokemon.name} - Excluído dos favoritos com sucesso!")
+                    Log.d("PokemonsListFragment", "${pokemon.name} - Excluído dos favoritos com SUCESSO!")
                     mPokemonAdapter.updateFavoriteStatus(position, false)
                 }
             }
