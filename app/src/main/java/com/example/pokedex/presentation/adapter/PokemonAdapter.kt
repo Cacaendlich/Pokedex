@@ -65,7 +65,7 @@ class PokemonAdapter(
                 loadPokemonImage(pokemon.imageUrl)
                 mNameViewPokemon.text = currentItem.name
                 val isFavorite = isFavorite(favoriteList, pokemon)
-                Log.d("PokemonAdapter", "${pokemon.name} - Valor atual de favorito:  ${pokemon.favorite}")
+                Log.d("PokemonAdapter", "${pokemon.name} - Valor atual de favorito:  $isFavorite")
                 updateFavoriteIcon(isFavorite, mImageViewFavoriteOFF)
             }
         }
@@ -135,7 +135,6 @@ class PokemonAdapter(
        val isFavorite = favoriteList.any {
            it.name == pokemon.name
        }
-        pokemon.favorite = isFavorite
         return  isFavorite
     }
 
