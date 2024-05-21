@@ -14,12 +14,10 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.example.pokedex.R
-import com.example.pokedex.data.local.model.PokemonEntity
 import com.example.pokedex.domain.model.Pokemon
 
 class PokemonAdapter(
-    val mPokemonList: List<Pokemon?>,
-    private var mFavoriteList: List<PokemonEntity> = emptyList()
+    val mPokemonList: List<Pokemon?>
 ) : RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder>() {
 
     private var mListener: OnItemClickListener? = null
@@ -63,7 +61,7 @@ class PokemonAdapter(
             currentItem?.let { pokemon ->
                 loadPokemonImage(pokemon.imageUrl)
                 mNameViewPokemon.text = currentItem.name
-                Log.d("PokemonAdapter", "${pokemon.name} - Valor ATUAL de favorito:  ${pokemon.favorite}")
+                Log.d("PokemonAdapter", "${pokemon.name} - Current Favorite Status:  ${pokemon.favorite}")
                 updateFavoriteIcon(pokemon.favorite, mImageViewFavoriteOFF)
             }
         }
