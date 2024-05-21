@@ -93,14 +93,14 @@ class PokemonsListViewModel : ViewModel() {
         }.start()
     }
 
-    private fun addFavorites(pokemon: PokemonEntity, context: Context, callback: () -> Unit) {
+    private fun addFavorite(pokemon: PokemonEntity, context: Context, callback: () -> Unit) {
         Thread{
             PokemonDataBase.getDataBase(context).PokemonDao().insertPokemonFavorite(pokemon)
             callback()
         }.start()
     }
 
-    private fun deleteFavorites(pokemonId: Int, context: Context, callback: () -> Unit) {
+    private fun deleteFavorite(pokemonId: Int, context: Context, callback: () -> Unit) {
         Thread{
             PokemonDataBase.getDataBase(context).PokemonDao().deletePokemonFavorite(pokemonId)
             callback()
@@ -120,12 +120,12 @@ class PokemonsListViewModel : ViewModel() {
         Log.d("PokemonsListFragment", "${pokemon.name} - Está na lista de favoritos: $isFavorite")
 
         if (!isFavorite && !pokemon.favorite  || isFavorite && !pokemon.favorite) {
-            addFavorites(pokemonFavorite, context) {
+            addFavorite(pokemonFavorite, context) {
                 Log.d("PokemonsListFragment", "${pokemon.name} - Add aos favoritos com SUCESSO!")
                 adapter.updateFavoriteStatus(position, true)
             }
         } else {
-            deleteFavorites(pokemon.number, context) {
+            deleteFavorite(pokemon.number, context) {
                 Log.d("PokemonsListFragment", "${pokemon.name} - Delete dos favoritos com SUCESSO!")
                 adapter.updateFavoriteStatus(position, false)
             }
