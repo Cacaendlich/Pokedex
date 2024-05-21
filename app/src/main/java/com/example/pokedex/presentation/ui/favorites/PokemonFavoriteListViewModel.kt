@@ -10,7 +10,7 @@ import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presentation.adapter.PokemonAdapter
 
 class PokemonFavoriteListViewModel : ViewModel() {
-    var isLoading = MutableLiveData<Boolean>().apply { value = false }
+    private var isLoading = MutableLiveData<Boolean>().apply { value = false }
 
     fun loadFavorites(context: Context, callback: (List<PokemonEntity>) -> Unit) {
         Thread{
