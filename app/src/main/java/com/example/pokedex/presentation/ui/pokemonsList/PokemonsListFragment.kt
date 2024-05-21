@@ -91,7 +91,7 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
             }
         })
 
-        pokemonsListViewModel.loadFavorites(requireContext()) { favorites ->
+        favoriteListViewModel.loadFavorites(requireContext()) { favorites ->
             mfavoriteList = favorites
             Log.d("PokemonsListFragment", "Está é a lista de favoritos: $mfavoriteList")
         }
@@ -100,7 +100,7 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
     private fun updateRecyclerView(pokemons: List<Pokemon?>) {
         pokemons.forEach { pokemon ->
             pokemon?.let {
-                it.favorite = pokemonsListViewModel.isFavorite(mfavoriteList, it)
+                it.favorite = favoriteListViewModel.isFavorite(mfavoriteList, it)
             }
         }
 
@@ -122,7 +122,7 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
     override fun onFavoriteClick(position: Int, imageView: ImageView) {
         val pokemon = mPokemonAdapter.mPokemonList[position]
         pokemon?.let {
-            pokemonsListViewModel.updateFavoritesList(position, it, mfavoriteList, mPokemonAdapter, requireContext())
+            favoriteListViewModel.updateFavoritesList(position, it, mfavoriteList, mPokemonAdapter, requireContext())
         }
     }
 
