@@ -123,11 +123,11 @@ class PokemonAdapter(
         }
     }
 
-//    fun updateFavoriteStatus(position: Int, isFavorite: Boolean) {
-//        // Atualiza apenas o item alterado
-//        mPokemonList[position]?.favorite = isFavorite
-//        notifyItemChanged(position)
-//    }
+    fun updateFavoriteStatus(position: Int, isFavorite: Boolean) {
+        // Atualiza apenas o item alterado
+        mPokemonList[position]?.favorite = isFavorite
+        notifyItemChanged(position)
+    }
 
 
 }
