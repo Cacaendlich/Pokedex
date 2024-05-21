@@ -17,11 +17,13 @@ import com.example.pokedex.data.network.RetrofitClient
 import com.example.pokedex.databinding.FragmentPokemonsListBinding
 import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presentation.adapter.PokemonAdapter
+import com.example.pokedex.presentation.ui.favorites.PokemonFavoriteListViewModel
 
 class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
 
     private lateinit var binding: FragmentPokemonsListBinding
-    private lateinit var viewModel: PokemonsListViewModel
+    private lateinit var pokemonsListViewModel: PokemonsListViewModel
+    private lateinit var favoriteListViewModel: PokemonFavoriteListViewModel
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var mLayoutManager: GridLayoutManager
     private lateinit var mPokemonAdapter: PokemonAdapter
@@ -49,19 +51,21 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
 
         RetrofitClient.initialize(requireActivity())
 
-        viewModel = ViewModelProvider(requireActivity())[PokemonsListViewModel::class.java]
+        pokemonsListViewModel = ViewModelProvider(requireActivity())[PokemonsListViewModel::class.java]
+        favoriteListViewModel = ViewModelProvider(requireActivity())[PokemonFavoriteListViewModel::class.java]
+
 
         mRecyclerView = binding.recyclerViewMain
         mRecyclerView.setHasFixedSize(true)
 
-        viewModel.pokemonsState.observe(requireActivity()) { pokemons ->
+        pokemonsListViewModel.pokemonsState.observe(requireActivity()) { pokemons ->
             pokemons?.let {
                 updateRecyclerView(pokemons)
                 progressBar.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
             }
         }
 
-        viewModel.isLoading.observe(requireActivity()) { isLoading ->
+        pokemonsListViewModel.isLoading.observe(requireActivity()) { isLoading ->
             if (isLoading) {
                 binding.progressBarLoadMore.visibility = View.VISIBLE
             } else {
@@ -78,8 +82,8 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
                 val totalItemCount = layoutManager.itemCount
                 val limitLoading = lastVisibleItemPosition + 2
 
-                if (limitLoading >= totalItemCount && !viewModel.isLoading.value!!) {
-                    viewModel.loadMorePokemons()
+                if (limitLoading >= totalItemCount && !pokemonsListViewModel.isLoading.value!!) {
+                    pokemonsListViewModel.loadMorePokemons()
                 }
 
                 currentPosition = lastVisibleItemPosition - 4
@@ -87,7 +91,7 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
             }
         })
 
-        viewModel.loadFavorites(requireContext()) { favorites ->
+        pokemonsListViewModel.loadFavorites(requireContext()) { favorites ->
             mfavoriteList = favorites
             Log.d("PokemonsListFragment", "Está é a lista de favoritos: $mfavoriteList")
         }
@@ -96,7 +100,7 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
     private fun updateRecyclerView(pokemons: List<Pokemon?>) {
         pokemons.forEach { pokemon ->
             pokemon?.let {
-                it.favorite = viewModel.isFavorite(mfavoriteList, it)
+                it.favorite = pokemonsListViewModel.isFavorite(mfavoriteList, it)
             }
         }
 
@@ -118,7 +122,7 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
     override fun onFavoriteClick(position: Int, imageView: ImageView) {
         val pokemon = mPokemonAdapter.mPokemonList[position]
         pokemon?.let {
-            viewModel.updateFavoritesList(position, it, mfavoriteList, mPokemonAdapter, requireContext())
+            pokemonsListViewModel.updateFavoritesList(position, it, mfavoriteList, mPokemonAdapter, requireContext())
         }
     }
 
