@@ -122,12 +122,12 @@ class PokemonsListViewModel : ViewModel() {
         if (!isFavorite && !pokemon.favorite  || isFavorite && !pokemon.favorite) {
             addFavorite(pokemonFavorite, context) {
                 Log.d("PokemonsListFragment", "${pokemon.name} - Add aos favoritos com SUCESSO!")
-                adapter.updateFavoriteStatus(position, true)
+                adapter.updatePokemonFavoriteStatus(position, true)
             }
         } else {
             deleteFavorite(pokemon.number, context) {
                 Log.d("PokemonsListFragment", "${pokemon.name} - Delete dos favoritos com SUCESSO!")
-                adapter.updateFavoriteStatus(position, false)
+                adapter.updatePokemonFavoriteStatus(position, false)
             }
         }
     }
