@@ -28,8 +28,6 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
     private lateinit var progressBar: ProgressBar
     private lateinit var mfavoriteList: List<PokemonEntity>
 
-
-
     private var currentPosition = 0
 
     companion object {
@@ -50,7 +48,6 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         RetrofitClient.initialize(requireActivity())
-
 
         viewModel = ViewModelProvider(requireActivity())[PokemonsListViewModel::class.java]
 
@@ -126,7 +123,7 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
             val isFavorite = viewModel.isFavorite(mfavoriteList, pokemon)
             Log.d("PokemonsListFragment", "${pokemon.name} - Está na lista de favoritos: $isFavorite")
 
-            if (!isFavorite) {
+            if (!isFavorite && !pokemon.favorite) {
                 viewModel.addFavorites(pokemonFavorite, requireContext()) {
                     Log.d("PokemonsListFragment", "${pokemon.name} - Adicionado aos favoritos com SUCESSO!")
                     mPokemonAdapter.updateFavoriteStatus(position, true)
