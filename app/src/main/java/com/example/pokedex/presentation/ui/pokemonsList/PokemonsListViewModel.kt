@@ -1,15 +1,10 @@
 package com.example.pokedex.presentation.ui.pokemonsList
 
 
-import android.content.Context
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.pokedex.data.local.database.PokemonDataBase
-import com.example.pokedex.data.local.model.PokemonEntity
 import com.example.pokedex.data.network.RetrofitClient
 import com.example.pokedex.domain.model.Pokemon
-import com.example.pokedex.presentation.adapter.PokemonAdapter
 
 class PokemonsListViewModel : ViewModel() {
     var pokemonsState = MutableLiveData<List<Pokemon?>>()
