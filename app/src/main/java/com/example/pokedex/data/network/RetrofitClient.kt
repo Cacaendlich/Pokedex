@@ -1,8 +1,6 @@
 package com.example.pokedex.data.network
 
 import android.content.Context
-import android.util.Log
-import com.example.pokedex.data.remote.PokemonApiService
 import com.example.pokedex.data.model.PokemonApiResult
 import com.example.pokedex.data.model.PokemonListResponse
 import okhttp3.Cache
@@ -41,14 +39,12 @@ object RetrofitClient {
     // Método para listar os Pokémons
     fun listPokemons(limit: Int = 14, offset: Int = 0): PokemonListResponse? {
         val call = service.listPokemons(limit, offset)
-        Log.d("RetrofitClient", "Cache size after listPokemons(): ${cache?.size()} bytes")
         return call.execute().body()
     }
 
     // Método para obter os detalhes de um Pokémon específico
     fun getPokemon(name: String): PokemonApiResult? {
         val call = service.getPokemon(name)
-        Log.d("RetrofitClient", "Cache size after getPokemon($name): ${cache?.size()} bytes")
         return call.execute().body()
     }
 }

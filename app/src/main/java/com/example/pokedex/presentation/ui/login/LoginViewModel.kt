@@ -1,4 +1,4 @@
-package com.example.pokedex.presentation.login
+package com.example.pokedex.presentation.ui.login
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE

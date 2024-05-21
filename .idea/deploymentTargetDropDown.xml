@@ -2,10 +2,16 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="GreetingPreview">
+      <entry key="PokemonDaoUnitTest">
         <State />
       </entry>
       <entry key="app">
+        <State />
+      </entry>
+      <entry key="deletePokemon()">
+        <State />
+      </entry>
+      <entry key="insertAndGetPokemon()">
         <State />
       </entry>
     </value>

@@ -49,17 +49,21 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
 }
 
 dependencies {
+    implementation("androidx.test:core-ktx:1.5.0")
+    implementation("androidx.test.ext:junit-ktx:1.1.5")
+    val roomVersion = "2.6.1"
     // Kotlin coroutines para facilitar a programação assíncrona
-    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.core:core-ktx:1.13.0")
 
     // Biblioteca do Android Jetpack para suporte a ciclo de vida
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
 
     // Biblioteca do Android Jetpack para integração com Jetpack Compose
-    implementation("androidx.activity:activity-compose:1.8.2")
+    implementation("androidx.activity:activity-compose:1.9.0")
     implementation(platform("androidx.compose:compose-bom:2023.08.00"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
@@ -73,9 +77,11 @@ dependencies {
 
     // Anotações de suporte do Android
     implementation("com.android.support:support-annotations:28.0.0")
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
 
     // Testes unitários e de instrumentação
     testImplementation("junit:junit:4.13.2")
+    testImplementation ("org.mockito:mockito-core:3.11.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.08.00"))
@@ -113,5 +119,17 @@ dependencies {
 
     // Kotlin
     implementation("androidx.fragment:fragment-ktx:1.6.2")
+
+    //Room
+    implementation("androidx.room:room-runtime:$roomVersion")
+    annotationProcessor("androidx.room:room-compiler:$roomVersion")
+
+    //noinspection KaptUsageInsteadOfKsp
+    kapt("androidx.room:room-compiler:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+    testImplementation("androidx.room:room-testing:$roomVersion")
+    implementation("androidx.room:room-common")
+
+    testImplementation("org.mockito:mockito-core:3.11.2")
 
 }

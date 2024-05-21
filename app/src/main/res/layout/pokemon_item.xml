@@ -17,31 +17,13 @@
         android:padding="16dp"
         tools:ignore="UseCompoundDrawables">
 
-        <FrameLayout
-            android:id="@+id/frame_layout_pokemon"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/favorite_off"
-                android:layout_width="30sp"
-                android:layout_height="30sp"
-                android:src="@drawable/favorite_off"
-                android:layout_gravity="end"
-                android:contentDescription="@string/star_white_favorite"
-                android:visibility="visible"/>
-
-            <ImageView
-                android:id="@+id/favorite_on"
-                android:layout_width="30sp"
-                android:layout_height="30sp"
-                android:src="@drawable/favorite_on"
-                android:layout_gravity="end"
-                android:contentDescription="@string/star_white_favorite"
-                android:visibility="invisible"/>
-
-        </FrameLayout>
-
+        <ImageView
+            android:id="@+id/favorite_off"
+            android:layout_width="30sp"
+            android:layout_height="30sp"
+            android:layout_gravity="end"
+            android:contentDescription="@string/star_white_favorite"
+            android:visibility="visible"/>
 
         <ImageView
             android:id="@+id/image_view_pokemon"

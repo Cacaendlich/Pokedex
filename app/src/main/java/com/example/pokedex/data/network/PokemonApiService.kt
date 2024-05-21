@@ -1,4 +1,4 @@
-package com.example.pokedex.data.remote
+package com.example.pokedex.data.network
 
 
 import com.example.pokedex.data.model.PokemonApiResult
