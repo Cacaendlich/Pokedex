@@ -97,6 +97,12 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
     }
 
     private fun updateRecyclerView(pokemons: List<Pokemon?>) {
+        pokemons.forEach { pokemon ->
+            pokemon?.let {
+                it.favorite = viewModel.isFavorite(mfavoriteList, it)
+            }
+        }
+
         mLayoutManager =
             if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 GridLayoutManager(requireActivity(), 3)
@@ -104,8 +110,6 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
                 GridLayoutManager(requireActivity(), 2)
             }
         mPokemonAdapter = PokemonAdapter(pokemons)
-
-        mPokemonAdapter.updateFavorite(mfavoriteList)
 
         mRecyclerView.layoutManager = mLayoutManager
         mRecyclerView.adapter = mPokemonAdapter
@@ -125,18 +129,12 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
             if (!isFavorite) {
                 viewModel.addFavorites(pokemonFavorite, requireContext()) {
                     Log.d("PokemonsListFragment", "${pokemon.name} - Adicionado aos favoritos com sucesso!")
-                    viewModel.loadFavorites(requireContext()) { favorites ->
-                        mfavoriteList = favorites
-                        mPokemonAdapter.updateFavorite(mfavoriteList)
-                    }
+//                    mPokemonAdapter.updateFavoriteStatus(position, true)
                 }
             } else {
                 viewModel.deleteFavorites(pokemon.number, requireContext()) {
                     Log.d("PokemonsListFragment", "${pokemon.name} - Excluído dos favoritos com sucesso!")
-                    viewModel.loadFavorites(requireContext()) { favorites ->
-                        mfavoriteList = favorites
-                        mPokemonAdapter.updateFavorite(mfavoriteList)
-                    }
+//                    mPokemonAdapter.updateFavoriteStatus(position, false)
                 }
             }
         }
