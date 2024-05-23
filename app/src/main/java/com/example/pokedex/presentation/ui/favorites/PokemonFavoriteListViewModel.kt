@@ -13,7 +13,7 @@ import com.example.pokedex.presentation.adapter.PokemonAdapter
 class PokemonFavoriteListViewModel : ViewModel() {
     private var isLoading = MutableLiveData<Boolean>().apply { value = false }
     private lateinit var favoriteList: List<PokemonEntity>
-    var pokemonsState = MutableLiveData<List<Pokemon?>>()
+    private var pokemonsState = MutableLiveData<List<Pokemon?>>()
 
 
     fun loadPokemons() {
@@ -22,14 +22,14 @@ class PokemonFavoriteListViewModel : ViewModel() {
 
         pokemonsApiResultAPI?.results?.let { results ->
 
-            val pokemosFiltrados = results.filter { pokemonItemResponse ->
+            val pokesFiltrates = results.filter { pokemonItemResponse ->
                 val name = pokemonItemResponse.name
                 favoriteList.any{
                     it.name == name
                 }
             }
 
-            pokemonsState.postValue(pokemosFiltrados.map { pokemonResult ->
+            pokemonsState.postValue(pokesFiltrates.map { pokemonResult ->
 
                 val name = pokemonResult.name
 
