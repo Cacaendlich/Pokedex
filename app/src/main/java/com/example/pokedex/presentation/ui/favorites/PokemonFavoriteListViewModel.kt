@@ -97,4 +97,16 @@ class PokemonFavoriteListViewModel : ViewModel() {
             }
         }
     }
+
+    fun desFavorite(pokemon: Pokemon, context: Context, callback: () -> Unit) {
+        Thread {
+            deleteFavorite(pokemon.number, context) {
+                Log.d("PokemonsListFragment", "${pokemon.name} - Delete dos favoritos com SUCESSO!")
+                loadFavorites(context) { favorites ->
+                    loadPokemons(favorites)
+                }
+            }
+        }.start()
+    }
+
 }
