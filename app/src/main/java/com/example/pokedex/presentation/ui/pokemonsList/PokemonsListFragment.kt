@@ -28,7 +28,7 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
     private lateinit var mLayoutManager: GridLayoutManager
     private lateinit var mPokemonAdapter: PokemonAdapter
     private lateinit var progressBar: ProgressBar
-    private lateinit var mfavoriteList: List<PokemonEntity>
+    private  var mfavoriteList: List<PokemonEntity> = emptyList()
 
     private var currentPosition = 0
 
@@ -54,6 +54,10 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
         pokemonsListViewModel = ViewModelProvider(requireActivity())[PokemonsListViewModel::class.java]
         favoriteListViewModel = ViewModelProvider(requireActivity())[PokemonFavoriteListViewModel::class.java]
 
+        favoriteListViewModel.loadFavorites(requireContext()) { favorites ->
+            mfavoriteList = favorites
+            Log.d("PokemonsListFragment", "Está é a lista de favoritos: $mfavoriteList")
+        }
 
         mRecyclerView = binding.recyclerViewMain
         mRecyclerView.setHasFixedSize(true)
@@ -90,11 +94,6 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
 
             }
         })
-
-        favoriteListViewModel.loadFavorites(requireContext()) { favorites ->
-            mfavoriteList = favorites
-            Log.d("PokemonsListFragment", "Está é a lista de favoritos: $mfavoriteList")
-        }
     }
 
     private fun updateRecyclerView(pokemons: List<Pokemon?>) {
