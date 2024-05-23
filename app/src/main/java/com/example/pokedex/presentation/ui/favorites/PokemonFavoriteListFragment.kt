@@ -49,6 +49,11 @@ class PokemonFavoriteListFragment : Fragment(), PokemonAdapter.OnItemClickListen
         favoriteListViewModel = ViewModelProvider(requireActivity())[PokemonFavoriteListViewModel::class.java]
         pokemonsListViewModel = ViewModelProvider(requireActivity())[PokemonsListViewModel::class.java]
 
+        favoriteListViewModel.loadFavorites(requireContext()) { favorites ->
+            mfavoriteList = favorites
+            favoriteListViewModel.loadPokemons()
+        }
+
         mRecyclerView = binding.recyclerViewMain
         mRecyclerView.setHasFixedSize(true)
 
