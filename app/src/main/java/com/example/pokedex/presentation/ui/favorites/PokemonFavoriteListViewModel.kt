@@ -11,13 +11,15 @@ import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presentation.adapter.PokemonAdapter
 
 class PokemonFavoriteListViewModel : ViewModel() {
-    var isLoading = MutableLiveData<Boolean>().apply { value = false }
+    private var isLoading = MutableLiveData<Boolean>().apply { value = false }
     var pokemonsState = MutableLiveData<List<Pokemon?>>()
 
 
     fun loadPokemons(favoriteList: List<PokemonEntity>) {
+        val limit = 100
+        val offset = 0
 
-        val pokemonsApiResultAPI = RetrofitClient.listPokemons()
+        val pokemonsApiResultAPI = RetrofitClient.listPokemons(limit, offset)
 
         pokemonsApiResultAPI?.results?.let { results ->
 

@@ -49,7 +49,7 @@ class PokemonFavoriteListFragment : Fragment(), PokemonAdapter.OnItemClickListen
 
         favoriteListViewModel.loadFavorites(requireContext()) { favorites ->
             mfavoriteList = favorites
-            Log.d("PokemonsListFragment", "Está é a lista de favoritos: $mfavoriteList")
+            Log.d("PokemonsListFragment", "Lista de FAVORITOS: $mfavoriteList")
             favoriteListViewModel.loadPokemons(mfavoriteList)
         }
 
@@ -88,7 +88,10 @@ class PokemonFavoriteListFragment : Fragment(), PokemonAdapter.OnItemClickListen
     }
 
     override fun onFavoriteClick(position: Int, imageView: ImageView) {
-        TODO("Not yet implemented")
+        val pokemon = mPokemonAdapter.mPokemonList[position]
+        pokemon?.let {
+            favoriteListViewModel.updateFavoritesList(position, it, mfavoriteList, mPokemonAdapter, requireContext())
+        }
     }
 
 }

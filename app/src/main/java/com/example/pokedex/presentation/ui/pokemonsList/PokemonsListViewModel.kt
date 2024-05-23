@@ -22,8 +22,10 @@ class PokemonsListViewModel : ViewModel() {
     }
 
     private fun loadPokemons() {
+        val limit = 14
+        val offset = 0
 
-        val pokemonsApiResultAPI = RetrofitClient.listPokemons()
+        val pokemonsApiResultAPI = RetrofitClient.listPokemons(limit, offset)
 
         pokemonsApiResultAPI?.results?.let {
 
