@@ -24,7 +24,7 @@ class PokemonFavoriteListFragment : Fragment(), PokemonAdapter.OnItemClickListen
     private lateinit var mLayoutManager: GridLayoutManager
     private lateinit var mPokemonAdapter: PokemonAdapter
     private lateinit var progressBar: ProgressBar
-    private lateinit var mfavoriteList: List<PokemonEntity>
+    private var mfavoriteList: List<PokemonEntity> = emptyList()
 
     companion object {
         fun newInstance() = PokemonFavoriteListFragment()
