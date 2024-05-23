@@ -28,7 +28,7 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
     private lateinit var mLayoutManager: GridLayoutManager
     private lateinit var mPokemonAdapter: PokemonAdapter
     private lateinit var progressBar: ProgressBar
-    private lateinit var mfavoriteList: List<PokemonEntity>
+    private  var mfavoriteList: List<PokemonEntity> = emptyList()
 
     private var currentPosition = 0
 
@@ -49,8 +49,6 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mfavoriteList = emptyList()
-
         RetrofitClient.initialize(requireActivity())
 
         pokemonsListViewModel = ViewModelProvider(requireActivity())[PokemonsListViewModel::class.java]
@@ -58,6 +56,8 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
 
         favoriteListViewModel.loadFavorites(requireContext()) { favorites ->
             mfavoriteList = favorites
+            favoriteListViewModel.favoriteList.postValue(mfavoriteList)
+            Log.d("PokemonsListFragment", "A lista de favoritos foi atualizada para: ${favoriteListViewModel.favoriteList.value}")
             Log.d("PokemonsListFragment", "Está é a lista de favoritos: $mfavoriteList")
         }
 
