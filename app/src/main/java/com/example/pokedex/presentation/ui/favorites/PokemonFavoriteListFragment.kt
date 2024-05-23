@@ -16,13 +16,11 @@ import com.example.pokedex.data.local.model.PokemonEntity
 import com.example.pokedex.databinding.FragmentPokemonsListBinding
 import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presentation.adapter.PokemonAdapter
-import com.example.pokedex.presentation.ui.pokemonsList.PokemonsListViewModel
 
 class PokemonFavoriteListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
 
     private lateinit var binding: FragmentPokemonsListBinding
     private lateinit var favoriteListViewModel: PokemonFavoriteListViewModel
-    private lateinit var pokemonsListViewModel: PokemonsListViewModel
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var mLayoutManager: GridLayoutManager
     private lateinit var mPokemonAdapter: PokemonAdapter
@@ -40,6 +38,7 @@ class PokemonFavoriteListFragment : Fragment(), PokemonAdapter.OnItemClickListen
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentPokemonsListBinding.inflate(inflater, container, false)
+        progressBar = binding.progressBar
         return binding.root
     }
 
@@ -47,11 +46,11 @@ class PokemonFavoriteListFragment : Fragment(), PokemonAdapter.OnItemClickListen
         super.onViewCreated(view, savedInstanceState)
 
         favoriteListViewModel = ViewModelProvider(requireActivity())[PokemonFavoriteListViewModel::class.java]
-//        pokemonsListViewModel = ViewModelProvider(requireActivity())[PokemonsListViewModel::class.java]
 
         favoriteListViewModel.loadFavorites(requireContext()) { favorites ->
             mfavoriteList = favorites
-            favoriteListViewModel.loadPokemons()
+            Log.d("PokemonsListFragment", "Está é a lista de favoritos: $mfavoriteList")
+            favoriteListViewModel.loadPokemons(mfavoriteList)
         }
 
         mRecyclerView = binding.recyclerViewMain
@@ -62,20 +61,6 @@ class PokemonFavoriteListFragment : Fragment(), PokemonAdapter.OnItemClickListen
                 updateRecyclerView(pokemons)
                 progressBar.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
             }
-        }
-
-        favoriteListViewModel.isLoading.observe(requireActivity()) { isLoading ->
-            if (isLoading) {
-                binding.progressBarLoadMore.visibility = View.VISIBLE
-            } else {
-                binding.progressBarLoadMore.visibility = View.GONE
-            }
-        }
-
-
-        favoriteListViewModel.loadFavorites(requireContext()) { favorites ->
-            mfavoriteList = favorites
-            Log.d("PokemonsListFragment", "Está é a lista de favoritos: $mfavoriteList")
         }
 
     }
