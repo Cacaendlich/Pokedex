@@ -12,11 +12,10 @@ import com.example.pokedex.presentation.adapter.PokemonAdapter
 
 class PokemonFavoriteListViewModel : ViewModel() {
     var isLoading = MutableLiveData<Boolean>().apply { value = false }
-    private lateinit var favoriteList: List<PokemonEntity>
     var pokemonsState = MutableLiveData<List<Pokemon?>>()
 
 
-    fun loadPokemons() {
+    fun loadPokemons(favoriteList: List<PokemonEntity>) {
 
         val pokemonsApiResultAPI = RetrofitClient.listPokemons()
 
