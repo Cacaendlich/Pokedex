@@ -2,6 +2,7 @@ package com.example.pokedex.presentation.ui.favorites
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,6 +47,8 @@ class PokemonFavoriteListFragment : Fragment(), PokemonAdapter.OnItemClickListen
 
         favoriteListViewModel.loadFavorites(requireContext()) { favorites ->
             mfavoriteList = favorites
+            favoriteListViewModel.favoriteList.postValue(mfavoriteList)
+            Log.d("PokemonsFavoriteListFragment", "A lista de favoritos foi atualizada para: ${favoriteListViewModel.favoriteList.value}")
             favoriteListViewModel.loadPokemons(mfavoriteList)
         }
 
