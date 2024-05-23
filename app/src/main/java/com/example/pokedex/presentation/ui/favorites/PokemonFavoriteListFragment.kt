@@ -90,7 +90,7 @@ class PokemonFavoriteListFragment : Fragment(), PokemonAdapter.OnItemClickListen
     override fun onFavoriteClick(position: Int, imageView: ImageView) {
         val pokemon = mPokemonAdapter.mPokemonList[position]
         pokemon?.let {
-            favoriteListViewModel.updateFavoritesList(position, it, mfavoriteList, mPokemonAdapter, requireContext())
+            favoriteListViewModel.desFavorite( it, requireContext()){}
         }
     }
 
