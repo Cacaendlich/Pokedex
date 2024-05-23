@@ -1,7 +1,6 @@
 package com.example.pokedex.presentation.ui.favorites
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.pokedex.data.local.database.PokemonDataBase
@@ -83,16 +82,13 @@ class PokemonFavoriteListViewModel : ViewModel() {
         val pokemonFavorite = PokemonEntity(pokemon.number, pokemon.name)
 
         val isFavorite = isFavorite(favoriteList, pokemon)
-        Log.d("PokemonsListFragment", "${pokemon.name} - Está na lista de favoritos: $isFavorite")
 
         if (!isFavorite && !pokemon.favorite  || isFavorite && !pokemon.favorite) {
             addFavorite(pokemonFavorite, context) {
-                Log.d("PokemonsListFragment", "${pokemon.name} - Add aos favoritos com SUCESSO!")
                 adapter.updatePokemonFavoriteStatus(position, true)
             }
         } else {
             deleteFavorite(pokemon.number, context) {
-                Log.d("PokemonsListFragment", "${pokemon.name} - Delete dos favoritos com SUCESSO!")
                 adapter.updatePokemonFavoriteStatus(position, false)
             }
         }
@@ -101,7 +97,6 @@ class PokemonFavoriteListViewModel : ViewModel() {
     fun removeFavorite(pokemon: Pokemon, context: Context, callback: () -> Unit) {
         Thread {
             deleteFavorite(pokemon.number, context) {
-                Log.d("PokemonsListFragment", "${pokemon.name} - Delete dos favoritos com SUCESSO!")
                 loadFavorites(context) { favorites ->
                     loadPokemons(favorites)
                 }
