@@ -2,7 +2,6 @@ package com.example.pokedex.presentation.ui.favorites
 
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,7 +48,6 @@ class PokemonFavoriteListFragment : Fragment(), PokemonAdapter.OnItemClickListen
 
         favoriteListViewModel.loadFavorites(requireContext()) { favorites ->
             mfavoriteList = favorites
-            Log.d("PokemonsListFragment", "Lista de FAVORITOS: $mfavoriteList")
             favoriteListViewModel.loadPokemons(mfavoriteList)
         }
 
