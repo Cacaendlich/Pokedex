@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.buttonFavorites.setOnClickListener {
+            Log.d("MainActivity", "Button Favorites clicked")
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, PokemonFavoriteListFragment.newInstance())
                 .commit()
