@@ -68,6 +68,10 @@ class PokemonFavoriteListFragment : Fragment(), PokemonAdapter.OnItemClickListen
     }
 
     private fun updateRecyclerView(pokemons: List<Pokemon?>) {
+        if (!isAdded) {
+            return
+        }
+
         pokemons.forEach { pokemon ->
             pokemon?.let {
                 it.favorite = favoriteListViewModel.isFavorite(mfavoriteList, it)
