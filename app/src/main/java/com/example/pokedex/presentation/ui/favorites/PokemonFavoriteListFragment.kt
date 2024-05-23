@@ -52,6 +52,9 @@ class PokemonFavoriteListFragment : Fragment(), PokemonAdapter.OnItemClickListen
             favoriteListViewModel.loadPokemons(mfavoriteList)
         }
 
+        mfavoriteList = favoriteListViewModel.favoriteList.value ?: emptyList()
+
+
         mRecyclerView = binding.recyclerViewMain
         mRecyclerView.setHasFixedSize(true)
 
