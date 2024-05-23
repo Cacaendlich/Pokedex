@@ -1,6 +1,8 @@
 package com.example.pokedex.presentation.ui.main
 
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.pokedex.R
 import com.example.pokedex.databinding.ActivityMainBinding
@@ -21,6 +23,19 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, PokemonFavoriteListFragment.newInstance())
                 .commit()
+
+            binding.buttonFavorites.visibility = View.GONE
+            binding.buttonBack.visibility = View.VISIBLE
+        }
+
+        binding.buttonBack.setOnClickListener {
+            Log.d("MainActivity", "Button back clicked")
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, PokemonsListFragment.newInstance())
+                .commit()
+
+            binding.buttonBack.visibility = View.GONE
+            binding.buttonFavorites.visibility = View.VISIBLE
         }
 
         supportFragmentManager.beginTransaction()
