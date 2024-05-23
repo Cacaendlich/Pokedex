@@ -6,11 +6,42 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.pokedex.data.local.database.PokemonDataBase
 import com.example.pokedex.data.local.model.PokemonEntity
+import com.example.pokedex.data.network.RetrofitClient
 import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presentation.adapter.PokemonAdapter
 
 class PokemonFavoriteListViewModel : ViewModel() {
     private var isLoading = MutableLiveData<Boolean>().apply { value = false }
+    private lateinit var favoriteList: List<PokemonEntity>
+    var pokemonsState = MutableLiveData<List<Pokemon?>>()
+
+
+    fun loadPokemons() {
+
+        val pokemonsApiResultAPI = RetrofitClient.listPokemons()
+
+        pokemonsApiResultAPI?.results?.let { results ->
+
+            val pokemosFiltrados = results.filter { pokemonItemResponse ->
+                val name = pokemonItemResponse.name
+                favoriteList.any{
+                    it.name == name
+                }
+            }
+
+            pokemonsState.postValue(pokemosFiltrados.map { pokemonResult ->
+
+                val name = pokemonResult.name
+
+                val pokemonApiResult = RetrofitClient.getPokemon(name)
+
+                pokemonApiResult?.let { Pokemon(pokemonApiResult.id, pokemonApiResult.name) }
+
+            })
+
+        }
+
+    }
 
     fun loadFavorites(context: Context, callback: (List<PokemonEntity>) -> Unit) {
         Thread{
