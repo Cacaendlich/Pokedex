@@ -11,9 +11,9 @@ import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presentation.adapter.PokemonAdapter
 
 class PokemonFavoriteListViewModel : ViewModel() {
-    private var isLoading = MutableLiveData<Boolean>().apply { value = false }
+    var isLoading = MutableLiveData<Boolean>().apply { value = false }
     private lateinit var favoriteList: List<PokemonEntity>
-    private var pokemonsState = MutableLiveData<List<Pokemon?>>()
+    var pokemonsState = MutableLiveData<List<Pokemon?>>()
 
 
     fun loadPokemons() {
