@@ -13,6 +13,7 @@ class PokemonFavoriteListViewModel : ViewModel() {
     private var isLoading = MutableLiveData<Boolean>().apply { value = false }
     var pokemonsState = MutableLiveData<List<Pokemon?>>()
 
+    var favoriteList = MutableLiveData<List<PokemonEntity>>()
 
     fun loadPokemons(favoriteList: List<PokemonEntity>) {
         val limit = 100
