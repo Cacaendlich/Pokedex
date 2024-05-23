@@ -26,8 +26,6 @@ class PokemonFavoriteListFragment : Fragment(), PokemonAdapter.OnItemClickListen
     private lateinit var progressBar: ProgressBar
     private lateinit var mfavoriteList: List<PokemonEntity>
 
-    private var currentPosition = 0
-
     companion object {
         fun newInstance() = PokemonFavoriteListFragment()
     }
@@ -82,7 +80,6 @@ class PokemonFavoriteListFragment : Fragment(), PokemonAdapter.OnItemClickListen
         mRecyclerView.adapter = mPokemonAdapter
 
         mPokemonAdapter.setOnItemClickListener(this)
-        mRecyclerView.scrollToPosition(currentPosition)
     }
 
     override fun onFavoriteClick(position: Int, imageView: ImageView) {
