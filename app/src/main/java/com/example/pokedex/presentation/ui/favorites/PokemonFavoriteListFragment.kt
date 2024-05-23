@@ -47,7 +47,7 @@ class PokemonFavoriteListFragment : Fragment(), PokemonAdapter.OnItemClickListen
         super.onViewCreated(view, savedInstanceState)
 
         favoriteListViewModel = ViewModelProvider(requireActivity())[PokemonFavoriteListViewModel::class.java]
-        pokemonsListViewModel = ViewModelProvider(requireActivity())[PokemonsListViewModel::class.java]
+//        pokemonsListViewModel = ViewModelProvider(requireActivity())[PokemonsListViewModel::class.java]
 
         favoriteListViewModel.loadFavorites(requireContext()) { favorites ->
             mfavoriteList = favorites
@@ -57,14 +57,14 @@ class PokemonFavoriteListFragment : Fragment(), PokemonAdapter.OnItemClickListen
         mRecyclerView = binding.recyclerViewMain
         mRecyclerView.setHasFixedSize(true)
 
-        pokemonsListViewModel.pokemonsState.observe(requireActivity()) { pokemons ->
+        favoriteListViewModel.pokemonsState.observe(requireActivity()) { pokemons ->
             pokemons?.let {
                 updateRecyclerView(pokemons)
                 progressBar.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
             }
         }
 
-        pokemonsListViewModel.isLoading.observe(requireActivity()) { isLoading ->
+        favoriteListViewModel.isLoading.observe(requireActivity()) { isLoading ->
             if (isLoading) {
                 binding.progressBarLoadMore.visibility = View.VISIBLE
             } else {
@@ -72,23 +72,6 @@ class PokemonFavoriteListFragment : Fragment(), PokemonAdapter.OnItemClickListen
             }
         }
 
-        mRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-
-                val layoutManager = recyclerView.layoutManager as GridLayoutManager
-                val lastVisibleItemPosition = layoutManager.findLastCompletelyVisibleItemPosition()
-                val totalItemCount = layoutManager.itemCount
-                val limitLoading = lastVisibleItemPosition + 2
-
-                if (limitLoading >= totalItemCount && !pokemonsListViewModel.isLoading.value!!) {
-                    pokemonsListViewModel.loadMorePokemons()
-                }
-
-                currentPosition = lastVisibleItemPosition - 4
-
-            }
-        })
 
         favoriteListViewModel.loadFavorites(requireContext()) { favorites ->
             mfavoriteList = favorites
