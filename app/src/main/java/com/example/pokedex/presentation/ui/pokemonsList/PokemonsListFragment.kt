@@ -28,7 +28,7 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
     private lateinit var mLayoutManager: GridLayoutManager
     private lateinit var mPokemonAdapter: PokemonAdapter
     private lateinit var progressBar: ProgressBar
-    private  var mfavoriteList: List<PokemonEntity> = emptyList()
+    private lateinit var mfavoriteList: List<PokemonEntity>
 
     private var currentPosition = 0
 
@@ -60,6 +60,8 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
             Log.d("PokemonsListFragment", "A lista de favoritos foi atualizada para: ${favoriteListViewModel.favoriteList.value}")
             Log.d("PokemonsListFragment", "Está é a lista de favoritos: $mfavoriteList")
         }
+
+        mfavoriteList = favoriteListViewModel.favoriteList.value ?: emptyList()
 
         mRecyclerView = binding.recyclerViewMain
         mRecyclerView.setHasFixedSize(true)
