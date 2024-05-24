@@ -95,7 +95,7 @@ class PokemonFavoriteListViewModel : ViewModel() {
         }
     }
 
-    fun removeFavorite(pokemon: Pokemon, context: Context, callback: () -> Unit) {
+    fun removeFavorite(pokemon: Pokemon, context: Context) {
         Thread {
             deleteFavorite(pokemon.number, context) {
                 loadFavorites(context) { favorites ->
