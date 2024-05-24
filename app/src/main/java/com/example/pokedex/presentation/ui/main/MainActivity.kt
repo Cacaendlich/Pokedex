@@ -4,20 +4,29 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.example.pokedex.R
+import com.example.pokedex.data.network.RetrofitClient
 import com.example.pokedex.databinding.ActivityMainBinding
 import com.example.pokedex.presentation.ui.pokemonsList.PokemonsListFragment
 import com.example.pokedex.presentation.ui.favorites.PokemonFavoriteListFragment
+import com.example.pokedex.presentation.ui.pokemonsList.PokemonsListViewModel
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var pokemonsListViewModel: PokemonsListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityMainBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        RetrofitClient.initialize(this)
+
+        pokemonsListViewModel = ViewModelProvider(this)[PokemonsListViewModel::class.java]
+
 
         binding.buttonFavorites.setOnClickListener {
             Log.d("MainActivity", "Button Favorites clicked")
@@ -36,6 +45,9 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, PokemonsListFragment.newInstance())
                 .commit()
+
+            // Chame a função refreshPokemons() no ViewModel
+            pokemonsListViewModel.refreshPokemons()
 
             binding.buttonBack.visibility = View.GONE
             binding.buttonFavorites.visibility = View.VISIBLE
