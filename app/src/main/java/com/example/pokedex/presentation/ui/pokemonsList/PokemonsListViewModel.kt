@@ -1,6 +1,7 @@
 package com.example.pokedex.presentation.ui.pokemonsList
 
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.pokedex.data.network.RetrofitClient
@@ -74,4 +75,19 @@ class PokemonsListViewModel : ViewModel() {
 
         }
     }
+
+    fun refreshPokemons() {
+        isLoading.value = true
+
+        Thread {
+            try {
+                loadPokemons()
+            } catch (e: Exception) {
+                Log.e("PokemonsListViewModel", "Erro ao recarregar os pokémons: ${e.message}")
+            } finally {
+                isLoading.postValue(false)
+            }
+        }.start()
+    }
+
 }

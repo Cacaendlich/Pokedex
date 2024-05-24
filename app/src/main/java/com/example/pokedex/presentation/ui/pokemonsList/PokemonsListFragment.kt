@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.pokedex.data.local.model.PokemonEntity
 import com.example.pokedex.data.network.RetrofitClient
 import com.example.pokedex.databinding.FragmentPokemonsListBinding
@@ -29,6 +30,7 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
     private lateinit var mPokemonAdapter: PokemonAdapter
     private lateinit var progressBar: ProgressBar
     private lateinit var mfavoriteList: List<PokemonEntity>
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     private var currentPosition = 0
 
@@ -42,6 +44,7 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentPokemonsListBinding.inflate(inflater, container, false)
+        swipeRefreshLayout = binding.swipeRefreshLayout
         progressBar = binding.progressBar
         return binding.root
     }
@@ -80,6 +83,12 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
                 binding.progressBarLoadMore.visibility = View.GONE
             }
         }
+
+        swipeRefreshLayout.setOnRefreshListener {
+            // Atualizar lista quando o gesto de atualização for detectado
+            pokemonsListViewModel.refreshPokemons()
+        }
+
 
         mRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -124,6 +133,8 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
 
         mPokemonAdapter.setOnItemClickListener(this)
         mRecyclerView.scrollToPosition(currentPosition)
+
+        swipeRefreshLayout.isRefreshing = false
     }
 
     override fun onFavoriteClick(position: Int, imageView: ImageView) {
