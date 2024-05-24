@@ -11,9 +11,6 @@
       <entry key="deletePokemon()">
         <State />
       </entry>
-      <entry key="insertAndGetPokemon()">
-        <State />
-      </entry>
     </value>
   </component>
 </project>
