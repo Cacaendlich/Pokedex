@@ -1,3 +1,3 @@
 package com.example.pokedex.integrationTests
 
-class LoginActivityTests 
+class LoginActivityTests
