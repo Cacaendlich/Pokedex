@@ -39,6 +39,9 @@ class MainActivity : AppCompatActivity() {
 
             binding.buttonBack.visibility = View.GONE
             binding.buttonFavorites.visibility = View.VISIBLE
+
+            binding.textViewTitle.text = getString(R.string.Pokedex)
+
         }
 
         supportFragmentManager.beginTransaction()
