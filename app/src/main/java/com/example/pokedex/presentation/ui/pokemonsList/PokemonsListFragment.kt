@@ -52,8 +52,6 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        RetrofitClient.initialize(requireActivity())
-
         pokemonsListViewModel = ViewModelProvider(requireActivity())[PokemonsListViewModel::class.java]
         favoriteListViewModel = ViewModelProvider(requireActivity())[PokemonFavoriteListViewModel::class.java]
 
