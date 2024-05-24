@@ -27,6 +27,8 @@ class MainActivity : AppCompatActivity() {
 
             binding.buttonFavorites.visibility = View.GONE
             binding.buttonBack.visibility = View.VISIBLE
+
+            binding.textViewTitle.text = getString(R.string.title_favorite)
         }
 
         binding.buttonBack.setOnClickListener {
