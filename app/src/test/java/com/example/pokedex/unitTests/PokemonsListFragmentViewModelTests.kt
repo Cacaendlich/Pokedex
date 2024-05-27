@@ -1,3 +1,0 @@
-package com.example.pokedex.unitTests
-
-class PokemonsListFragmentViewModelTests

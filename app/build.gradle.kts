@@ -55,6 +55,7 @@ android {
 dependencies {
     implementation("androidx.test:core-ktx:1.5.0")
     implementation("androidx.test.ext:junit-ktx:1.1.5")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
     val roomVersion = "2.6.1"
     // Kotlin coroutines para facilitar a programação assíncrona
     implementation("androidx.core:core-ktx:1.13.0")
