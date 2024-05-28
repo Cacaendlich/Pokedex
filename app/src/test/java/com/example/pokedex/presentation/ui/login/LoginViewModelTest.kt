@@ -7,8 +7,10 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.jupiter.api.Assertions
 import org.mockito.ArgumentMatchers.anyInt
+import org.mockito.ArgumentMatchers.eq
 import org.mockito.Mock
 import org.mockito.Mockito.anyString
+import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 
@@ -21,6 +23,9 @@ class LoginViewModelTest {
 
     @Mock
     private lateinit var sharedPreferences: SharedPreferences // Mock do SharedPreferences para simular o armazenamento de dados
+
+    @Mock
+    private lateinit var editor: SharedPreferences.Editor
 
     @Before
     fun setUp() {
@@ -44,17 +49,23 @@ class LoginViewModelTest {
 //    @Test
 //    fun loginIsValid() {
 //    }
-//
-//    @Test
-//    fun saveLoginData() {
-//    }
-//
-//    @Test
-//    fun getStoredLoginData() {
-//    }
 
     @Test
-    fun sharedPreferencesIsEmpty() {
+    fun saveLoginData() {
+        `when`(context.getSharedPreferences(anyString(), anyInt())).thenReturn(sharedPreferences)
+        `when`(sharedPreferences.getString(anyString(), anyString())).thenReturn(eq("example@example.com"))
+
+        `when`(sharedPreferences.edit()).thenReturn(editor)
+
+        loginViewModel.saveLoginData(context, "example@example.com")
+
+        verify(editor).putString(anyString(), eq("example@example.com"))
+        verify(editor).apply()
+
+    }
+
+    @Test
+    fun sharedPrefsIsNotEmpty_IsEmpty() {
         // Teste para verificar se SharedPreferences está vazio
 
         `when`(context.getSharedPreferences(anyString(), anyInt())).thenReturn(sharedPreferences)
@@ -84,7 +95,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun contextIsNull() {
+    fun sharedPrefsIsNotEmpty_contextIsNull() {
         // Teste para verificar se o método lida  com um contexto null
 
         `when`(context.getSharedPreferences(anyString(), anyInt())).thenReturn(sharedPreferences)
