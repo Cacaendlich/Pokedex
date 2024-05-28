@@ -54,6 +54,11 @@ class LoginViewModelTest {
 //    }
 
     @Test
+    fun sharedPreferencesIsEmpty() {
+
+    }
+
+    @Test
     fun sharedPrefsIsNotEmpty() {
         // Teste para verificar se SharedPreferences não está vazio
 
@@ -68,6 +73,11 @@ class LoginViewModelTest {
 
         // Verifica se o resultado é o esperado
         Assertions.assertTrue(result)
+    }
+
+    @Test
+    fun contextIsNull() {
+        
     }
 
 }
