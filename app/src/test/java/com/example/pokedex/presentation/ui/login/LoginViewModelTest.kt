@@ -61,7 +61,7 @@ class LoginViewModelTest {
 
         `when`(sharedPreferences.getString(anyString(), anyString())).thenReturn("")
 
-        val result = loginViewModel.sharedPrefsIsNotEmptyOrNull(context)
+        val result = loginViewModel.sharedPrefsIsNotEmpty(context)
 
         Assertions.assertFalse(result)
     }
@@ -77,7 +77,7 @@ class LoginViewModelTest {
         `when`(sharedPreferences.getString(anyString(), anyString())).thenReturn("example@example.com")
 
         // Chama o método que será testado
-        val result = loginViewModel.sharedPrefsIsNotEmptyOrNull(context)
+        val result = loginViewModel.sharedPrefsIsNotEmpty(context)
 
         // Verifica se o resultado é o esperado
         Assertions.assertTrue(result)
@@ -89,9 +89,9 @@ class LoginViewModelTest {
 
         `when`(context.getSharedPreferences(anyString(), anyInt())).thenReturn(sharedPreferences)
 
-//        `when`(sharedPreferences.getString(anyString(), anyString())).thenReturn("example@example.com")
+        `when`(sharedPreferences.getString(anyString(), anyString())).thenReturn(null)
 
-        val result = loginViewModel.sharedPrefsIsNotEmptyOrNull(context)
+        val result = loginViewModel.sharedPrefsIsNotEmpty(context)
 
         Assertions.assertFalse(result)
     }

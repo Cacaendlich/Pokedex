@@ -50,6 +50,6 @@ class LoginViewModel : ViewModel() {
         return sharedPreferences.getString("email", "") ?: ""
     }
 
-    fun sharedPrefsIsNotEmptyOrNull(context: Context): Boolean = getStoredLoginData(context).isNotEmpty() && getStoredLoginData(context) != "null"
+    fun sharedPrefsIsNotEmpty(context: Context): Boolean = getStoredLoginData(context).isNotEmpty() && getStoredLoginData(context) != "null"
 
 }

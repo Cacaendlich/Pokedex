@@ -28,7 +28,7 @@ class LoginActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
 
-        if(viewModel.sharedPrefsIsNotEmptyOrNull(this)){
+        if(viewModel.sharedPrefsIsNotEmpty(this)){
             goToMainActivity()
             return
         }else {
