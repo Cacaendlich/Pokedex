@@ -85,7 +85,7 @@ class LoginViewModelTest {
 
     @Test
     fun contextIsNull() {
-        // Teste para verificar se o método lida corretamente com um contexto nulo
+        // Teste para verificar se o método lida  com um contexto null
 
         `when`(context.getSharedPreferences(anyString(), anyInt())).thenReturn(sharedPreferences)
 
