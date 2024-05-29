@@ -16,9 +16,10 @@ class LoginViewModel : ViewModel() {
     private val _loginState = MutableLiveData<LoginState>()
     val loginState: LiveData<LoginState> = _loginState
 
-    private fun checkNotEmptyCredentials(email: String, password: String): Boolean {
-        return email.isNotEmpty() && password.isNotEmpty()
+    fun checkNotEmptyCredentials(email: String?, password: String?): Boolean {
+        return !(email.isNullOrEmpty() || password.isNullOrEmpty())
     }
+
 
     private fun isValidTestUser(email: String, password: String): Boolean {
         return email == "teste@teste.com" && password == "1234"
