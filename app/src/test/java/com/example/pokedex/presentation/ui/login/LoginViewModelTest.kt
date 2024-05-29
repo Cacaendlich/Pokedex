@@ -6,6 +6,8 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.ArgumentMatchers.eq
 import org.mockito.Mock
@@ -34,6 +36,9 @@ class LoginViewModelTest {
         // Inicialização dos mocks
         MockitoAnnotations.openMocks(this)
 
+        // Configuração do mock do Context para retornar o mock de SharedPreferences
+        `when`(context.getSharedPreferences(anyString(), anyInt())).thenReturn(sharedPreferences)
+
     }
 
     @After
@@ -45,30 +50,67 @@ class LoginViewModelTest {
 //    @Test
 //    fun getLoginState() {
 //    }
-//
-//    @Test
-//    fun loginIsValid() {
-//    }
+    @Test
+    fun loginIsValid() {
+    }
+
+    @Test
+    fun checkNotEmptyCredentials_Null() {
+        val email = null
+        val senha = "1234"
+
+        val result = loginViewModel.checkNotEmptyCredentials(email, senha)
+
+        assertFalse(result)
+    }
+    @Test
+    fun checkNotEmptyCredentials_NotEmpty() {
+        val email = "example@example.com"
+        val senha = "1234"
+
+        val result = loginViewModel.checkNotEmptyCredentials(email, senha)
+
+        assertTrue(result)
+    }
+
+    @Test
+    fun checkNotEmptyCredentials_Empty() {
+        val email = ""
+        val senha = "1234"
+
+        val result = loginViewModel.checkNotEmptyCredentials(email, senha)
+
+        assertFalse(result)
+    }
+    @Test
+    fun checkNotEmptyCredentials_Empty2() {
+        val email = "example@example.com"
+        val senha = ""
+
+        val result = loginViewModel.checkNotEmptyCredentials(email, senha)
+
+        assertFalse(result)
+    }
 
     @Test
     fun saveLoginData() {
-        `when`(context.getSharedPreferences(anyString(), anyInt())).thenReturn(sharedPreferences)
-        `when`(sharedPreferences.getString(anyString(), anyString())).thenReturn(eq("example@example.com"))
+        `when`(sharedPreferences.getString(anyString(), anyString())).thenReturn("example@example.com")
 
         `when`(sharedPreferences.edit()).thenReturn(editor)
 
+        `when`(editor.putString(anyString(), anyString())).thenReturn(editor)
+
         loginViewModel.saveLoginData(context, "example@example.com")
 
-        verify(editor).putString(anyString(), eq("example@example.com"))
+        verify(editor).putString("email", "example@example.com")
         verify(editor).apply()
 
     }
 
+
     @Test
     fun sharedPrefsIsNotEmpty_IsEmpty() {
         // Teste para verificar se SharedPreferences está vazio
-
-        `when`(context.getSharedPreferences(anyString(), anyInt())).thenReturn(sharedPreferences)
 
         `when`(sharedPreferences.getString(anyString(), anyString())).thenReturn("")
 
@@ -80,9 +122,6 @@ class LoginViewModelTest {
     @Test
     fun sharedPrefsIsNotEmpty() {
         // Teste para verificar se SharedPreferences não está vazio
-
-        // Configuração do mock do Context para retornar o mock de SharedPreferences
-        `when`(context.getSharedPreferences(anyString(), anyInt())).thenReturn(sharedPreferences)
 
         // Configuração do mock de SharedPreferences para retornar um valor específico
         `when`(sharedPreferences.getString(anyString(), anyString())).thenReturn("example@example.com")
@@ -97,8 +136,6 @@ class LoginViewModelTest {
     @Test
     fun sharedPrefsIsNotEmpty_contextIsNull() {
         // Teste para verificar se o método lida  com um contexto null
-
-        `when`(context.getSharedPreferences(anyString(), anyInt())).thenReturn(sharedPreferences)
 
         `when`(sharedPreferences.getString(anyString(), anyString())).thenReturn(null)
 
