@@ -5,11 +5,9 @@ import android.content.SharedPreferences
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.mockito.ArgumentMatchers.anyInt
-import org.mockito.ArgumentMatchers.eq
 import org.mockito.Mock
 import org.mockito.Mockito.anyString
 import org.mockito.Mockito.verify
@@ -54,6 +52,8 @@ class LoginViewModelTest {
     @Test
     fun loginIsValid() {
         `when`(loginViewModel.checkNotEmptyCredentials(anyString(), anyString())).thenReturn(true)
+
+        loginViewModel.loginIsValid("", "")
     }
 
     @Test
@@ -118,7 +118,7 @@ class LoginViewModelTest {
 
         val result = loginViewModel.sharedPrefsIsNotEmpty(context)
 
-        Assertions.assertFalse(result)
+        assertFalse(result)
     }
 
     @Test
@@ -132,7 +132,7 @@ class LoginViewModelTest {
         val result = loginViewModel.sharedPrefsIsNotEmpty(context)
 
         // Verifica se o resultado é o esperado
-        Assertions.assertTrue(result)
+        assertTrue(result)
     }
 
     @Test
@@ -143,7 +143,7 @@ class LoginViewModelTest {
 
         val result = loginViewModel.sharedPrefsIsNotEmpty(context)
 
-        Assertions.assertFalse(result)
+        assertFalse(result)
     }
 
 
