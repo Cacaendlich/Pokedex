@@ -37,6 +37,10 @@ class LoginViewModel : ViewModel() {
         }
     }
 
+    fun updateLoginState() {
+
+    }
+
 
 
     fun saveLoginData(context: Context, email: String) {
