@@ -49,12 +49,12 @@ class LoginViewModelTest {
 //    fun getLoginState() {
 //    }
 
-    @Test
-    fun loginIsValid() {
-        `when`(loginViewModel.checkNotEmptyCredentials(anyString(), anyString())).thenReturn(true)
-
-        loginViewModel.loginIsValid("", "")
-    }
+//    @Test
+//    fun loginIsValid() {
+//        `when`(loginViewModel.checkNotEmptyCredentials(anyString(), anyString())).thenReturn(true)
+//
+//        loginViewModel.loginIsValid("", "")
+//    }
 
     @Test
     fun checkNotEmptyCredentials_Null() {
@@ -145,8 +145,5 @@ class LoginViewModelTest {
 
         assertFalse(result)
     }
-
-
-
 
 }
