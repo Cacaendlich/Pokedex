@@ -51,9 +51,6 @@ class LoginViewModelTest {
 
 //    @Test
 //    fun loginIsValid() {
-//        `when`(loginViewModel.checkNotEmptyCredentials(anyString(), anyString())).thenReturn(true)
-//
-//        loginViewModel.loginIsValid("", "")
 //    }
 
     @Test
