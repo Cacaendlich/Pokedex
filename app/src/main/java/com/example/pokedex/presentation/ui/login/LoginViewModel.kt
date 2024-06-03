@@ -21,7 +21,7 @@ class LoginViewModel : ViewModel() {
     }
 
 
-    fun isValidTestUser(email: String, password: String): Boolean {
+    private fun isValidTestUser(email: String, password: String): Boolean {
         return email == "teste@teste.com" && password == "1234"
     }
 
@@ -36,11 +36,6 @@ class LoginViewModel : ViewModel() {
             _loginState.setValue(LoginState.EMPTY_FIELDS)
         }
     }
-
-    fun updateLoginState() {
-
-    }
-
 
 
     fun saveLoginData(context: Context, email: String) {
