@@ -53,6 +53,7 @@ class LoginActivity : AppCompatActivity() {
         viewModel.loginState.observe(this) { state ->
             when (state) {
                 LoginViewModel.LoginState.SUCCESS -> {
+                    viewModel.saveLoginData(this, emailEditText.text.toString())
                     goToMainActivity()
                 }
                 LoginViewModel.LoginState.INVALID_CREDENTIALS -> showMessage(this,"Invalid credentials.")
@@ -75,7 +76,6 @@ class LoginActivity : AppCompatActivity() {
             email = emailEditText.text.toString(),
             password = passwordEditText.text.toString()
         )
-        viewModel.saveLoginData(this, emailEditText.text.toString())
     }
 
     private fun showMessage(context: Context, message: String) {
