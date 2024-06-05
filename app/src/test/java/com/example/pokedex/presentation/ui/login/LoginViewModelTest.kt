@@ -2,12 +2,10 @@ package com.example.pokedex.presentation.ui.login
 
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.mockito.ArgumentMatchers.anyInt
@@ -30,6 +28,9 @@ class LoginViewModelTest {
     @Mock
     private lateinit var editor: SharedPreferences.Editor
 
+    @Mock
+    private  lateinit var observer: Observer<LoginViewModel.LoginState>
+
     @Before
     fun setUp() {
         // Método setUp(): Configuração do ambiente de teste
@@ -39,6 +40,8 @@ class LoginViewModelTest {
 
         // Configuração do mock do Context para retornar o mock de SharedPreferences
         `when`(context.getSharedPreferences(anyString(), anyInt())).thenReturn(sharedPreferences)
+
+        loginViewModel.loginState.observeForever(observer)
     }
 
     @After
@@ -53,14 +56,12 @@ class LoginViewModelTest {
 
     @Test
     fun loginIsValid_SUCCESS() {
-        // Mockando
         val email = "teste@teste.com"
         val password = "1234"
 
-        // Executando
         loginViewModel.loginIsValid(email, password)
 
-        assertEquals(LoginViewModel.LoginState.SUCCESS, loginViewModel.loginState.value)
+        verify(observer).onChanged(LoginViewModel.LoginState.SUCCESS)
 
     }
 
