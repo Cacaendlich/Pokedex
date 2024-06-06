@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mock
 import org.mockito.Mockito.anyString
+import org.mockito.Mockito.never
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
@@ -102,21 +103,35 @@ class LoginViewModelTest {
         assertFalse(result)
     }
 
-//    @Test
-//    fun saveLoginData() {
-//        //stubs
-//        `when`(sharedPreferences.getString(anyString(), anyString())).thenReturn("example@example.com")
-//
-//        `when`(sharedPreferences.edit()).thenReturn(editor)
-//
-//        `when`(editor.putString(anyString(), anyString())).thenReturn(editor)
-//
-//        loginViewModel.saveLoginData(context, "example@example.com")
-//
-//        verify(editor).putString("email", "example@example.com")
-//        verify(editor).apply()
-//
-//    }
+    @Test
+    fun saveLoginData_withEmptySharedPreferences_savesNewEmail() {
+        //stubs
+        `when`(loginViewModel.getStoredLoginData(context)).thenReturn("")
+
+        `when`(sharedPreferences.edit()).thenReturn(editor)
+
+        `when`(editor.putString(anyString(), anyString())).thenReturn(editor)
+
+        loginViewModel.saveLoginData(context, "example@example.com")
+
+        verify(editor).putString("email", "example@example.com")
+        verify(editor).apply()
+    }
+
+    @Test
+    fun saveLoginData_withNotEmptySharedPreferences_NotSavesEmail() {
+        //stubs
+        `when`(loginViewModel.getStoredLoginData(context)).thenReturn("example@example.com")
+
+        `when`(sharedPreferences.edit()).thenReturn(editor)
+
+        `when`(editor.putString(anyString(), anyString())).thenReturn(editor)
+
+        loginViewModel.saveLoginData(context, "example@example.com")
+
+        verify(editor, never()).putString("email", "example@example.com")
+        verify(editor, never()).apply()
+    }
 
 
     @Test
