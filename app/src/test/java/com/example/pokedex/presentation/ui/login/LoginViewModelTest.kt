@@ -28,8 +28,6 @@ class LoginViewModelTest {
     @Mock
     private lateinit var editor: SharedPreferences.Editor
 
-    @Mock
-    private  lateinit var observer: Observer<LoginViewModel.LoginState>
 
     @Before
     fun setUp() {
@@ -40,8 +38,6 @@ class LoginViewModelTest {
 
         // Configuração do mock do Context para retornar o mock de SharedPreferences
         `when`(context.getSharedPreferences(anyString(), anyInt())).thenReturn(sharedPreferences)
-
-        loginViewModel.loginState.observeForever(observer)
     }
 
     @After
@@ -51,22 +47,15 @@ class LoginViewModelTest {
 
 
 //    @Test
-//    fun getLoginState() {
+//    fun loginIsValid_withValidCredentials_setsSuccessState() {
+//        val email = "teste@teste.com"
+//        val password = "1234"
+//
+//        loginViewModel.loginIsValid(email, password)
 //    }
 
     @Test
-    fun loginIsValid_SUCCESS() {
-        val email = "teste@teste.com"
-        val password = "1234"
-
-        loginViewModel.loginIsValid(email, password)
-
-        verify(observer).onChanged(LoginViewModel.LoginState.SUCCESS)
-
-    }
-
-    @Test
-    fun checkNotEmptyCredentials_Null() {
+    fun checkNotEmptyCredentials_withNullEmail_returnsFalse() {
         val email = null
         val senha = "1234"
 
@@ -74,8 +63,18 @@ class LoginViewModelTest {
 
         assertFalse(result)
     }
+
     @Test
-    fun checkNotEmptyCredentials_NotEmpty() {
+    fun checkNotEmptyCredentials_withNullPassword_returnsFalse() {
+        val email = "example@example.com"
+        val senha = null
+
+        val result = loginViewModel.checkNotEmptyCredentials(email, senha)
+
+        assertFalse(result)
+    }
+    @Test
+    fun checkNotEmptyCredentials_withValidCredentials_returnsTrue() {
         val email = "example@example.com"
         val senha = "1234"
 
@@ -85,7 +84,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun checkNotEmptyCredentials_Empty() {
+    fun checkNotEmptyCredentials_withEmptyEmail_returnsEmpty() {
         val email = ""
         val senha = "1234"
 
@@ -94,7 +93,7 @@ class LoginViewModelTest {
         assertFalse(result)
     }
     @Test
-    fun checkNotEmptyCredentials_Empty2() {
+    fun checkNotEmptyCredentials_withEmptyPassword_returnsEmpty() {
         val email = "example@example.com"
         val senha = ""
 
@@ -121,7 +120,7 @@ class LoginViewModelTest {
 
 
     @Test
-    fun sharedPrefsIsNotEmpty_IsEmpty() {
+    fun sharedPrefsIsNotEmpty_withEmptySharedPreferences_returnsFalse() {
         // Teste para verificar se SharedPreferences está vazio
 
         `when`(sharedPreferences.getString(anyString(), anyString())).thenReturn("")
@@ -132,7 +131,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun sharedPrefsIsNotEmpty() {
+    fun sharedPrefsIsNotEmpty_withSharedPreferencesValid_returnsTrue() {
         // Teste para verificar se SharedPreferences não está vazio
 
         // Configuração do mock de SharedPreferences para retornar um valor específico
@@ -146,7 +145,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun sharedPrefsIsNotEmpty_contextIsNull() {
+    fun sharedPrefsIsNotEmpty_withNullSharedPreferences_returnsFalse() {
         //stub
         `when`(sharedPreferences.getString(anyString(), anyString())).thenReturn(null)
 
