@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Pokedex"
         tools:targetApi="s">
         <activity
+            android:name=".presentation.ui.details.PokemonDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.ui.main.MainActivity"
             android:exported="false" />
         <activity
