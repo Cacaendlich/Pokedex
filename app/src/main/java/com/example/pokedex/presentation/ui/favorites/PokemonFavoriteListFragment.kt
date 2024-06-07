@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -96,6 +97,14 @@ class PokemonFavoriteListFragment : Fragment(), PokemonAdapter.OnItemClickListen
         val pokemon = mPokemonAdapter.mPokemonList[position]
         pokemon?.let {
             favoriteListViewModel.removeFavorite( it, requireContext())
+        }
+    }
+
+    override fun onDetailClick(position: Int, imageView: ImageView) {
+        val pokemon = mPokemonAdapter.mPokemonList[position]
+        val message = "Detalhes de ${pokemon?.name} clicados!"
+        pokemon?.let {
+            Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
         }
     }
 
