@@ -5,12 +5,12 @@ import android.content.SharedPreferences
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import org.junit.Assert.assertEquals // Importação correta para o JUnit 4
-import org.junit.Assert.assertFalse // Importação correta para o JUnit 4
-import org.junit.Assert.assertTrue // Importação correta para o JUnit 4
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mock
-import org.mockito.Mockito.* // Importação correta para o Mockito com JUnit 4
+import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
 
 class LoginViewModelTest {
