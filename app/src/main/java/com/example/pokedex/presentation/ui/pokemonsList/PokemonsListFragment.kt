@@ -1,5 +1,6 @@
 package com.example.pokedex.presentation.ui.pokemonsList
 
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
@@ -17,6 +18,7 @@ import com.example.pokedex.data.local.model.PokemonEntity
 import com.example.pokedex.databinding.FragmentPokemonsListBinding
 import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presentation.adapter.PokemonAdapter
+import com.example.pokedex.presentation.ui.details.PokemonDetailActivity
 import com.example.pokedex.presentation.ui.favorites.PokemonFavoriteListViewModel
 
 class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
@@ -137,7 +139,8 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
         val message = "Detalhes de ${pokemon?.name} clicados!"
         pokemon?.let {
             Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
-//            val intent = Intent(requireActivity(), PokemonDetailsFragment::class.java)
+            val intent = Intent(requireActivity(), PokemonDetailActivity::class.java)
+            startActivity(intent)
         }
     }
 
