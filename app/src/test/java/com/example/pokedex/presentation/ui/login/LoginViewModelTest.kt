@@ -2,22 +2,18 @@ package com.example.pokedex.presentation.ui.login
 
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.lifecycle.Observer
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.Assert.assertEquals // Importação correta para o JUnit 4
+import org.junit.Assert.assertFalse // Importação correta para o JUnit 4
+import org.junit.Assert.assertTrue // Importação correta para o JUnit 4
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mock
-import org.mockito.Mockito.anyString
-import org.mockito.Mockito.never
-import org.mockito.Mockito.verify
-import org.mockito.Mockito.`when`
+import org.mockito.Mockito.* // Importação correta para o Mockito com JUnit 4
 import org.mockito.MockitoAnnotations
 
 class LoginViewModelTest {
-
     private  var loginViewModel: LoginViewModel = LoginViewModel() // Instância da classe LoginViewModel
 
     @Mock
@@ -47,13 +43,100 @@ class LoginViewModelTest {
     }
 
 
-//    @Test
-//    fun loginIsValid_withValidCredentials_setsSuccessState() {
-//        val email = "teste@teste.com"
-//        val password = "1234"
-//
-//        loginViewModel.loginIsValid(email, password)
-//    }
+    @Test
+    fun loginIsValid_withValidCredentials_result1() {
+        // Create an active task
+        // Given: Configurar condições iniciais e dependências para o teste
+        val email = "example@example.com"
+        val password = "1234"
+
+        // Call your function
+        // When: Realizar a ação ou método que está sendo testado
+        val result = loginViewModel.loginIsValid(email, password)
+
+        // Check the result
+        // Then: Verificar os resultados esperados
+        assertEquals( "1", result)
+    }
+
+    @Test
+    fun loginIsValid_withInValidPassword_result2() {
+        // Create an active task
+        // Given: Configurar condições iniciais e dependências para o teste
+        val email = "example@example.com"
+        val password = "123"
+
+        // Call your function
+        // When: Realizar a ação ou método que está sendo testado
+        val result = loginViewModel.loginIsValid(email, password)
+
+        // Check the result
+        // Then: Verificar os resultados esperados
+        assertEquals( "2", result)
+    }
+
+    @Test
+    fun loginIsValid_withInValidEmail_result2() {
+        // Create an active task
+        // Given: Configurar condições iniciais e dependências para o teste
+        val email = "example.com"
+        val password = "1234"
+
+        // Call your function
+        // When: Realizar a ação ou método que está sendo testado
+        val result = loginViewModel.loginIsValid(email, password)
+
+        // Check the result
+        // Then: Verificar os resultados esperados
+        assertEquals( "2", result)
+    }
+
+    @Test
+    fun loginIsValid_withEmptyEmail_result3() {
+        // Create an active task
+        // Given: Configurar condições iniciais e dependências para o teste
+        val email = ""
+        val password = "1234"
+
+        // Call your function
+        // When: Realizar a ação ou método que está sendo testado
+        val result = loginViewModel.loginIsValid(email, password)
+
+        // Check the result
+        // Then: Verificar os resultados esperados
+        assertEquals( "3", result)
+    }
+
+    @Test
+    fun loginIsValid_withEmptyPassword_result3() {
+        // Create an active task
+        // Given: Configurar condições iniciais e dependências para o teste
+        val email = "example@example.com"
+        val password = ""
+
+        // Call your function
+        // When: Realizar a ação ou método que está sendo testado
+        val result = loginViewModel.loginIsValid(email, password)
+
+        // Check the result
+        // Then: Verificar os resultados esperados
+        assertEquals( "3", result)
+    }
+    @Test
+    fun loginIsValid_withEmptyCredentials_result3() {
+        // Create an active task
+        // Given: Configurar condições iniciais e dependências para o teste
+        val email = ""
+        val password = ""
+
+        // Call your function
+        // When: Realizar a ação ou método que está sendo testado
+        val result = loginViewModel.loginIsValid(email, password)
+
+        // Check the result
+        // Then: Verificar os resultados esperados
+        assertEquals( "3", result)
+    }
 
     @Test
     fun checkNotEmptyCredentials_withNullEmail_returnsFalse() {
@@ -105,16 +188,20 @@ class LoginViewModelTest {
 
     @Test
     fun saveLoginData_withEmptySharedPreferences_savesNewEmail() {
-        //stubs
+        // Given: Scenario where `getStoredLoginData(context)` returns an empty string.
         `when`(loginViewModel.getStoredLoginData(context)).thenReturn("")
 
+        // Stubbing for SharedPreferences edit and putString methods.
         `when`(sharedPreferences.edit()).thenReturn(editor)
 
         `when`(editor.putString(anyString(), anyString())).thenReturn(editor)
 
+        // When: Invoking `loginViewModel.saveLoginData(context, "example@example.com")`.
         loginViewModel.saveLoginData(context, "example@example.com")
 
+        // Then: Expected behavior is to call `putString("email", "example@example.com")` on editor.
         verify(editor).putString("email", "example@example.com")
+        // And then I hope you apply the changes.
         verify(editor).apply()
     }
 

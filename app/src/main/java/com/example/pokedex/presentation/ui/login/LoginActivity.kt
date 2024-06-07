@@ -72,7 +72,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun performLogin() {
-        viewModel.loginIsValid(
+        viewModel.updateLoginState(
             email = emailEditText.text.toString(),
             password = passwordEditText.text.toString()
         )
