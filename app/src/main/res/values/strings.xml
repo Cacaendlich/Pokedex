@@ -11,4 +11,8 @@
     <string name="star_white_favorite">star white favorite</string>
     <string name="funil_imagem">funil imagem</string>
     <string name="title_favorite">Favorite Pokemons</string>
+    <string name="_007">#007</string>
+    <string name="todo">TODO</string>
+    <string name="squirtle">Squirtle</string>
+    <string name="pokedex">Pokedex</string>
 </resources>

@@ -1,9 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_list"
+    android:orientation="vertical"
     tools:context=".presentation.ui.details.PokemonDetailActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        android:id="@+id/backgroundShape"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:src="@drawable/background_pokemondetail_image"
+        android:scaleType="fitXY"
+        android:contentDescription="@string/todo" />
+
+    <ImageView
+        android:id="@+id/image_view_pokemon"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/imagePokemonSquirtel"
+        android:layout_marginTop="40dp"
+        android:contentDescription="@string/todo"/>
+
+    <TextView
+        android:id="@+id/textViewNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/_007"
+        android:textColor="@color/black"
+        android:layout_gravity="end"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentEnd="true"
+        tools:ignore="RelativeOverlap" />
+
+    <ImageView
+        android:id="@+id/imageViewBack"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/seta_esquerda"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:contentDescription="@string/todo" />
+
+
+    <ImageView
+        android:id="@+id/favorite_off"
+        android:layout_width="30sp"
+        android:layout_height="30sp"
+        android:layout_gravity="end"
+        android:contentDescription="@string/star_white_favorite"
+        android:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/textViewName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/squirtle"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="40sp"
+        android:layout_below="@+id/backgroundShape"
+        android:layout_marginTop="20dp"/>
+
+</RelativeLayout>
