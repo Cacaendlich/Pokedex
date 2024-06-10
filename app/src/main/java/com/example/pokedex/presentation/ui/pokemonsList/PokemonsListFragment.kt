@@ -138,7 +138,6 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
         val pokemon = mPokemonAdapter.mPokemonList[position]
         val message = "Detalhes de ${pokemon?.name} clicados!"
         pokemon?.let {
-            Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
             val intent = Intent(requireActivity(), PokemonDetailActivity::class.java)
             startActivity(intent)
         }
