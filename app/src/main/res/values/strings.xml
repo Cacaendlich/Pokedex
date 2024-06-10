@@ -21,7 +21,7 @@
     <string name="weight">WEIGHT</string>
     <string name="height">HEIGHT</string>
     <string name="_1_0">0.5</string>
-    <string name="hp">HP</string>
+    <string name="hp">HP&#160;&#160;</string>
     <string name="atk">ATK</string>
     <string name="def">DEF</string>
     <string name="spd">SPD</string>
