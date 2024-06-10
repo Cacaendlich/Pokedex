@@ -17,8 +17,14 @@
     <string name="pokedex">Pokedex</string>
     <string name="type">type</string>
     <string name="type_1">Type 1</string>
-    <string name="_90_1">90.1</string>
+    <string name="_90_1">9.0</string>
     <string name="weight">WEIGHT</string>
     <string name="height">HEIGHT</string>
-    <string name="_1_0">1.0</string>
+    <string name="_1_0">0.5</string>
+    <string name="hp">HP</string>
+    <string name="atk">ATK</string>
+    <string name="def">DEF</string>
+    <string name="spd">SPD</string>
+    <string name="xp">XP</string>
+    <string name="status">STATUS</string>
 </resources>

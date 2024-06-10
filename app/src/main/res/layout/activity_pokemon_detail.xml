@@ -7,24 +7,27 @@
     android:orientation="vertical"
     tools:context=".presentation.ui.details.PokemonDetailActivity">
 
+    <!-- Background image for top section -->
     <ImageView
-        android:id="@+id/backgroundShape"
+        android:id="@+id/imageView_BackgroundShape"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:src="@drawable/background_pokemondetail_image"
         android:scaleType="fitXY"
         android:contentDescription="@string/todo" />
 
+    <!-- Main Pokémon image -->
     <ImageView
-        android:id="@+id/image_view_pokemon"
+        android:id="@+id/imageView_Pokemon"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:src="@drawable/imagePokemonSquirtel"
         android:layout_marginTop="40dp"
         android:contentDescription="@string/todo"/>
 
+    <!-- Pokémon number -->
     <TextView
-        android:id="@+id/textViewNumber"
+        android:id="@+id/textView_Number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/_007"
@@ -37,8 +40,9 @@
         android:layout_alignParentEnd="true"
         tools:ignore="RelativeOverlap" />
 
+    <!-- Back arrow to return to list -->
     <ImageView
-        android:id="@+id/imageViewBack"
+        android:id="@+id/imageView_BackToList"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:src="@drawable/seta_esquerda"
@@ -47,16 +51,9 @@
         android:layout_marginStart="10dp"
         android:contentDescription="@string/todo" />
 
-    <ImageView
-        android:id="@+id/favorite_off"
-        android:layout_width="30sp"
-        android:layout_height="30sp"
-        android:layout_gravity="end"
-        android:contentDescription="@string/star_white_favorite"
-        android:visibility="visible"/>
-
+    <!-- Pokémon name -->
     <TextView
-        android:id="@+id/textViewName"
+        android:id="@+id/textView_pokemonName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/squirtle"
@@ -64,35 +61,39 @@
         android:textColor="@color/white"
         android:textStyle="bold"
         android:textSize="40sp"
-        android:layout_below="@+id/backgroundShape"
+        android:layout_below="@+id/imageView_BackgroundShape"
         android:layout_marginTop="20dp"/>
 
+    <!-- Horizontal layout for Pokémon types -->
     <LinearLayout
-        android:id="@+id/linearLayoutTypes"
+        android:id="@+id/linearLayout_pokemonTypes"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_below="@+id/textViewName"
+        android:layout_below="@+id/textView_pokemonName"
         android:orientation="horizontal"
         android:padding="20dp"
         android:gravity="center"
         android:layout_marginTop="20sp">
 
+        <!-- RecyclerView for types -->
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewTypes"
+            android:id="@+id/recyclerView_pokemonTypes"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
     </LinearLayout>
 
+    <!-- Horizontal layout for weight and height -->
     <LinearLayout
-        android:id="@+id/linearLayout_Weight_Height"
+        android:id="@+id/linearLayout_weightHeight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayoutTypes"
+        android:layout_below="@+id/linearLayout_pokemonTypes"
         android:orientation="horizontal"
         android:gravity="center"
         android:layout_marginTop="20sp">
 
+        <!-- Vertical layout for weight -->
         <LinearLayout
             android:id="@+id/linearLayout_Weight"
             android:layout_width="wrap_content"
@@ -100,8 +101,9 @@
             android:orientation="vertical"
             android:layout_marginEnd="50dp">
 
+            <!-- weight value -->
             <TextView
-                android:id="@+id/weight_Value"
+                android:id="@+id/textView_weightValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/_90_1"
@@ -110,7 +112,9 @@
                 android:textSize="20sp"
                 android:layout_gravity="center"/>
 
+            <!-- weight title -->
             <TextView
+                android:id="@+id/textView_weightTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/weight"
@@ -120,14 +124,16 @@
 
         </LinearLayout>
 
+        <!-- Vertical layout for height -->
         <LinearLayout
             android:id="@+id/linearLayout_Height"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <!-- weight value -->
             <TextView
-                android:id="@+id/height_Value"
+                android:id="@+id/textView_heightValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/_1_0"
@@ -136,7 +142,9 @@
                 android:textSize="20sp"
                 android:layout_gravity="center"/>
 
+            <!-- height title -->
             <TextView
+                android:id="@+id/textView_heightTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/height"
@@ -145,6 +153,170 @@
                 android:layout_gravity="center"/>
 
         </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Status section title -->
+    <TextView
+        android:id="@+id/textView_statusTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/status"
+        android:layout_below="@+id/linearLayout_weightHeight"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:layout_marginTop="40dp"/>
+
+    <!-- Vertical layout for status -->
+    <LinearLayout
+        android:id="@+id/linearLayout_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView_statusTitle"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginTop="20sp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="30dp">
+
+        <!-- Horizontal layout HP -->
+        <LinearLayout
+            android:id="@+id/linearLayout_statusHP"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_margin="8dp">
+
+            <!-- HP text -->
+            <TextView
+                android:id="@+id/textView_HP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hp"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <!-- HP progress bar -->
+            <ProgressBar
+                android:id="@+id/progressBar_HP"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:max="100"
+                android:progress="44"
+                android:progressTint="@color/status_hp"
+                android:progressDrawable="@drawable/background_status"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp" />
+
+        </LinearLayout>
+
+        <!-- Horizontal layout atk -->
+        <LinearLayout
+            android:id="@+id/linearLayout_statusATK"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_margin="8dp">
+
+            <!-- ATK text -->
+            <TextView
+                android:id="@+id/textView_ATK"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/atk"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <!-- ATK progress bar -->
+            <ProgressBar
+                android:id="@+id/progressBar_atk"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:max="100"
+                android:progress="48"
+                android:progressTint="@color/status_atk"
+                android:progressDrawable="@drawable/background_status"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp" />
+
+        </LinearLayout>
+
+        <!-- Horizontal layout def -->
+        <LinearLayout
+            android:id="@+id/linearLayout_statusDEF"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_margin="8dp">
+
+            <!-- DEF text -->
+            <TextView
+                android:id="@+id/textView_DEF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/def"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <!-- ATK progress bar -->
+            <ProgressBar
+                android:id="@+id/progressBar_def"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:max="100"
+                android:progress="65"
+                android:progressTint="@color/status_def"
+                android:progressDrawable="@drawable/background_status"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp" />
+
+        </LinearLayout>
+
+        <!-- Horizontal layout spd -->
+        <LinearLayout
+            android:id="@+id/linearLayout_statusSPD"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_margin="8dp">
+
+            <!-- SPD text -->
+            <TextView
+                android:id="@+id/textView_SPD"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/spd"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <!-- SPD progress bar -->
+            <ProgressBar
+                android:id="@+id/progressBar_spd"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:max="100"
+                android:progress="43"
+                android:progressTint="@color/status_spd"
+                android:progressDrawable="@drawable/background_status"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp" />
+
+        </LinearLayout>
+
 
     </LinearLayout>
 

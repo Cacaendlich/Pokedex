@@ -9,5 +9,6 @@ data class PokemonDetail(
     val atk: Int,
     val def: Int,
     val spd: Int,
-    val xp: Int
+    val height: Double,
+    val weight: Double
 )
