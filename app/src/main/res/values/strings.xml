@@ -15,4 +15,10 @@
     <string name="todo">TODO</string>
     <string name="squirtle">Squirtle</string>
     <string name="pokedex">Pokedex</string>
+    <string name="type">type</string>
+    <string name="type_1">Type 1</string>
+    <string name="_90_1">90.1</string>
+    <string name="weight">WEIGHT</string>
+    <string name="height">HEIGHT</string>
+    <string name="_1_0">1.0</string>
 </resources>
