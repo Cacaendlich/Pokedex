@@ -21,7 +21,6 @@
         android:id="@+id/imageView_Pokemon"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:src="@drawable/imagePokemonSquirtel"
         android:layout_marginTop="40dp"
         android:contentDescription="@string/todo"/>
 
@@ -161,7 +160,7 @@
         android:id="@+id/textView_statusTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/status"
+        android:text="@string/statics"
         android:layout_below="@+id/linearLayout_weightHeight"
         android:textColor="@color/white"
         android:gravity="center"
