@@ -136,7 +136,6 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
 
     override fun onDetailClick(position: Int, imageView: ImageView) {
         val pokemon = mPokemonAdapter.mPokemonList[position]
-        val message = "Detalhes de ${pokemon?.name} clicados!"
         pokemon?.let {
             val intent = Intent(requireActivity(), PokemonDetailActivity::class.java)
             startActivity(intent)
