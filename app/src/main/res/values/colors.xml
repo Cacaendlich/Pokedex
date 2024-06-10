@@ -11,9 +11,9 @@
     <color name="read">#D53A47</color>
     <color name="yellow">#FBC02D</color>
     <color name="progressIndicatorColor">#00FF00</color>
-    <color name="status_hp">#0027B3</color>
-    <color name="status_atk">#B30054</color>
-    <color name="status_def">#00B374</color>
-    <color name="status_spd">#DFC100</color>
+    <color name="status_hp">#3A47D5</color>
+    <color name="status_atk">#D58A3A</color>
+    <color name="status_def">#3AD54A</color>
+    <color name="status_spd">#F8F844</color>
 
 </resources>
