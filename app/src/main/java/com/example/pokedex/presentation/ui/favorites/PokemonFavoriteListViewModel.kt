@@ -19,7 +19,7 @@ class PokemonFavoriteListViewModel : ViewModel() {
     var favoriteList = MutableLiveData<List<PokemonEntity>>()
 
     fun loadPokemons(favoriteList: List<PokemonEntity>) {
-        val limit = 100
+        val limit = 1000
         val offset = 0
 
         val pokemonsApiResultAPI = RetrofitClient.listPokemons(limit, offset)
@@ -63,17 +63,17 @@ class PokemonFavoriteListViewModel : ViewModel() {
     }
 
     private fun addFavorite(pokemon: PokemonEntity, context: Context, callback: () -> Unit) {
-        Thread{
+        viewModelScope.launch(Dispatchers.IO) {
             PokemonDataBase.getDataBase(context).PokemonDao().insertPokemonFavorite(pokemon)
             callback()
-        }.start()
+        }
     }
 
     private fun deleteFavorite(pokemonId: Int, context: Context, callback: () -> Unit) {
-        Thread{
+        viewModelScope.launch(Dispatchers.IO){
             PokemonDataBase.getDataBase(context).PokemonDao().deletePokemonFavorite(pokemonId)
             callback()
-        }.start()
+        }
     }
 
     fun isFavorite(favoriteList: List<PokemonEntity>, pokemon: Pokemon): Boolean {
@@ -99,13 +99,13 @@ class PokemonFavoriteListViewModel : ViewModel() {
     }
 
     fun removeFavorite(pokemon: Pokemon, context: Context) {
-        Thread {
+        viewModelScope.launch(Dispatchers.IO) {
             deleteFavorite(pokemon.number, context) {
                 loadFavorites(context) { favorites ->
                     loadPokemons(favorites)
                 }
             }
-        }.start()
+        }
     }
 
 }

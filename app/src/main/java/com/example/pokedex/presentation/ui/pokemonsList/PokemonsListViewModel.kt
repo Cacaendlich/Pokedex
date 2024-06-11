@@ -4,8 +4,11 @@ package com.example.pokedex.presentation.ui.pokemonsList
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.pokedex.data.network.RetrofitClient
 import com.example.pokedex.domain.model.Pokemon
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class PokemonsListViewModel : ViewModel() {
     var pokemonsState = MutableLiveData<List<Pokemon?>>()
@@ -13,13 +16,9 @@ class PokemonsListViewModel : ViewModel() {
     var isLoading = MutableLiveData<Boolean>().apply { value = false }
 
     init {
-
-        Thread {
-
+        viewModelScope.launch(Dispatchers.IO) {
             loadPokemons()
-
-        }.start()
-
+        }
     }
 
     private fun loadPokemons() {
@@ -50,7 +49,7 @@ class PokemonsListViewModel : ViewModel() {
 
             val currentOffset = pokemonsState.value?.size ?: 0
 
-            Thread {
+            viewModelScope.launch(Dispatchers.IO){
                 val pokemonsApiResultAPI = RetrofitClient.listPokemons(14, currentOffset)
 
                 pokemonsApiResultAPI?.results?.let { newPokemons ->
@@ -70,16 +69,14 @@ class PokemonsListViewModel : ViewModel() {
                 }
 
                 isLoading.postValue(false)
-
-            }.start()
-
+            }
         }
     }
 
     fun refreshPokemons() {
         isLoading.value = true
 
-        Thread {
+        viewModelScope.launch(Dispatchers.IO){
             try {
                 loadPokemons()
             } catch (e: Exception) {
@@ -87,7 +84,7 @@ class PokemonsListViewModel : ViewModel() {
             } finally {
                 isLoading.postValue(false)
             }
-        }.start()
+        }
     }
 
 }
