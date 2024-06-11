@@ -3,11 +3,14 @@ package com.example.pokedex.presentation.ui.favorites
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.pokedex.data.local.database.PokemonDataBase
 import com.example.pokedex.data.local.model.PokemonEntity
 import com.example.pokedex.data.network.RetrofitClient
 import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presentation.adapter.PokemonAdapter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class PokemonFavoriteListViewModel : ViewModel() {
     private var isLoading = MutableLiveData<Boolean>().apply { value = false }
@@ -45,7 +48,7 @@ class PokemonFavoriteListViewModel : ViewModel() {
     }
 
     fun loadFavorites(context: Context, callback: (List<PokemonEntity>) -> Unit) {
-        Thread{
+        viewModelScope.launch(Dispatchers.IO) {
             isLoading.postValue(true)
             val favorites = PokemonDataBase
                 .getDataBase(context)
@@ -56,7 +59,7 @@ class PokemonFavoriteListViewModel : ViewModel() {
                 }
             isLoading.postValue(false)
             callback(favorites)
-        }.start()
+        }
     }
 
     private fun addFavorite(pokemon: PokemonEntity, context: Context, callback: () -> Unit) {
