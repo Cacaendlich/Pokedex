@@ -1,18 +1,23 @@
 package com.example.pokedex.presentation.ui.details
 
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.pokedex.databinding.ActivityPokemonDetailBinding
+import com.example.pokedex.presentation.adapter.PokemonTypesAdapter
 import com.example.pokedex.presentation.ui.main.MainActivity
 
 class PokemonDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPokemonDetailBinding
     private lateinit var pokemonDetailsViewModel : PokemonDetailsViewModel
+    private lateinit var mRecyclerView: RecyclerView
+    private lateinit var mPokemonTypesAdapter: PokemonTypesAdapter
+    private lateinit var mLayoutManager: LinearLayoutManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPokemonDetailBinding.inflate(layoutInflater)
@@ -21,29 +26,19 @@ class PokemonDetailActivity : AppCompatActivity() {
 
         pokemonDetailsViewModel = ViewModelProvider(this)[PokemonDetailsViewModel::class.java]
 
-        binding.imageViewBackToList.setOnClickListener {
-            val sourceFragment = intent.getStringExtra("sourceFragment")
-            Log.d(TAG, "Source Fragment: $sourceFragment")
+        mRecyclerView = binding.recyclerViewPokemonTypes
 
-            when (sourceFragment) {
-                "PokemonsFavoriteListFragment" -> {
-                    Log.d(TAG, "Popping back to PokemonsFavoriteListFragment")
-                    supportFragmentManager.popBackStack("PokemonsFavoriteListFragment", 0)
-                }
-                "PokemonsListFragment" -> {
-                    Log.d(TAG, "Popping back to PokemonsListFragment")
-                    supportFragmentManager.popBackStack("PokemonsListFragment", 0)
-                }
-                else -> {
-                    Log.d(TAG, "Starting MainActivity")
-                    startActivity(Intent(this, MainActivity::class.java))
-                }
-            }
+        binding.imageViewBackToList.setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
         }
 
-
     }
-    companion object {
-        private const val TAG = "PokemonDetailActivity"
+
+    private fun updateRecyclerView(types: List<String>) {
+        mLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        mPokemonTypesAdapter = PokemonTypesAdapter(types)
+
+        mRecyclerView.layoutManager = mLayoutManager
+        mRecyclerView.adapter = mPokemonTypesAdapter
     }
 }

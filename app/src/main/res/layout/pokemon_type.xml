@@ -17,11 +17,10 @@
         android:background="@drawable/background_type"
         tools:ignore="UseCompoundDrawables">
         <TextView
-            android:id="@+id/textView_pokemontypeName"
+            android:id="@+id/textView_pokemonType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/type_1"
             android:textColor="@color/white"
             android:textSize="20sp"
             tools:ignore="TextContrastCheck" />
