@@ -6,11 +6,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pokedex.data.network.RetrofitClient
+import com.example.pokedex.data.repository.PokemonRepositoryImpl
 import com.example.pokedex.domain.model.Pokemon
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class PokemonsListViewModel : ViewModel() {
+class PokemonsListViewModel(private val pokemonRepositoryIml: PokemonRepositoryImpl) : ViewModel() {
     var pokemonsState = MutableLiveData<List<Pokemon?>>()
 
     var isLoading = MutableLiveData<Boolean>().apply { value = false }
@@ -21,24 +22,16 @@ class PokemonsListViewModel : ViewModel() {
         }
     }
 
-    private fun loadPokemons() {
+    private suspend fun loadPokemons() {
         val limit = 14
         val offset = 0
 
-        val pokemonsApiResultAPI = RetrofitClient.listPokemons(limit, offset)
+        try {
+            val pokemonsList = pokemonRepositoryIml.listPokemons(limit, offset)
+            pokemonsState.postValue(pokemonsList)
 
-        pokemonsApiResultAPI?.results?.let {
-
-            pokemonsState.postValue(it.map { pokemonResult ->
-
-                val name = pokemonResult.name
-
-                val pokemonApiResult = RetrofitClient.getPokemon(name)
-
-                pokemonApiResult?.let { Pokemon(pokemonApiResult.id, pokemonApiResult.name) }
-
-            })
-
+        }catch (e: Exception) {
+            Log.e("PokemonsListViewModel", "Error loading pokemons: ${e.message}")
         }
 
     }

@@ -7,10 +7,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.pokedex.R
 import com.example.pokedex.data.network.RetrofitClient
+import com.example.pokedex.data.repository.PokemonRepositoryImpl
 import com.example.pokedex.databinding.ActivityMainBinding
 import com.example.pokedex.presenter.ui.pokemonsList.PokemonsListFragment
 import com.example.pokedex.presenter.ui.favorites.PokemonFavoriteListFragment
 import com.example.pokedex.presenter.ui.pokemonsList.PokemonsListViewModel
+import com.example.pokedex.presenter.ui.pokemonsList.PokemonsListViewModelFactory
 
 
 class MainActivity : AppCompatActivity() {
@@ -25,7 +27,8 @@ class MainActivity : AppCompatActivity() {
 
         RetrofitClient.initialize(this)
 
-        pokemonsListViewModel = ViewModelProvider(this)[PokemonsListViewModel::class.java]
+        val factory = PokemonsListViewModelFactory(PokemonRepositoryImpl(RetrofitClient))
+        pokemonsListViewModel = ViewModelProvider(this, factory)[PokemonsListViewModel::class.java]
 
 
         binding.buttonFavorites.setOnClickListener {
