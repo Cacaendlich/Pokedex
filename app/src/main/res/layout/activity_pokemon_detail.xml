@@ -22,6 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_marginTop="40dp"
+        android:src="@drawable/squirtle_pokemon"
         android:contentDescription="@string/todo"/>
 
     <!-- Pokémon number -->
