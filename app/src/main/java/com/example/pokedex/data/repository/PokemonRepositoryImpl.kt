@@ -3,6 +3,7 @@ package com.example.pokedex.data.repository
 import com.example.pokedex.data.network.RetrofitClient
 import com.example.pokedex.domain.model.Pokemon
 
+//Implementa PokemonRepository
 class PokemonRepositoryImpl(private val retrofitClient: RetrofitClient) : PokemonRepository {
     override suspend fun listPokemons(limit: Int, offset: Int): List<Pokemon?> {
         val pokemonsApiResult = retrofitClient.listPokemons(limit, offset)
