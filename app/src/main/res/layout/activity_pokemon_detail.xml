@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/background_list"
     android:orientation="vertical"
-    tools:context=".presentation.ui.details.PokemonDetailActivity">
+    tools:context=".presenter.ui.details.PokemonDetailActivity">
 
     <!-- Background image for top section -->
     <ImageView
