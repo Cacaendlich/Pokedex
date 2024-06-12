@@ -3,11 +3,14 @@ package com.example.pokedex.presentation.ui.favorites
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.pokedex.data.local.database.PokemonDataBase
 import com.example.pokedex.data.local.model.PokemonEntity
 import com.example.pokedex.data.network.RetrofitClient
 import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presentation.adapter.PokemonAdapter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class PokemonFavoriteListViewModel : ViewModel() {
     private var isLoading = MutableLiveData<Boolean>().apply { value = false }
@@ -16,7 +19,7 @@ class PokemonFavoriteListViewModel : ViewModel() {
     var favoriteList = MutableLiveData<List<PokemonEntity>>()
 
     fun loadPokemons(favoriteList: List<PokemonEntity>) {
-        val limit = 100
+        val limit = 1000
         val offset = 0
 
         val pokemonsApiResultAPI = RetrofitClient.listPokemons(limit, offset)
@@ -45,7 +48,7 @@ class PokemonFavoriteListViewModel : ViewModel() {
     }
 
     fun loadFavorites(context: Context, callback: (List<PokemonEntity>) -> Unit) {
-        Thread{
+        viewModelScope.launch(Dispatchers.IO) {
             isLoading.postValue(true)
             val favorites = PokemonDataBase
                 .getDataBase(context)
@@ -56,21 +59,21 @@ class PokemonFavoriteListViewModel : ViewModel() {
                 }
             isLoading.postValue(false)
             callback(favorites)
-        }.start()
+        }
     }
 
     private fun addFavorite(pokemon: PokemonEntity, context: Context, callback: () -> Unit) {
-        Thread{
+        viewModelScope.launch(Dispatchers.IO) {
             PokemonDataBase.getDataBase(context).PokemonDao().insertPokemonFavorite(pokemon)
             callback()
-        }.start()
+        }
     }
 
     private fun deleteFavorite(pokemonId: Int, context: Context, callback: () -> Unit) {
-        Thread{
+        viewModelScope.launch(Dispatchers.IO){
             PokemonDataBase.getDataBase(context).PokemonDao().deletePokemonFavorite(pokemonId)
             callback()
-        }.start()
+        }
     }
 
     fun isFavorite(favoriteList: List<PokemonEntity>, pokemon: Pokemon): Boolean {
@@ -96,13 +99,13 @@ class PokemonFavoriteListViewModel : ViewModel() {
     }
 
     fun removeFavorite(pokemon: Pokemon, context: Context) {
-        Thread {
+        viewModelScope.launch(Dispatchers.IO) {
             deleteFavorite(pokemon.number, context) {
                 loadFavorites(context) { favorites ->
                     loadPokemons(favorites)
                 }
             }
-        }.start()
+        }
     }
 
 }

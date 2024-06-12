@@ -1,5 +1,6 @@
 package com.example.pokedex.presentation.ui.pokemonsList
 
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
@@ -8,16 +9,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.pokedex.data.local.model.PokemonEntity
-import com.example.pokedex.data.network.RetrofitClient
 import com.example.pokedex.databinding.FragmentPokemonsListBinding
 import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presentation.adapter.PokemonAdapter
+import com.example.pokedex.presentation.ui.details.PokemonDetailActivity
 import com.example.pokedex.presentation.ui.favorites.PokemonFavoriteListViewModel
 
 class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
@@ -130,6 +131,15 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
         val pokemon = mPokemonAdapter.mPokemonList[position]
         pokemon?.let {
             favoriteListViewModel.updateFavoritesList(position, it, mfavoriteList, mPokemonAdapter, requireContext())
+        }
+    }
+
+    override fun onDetailClick(position: Int, imageView: ImageView) {
+        val pokemon = mPokemonAdapter.mPokemonList[position]
+        pokemon?.let {
+            val intent = Intent(requireActivity(), PokemonDetailActivity::class.java)
+            intent.putExtra("EXTRA_POKEMON_POSITION", position)
+            startActivity(intent)
         }
     }
 

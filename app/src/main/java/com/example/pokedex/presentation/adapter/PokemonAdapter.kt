@@ -24,6 +24,7 @@ class PokemonAdapter(
 
     interface OnItemClickListener {
         fun onFavoriteClick(position: Int, imageView: ImageView)
+        fun onDetailClick(position: Int, imageView: ImageView)
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
@@ -53,6 +54,12 @@ class PokemonAdapter(
             mImageViewFavoriteOFF.setOnClickListener {
                 bindingAdapterPosition.let {
                     onItemClickListener?.onFavoriteClick(it, mImageViewFavoriteOFF)
+                }
+            }
+
+            mImageViewPokemon.setOnClickListener {
+                bindingAdapterPosition.let {
+                    onItemClickListener?.onDetailClick(it, mImageViewPokemon)
                 }
             }
         }
