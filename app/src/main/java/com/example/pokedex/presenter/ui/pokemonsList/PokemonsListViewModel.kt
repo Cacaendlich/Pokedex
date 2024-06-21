@@ -9,14 +9,15 @@ import com.example.pokedex.domain.model.Pokemon
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class PokemonsListViewModel(private val pokemonRepository: PokemonRepository) : ViewModel() {
+class PokemonsListViewModel(
+    private val pokemonRepository: PokemonRepository
+) : ViewModel() {
     companion object {
         private const val LIMIT = 14
         private const val OFFSET = 0
     }
 
     var pokemonsState = MutableLiveData<List<Pokemon?>>()
-
     var isLoading = MutableLiveData<Boolean>().apply { value = false }
 
     init {
@@ -34,11 +35,9 @@ class PokemonsListViewModel(private val pokemonRepository: PokemonRepository) : 
         }
 
     }
-
     private suspend fun loadPokemons(limit: Int, offset: Int): List<Pokemon?> {
         return pokemonRepository.listPokemons(limit, offset)
     }
-
     fun loadMorePokemons() {
         if (!isLoading.value!!) {
             setLoading(true)
@@ -59,7 +58,6 @@ class PokemonsListViewModel(private val pokemonRepository: PokemonRepository) : 
             }
         }
     }
-
     fun refreshPokemons() {
         setLoading(true)
 
@@ -73,7 +71,6 @@ class PokemonsListViewModel(private val pokemonRepository: PokemonRepository) : 
             }
         }
     }
-
     private fun setLoading(loading: Boolean) {
         isLoading.postValue(loading)
     }
