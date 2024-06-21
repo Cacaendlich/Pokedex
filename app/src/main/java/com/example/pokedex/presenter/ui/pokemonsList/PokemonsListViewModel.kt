@@ -6,12 +6,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pokedex.data.network.RetrofitClient
+import com.example.pokedex.data.repository.PokemonRepository
 import com.example.pokedex.data.repository.PokemonRepositoryImpl
 import com.example.pokedex.domain.model.Pokemon
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class PokemonsListViewModel(private val pokemonRepositoryIml: PokemonRepositoryImpl) : ViewModel() {
+class PokemonsListViewModel(private val pokemonRepository: PokemonRepository) : ViewModel() {
     var pokemonsState = MutableLiveData<List<Pokemon?>>()
 
     var isLoading = MutableLiveData<Boolean>().apply { value = false }
@@ -27,7 +28,7 @@ class PokemonsListViewModel(private val pokemonRepositoryIml: PokemonRepositoryI
         val offset = 0
 
         try {
-            val pokemonsList = pokemonRepositoryIml.listPokemons(limit, offset)
+            val pokemonsList = pokemonRepository.listPokemons(limit, offset)
             pokemonsState.postValue(pokemonsList)
 
         }catch (e: Exception) {

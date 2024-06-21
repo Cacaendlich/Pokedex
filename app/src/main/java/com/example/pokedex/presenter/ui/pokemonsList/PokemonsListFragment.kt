@@ -52,7 +52,10 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val factory = PokemonsListViewModelFactory(PokemonRepositoryImpl(RetrofitClient))
+        val retrofitClient = RetrofitClient
+        val pokemonRepository = PokemonRepositoryImpl(retrofitClient)
+        val factory = PokemonsListViewModelFactory(pokemonRepository)
+
         pokemonsListViewModel = ViewModelProvider(requireActivity(), factory)[PokemonsListViewModel::class.java]
         favoriteListViewModel = ViewModelProvider(requireActivity())[PokemonFavoriteListViewModel::class.java]
 
