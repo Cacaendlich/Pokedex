@@ -25,7 +25,7 @@ class PokemonsListViewModel(
             loadInitialPokemons()
         }
     }
-    private suspend fun loadInitialPokemons() {
+    suspend fun loadInitialPokemons() {
         try {
             val pokemonsList = loadPokemons(LIMIT, OFFSET)
             pokemonsState.postValue(pokemonsList)
@@ -35,7 +35,7 @@ class PokemonsListViewModel(
         }
 
     }
-    private suspend fun loadPokemons(limit: Int, offset: Int): List<Pokemon?> {
+     suspend fun loadPokemons(limit: Int, offset: Int): List<Pokemon?> {
         return pokemonRepository.listPokemons(limit, offset)
     }
     fun loadMorePokemons() {
@@ -71,7 +71,7 @@ class PokemonsListViewModel(
             }
         }
     }
-    private fun setLoading(loading: Boolean) {
+     fun setLoading(loading: Boolean) {
         isLoading.postValue(loading)
     }
     private fun handleError(e: Exception) {
