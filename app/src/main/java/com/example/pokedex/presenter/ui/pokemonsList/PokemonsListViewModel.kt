@@ -1,84 +1,83 @@
 package com.example.pokedex.presenter.ui.pokemonsList
 
-
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.pokedex.data.network.RetrofitClient
 import com.example.pokedex.data.repository.PokemonRepository
-import com.example.pokedex.data.repository.PokemonRepositoryImpl
 import com.example.pokedex.domain.model.Pokemon
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class PokemonsListViewModel(private val pokemonRepository: PokemonRepository) : ViewModel() {
+    companion object {
+        private const val LIMIT = 14
+        private const val OFFSET = 0
+    }
+
     var pokemonsState = MutableLiveData<List<Pokemon?>>()
 
     var isLoading = MutableLiveData<Boolean>().apply { value = false }
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            loadPokemons()
+            loadInitialPokemons()
         }
     }
-
-    private suspend fun loadPokemons() {
-        val limit = 14
-        val offset = 0
-
+    private suspend fun loadInitialPokemons() {
         try {
-            val pokemonsList = pokemonRepository.listPokemons(limit, offset)
+            val pokemonsList = loadPokemons(LIMIT, OFFSET)
             pokemonsState.postValue(pokemonsList)
 
         }catch (e: Exception) {
-            Log.e("PokemonsListViewModel", "Error loading pokemons: ${e.message}")
+            handleError(e)
         }
 
+    }
+
+    private suspend fun loadPokemons(limit: Int, offset: Int): List<Pokemon?> {
+        return pokemonRepository.listPokemons(limit, offset)
     }
 
     fun loadMorePokemons() {
         if (!isLoading.value!!) {
-            isLoading.value = true
+            setLoading(true)
 
             val currentOffset = pokemonsState.value?.size ?: 0
 
             viewModelScope.launch(Dispatchers.IO){
-                val pokemonsApiResultAPI = RetrofitClient.listPokemons(14, currentOffset)
-
-                pokemonsApiResultAPI?.results?.let { newPokemons ->
-
+                try{
+                    val newPokemonList = loadPokemons(LIMIT, currentOffset)
                     val currentList = pokemonsState.value?.toMutableList() ?: mutableListOf()
-
-                    currentList.addAll(newPokemons.mapNotNull { pokemonResult ->
-
-                        val name = pokemonResult.name
-                        val pokemonApiResult = RetrofitClient.getPokemon(name)
-                        pokemonApiResult?.let { Pokemon(it.id, it.name) }
-
-                    })
-
+                    currentList.addAll(newPokemonList)
                     pokemonsState.postValue(currentList)
-
+                } catch (e: Exception) {
+                    handleError(e)
+                } finally {
+                    setLoading(false)
                 }
-
-                isLoading.postValue(false)
             }
         }
     }
 
     fun refreshPokemons() {
-        isLoading.value = true
+        setLoading(true)
 
         viewModelScope.launch(Dispatchers.IO){
             try {
-                loadPokemons()
+                loadPokemons(LIMIT, OFFSET)
             } catch (e: Exception) {
-                Log.e("PokemonsListViewModel", "Erro ao recarregar os pokémons: ${e.message}")
+                handleError(e)
             } finally {
-                isLoading.postValue(false)
+                setLoading(false)
             }
         }
     }
 
+    private fun setLoading(loading: Boolean) {
+        isLoading.postValue(loading)
+    }
+    private fun handleError(e: Exception) {
+        Log.e("PokemonsListViewModel", "Error loading pokemons: ${e.message}")
+    }
 }
