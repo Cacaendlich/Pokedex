@@ -31,10 +31,22 @@ class PokemonsListViewModelTest {
     }
 
     @Test
+    fun loadInitialPokemons() {
+    }
+
+    @Test
+    fun loadPokemons() {
+    }
+
+    @Test
     fun loadMorePokemons() {
     }
 
     @Test
     fun refreshPokemons() {
+    }
+
+    @Test
+    fun testSetLoading() {
     }
 }
