@@ -19,6 +19,8 @@ import com.example.pokedex.data.repository.PokemonRepositoryImpl
 import com.example.pokedex.databinding.FragmentPokemonsListBinding
 import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presenter.adapter.PokemonAdapter
+import com.example.pokedex.presenter.layout.LandscapeLayoutManagerProvider
+import com.example.pokedex.presenter.layout.PortraitLayoutManagerProvider
 import com.example.pokedex.presenter.ui.details.PokemonDetailActivity
 import com.example.pokedex.presenter.ui.favorites.PokemonFavoriteListViewModel
 
@@ -109,28 +111,42 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
         if (!isAdded) {
             return
         }
+        updatePokemonFavorites(pokemons)
+        setupLayoutManager()
+        setupAdapter(pokemons)
+        scrollToPosition(currentPosition)
+    }
 
+    private fun setupAdapter(pokemons: List<Pokemon?>) {
+        mPokemonAdapter = PokemonAdapter(pokemons)
+        mRecyclerView.adapter = mPokemonAdapter
+        mPokemonAdapter.setOnItemClickListener(this)
+    }
+
+    private fun setupLayoutManager() {
+        val layoutManagerProvider = if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            LandscapeLayoutManagerProvider(requireActivity())
+        } else {
+            PortraitLayoutManagerProvider(requireActivity())
+        }
+
+        mLayoutManager = layoutManagerProvider.getLayoutManager()
+        mRecyclerView.layoutManager = mLayoutManager
+
+    }
+
+    private fun updatePokemonFavorites(pokemons: List<Pokemon?>){
         pokemons.forEach { pokemon ->
             pokemon?.let {
                 it.favorite = favoriteListViewModel.isFavorite(mfavoriteList, it)
             }
         }
-
-        mLayoutManager =
-            if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                GridLayoutManager(requireActivity(), 3)
-            } else {
-                GridLayoutManager(requireActivity(), 2)
-            }
-        mPokemonAdapter = PokemonAdapter(pokemons)
-
-        mRecyclerView.layoutManager = mLayoutManager
-        mRecyclerView.adapter = mPokemonAdapter
-
-        mPokemonAdapter.setOnItemClickListener(this)
-        mRecyclerView.scrollToPosition(currentPosition)
-
     }
+
+    private fun scrollToPosition(currentPosition: Int){
+        mRecyclerView.scrollToPosition(currentPosition)
+    }
+
 
     override fun onFavoriteClick(position: Int, imageView: ImageView) {
         val pokemon = mPokemonAdapter.mPokemonList[position]
