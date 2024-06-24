@@ -19,8 +19,6 @@ import com.example.pokedex.data.repository.PokemonRepositoryImpl
 import com.example.pokedex.databinding.FragmentPokemonsListBinding
 import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presenter.adapter.PokemonAdapter
-import com.example.pokedex.presenter.layout.LandscapeLayoutManagerProvider
-import com.example.pokedex.presenter.layout.PortraitLayoutManagerProvider
 import com.example.pokedex.presenter.ui.details.PokemonDetailActivity
 import com.example.pokedex.presenter.ui.favorites.PokemonFavoriteListViewModel
 
@@ -125,12 +123,11 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
 
     private fun setupLayoutManager() {
         val layoutManagerProvider = if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            LandscapeLayoutManagerProvider(requireActivity())
+            GridLayoutManager(requireActivity(), 3)
         } else {
-            PortraitLayoutManagerProvider(requireActivity())
+            GridLayoutManager(requireActivity(), 2)
         }
-
-        mLayoutManager = layoutManagerProvider.getLayoutManager()
+        mLayoutManager = layoutManagerProvider
         mRecyclerView.layoutManager = mLayoutManager
 
     }
