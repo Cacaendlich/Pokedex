@@ -75,7 +75,7 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
 
         pokemonsListViewModel.pokemonsState.observe(requireActivity()) { pokemons ->
             initRecyclerView(pokemons, setLayout())
-            mRecyclerViewUtil = RecyclerViewUtil(mRecyclerView, favoriteListViewModel, mfavoriteList, this, mPokemonAdapter, mLayoutManager)
+            mRecyclerViewUtil = RecyclerViewUtil(mRecyclerView, favoriteListViewModel, mfavoriteList, mPokemonAdapter)
 
             pokemons?.let {
                 updateRecyclerView(pokemons)
@@ -124,7 +124,6 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
         mPokemonAdapter = PokemonAdapter(pokemons)
         mLayoutManager = layoutManagerProvider
     }
-
 
     private fun setLayout(): GridLayoutManager {
         val layoutManagerProvider = if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
