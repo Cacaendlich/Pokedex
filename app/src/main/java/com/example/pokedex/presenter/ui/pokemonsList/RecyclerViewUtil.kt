@@ -1,6 +1,5 @@
 package com.example.pokedex.presenter.ui.pokemonsList
 
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pokedex.data.local.model.PokemonEntity
@@ -12,9 +11,7 @@ class RecyclerViewUtil(
     private val recyclerView: RecyclerView,
     private val favoriteListViewModel: PokemonFavoriteListViewModel,
     private val mfavoriteList: List<PokemonEntity>,
-    private val fragment: Fragment,
     private var pokemonAdapter: PokemonAdapter,
-    private var layoutManager: GridLayoutManager
 ) {
 
     fun setupAdapter(onItemClickListener: PokemonAdapter.OnItemClickListener) {
