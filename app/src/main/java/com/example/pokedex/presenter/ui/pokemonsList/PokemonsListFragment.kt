@@ -28,6 +28,7 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
     private lateinit var pokemonsListViewModel: PokemonsListViewModel
     private lateinit var favoriteListViewModel: PokemonFavoriteListViewModel
     private lateinit var mRecyclerView: RecyclerView
+    private lateinit var mRecyclerViewUtil: RecyclerViewUtil
     private lateinit var mLayoutManager: GridLayoutManager
     private lateinit var mPokemonAdapter: PokemonAdapter
     private lateinit var progressBar: ProgressBar
@@ -71,7 +72,11 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
         mRecyclerView = binding.recyclerViewMain
         mRecyclerView.setHasFixedSize(true)
 
+
         pokemonsListViewModel.pokemonsState.observe(requireActivity()) { pokemons ->
+            initRecyclerView(pokemons, setLayout())
+            mRecyclerViewUtil = RecyclerViewUtil(mRecyclerView, favoriteListViewModel, mfavoriteList, this, mPokemonAdapter, mLayoutManager)
+
             pokemons?.let {
                 updateRecyclerView(pokemons)
                 progressBar.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
@@ -109,28 +114,17 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
         if (!isAdded) {
             return
         }
-        initAdapter(pokemons = pokemons)
-        initLayoutManager(setLayout())
-        updatePokemonFavorites(pokemons)
-        setupLayoutManager()
-        setupAdapter()
-        scrollToPosition(currentPosition)
+        initRecyclerView(pokemons, setLayout())
+        mRecyclerViewUtil.updatePokemonFavorites(pokemons)
+        mRecyclerViewUtil.setupLayoutManager(mLayoutManager)
+        mRecyclerViewUtil.setupAdapter(this)
+        mRecyclerViewUtil.scrollToPosition(currentPosition)
     }
-
-    private fun setupAdapter() {
-        mRecyclerView.adapter = mPokemonAdapter
-        mPokemonAdapter.setOnItemClickListener(this)
-    }
-    private fun initAdapter(pokemons: List<Pokemon?>) {
+    private fun initRecyclerView(pokemons: List<Pokemon?>, layoutManagerProvider: GridLayoutManager) {
         mPokemonAdapter = PokemonAdapter(pokemons)
-    }
-    private fun initLayoutManager(layoutManagerProvider: GridLayoutManager) {
         mLayoutManager = layoutManagerProvider
     }
 
-    private fun setupLayoutManager() {
-        mRecyclerView.layoutManager = mLayoutManager
-    }
 
     private fun setLayout(): GridLayoutManager {
         val layoutManagerProvider = if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -140,19 +134,6 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
         }
         return layoutManagerProvider
     }
-
-    private fun updatePokemonFavorites(pokemons: List<Pokemon?>){
-        pokemons.forEach { pokemon ->
-            pokemon?.let {
-                it.favorite = favoriteListViewModel.isFavorite(mfavoriteList, it)
-            }
-        }
-    }
-
-    private fun scrollToPosition(currentPosition: Int){
-        mRecyclerView.scrollToPosition(currentPosition)
-    }
-
 
     override fun onFavoriteClick(position: Int, imageView: ImageView) {
         val pokemon = mPokemonAdapter.mPokemonList[position]
