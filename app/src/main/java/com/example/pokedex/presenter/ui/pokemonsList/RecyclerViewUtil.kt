@@ -1,6 +1,5 @@
 package com.example.pokedex.presenter.ui.pokemonsList
 
-import android.content.res.Configuration
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,23 +12,17 @@ class RecyclerViewUtil(
     private val recyclerView: RecyclerView,
     private val favoriteListViewModel: PokemonFavoriteListViewModel,
     private val mfavoriteList: List<PokemonEntity>,
-    private val fragment: Fragment
+    private val fragment: Fragment,
+    private var pokemonAdapter: PokemonAdapter,
+    private var layoutManager: GridLayoutManager
 ) {
-    private lateinit var pokemonAdapter: PokemonAdapter
-    private lateinit var layoutManager: GridLayoutManager
 
-    fun setupAdapter(pokemons: List<Pokemon?>, onItemClickListener: PokemonAdapter.OnItemClickListener) {
-        pokemonAdapter = PokemonAdapter(pokemons)
+    fun setupAdapter(onItemClickListener: PokemonAdapter.OnItemClickListener) {
         recyclerView.adapter = pokemonAdapter
         pokemonAdapter.setOnItemClickListener(onItemClickListener)
     }
 
-    fun setupLayoutManager() {
-        layoutManager = if (fragment.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            GridLayoutManager(fragment.requireActivity(), 3)
-        } else {
-            GridLayoutManager(fragment.requireActivity(), 2)
-        }
+    fun setupLayoutManager(layoutManager: GridLayoutManager) {
         recyclerView.layoutManager = layoutManager
     }
 
@@ -45,6 +38,4 @@ class RecyclerViewUtil(
         recyclerView.scrollToPosition(currentPosition)
     }
 
-    fun getAdapter(): PokemonAdapter = pokemonAdapter
-    fun getLayoutManager(): GridLayoutManager = layoutManager
 }
