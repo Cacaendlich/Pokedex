@@ -109,27 +109,36 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
         if (!isAdded) {
             return
         }
+        initAdapter(pokemons = pokemons)
+        initLayoutManager(setLayout())
         updatePokemonFavorites(pokemons)
         setupLayoutManager()
-        setupAdapter(pokemons)
+        setupAdapter()
         scrollToPosition(currentPosition)
     }
 
-    private fun setupAdapter(pokemons: List<Pokemon?>) {
-        mPokemonAdapter = PokemonAdapter(pokemons)
+    private fun setupAdapter() {
         mRecyclerView.adapter = mPokemonAdapter
         mPokemonAdapter.setOnItemClickListener(this)
     }
+    private fun initAdapter(pokemons: List<Pokemon?>) {
+        mPokemonAdapter = PokemonAdapter(pokemons)
+    }
+    private fun initLayoutManager(layoutManagerProvider: GridLayoutManager) {
+        mLayoutManager = layoutManagerProvider
+    }
 
     private fun setupLayoutManager() {
+        mRecyclerView.layoutManager = mLayoutManager
+    }
+
+    private fun setLayout(): GridLayoutManager {
         val layoutManagerProvider = if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             GridLayoutManager(requireActivity(), 3)
         } else {
             GridLayoutManager(requireActivity(), 2)
         }
-        mLayoutManager = layoutManagerProvider
-        mRecyclerView.layoutManager = mLayoutManager
-
+        return layoutManagerProvider
     }
 
     private fun updatePokemonFavorites(pokemons: List<Pokemon?>){
