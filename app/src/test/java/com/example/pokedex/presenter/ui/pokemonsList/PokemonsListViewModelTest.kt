@@ -7,10 +7,13 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 
+@RunWith(MockitoJUnitRunner::class)
 class PokemonsListViewModelTest {
 
     private lateinit var viewModel: PokemonsListViewModel
