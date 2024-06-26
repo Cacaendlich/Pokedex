@@ -2,11 +2,11 @@ package com.example.pokedex.presenter.ui.pokemonsList
 
 import com.example.pokedex.data.repository.PokemonRepository
 import com.example.pokedex.domain.model.Pokemon
-import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import kotlinx.coroutines.test.runTest
+import org.junit.After
+import org.junit.Assert.assertEquals
+import org.junit.Before
+import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
@@ -18,13 +18,14 @@ class PokemonsListViewModelTest {
     @Mock
     private lateinit var pokemonRepository: PokemonRepository
 
-    @BeforeEach
+
+    @Before
     fun setUp() {
         MockitoAnnotations.openMocks(this)
         viewModel = PokemonsListViewModel(pokemonRepository)
     }
 
-    @AfterEach
+    @After
     fun tearDown() {
     }
 
@@ -45,7 +46,7 @@ class PokemonsListViewModelTest {
 //    }
 
     @Test
-    fun loadPokemons() = runBlocking {
+    fun loadPokemons() = runTest {
         val limit = 14
         val offset = 0
 
@@ -59,7 +60,7 @@ class PokemonsListViewModelTest {
 
         val result = viewModel.loadPokemons(limit, offset)
 
-        Assertions.assertEquals(listMock, result)
+        assertEquals(listMock, result)
     }
 //
 //    @Test
