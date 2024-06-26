@@ -71,7 +71,7 @@ class PokemonsListViewModel(
             }
         }
     }
-     fun setLoading(loading: Boolean) {
+     private fun setLoading(loading: Boolean) {
         isLoading.postValue(loading)
     }
     private fun handleError(e: Exception) {
