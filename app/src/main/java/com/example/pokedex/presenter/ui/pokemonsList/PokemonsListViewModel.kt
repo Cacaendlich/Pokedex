@@ -10,7 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class PokemonsListViewModel(
-    private val loadPokemonsUseCse: LoadPokemonsUseCase
+    private val loadPokemonsUseCase: LoadPokemonsUseCase
 ) : ViewModel() {
     companion object {
         private const val LIMIT = 14
@@ -25,9 +25,9 @@ class PokemonsListViewModel(
             loadInitialPokemons()
         }
     }
-    private suspend fun loadInitialPokemons() {
+    suspend fun loadInitialPokemons() {
         try {
-            val pokemonsList = loadPokemonsUseCse.execute(LIMIT, OFFSET)
+            val pokemonsList = loadPokemonsUseCase.execute(LIMIT, OFFSET)
             pokemonsState.postValue(pokemonsList)
 
         }catch (e: Exception) {
@@ -44,7 +44,7 @@ class PokemonsListViewModel(
 
             viewModelScope.launch(Dispatchers.IO){
                 try{
-                    val newPokemonList = loadPokemonsUseCse.execute(LIMIT, currentOffset)
+                    val newPokemonList = loadPokemonsUseCase.execute(LIMIT, currentOffset)
                     val currentList = pokemonsState.value?.toMutableList() ?: mutableListOf()
                     currentList.addAll(newPokemonList)
                     pokemonsState.postValue(currentList)
@@ -61,7 +61,7 @@ class PokemonsListViewModel(
 
         viewModelScope.launch(Dispatchers.IO){
             try {
-                loadPokemonsUseCse.execute(LIMIT, OFFSET)
+                loadPokemonsUseCase.execute(LIMIT, OFFSET)
             } catch (e: Exception) {
                 handleError(e)
             } finally {
@@ -72,7 +72,7 @@ class PokemonsListViewModel(
      private fun setLoading(loading: Boolean) {
         isLoading.postValue(loading)
     }
-    private fun handleError(e: Exception) {
+    fun handleError(e: Exception) {
         Log.e("PokemonsListViewModel", "Error loading pokemons: ${e.message}")
     }
 }

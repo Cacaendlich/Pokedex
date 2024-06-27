@@ -1,80 +1,67 @@
 package com.example.pokedex.presenter.ui.pokemonsList
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.Observer
 import com.example.pokedex.data.repository.PokemonRepository
 import com.example.pokedex.domain.model.Pokemon
+import com.example.pokedex.presenter.ui.pokemonsList.useCase.LoadPokemonsUseCase
 import kotlinx.coroutines.test.runTest
 import org.junit.After
-import org.junit.Assert.assertEquals
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.Mock
+import org.mockito.Mockito.anyInt
+import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 
-@RunWith(MockitoJUnitRunner::class)
 class PokemonsListViewModelTest {
-
+    @JvmField
+    @Rule
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
     private lateinit var viewModel: PokemonsListViewModel
+    private lateinit var loadPokemonsUseCase: LoadPokemonsUseCase
 
     @Mock
     private lateinit var pokemonRepository: PokemonRepository
-
+    @Mock
+    private lateinit var observer: Observer<List<Pokemon?>>
 
     @Before
     fun setUp() {
         MockitoAnnotations.openMocks(this)
-        viewModel = PokemonsListViewModel(pokemonRepository)
+        loadPokemonsUseCase = LoadPokemonsUseCase(pokemonRepository)
+        viewModel = PokemonsListViewModel(loadPokemonsUseCase)
+        viewModel.pokemonsState.observeForever(observer)
     }
 
     @After
     fun tearDown() {
+        viewModel.pokemonsState.removeObserver(observer)
     }
 
-//    @Test
-//    fun getPokemonsState() {
-//    }
-//
-//    @Test
-//    fun setPokemonsState() {
-//    }
-//
-//    @Test
-//    fun isLoading() {
-//    }
-//
-//    @Test
-//    fun setLoading() {
-//    }
-
     @Test
-    fun loadPokemons() = runTest {
-        val limit = 14
-        val offset = 0
-
+    fun `teste carregamento inicial de pokemons com sucesso`() = runTest {
         val listMock = listOf(
             Pokemon(1, "bulbasaur", true),
             Pokemon(2, "ivysaur", false),
             Pokemon(3, "venosaur", false)
         )
 
-        `when`(pokemonRepository.listPokemons(limit, offset)).thenReturn(listMock)
+        `when`(pokemonRepository.listPokemons(anyInt(), anyInt())).thenReturn(listMock)
 
-        val result = viewModel.loadPokemons(limit, offset)
+        viewModel.loadInitialPokemons()
 
-        assertEquals(listMock, result)
+        verify(observer).onChanged(listMock)
     }
-//
-//    @Test
-//    fun loadMorePokemons() {
-//    }
-//
-//    @Test
-//    fun refreshPokemons() {
-//    }
-//
-//    @Test
-//    fun testSetLoading() {
-//    }
+    @Test
+    fun `teste carregamento inicial de pokemons com falha`() = runTest {
+        `when`(pokemonRepository.listPokemons(anyInt(), anyInt())).thenReturn(emptyList())
+
+        viewModel.loadInitialPokemons()
+
+        verify(observer).onChanged(emptyList())
+    }
+
 }
