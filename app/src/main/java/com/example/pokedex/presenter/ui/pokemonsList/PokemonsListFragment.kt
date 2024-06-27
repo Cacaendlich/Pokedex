@@ -28,7 +28,6 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
     private lateinit var pokemonsListViewModel: PokemonsListViewModel
     private lateinit var favoriteListViewModel: PokemonFavoriteListViewModel
     private lateinit var mRecyclerView: RecyclerView
-    private lateinit var mRecyclerViewUtil: RecyclerViewUtil
     private lateinit var mLayoutManager: GridLayoutManager
     private lateinit var mPokemonAdapter: PokemonAdapter
     private lateinit var progressBar: ProgressBar
@@ -74,9 +73,6 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
 
 
         pokemonsListViewModel.pokemonsState.observe(requireActivity()) { pokemons ->
-            initRecyclerView(pokemons, setLayout())
-            mRecyclerViewUtil = RecyclerViewUtil(mRecyclerView, favoriteListViewModel, mfavoriteList, mPokemonAdapter)
-
             pokemons?.let {
                 updateRecyclerView(pokemons)
                 progressBar.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
@@ -115,10 +111,10 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
             return
         }
         initRecyclerView(pokemons, setLayout())
-        mRecyclerViewUtil.updatePokemonFavorites(pokemons)
-        mRecyclerViewUtil.setupLayoutManager(mLayoutManager)
-        mRecyclerViewUtil.setupAdapter(this)
-        mRecyclerViewUtil.scrollToPosition(currentPosition)
+        updatePokemonFavorites(pokemons)
+        mRecyclerView.layoutManager = mLayoutManager
+        setupAdapter(this)
+        mRecyclerView.scrollToPosition(currentPosition)
     }
     private fun initRecyclerView(pokemons: List<Pokemon?>, layoutManagerProvider: GridLayoutManager) {
         mPokemonAdapter = PokemonAdapter(pokemons)
@@ -132,6 +128,18 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
             GridLayoutManager(requireActivity(), 2)
         }
         return layoutManagerProvider
+    }
+
+    private fun setupAdapter(onItemClickListener: PokemonAdapter.OnItemClickListener) {
+        mRecyclerView.adapter = mPokemonAdapter
+        mPokemonAdapter.setOnItemClickListener(onItemClickListener)
+    }
+    private fun updatePokemonFavorites(pokemons: List<Pokemon?>) {
+        pokemons.forEach { pokemon ->
+            pokemon?.let {
+                it.favorite = favoriteListViewModel.isFavorite(mfavoriteList, it)
+            }
+        }
     }
 
     override fun onFavoriteClick(position: Int, imageView: ImageView) {
