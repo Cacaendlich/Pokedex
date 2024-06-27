@@ -4,13 +4,13 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.pokedex.data.repository.PokemonRepository
 import com.example.pokedex.domain.model.Pokemon
+import com.example.pokedex.presenter.ui.pokemonsList.useCase.LoadPokemonsUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class PokemonsListViewModel(
-    private val pokemonRepository: PokemonRepository
+    private val loadPokemonsUseCse: LoadPokemonsUseCase
 ) : ViewModel() {
     companion object {
         private const val LIMIT = 14
@@ -27,7 +27,7 @@ class PokemonsListViewModel(
     }
     private suspend fun loadInitialPokemons() {
         try {
-            val pokemonsList = loadPokemons(LIMIT, OFFSET)
+            val pokemonsList = loadPokemonsUseCse.execute(LIMIT, OFFSET)
             pokemonsState.postValue(pokemonsList)
 
         }catch (e: Exception) {
@@ -35,9 +35,7 @@ class PokemonsListViewModel(
         }
 
     }
-     suspend fun loadPokemons(limit: Int, offset: Int): List<Pokemon?> {
-        return pokemonRepository.listPokemons(limit, offset)
-     }
+
     fun loadMorePokemons() {
         if (!isLoading.value!!) {
             setLoading(true)
@@ -46,7 +44,7 @@ class PokemonsListViewModel(
 
             viewModelScope.launch(Dispatchers.IO){
                 try{
-                    val newPokemonList = loadPokemons(LIMIT, currentOffset)
+                    val newPokemonList = loadPokemonsUseCse.execute(LIMIT, currentOffset)
                     val currentList = pokemonsState.value?.toMutableList() ?: mutableListOf()
                     currentList.addAll(newPokemonList)
                     pokemonsState.postValue(currentList)
@@ -63,7 +61,7 @@ class PokemonsListViewModel(
 
         viewModelScope.launch(Dispatchers.IO){
             try {
-                loadPokemons(LIMIT, OFFSET)
+                loadPokemonsUseCse.execute(LIMIT, OFFSET)
             } catch (e: Exception) {
                 handleError(e)
             } finally {
