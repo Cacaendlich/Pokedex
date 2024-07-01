@@ -22,9 +22,9 @@ class PokemonFavoriteListViewModel : ViewModel() {
         val limit = 1000
         val offset = 0
 
-        val pokemonsApiResultAPI = RetrofitClient.listPokemons(limit, offset)
+        val pokemonsApiResult = RetrofitClient.listPokemons(limit, offset)
 
-        pokemonsApiResultAPI?.results?.let { results ->
+        pokemonsApiResult?.results?.let { results ->
 
             val pokesFiltrates = results.filter { pokemonItemResponse ->
                 val name = pokemonItemResponse.name
