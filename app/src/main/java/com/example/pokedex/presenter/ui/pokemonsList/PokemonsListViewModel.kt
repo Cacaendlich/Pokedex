@@ -37,22 +37,20 @@ class PokemonsListViewModel(
     }
 
     fun loadMorePokemons() {
-        if (!isLoading.value!!) {
-            setLoading(true)
+        setLoading(true)
 
-            val currentOffset = pokemonsState.value?.size ?: 0
+        val currentOffset = pokemonsState.value?.size ?: 0
 
-            viewModelScope.launch(Dispatchers.IO){
-                try{
-                    val newPokemonList = loadPokemonsUseCase.execute(LIMIT, currentOffset)
-                    val currentList = pokemonsState.value?.toMutableList() ?: mutableListOf()
-                    currentList.addAll(newPokemonList)
-                    pokemonsState.postValue(currentList)
-                } catch (e: Exception) {
-                    handleError(e)
-                } finally {
-                    setLoading(false)
-                }
+        viewModelScope.launch(Dispatchers.IO){
+            try{
+                val pokemonList = loadPokemonsUseCase.execute(LIMIT, currentOffset)
+                val updatedList = pokemonsState.value?.toMutableList() ?: mutableListOf()
+                updatedList.addAll(pokemonList)
+                pokemonsState.postValue(updatedList)
+            } catch (e: Exception) {
+                handleError(e)
+            } finally {
+                setLoading(false)
             }
         }
     }
@@ -72,7 +70,7 @@ class PokemonsListViewModel(
      private fun setLoading(loading: Boolean) {
         isLoading.postValue(loading)
     }
-    fun handleError(e: Exception) {
+    private fun handleError(e: Exception) {
         Log.e("PokemonsListViewModel", "Error loading pokemons: ${e.message}")
     }
 }
