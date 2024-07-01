@@ -14,10 +14,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pokedex.data.local.model.PokemonEntity
+import com.example.pokedex.data.network.RetrofitClient
+import com.example.pokedex.data.repository.PokemonRepositoryImpl
 import com.example.pokedex.databinding.FragmentPokemonsListBinding
 import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presenter.adapter.PokemonAdapter
 import com.example.pokedex.presenter.ui.details.PokemonDetailActivity
+import com.example.pokedex.presenter.ui.pokemonsList.PokemonsListViewModelFactory
 
 class PokemonFavoriteListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
 
@@ -45,7 +48,11 @@ class PokemonFavoriteListFragment : Fragment(), PokemonAdapter.OnItemClickListen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        favoriteListViewModel = ViewModelProvider(requireActivity())[PokemonFavoriteListViewModel::class.java]
+        val retrofitClient = RetrofitClient
+        val pokemonRepository = PokemonRepositoryImpl(retrofitClient)
+        val factory = PokemonsListViewModelFactory(pokemonRepository)
+
+        favoriteListViewModel = ViewModelProvider(requireActivity(),factory)[PokemonFavoriteListViewModel::class.java]
 
         favoriteListViewModel.loadFavorites(requireContext()) { favorites ->
             mfavoriteList = favorites
