@@ -8,7 +8,7 @@ import com.example.pokedex.data.local.database.PokemonDataBase
 import com.example.pokedex.data.local.model.PokemonEntity
 import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presenter.adapter.PokemonAdapter
-import com.example.pokedex.presenter.ui.pokemonsList.useCase.LoadPokemonsUseCase
+import com.example.pokedex.presenter.ui.useCase.LoadPokemonsUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

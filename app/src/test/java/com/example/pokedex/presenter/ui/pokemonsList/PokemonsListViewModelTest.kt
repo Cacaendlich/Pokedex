@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.example.pokedex.data.repository.PokemonRepository
 import com.example.pokedex.domain.model.Pokemon
-import com.example.pokedex.presenter.ui.pokemonsList.useCase.LoadPokemonsUseCase
+import com.example.pokedex.presenter.ui.useCase.LoadPokemonsUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest

@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pokedex.domain.model.Pokemon
-import com.example.pokedex.presenter.ui.pokemonsList.useCase.LoadPokemonsUseCase
+import com.example.pokedex.presenter.ui.useCase.LoadPokemonsUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

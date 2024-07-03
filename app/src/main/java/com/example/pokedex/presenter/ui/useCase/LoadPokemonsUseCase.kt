@@ -1,4 +1,4 @@
-package com.example.pokedex.presenter.ui.pokemonsList.useCase
+package com.example.pokedex.presenter.ui.useCase
 
 import com.example.pokedex.data.repository.PokemonRepository
 import com.example.pokedex.domain.model.Pokemon

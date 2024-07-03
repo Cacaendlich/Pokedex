@@ -20,7 +20,7 @@ import com.example.pokedex.databinding.FragmentPokemonsListBinding
 import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presenter.adapter.PokemonAdapter
 import com.example.pokedex.presenter.ui.details.PokemonDetailActivity
-import com.example.pokedex.presenter.ui.pokemonsList.PokemonsListViewModelFactory
+import com.example.pokedex.presenter.ui.factory.PokemonsListViewModelFactory
 
 class PokemonFavoriteListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
 

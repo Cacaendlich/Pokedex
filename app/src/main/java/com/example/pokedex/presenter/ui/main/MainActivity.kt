@@ -12,7 +12,7 @@ import com.example.pokedex.databinding.ActivityMainBinding
 import com.example.pokedex.presenter.ui.favorites.PokemonFavoriteListFragment
 import com.example.pokedex.presenter.ui.pokemonsList.PokemonsListFragment
 import com.example.pokedex.presenter.ui.pokemonsList.PokemonsListViewModel
-import com.example.pokedex.presenter.ui.pokemonsList.PokemonsListViewModelFactory
+import com.example.pokedex.presenter.ui.factory.PokemonsListViewModelFactory
 
 
 class MainActivity : AppCompatActivity() {

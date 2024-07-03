@@ -1,10 +1,11 @@
-package com.example.pokedex.presenter.ui.pokemonsList
+package com.example.pokedex.presenter.ui.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.pokedex.data.repository.PokemonRepository
 import com.example.pokedex.presenter.ui.favorites.PokemonFavoriteListViewModel
-import com.example.pokedex.presenter.ui.pokemonsList.useCase.LoadPokemonsUseCase
+import com.example.pokedex.presenter.ui.pokemonsList.PokemonsListViewModel
+import com.example.pokedex.presenter.ui.useCase.LoadPokemonsUseCase
 
 class PokemonsListViewModelFactory(private val pokemonRepository: PokemonRepository) : ViewModelProvider.Factory{
     @Suppress("UNCHECKED_CAST")
