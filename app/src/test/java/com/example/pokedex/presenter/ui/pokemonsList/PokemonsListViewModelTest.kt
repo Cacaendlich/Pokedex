@@ -4,7 +4,6 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.example.pokedex.data.repository.PokemonRepository
 import com.example.pokedex.domain.model.Pokemon
-import com.example.pokedex.presenter.ui.useCase.LoadPokemonsUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
@@ -23,7 +22,6 @@ class PokemonsListViewModelTest {
     @Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
     private lateinit var viewModel: PokemonsListViewModel
-    private lateinit var loadPokemonsUseCase: LoadPokemonsUseCase
 
     @Mock
     private lateinit var pokemonRepository: PokemonRepository
@@ -35,8 +33,7 @@ class PokemonsListViewModelTest {
     @Before
     fun setUp() {
         MockitoAnnotations.openMocks(this)
-        loadPokemonsUseCase = LoadPokemonsUseCase(pokemonRepository)
-        viewModel = PokemonsListViewModel(loadPokemonsUseCase)
+        viewModel = PokemonsListViewModel(pokemonRepository)
         viewModel.pokemonsState.observeForever(observer)
         viewModel.isLoading.observeForever(isLoginMock)
     }
@@ -82,8 +79,8 @@ class PokemonsListViewModelTest {
         )
         val expectedUpdatedList = initialList + additionalItens
 
-        `when`(loadPokemonsUseCase.execute(14, 0)).thenReturn(initialList)
-        `when`(loadPokemonsUseCase.execute(14, initialList.size)).thenReturn(additionalItens)
+        `when`(pokemonRepository.listPokemons(14, 0)).thenReturn(initialList)
+        `when`(pokemonRepository.listPokemons(14, initialList.size)).thenReturn(additionalItens)
 
         viewModel.pokemonsState.postValue(initialList)
         viewModel.loadMorePokemons()

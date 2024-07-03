@@ -4,13 +4,13 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.pokedex.data.repository.PokemonRepository
 import com.example.pokedex.domain.model.Pokemon
-import com.example.pokedex.presenter.ui.useCase.LoadPokemonsUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class PokemonsListViewModel(
-    private val loadPokemonsUseCase: LoadPokemonsUseCase
+    private var pokemonRepository: PokemonRepository
 ) : ViewModel() {
     companion object {
         private const val LIMIT = 14
@@ -27,7 +27,7 @@ class PokemonsListViewModel(
     }
     suspend fun loadInitialPokemons() {
         try {
-            val pokemonsList = loadPokemonsUseCase.execute(LIMIT, OFFSET)
+            val pokemonsList = pokemonRepository.listPokemons(LIMIT, OFFSET)
             pokemonsState.postValue(pokemonsList)
 
         }catch (e: Exception) {
@@ -43,7 +43,7 @@ class PokemonsListViewModel(
 
         viewModelScope.launch(Dispatchers.IO){
             try{
-                val pokemonList = loadPokemonsUseCase.execute(LIMIT, currentOffset)
+                val pokemonList = pokemonRepository.listPokemons(LIMIT, currentOffset)
                 val updatedList = pokemonsState.value?.toMutableList() ?: mutableListOf()
                 updatedList.addAll(pokemonList)
                 pokemonsState.postValue(updatedList)

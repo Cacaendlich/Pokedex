@@ -6,14 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pokedex.data.local.database.PokemonDataBase
 import com.example.pokedex.data.local.model.PokemonEntity
+import com.example.pokedex.data.repository.PokemonRepository
 import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presenter.adapter.PokemonAdapter
-import com.example.pokedex.presenter.ui.useCase.LoadPokemonsUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class PokemonFavoriteListViewModel(
-    private val loadPokemonsUseCase: LoadPokemonsUseCase
+    private var pokemonRepository: PokemonRepository
 ) : ViewModel() {
     private var isLoading = MutableLiveData<Boolean>().apply { value = false }
     var pokemonsState = MutableLiveData<List<Pokemon?>>()
@@ -25,7 +25,7 @@ class PokemonFavoriteListViewModel(
             val limit = 1000
             val offset = 0
 
-            val loadPokemons = loadPokemonsUseCase.execute(limit, offset)
+            val loadPokemons = pokemonRepository.listPokemons(limit, offset)
 
             pokemonsState.postValue(loadPokemons.filter { pokemon ->
                 favoriteList.any{
