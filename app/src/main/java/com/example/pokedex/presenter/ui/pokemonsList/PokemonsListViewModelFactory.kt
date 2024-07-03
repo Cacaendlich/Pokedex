@@ -15,7 +15,7 @@ class PokemonsListViewModelFactory(private val pokemonRepository: PokemonReposit
                 PokemonsListViewModel(loadPokemonsUseCase) as T
             }
             modelClass.isAssignableFrom(PokemonFavoriteListViewModel::class.java) -> {
-                PokemonFavoriteListViewModel() as T
+                PokemonFavoriteListViewModel(loadPokemonsUseCase) as T
             }
 
             else -> throw IllegalArgumentException("Unknown ViewModel class")
