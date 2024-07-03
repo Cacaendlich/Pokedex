@@ -24,9 +24,9 @@ class PokemonFavoriteListViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             val limit = 1000
             val offset = 0
-            val pokemonsApiResult = loadPokemonsUseCase.execute(limit, offset)
+            val pokemonsLoaded = loadPokemonsUseCase.execute(limit, offset)
 
-            pokemonsState.postValue(pokemonsApiResult.filter { pokemon ->
+            pokemonsState.postValue(pokemonsLoaded.filter { pokemon ->
                 favoriteList.any{
                     it.name == pokemon?.name
                 }
