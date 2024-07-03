@@ -6,45 +6,32 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pokedex.data.local.database.PokemonDataBase
 import com.example.pokedex.data.local.model.PokemonEntity
-import com.example.pokedex.data.network.RetrofitClient
 import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presenter.adapter.PokemonAdapter
+import com.example.pokedex.presenter.ui.pokemonsList.useCase.LoadPokemonsUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class PokemonFavoriteListViewModel : ViewModel() {
+class PokemonFavoriteListViewModel(
+    private val loadPokemonsUseCase: LoadPokemonsUseCase
+) : ViewModel() {
     private var isLoading = MutableLiveData<Boolean>().apply { value = false }
     var pokemonsState = MutableLiveData<List<Pokemon?>>()
 
     var favoriteList = MutableLiveData<List<PokemonEntity>>()
 
     fun loadPokemons(favoriteList: List<PokemonEntity>) {
-        val limit = 1000
-        val offset = 0
+        viewModelScope.launch(Dispatchers.IO) {
+            val limit = 1000
+            val offset = 0
+            val pokemonsApiResult = loadPokemonsUseCase.execute(limit, offset)
 
-        val pokemonsApiResult = RetrofitClient.listPokemons(limit, offset)
-
-        pokemonsApiResult?.results?.let { results ->
-
-            val pokesFiltrates = results.filter { pokemonItemResponse ->
-                val name = pokemonItemResponse.name
+            pokemonsState.postValue(pokemonsApiResult.filter { pokemon ->
                 favoriteList.any{
-                    it.name == name
+                    it.name == pokemon?.name
                 }
-            }
-
-            pokemonsState.postValue(pokesFiltrates.map { pokemonResult ->
-
-                val name = pokemonResult.name
-
-                val pokemonApiResult = RetrofitClient.getPokemon(name)
-
-                pokemonApiResult?.let { Pokemon(pokemonApiResult.id, pokemonApiResult.name) }
-
             })
-
         }
-
     }
 
     fun loadFavorites(context: Context, callback: (List<PokemonEntity>) -> Unit) {
