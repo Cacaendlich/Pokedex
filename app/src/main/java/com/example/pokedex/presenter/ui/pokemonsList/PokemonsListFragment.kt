@@ -57,7 +57,7 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
         val factory = PokemonsListViewModelFactory(pokemonRepository)
 
         pokemonsListViewModel = ViewModelProvider(requireActivity(), factory)[PokemonsListViewModel::class.java]
-        favoriteListViewModel = ViewModelProvider(requireActivity())[PokemonFavoriteListViewModel::class.java]
+        favoriteListViewModel = ViewModelProvider(requireActivity(), factory)[PokemonFavoriteListViewModel::class.java]
 
         favoriteListViewModel.loadFavorites(requireContext()) { favorites ->
             mfavoriteList = favorites
