@@ -59,7 +59,7 @@ class PokemonsListViewModel(
 
         viewModelScope.launch(Dispatchers.IO){
             try {
-                loadPokemonsUseCase.execute(LIMIT, OFFSET)
+                loadInitialPokemons()
             } catch (e: Exception) {
                 handleError(e)
             } finally {
