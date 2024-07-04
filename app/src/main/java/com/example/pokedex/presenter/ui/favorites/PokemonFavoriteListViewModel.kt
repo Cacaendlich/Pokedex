@@ -47,10 +47,9 @@ class PokemonFavoriteListViewModel(
         }
     }
 
-    private fun addFavorite(pokemon: PokemonEntity, callback: () -> Unit) {
+    private fun addFavorite(pokemon: PokemonEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             pokemonLocalRepository.addFavorite(pokemon)
-            callback()
         }
     }
 
@@ -73,9 +72,8 @@ class PokemonFavoriteListViewModel(
         val isFavorite = isFavorite(favoriteList, pokemon)
 
         if (!isFavorite && !pokemon.favorite  || isFavorite && !pokemon.favorite) {
-            addFavorite(pokemonFavorite) {
-                adapter.updatePokemonFavoriteStatus(position, true)
-            }
+            addFavorite(pokemonFavorite)
+            adapter.updatePokemonFavoriteStatus(position, true)
         } else {
             deleteFavorite(pokemon.number) {
                 adapter.updatePokemonFavoriteStatus(position, false)
