@@ -53,10 +53,10 @@ class PokemonFavoriteListViewModel(
         }
     }
 
-    private fun deleteFavorite(pokemonId: Int, callback: () -> Unit) {
+    private fun deleteFavorite(pokemonId: Int) {
         viewModelScope.launch(Dispatchers.IO){
             pokemonLocalRepository.deleteFavorite(pokemonId)
-            callback()
+            loadFavorites()
         }
     }
 
@@ -75,17 +75,14 @@ class PokemonFavoriteListViewModel(
             addFavorite(pokemonFavorite)
             adapter.updatePokemonFavoriteStatus(position, true)
         } else {
-            deleteFavorite(pokemon.number) {
-                adapter.updatePokemonFavoriteStatus(position, false)
-            }
+            deleteFavorite(pokemon.number)
+            adapter.updatePokemonFavoriteStatus(position, false)
         }
     }
 
     fun removeFavorite(pokemon: Pokemon) {
         viewModelScope.launch(Dispatchers.IO) {
-            deleteFavorite(pokemon.number) {
-                loadFavorites()
-            }
+            deleteFavorite(pokemon.number)
         }
     }
 
