@@ -1,10 +1,8 @@
 package com.example.pokedex.presenter.ui.favorites
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.pokedex.data.local.database.PokemonDataBase
 import com.example.pokedex.data.local.model.PokemonEntity
 import com.example.pokedex.data.repository.api.PokemonApiRepository
 import com.example.pokedex.data.repository.local.PokemonLocalRepository
@@ -37,15 +35,12 @@ class PokemonFavoriteListViewModel(
         }
     }
 
-    fun loadFavorites(context: Context, callback: (List<PokemonEntity>) -> Unit) {
+    fun loadFavorites(callback: (List<PokemonEntity>) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             isLoading.postValue(true)
-            val favorites = PokemonDataBase
-                .getDataBase(context)
-                .PokemonDao()
-                .getAllPokemonsFavorites()
+            val favorites = pokemonLocalRepository.getAllPokemons()
                 .map { pokemonEntity ->
-                    PokemonEntity(pokemonEntity.pokemonId, pokemonEntity.name)
+                    PokemonEntity(pokemonEntity!!.pokemonId, pokemonEntity.name)
                 }
             isLoading.postValue(false)
             callback(favorites)
@@ -88,10 +83,10 @@ class PokemonFavoriteListViewModel(
         }
     }
 
-    fun removeFavorite(pokemon: Pokemon, context: Context) {
+    fun removeFavorite(pokemon: Pokemon) {
         viewModelScope.launch(Dispatchers.IO) {
             deleteFavorite(pokemon.number) {
-                loadFavorites(context) { favorites ->
+                loadFavorites { favorites ->
                     loadPokemons(favorites)
                 }
             }

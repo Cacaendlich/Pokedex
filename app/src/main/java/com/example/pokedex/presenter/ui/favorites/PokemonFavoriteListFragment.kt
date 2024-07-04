@@ -56,7 +56,7 @@ class PokemonFavoriteListFragment : Fragment(), PokemonAdapter.OnItemClickListen
 
         favoriteListViewModel = ViewModelProvider(requireActivity(), factory)[PokemonFavoriteListViewModel::class.java]
 
-        favoriteListViewModel.loadFavorites(requireContext()) { favorites ->
+        favoriteListViewModel.loadFavorites() { favorites ->
             mfavoriteList = favorites
             favoriteListViewModel.favoriteList.postValue(mfavoriteList)
             Log.d("PokemonsFavoriteListFragment", "A lista de favoritos foi atualizada para: ${favoriteListViewModel.favoriteList.value}")
@@ -106,7 +106,7 @@ class PokemonFavoriteListFragment : Fragment(), PokemonAdapter.OnItemClickListen
     override fun onFavoriteClick(position: Int, imageView: ImageView) {
         val pokemon = mPokemonAdapter.mPokemonList[position]
         pokemon?.let {
-            favoriteListViewModel.removeFavorite( it, requireContext())
+            favoriteListViewModel.removeFavorite(it)
         }
     }
 
