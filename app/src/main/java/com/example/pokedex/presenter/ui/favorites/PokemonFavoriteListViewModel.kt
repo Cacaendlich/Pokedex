@@ -35,7 +35,7 @@ class PokemonFavoriteListViewModel(
         }
     }
 
-    fun loadFavorites(callback: (List<PokemonEntity>) -> Unit) {
+    fun loadFavorites() {
         viewModelScope.launch(Dispatchers.IO) {
             isLoading.postValue(true)
             val favorites = pokemonLocalRepository.getAllPokemons()
@@ -43,7 +43,7 @@ class PokemonFavoriteListViewModel(
                     PokemonEntity(pokemonEntity!!.pokemonId, pokemonEntity.name)
                 }
             isLoading.postValue(false)
-            callback(favorites)
+            favoriteList.postValue(favorites)
         }
     }
 
@@ -86,9 +86,7 @@ class PokemonFavoriteListViewModel(
     fun removeFavorite(pokemon: Pokemon) {
         viewModelScope.launch(Dispatchers.IO) {
             deleteFavorite(pokemon.number) {
-                loadFavorites { favorites ->
-                    loadPokemons(favorites)
-                }
+                loadFavorites()
             }
         }
     }

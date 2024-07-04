@@ -62,12 +62,16 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
         pokemonsListViewModel = ViewModelProvider(requireActivity(), factory)[PokemonsListViewModel::class.java]
         favoriteListViewModel = ViewModelProvider(requireActivity(), factory)[PokemonFavoriteListViewModel::class.java]
 
-        favoriteListViewModel.loadFavorites() { favorites ->
+        favoriteListViewModel.favoriteList.observe(viewLifecycleOwner) { favorites ->
             mfavoriteList = favorites
-            favoriteListViewModel.favoriteList.postValue(mfavoriteList)
-            Log.d("PokemonsListFragment", "A lista de favoritos foi atualizada para: ${favoriteListViewModel.favoriteList.value}")
-            Log.d("PokemonsListFragment", "Está é a lista de favoritos: $mfavoriteList")
+            Log.d(
+                "PokemonsFavoriteListFragment",
+                "A lista de favoritos foi atualizada para: $favorites"
+            )
+            favoriteListViewModel.loadPokemons(mfavoriteList)
         }
+
+        favoriteListViewModel.loadFavorites()
 
         mfavoriteList = favoriteListViewModel.favoriteList.value ?: emptyList()
 
