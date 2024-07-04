@@ -6,14 +6,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pokedex.data.local.database.PokemonDataBase
 import com.example.pokedex.data.local.model.PokemonEntity
-import com.example.pokedex.data.repository.PokemonRepository
+import com.example.pokedex.data.repository.api.PokemonApiRepository
+import com.example.pokedex.data.repository.local.PokemonLocalRepository
 import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presenter.adapter.PokemonAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class PokemonFavoriteListViewModel(
-    private var pokemonRepository: PokemonRepository
+    private var pokemonRepository: PokemonApiRepository,
+    private var pokemonLocalRepository: PokemonLocalRepository
 ) : ViewModel() {
     private var isLoading = MutableLiveData<Boolean>().apply { value = false }
     var pokemonsState = MutableLiveData<List<Pokemon?>>()
@@ -50,16 +52,16 @@ class PokemonFavoriteListViewModel(
         }
     }
 
-    private fun addFavorite(pokemon: PokemonEntity, context: Context, callback: () -> Unit) {
+    private fun addFavorite(pokemon: PokemonEntity, callback: () -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
-            PokemonDataBase.getDataBase(context).PokemonDao().insertPokemonFavorite(pokemon)
+            pokemonLocalRepository.addFavorite(pokemon)
             callback()
         }
     }
 
-    private fun deleteFavorite(pokemonId: Int, context: Context, callback: () -> Unit) {
+    private fun deleteFavorite(pokemonId: Int, callback: () -> Unit) {
         viewModelScope.launch(Dispatchers.IO){
-            PokemonDataBase.getDataBase(context).PokemonDao().deletePokemonFavorite(pokemonId)
+            pokemonLocalRepository.deleteFavorite(pokemonId)
             callback()
         }
     }
@@ -70,17 +72,17 @@ class PokemonFavoriteListViewModel(
         }
     }
 
-    fun updateFavoritesList(position: Int, pokemon: Pokemon, favoriteList: List<PokemonEntity>, adapter: PokemonAdapter, context: Context) {
+    fun updateFavoritesList(position: Int, pokemon: Pokemon, favoriteList: List<PokemonEntity>, adapter: PokemonAdapter) {
         val pokemonFavorite = PokemonEntity(pokemon.number, pokemon.name)
 
         val isFavorite = isFavorite(favoriteList, pokemon)
 
         if (!isFavorite && !pokemon.favorite  || isFavorite && !pokemon.favorite) {
-            addFavorite(pokemonFavorite, context) {
+            addFavorite(pokemonFavorite) {
                 adapter.updatePokemonFavoriteStatus(position, true)
             }
         } else {
-            deleteFavorite(pokemon.number, context) {
+            deleteFavorite(pokemon.number) {
                 adapter.updatePokemonFavoriteStatus(position, false)
             }
         }
@@ -88,7 +90,7 @@ class PokemonFavoriteListViewModel(
 
     fun removeFavorite(pokemon: Pokemon, context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
-            deleteFavorite(pokemon.number, context) {
+            deleteFavorite(pokemon.number) {
                 loadFavorites(context) { favorites ->
                     loadPokemons(favorites)
                 }

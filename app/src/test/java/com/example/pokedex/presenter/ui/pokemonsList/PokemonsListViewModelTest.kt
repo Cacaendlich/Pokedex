@@ -2,7 +2,7 @@ package com.example.pokedex.presenter.ui.pokemonsList
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.example.pokedex.data.repository.PokemonRepository
+import com.example.pokedex.data.repository.api.PokemonApiRepository
 import com.example.pokedex.domain.model.Pokemon
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
@@ -24,7 +24,7 @@ class PokemonsListViewModelTest {
     private lateinit var viewModel: PokemonsListViewModel
 
     @Mock
-    private lateinit var pokemonRepository: PokemonRepository
+    private lateinit var pokemonRepository: PokemonApiRepository
     @Mock
     private lateinit var observer: Observer<List<Pokemon?>>
     @Mock

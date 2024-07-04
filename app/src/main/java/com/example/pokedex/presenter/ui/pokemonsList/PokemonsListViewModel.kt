@@ -4,13 +4,13 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.pokedex.data.repository.PokemonRepository
+import com.example.pokedex.data.repository.api.PokemonApiRepository
 import com.example.pokedex.domain.model.Pokemon
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class PokemonsListViewModel(
-    private var pokemonRepository: PokemonRepository
+    private var pokemonRepository: PokemonApiRepository
 ) : ViewModel() {
     companion object {
         private const val LIMIT = 14

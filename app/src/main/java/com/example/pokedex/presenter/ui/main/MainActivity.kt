@@ -7,12 +7,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.pokedex.R
 import com.example.pokedex.data.network.RetrofitClient
-import com.example.pokedex.data.repository.PokemonRepositoryImpl
+import com.example.pokedex.data.repository.api.PokemonApiRepositoryImpl
+import com.example.pokedex.data.repository.local.PokemonLocalRepositoryImpl
 import com.example.pokedex.databinding.ActivityMainBinding
+import com.example.pokedex.presenter.ui.factory.PokemonsListViewModelFactory
 import com.example.pokedex.presenter.ui.favorites.PokemonFavoriteListFragment
 import com.example.pokedex.presenter.ui.pokemonsList.PokemonsListFragment
 import com.example.pokedex.presenter.ui.pokemonsList.PokemonsListViewModel
-import com.example.pokedex.presenter.ui.factory.PokemonsListViewModelFactory
 
 
 class MainActivity : AppCompatActivity() {
@@ -28,8 +29,9 @@ class MainActivity : AppCompatActivity() {
         RetrofitClient.initialize(this)
 
         val retrofitClient = RetrofitClient
-        val pokemonRepository = PokemonRepositoryImpl(retrofitClient)
-        val factory = PokemonsListViewModelFactory(pokemonRepository)
+        val pokemonApiRepository = PokemonApiRepositoryImpl(retrofitClient)
+        val pokemonLocalRepository = PokemonLocalRepositoryImpl(this)
+        val factory = PokemonsListViewModelFactory(pokemonApiRepository, pokemonLocalRepository)
 
         pokemonsListViewModel = ViewModelProvider(this, factory)[PokemonsListViewModel::class.java]
 
