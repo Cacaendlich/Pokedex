@@ -50,6 +50,7 @@ class PokemonFavoriteListViewModel(
     private fun addFavorite(pokemon: PokemonEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             pokemonLocalRepository.addFavorite(pokemon)
+            loadFavorites()
         }
     }
 
