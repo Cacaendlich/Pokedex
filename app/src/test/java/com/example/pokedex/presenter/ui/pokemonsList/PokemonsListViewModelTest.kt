@@ -41,7 +41,6 @@ class PokemonsListViewModelTest {
     @After
     fun tearDown() {
         viewModel.pokemonsState.removeObserver(observer)
-        viewModel.isLoading.removeObserver(isLoginMock)
     }
 
     @Test
