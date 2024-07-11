@@ -15,11 +15,6 @@ class PokemonFavoriteListViewModel(
     private var pokemonRepository: PokemonApiRepository,
     private var pokemonLocalRepository: PokemonLocalRepository
 ) : ViewModel() {
-    companion object {
-        private const val LIMIT = 14
-        private const val OFFSET = 0
-    }
-    
     var isLoading = MutableLiveData<Boolean>().apply { value = false }
     var pokemonsState = MutableLiveData<List<Pokemon?>>()
 
