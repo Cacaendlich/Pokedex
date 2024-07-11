@@ -67,10 +67,7 @@ class PokemonsListViewModel(
             }
         }
     }
-     private fun setLoading(loading: Boolean) {
-        isLoading.postValue(loading)
-    }
-    private fun handleError(e: Exception) {
-        Log.e("PokemonsListViewModel", "Error loading pokemons: ${e.message}")
-    }
+    private fun setLoading(loading: Boolean) = isLoading.postValue(loading)
+
+    private fun handleError(e: Exception) = Log.e("PokemonsListViewModel", "Error loading pokemons: ${e.message}")
 }

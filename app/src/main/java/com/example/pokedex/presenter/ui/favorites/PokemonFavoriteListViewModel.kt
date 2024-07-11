@@ -15,7 +15,7 @@ class PokemonFavoriteListViewModel(
     private var pokemonRepository: PokemonApiRepository,
     private var pokemonLocalRepository: PokemonLocalRepository
 ) : ViewModel() {
-    private var isLoading = MutableLiveData<Boolean>().apply { value = false }
+    var isLoading = MutableLiveData<Boolean>().apply { value = false }
     var pokemonsState = MutableLiveData<List<Pokemon?>>()
 
     var favoriteList = MutableLiveData<List<PokemonEntity>>()
@@ -61,11 +61,7 @@ class PokemonFavoriteListViewModel(
         }
     }
 
-    fun isFavorite(favoriteList: List<PokemonEntity>, pokemon: Pokemon): Boolean {
-        return favoriteList.any {
-            it.name == pokemon.name
-        }
-    }
+    fun isFavorite(favoriteList: List<PokemonEntity>, pokemon: Pokemon): Boolean =favoriteList.any { it.name == pokemon.name }
 
     fun updateFavoritesList(position: Int, pokemon: Pokemon, favoriteList: List<PokemonEntity>, adapter: PokemonAdapter) {
         val pokemonFavorite = PokemonEntity(pokemon.number, pokemon.name)
@@ -81,10 +77,6 @@ class PokemonFavoriteListViewModel(
         }
     }
 
-    fun removeFavorite(pokemon: Pokemon) {
-        viewModelScope.launch(Dispatchers.IO) {
-            deleteFavorite(pokemon.number)
-        }
-    }
+    fun removeFavorite(pokemon: Pokemon) = viewModelScope.launch(Dispatchers.IO) { deleteFavorite(pokemon.number) }
 
 }

@@ -41,6 +41,7 @@ class PokemonsListViewModelTest {
     @After
     fun tearDown() {
         viewModel.pokemonsState.removeObserver(observer)
+        viewModel.isLoading.removeObserver(isLoginMock)
     }
 
     @Test
@@ -66,6 +67,8 @@ class PokemonsListViewModelTest {
         Assert.assertEquals(emptyList<Pokemon>(), viewModel.pokemonsState.value)
     }
 
+    //loadInitialPokemons testar o erro empty e null
+
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `teste carregamento de  mais pokemons com sucesso`() = runTest {
@@ -86,6 +89,7 @@ class PokemonsListViewModelTest {
         viewModel.loadMorePokemons()
 
         advanceUntilIdle()
+        //avançar o tempo até que todas as corrotinas pendentes tenham concluído a execução
 
         Assert.assertEquals(expectedUpdatedList, viewModel.pokemonsState.value)
     }
