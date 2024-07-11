@@ -15,6 +15,11 @@ class PokemonFavoriteListViewModel(
     private var pokemonRepository: PokemonApiRepository,
     private var pokemonLocalRepository: PokemonLocalRepository
 ) : ViewModel() {
+    companion object {
+        private const val LIMIT = 14
+        private const val OFFSET = 0
+    }
+    
     var isLoading = MutableLiveData<Boolean>().apply { value = false }
     var pokemonsState = MutableLiveData<List<Pokemon?>>()
 
@@ -38,14 +43,24 @@ class PokemonFavoriteListViewModel(
     fun loadFavorites() {
         viewModelScope.launch(Dispatchers.IO) {
             isLoading.postValue(true)
-            val favorites = pokemonLocalRepository.getAllPokemons()
-                .map { pokemonEntity ->
-                    PokemonEntity(pokemonEntity!!.pokemonId, pokemonEntity.name)
-                }
-            isLoading.postValue(false)
-            favoriteList.postValue(favorites)
+
+            try {
+                val pokemonEntities = pokemonLocalRepository.getAllPokemons()
+                val favorites = pokemonEntities.filterNotNull()
+                    .map { pokemonEntity ->
+                        PokemonEntity(pokemonEntity.pokemonId, pokemonEntity.name)
+                    }
+
+                isLoading.postValue(false)
+                favoriteList.postValue(favorites)
+            } catch (e: Exception) {
+                // Tratar exceção, se necessário
+                isLoading.postValue(false)
+                favoriteList.postValue(emptyList())
+            }
         }
     }
+
 
     private fun addFavorite(pokemon: PokemonEntity) {
         viewModelScope.launch(Dispatchers.IO) {

@@ -6,6 +6,8 @@ import com.example.pokedex.data.local.model.PokemonEntity
 import com.example.pokedex.data.repository.api.PokemonApiRepository
 import com.example.pokedex.data.repository.local.PokemonLocalRepository
 import com.example.pokedex.domain.model.Pokemon
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
@@ -31,6 +33,8 @@ class PokemonFavoriteListViewModelTest {
     private lateinit var observer: Observer<List<Pokemon?>>
     @Mock
     private lateinit var isLoginMock: Observer<Boolean>
+
+
     @Before
     fun setUp() {
         MockitoAnnotations.openMocks(this)
@@ -83,10 +87,14 @@ class PokemonFavoriteListViewModelTest {
 //    fun updateFavoritesList() {
 //    }
 //
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun removeFavorite() = runTest{
+    fun `removeFavorite should call deleteFavorite on PokemonLocalRepository`() = runTest{
         val pokemonMock = Pokemon(1, "Bulbasaur")
+
         viewModel.removeFavorite(pokemonMock)
+
+        advanceUntilIdle()
 
         Mockito.verify(pokemonLocalRepository).deleteFavorite(pokemonMock.number)
     }
