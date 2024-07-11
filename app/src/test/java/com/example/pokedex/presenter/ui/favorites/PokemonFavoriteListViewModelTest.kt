@@ -56,6 +56,10 @@ class PokemonFavoriteListViewModelTest {
 //    @Test
 //    fun loadFavorites() {
 //    }
+//    @Test
+//    fun updateFavoritesList() {
+//    }
+//
 
     @Test
     fun  `test checking if Pokemon is favorite when it is in the list`() {
@@ -83,10 +87,6 @@ class PokemonFavoriteListViewModelTest {
         Assertions.assertFalse(resul)
     }
 
-//    @Test
-//    fun updateFavoritesList() {
-//    }
-//
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun removeFavorite() = runTest{

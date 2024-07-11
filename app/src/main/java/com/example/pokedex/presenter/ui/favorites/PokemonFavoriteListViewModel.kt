@@ -20,21 +20,6 @@ class PokemonFavoriteListViewModel(
 
     var favoriteList = MutableLiveData<List<PokemonEntity>>()
 
-    fun loadPokemons(favoriteList: List<PokemonEntity>) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val limit = 1000
-            val offset = 0
-
-            val loadPokemons = pokemonRepository.listPokemons(limit, offset)
-
-            pokemonsState.postValue(loadPokemons.filter { pokemon ->
-                favoriteList.any{
-                    it.name == pokemon?.name
-                }
-            })
-        }
-    }
-
     fun loadFavorites() {
         viewModelScope.launch(Dispatchers.IO) {
             isLoading.postValue(true)
@@ -56,6 +41,20 @@ class PokemonFavoriteListViewModel(
         }
     }
 
+    fun loadAndFilterPokemonsFromFavoriteList(favoriteList: List<PokemonEntity>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val limit = 1000
+            val offset = 0
+
+            val loadPokemons = pokemonRepository.listPokemons(limit, offset)
+
+            pokemonsState.postValue(loadPokemons.filter { pokemon ->
+                favoriteList.any{
+                    it.name == pokemon?.name
+                }
+            })
+        }
+    }
 
     private fun addFavorite(pokemon: PokemonEntity) {
         viewModelScope.launch(Dispatchers.IO) {
