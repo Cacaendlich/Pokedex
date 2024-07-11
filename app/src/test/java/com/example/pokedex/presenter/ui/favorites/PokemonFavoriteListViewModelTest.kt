@@ -89,7 +89,7 @@ class PokemonFavoriteListViewModelTest {
 //
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `removeFavorite should call deleteFavorite on PokemonLocalRepository`() = runTest{
+    fun removeFavorite() = runTest{
         val pokemonMock = Pokemon(1, "Bulbasaur")
 
         viewModel.removeFavorite(pokemonMock)
