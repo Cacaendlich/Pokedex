@@ -27,17 +27,21 @@ class PokemonsListViewModelTest {
     private lateinit var pokemonRepository: PokemonApiRepository
     @Mock
     private lateinit var observer: Observer<List<Pokemon?>>
+    @Mock
+    private lateinit var isLoginObserver: Observer<Boolean>
 
     @Before
     fun setUp() {
         MockitoAnnotations.openMocks(this)
         viewModel = PokemonsListViewModel(pokemonRepository)
         viewModel.pokemonsState.observeForever(observer)
+        viewModel.isLoading.observeForever(isLoginObserver)
     }
 
     @After
     fun tearDown() {
         viewModel.pokemonsState.removeObserver(observer)
+        viewModel.isLoading.removeObserver(isLoginObserver)
     }
 
     @Test
@@ -62,8 +66,6 @@ class PokemonsListViewModelTest {
 
         Assert.assertEquals(emptyList<Pokemon>(), viewModel.pokemonsState.value)
     }
-
-    //loadInitialPokemons testar o erro empty e null
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
@@ -90,8 +92,15 @@ class PokemonsListViewModelTest {
         Assert.assertEquals(expectedUpdatedList, viewModel.pokemonsState.value)
     }
 
-    //refreshPokemonsTest
-
-
+//    @OptIn(ExperimentalCoroutinesApi::class)
+//    @Test
+//    fun refreshPokemonsTest() = runTest{
+//        viewModel.refreshPokemons()
+//        advanceUntilIdle()
+//        Mockito.verify(isLoginObserver).onChanged(true)
+//
+//        Mockito.verify(viewModel.refreshPokemons())
+//
+//    }
 
 }

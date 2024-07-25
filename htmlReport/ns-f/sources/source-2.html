@@ -40,18 +40,18 @@ Current scope:     <a href="../../index.html">all classes</a>
   <td class="name">PokemonsListViewModel</td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    83,3%
   </span>
   <span class="absValue">
-    (0/6)
+    (5/6)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    89,5%
   </span>
   <span class="absValue">
-    (0/21)
+    (17/19)
   </span>
 </td>
 </tr>
@@ -59,18 +59,18 @@ Current scope:     <a href="../../index.html">all classes</a>
     <td class="name">PokemonsListViewModel$1</td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/1)
+    (1/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/2)
+    (1/1)
   </span>
 </td>
   </tr>
@@ -78,18 +78,18 @@ Current scope:     <a href="../../index.html">all classes</a>
     <td class="name">PokemonsListViewModel$Companion</td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/1)
+    (1/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/1)
+    (1/1)
   </span>
 </td>
   </tr>
@@ -100,18 +100,18 @@ Current scope:     <a href="../../index.html">all classes</a>
     <td class="name">PokemonsListViewModel$loadMorePokemons$1</td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/1)
+    (1/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    77,8%
   </span>
   <span class="absValue">
-    (0/10)
+    (7/9)
   </span>
 </td>
   </tr>
@@ -138,18 +138,18 @@ Current scope:     <a href="../../index.html">all classes</a>
   <td class="name"><strong>Total</strong></td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    80%
   </span>
   <span class="absValue">
-    (0/10)
+    (8/10)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    70,3%
   </span>
   <span class="absValue">
-    (0/41)
+    (26/37)
   </span>
 </td>
 </tr>
@@ -162,7 +162,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package com.example.pokedex.presenter.ui.pokemonsList
 &nbsp;
-&nbsp;import android.util.Log
 &nbsp;import androidx.lifecycle.MutableLiveData
 &nbsp;import androidx.lifecycle.ViewModel
 &nbsp;import androidx.lifecycle.viewModelScope
@@ -172,48 +171,48 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import kotlinx.coroutines.launch
 &nbsp;
 &nbsp;class PokemonsListViewModel(
-<b class="nc">&nbsp;    private var pokemonRepository: PokemonApiRepository</b>
-<b class="nc">&nbsp;) : ViewModel() {</b>
-<b class="nc">&nbsp;    companion object {</b>
+<b class="fc">&nbsp;    private var pokemonRepository: PokemonApiRepository</b>
+<b class="fc">&nbsp;) : ViewModel() {</b>
+<b class="fc">&nbsp;    companion object {</b>
 &nbsp;        private const val LIMIT = 14
 &nbsp;        private const val OFFSET = 0
 &nbsp;    }
 &nbsp;
-<b class="nc">&nbsp;    var pokemonsState = MutableLiveData&lt;List&lt;Pokemon?&gt;&gt;()</b>
-<b class="nc">&nbsp;    var isLoading = MutableLiveData&lt;Boolean&gt;().apply { value = false }</b>
+<b class="fc">&nbsp;    var pokemonsState = MutableLiveData&lt;List&lt;Pokemon?&gt;&gt;()</b>
+<b class="fc">&nbsp;    var isLoading = MutableLiveData&lt;Boolean&gt;().apply { value = false }</b>
 &nbsp;
-<b class="nc">&nbsp;    init {</b>
-<b class="nc">&nbsp;        viewModelScope.launch(Dispatchers.IO) {</b>
-<b class="nc">&nbsp;            loadInitialPokemons()</b>
+<b class="fc">&nbsp;    init {</b>
+<b class="fc">&nbsp;        viewModelScope.launch(Dispatchers.IO) {</b>
+<b class="fc">&nbsp;            loadInitialPokemons()</b>
 &nbsp;        }
-<b class="nc">&nbsp;    }</b>
-<b class="nc">&nbsp;    suspend fun loadInitialPokemons() {</b>
-<b class="nc">&nbsp;        try {</b>
-<b class="nc">&nbsp;            val pokemonsList = pokemonRepository.listPokemons(LIMIT, OFFSET)</b>
-<b class="nc">&nbsp;            pokemonsState.postValue(pokemonsList)</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;    suspend fun loadInitialPokemons() {
+<b class="fc">&nbsp;        try {</b>
+<b class="fc">&nbsp;            val pokemonsList = pokemonRepository.listPokemons(LIMIT, OFFSET)</b>
+<b class="fc">&nbsp;            pokemonsState.postValue(pokemonsList)</b>
 &nbsp;
-<b class="nc">&nbsp;        }catch (e: Exception) {</b>
-<b class="nc">&nbsp;            handleError(e)</b>
+<b class="fc">&nbsp;        }catch (e: Exception) {</b>
+<b class="fc">&nbsp;            handleError(e)</b>
 &nbsp;        }
 &nbsp;
 &nbsp;    }
 &nbsp;
 &nbsp;    fun loadMorePokemons() {
-<b class="nc">&nbsp;        setLoading(true)</b>
+<b class="fc">&nbsp;        setLoading(true)</b>
 &nbsp;
-<b class="nc">&nbsp;        val currentOffset = pokemonsState.value?.size ?: 0</b>
+<b class="fc">&nbsp;        val currentOffset = pokemonsState.value?.size ?: 0</b>
 &nbsp;
-<b class="nc">&nbsp;        viewModelScope.launch(Dispatchers.IO){</b>
-<b class="nc">&nbsp;            try{</b>
-<b class="nc">&nbsp;                val pokemonList = pokemonRepository.listPokemons(LIMIT, currentOffset)</b>
-<b class="nc">&nbsp;                val updatedList = pokemonsState.value?.toMutableList() ?: mutableListOf()</b>
-<b class="nc">&nbsp;                updatedList.addAll(pokemonList)</b>
-<b class="nc">&nbsp;                pokemonsState.postValue(updatedList)</b>
+<b class="fc">&nbsp;        viewModelScope.launch(Dispatchers.IO){</b>
+<b class="fc">&nbsp;            try{</b>
+<b class="fc">&nbsp;                val pokemonList = pokemonRepository.listPokemons(LIMIT, currentOffset)</b>
+<b class="fc">&nbsp;                val updatedList = pokemonsState.value?.toMutableList() ?: mutableListOf()</b>
+<b class="fc">&nbsp;                updatedList.addAll(pokemonList)</b>
+<b class="fc">&nbsp;                pokemonsState.postValue(updatedList)</b>
 <b class="nc">&nbsp;            } catch (e: Exception) {</b>
 <b class="nc">&nbsp;                handleError(e)</b>
 &nbsp;            } finally {
-<b class="nc">&nbsp;                setLoading(false)</b>
-<b class="nc">&nbsp;            }</b>
+<b class="fc">&nbsp;                setLoading(false)</b>
+<b class="fc">&nbsp;            }</b>
 &nbsp;        }
 &nbsp;    }
 &nbsp;    fun refreshPokemons() {
@@ -229,9 +228,11 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;            }</b>
 &nbsp;        }
 &nbsp;    }
-<b class="nc">&nbsp;    private fun setLoading(loading: Boolean) = isLoading.postValue(loading)</b>
+<b class="fc">&nbsp;    private fun setLoading(loading: Boolean) = isLoading.postValue(loading)</b>
 &nbsp;
-<b class="nc">&nbsp;    private fun handleError(e: Exception) = Log.e(&quot;PokemonsListViewModel&quot;, &quot;Error loading pokemons: ${e.message}&quot;)</b>
+&nbsp;    private fun handleError(e: Exception): Nothing {
+<b class="fc">&nbsp;        throw RuntimeException(&quot;Error loading pokemons: ${e.message}&quot;, e)</b>
+&nbsp;    }
 &nbsp;}
 </code>
 </pre>
@@ -256,7 +257,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2024-07-25 15:39</div>
+    <div style="float:right;">generated on 2024-07-25 15:53</div>
 </div>
 </body>
 </html>

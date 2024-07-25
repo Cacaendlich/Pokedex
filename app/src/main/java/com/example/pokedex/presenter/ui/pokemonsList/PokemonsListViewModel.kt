@@ -1,6 +1,5 @@
 package com.example.pokedex.presenter.ui.pokemonsList
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -69,5 +68,7 @@ class PokemonsListViewModel(
     }
     private fun setLoading(loading: Boolean) = isLoading.postValue(loading)
 
-    private fun handleError(e: Exception) = Log.e("PokemonsListViewModel", "Error loading pokemons: ${e.message}")
+    private fun handleError(e: Exception): Nothing {
+        throw RuntimeException("Error loading pokemons: ${e.message}", e)
+    }
 }
