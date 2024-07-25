@@ -140,4 +140,37 @@ class PokemonFavoriteListViewModelTest {
 
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun `loadAndFilterPokemonsFromFavoriteList com sucesso`() = runTest{
+        val limit = 1000
+        val offset = 0
+
+        val pokemonList = listOf(
+            Pokemon(1, "bulbasur"),
+            Pokemon(2, "ivysaur"),
+            Pokemon(3, "venusaur"),
+            Pokemon(4, "charmander")
+        )
+
+        val pokemonListFavorite = listOf(
+            PokemonEntity(1, "bulbasur"),
+            PokemonEntity(2, "ivysaur")
+        )
+
+        `when`(pokemonRepository.listPokemons(limit, offset)).thenReturn(pokemonList)
+
+        viewModel.loadAndFilterPokemonsFromFavoriteList(pokemonListFavorite)
+
+        advanceUntilIdle()
+
+        val favoriteListExpectatio = pokemonList.filter { pokemon ->
+            pokemonListFavorite.any{
+                it.name == pokemon.name
+            }
+        }
+
+        Mockito.verify(observer).onChanged(favoriteListExpectatio)
+    }
+
 }
