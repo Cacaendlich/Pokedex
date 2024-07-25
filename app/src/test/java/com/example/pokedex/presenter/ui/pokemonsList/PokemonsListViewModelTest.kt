@@ -27,21 +27,17 @@ class PokemonsListViewModelTest {
     private lateinit var pokemonRepository: PokemonApiRepository
     @Mock
     private lateinit var observer: Observer<List<Pokemon?>>
-    @Mock
-    private lateinit var isLoginMock: Observer<Boolean>
 
     @Before
     fun setUp() {
         MockitoAnnotations.openMocks(this)
         viewModel = PokemonsListViewModel(pokemonRepository)
         viewModel.pokemonsState.observeForever(observer)
-        viewModel.isLoading.observeForever(isLoginMock)
     }
 
     @After
     fun tearDown() {
         viewModel.pokemonsState.removeObserver(observer)
-        viewModel.isLoading.removeObserver(isLoginMock)
     }
 
     @Test
@@ -89,10 +85,13 @@ class PokemonsListViewModelTest {
         viewModel.loadMorePokemons()
 
         advanceUntilIdle()
-        //avançar o tempo até que todas as corrotinas pendentes tenham concluído a execução
+        //avançar o tempo até que todas as coroutines pendentes tenham concluído a execução
 
         Assert.assertEquals(expectedUpdatedList, viewModel.pokemonsState.value)
     }
+
+    //refreshPokemonsTest
+
 
 
 }

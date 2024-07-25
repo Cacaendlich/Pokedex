@@ -7,7 +7,6 @@ import com.example.pokedex.data.local.model.PokemonEntity
 import com.example.pokedex.data.repository.api.PokemonApiRepository
 import com.example.pokedex.data.repository.local.PokemonLocalRepository
 import com.example.pokedex.domain.model.Pokemon
-import com.example.pokedex.presenter.adapter.PokemonAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -15,7 +14,7 @@ class PokemonFavoriteListViewModel(
     private var pokemonRepository: PokemonApiRepository,
     private var pokemonLocalRepository: PokemonLocalRepository
 ) : ViewModel() {
-    var isLoading = MutableLiveData<Boolean>().apply { value = false }
+    private var isLoading = MutableLiveData<Boolean>().apply { value = false }
     var pokemonsState = MutableLiveData<List<Pokemon?>>()
 
     var favoriteList = MutableLiveData<List<PokemonEntity>>()
@@ -63,26 +62,24 @@ class PokemonFavoriteListViewModel(
         }
     }
 
-    private fun deleteFavorite(pokemonId: Int) {
+     private fun deleteFavorite(pokemonId: Int) {
         viewModelScope.launch(Dispatchers.IO){
             pokemonLocalRepository.deleteFavorite(pokemonId)
             loadFavorites()
         }
     }
 
-    fun isFavorite(favoriteList: List<PokemonEntity>, pokemon: Pokemon): Boolean =favoriteList.any { it.name == pokemon.name }
+    fun isFavorite(favoriteList: List<PokemonEntity>, pokemon: Pokemon): Boolean = favoriteList.any { it.name == pokemon.name }
 
-    fun updateFavoritesList(position: Int, pokemon: Pokemon, favoriteList: List<PokemonEntity>, adapter: PokemonAdapter) {
+    fun updateFavoritesList(pokemon: Pokemon, favoriteList: List<PokemonEntity>) {
         val pokemonFavorite = PokemonEntity(pokemon.number, pokemon.name)
 
         val isFavorite = isFavorite(favoriteList, pokemon)
 
         if (!isFavorite && !pokemon.favorite  || isFavorite && !pokemon.favorite) {
             addFavorite(pokemonFavorite)
-            adapter.updatePokemonFavoriteStatus(position, true)
         } else {
             deleteFavorite(pokemon.number)
-            adapter.updatePokemonFavoriteStatus(position, false)
         }
     }
 

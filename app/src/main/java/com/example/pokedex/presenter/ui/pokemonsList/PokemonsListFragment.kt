@@ -152,7 +152,8 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
     override fun onFavoriteClick(position: Int, imageView: ImageView) {
         val pokemon = mPokemonAdapter.mPokemonList[position]
         pokemon?.let {
-            favoriteListViewModel.updateFavoritesList(position, it, mfavoriteList, mPokemonAdapter)
+            favoriteListViewModel.updateFavoritesList(it, mfavoriteList)
+            mPokemonAdapter.updatePokemonFavoriteStatus(position, !favoriteListViewModel.isFavorite(mfavoriteList, pokemon))
         }
     }
 

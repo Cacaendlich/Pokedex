@@ -1,0 +1,131 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Types</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.pokedex.data.model</a>
+</div>
+
+<h1>Coverage Summary for Class: Types (com.example.pokedex.data.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Types</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.pokedex.data.model
+&nbsp;
+&nbsp;import java.sql.Types
+&nbsp;
+&nbsp;data class PokemonDetailResponse(
+&nbsp;    val height : Int,
+&nbsp;    val weight : Int,
+&nbsp;    val stats : List&lt;Stats&gt;,
+&nbsp;    val types : List&lt;Types&gt;
+&nbsp;)
+&nbsp;
+&nbsp;data class Stats(
+&nbsp;    val base_stat: Int,
+&nbsp;    val stat: List&lt;Stat&gt;
+&nbsp;)
+&nbsp;
+&nbsp;data class Stat(
+&nbsp;    val name: String
+&nbsp;)
+&nbsp;
+<b class="nc">&nbsp;data class Types(</b>
+<b class="nc">&nbsp;    val slot: Int,</b>
+<b class="nc">&nbsp;    val type: List&lt;Type&gt;</b>
+&nbsp;)
+&nbsp;
+&nbsp;data class Type(
+&nbsp;    val name: String
+&nbsp;)
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-25 11:56</div>
+</div>
+</body>
+</html>
