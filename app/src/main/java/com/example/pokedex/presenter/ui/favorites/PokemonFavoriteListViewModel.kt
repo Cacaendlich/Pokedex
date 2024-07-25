@@ -14,7 +14,7 @@ class PokemonFavoriteListViewModel(
     private var pokemonRepository: PokemonApiRepository,
     private var pokemonLocalRepository: PokemonLocalRepository
 ) : ViewModel() {
-    private var isLoading = MutableLiveData<Boolean>().apply { value = false }
+    var isLoading = MutableLiveData<Boolean>().apply { value = false }
     var pokemonsState = MutableLiveData<List<Pokemon?>>()
 
     var favoriteList = MutableLiveData<List<PokemonEntity>>()
@@ -30,12 +30,12 @@ class PokemonFavoriteListViewModel(
                         PokemonEntity(pokemonEntity.pokemonId, pokemonEntity.name)
                     }
 
-                isLoading.postValue(false)
                 favoriteList.postValue(favorites)
             } catch (e: Exception) {
                 // Tratar exceção, se necessário
-                isLoading.postValue(false)
                 favoriteList.postValue(emptyList())
+            } finally {
+                isLoading.postValue(false)
             }
         }
     }

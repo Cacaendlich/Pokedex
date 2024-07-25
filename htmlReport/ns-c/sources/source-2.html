@@ -40,18 +40,18 @@ Current scope:     <a href="../../index.html">all classes</a>
   <td class="name">PokemonFavoriteListViewModel</td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    75%
   </span>
   <span class="absValue">
-    (0/8)
+    (6/8)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    88,2%
   </span>
   <span class="absValue">
-    (0/21)
+    (15/17)
   </span>
 </td>
 </tr>
@@ -59,18 +59,18 @@ Current scope:     <a href="../../index.html">all classes</a>
     <td class="name">PokemonFavoriteListViewModel$addFavorite$1</td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/1)
+    (1/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/3)
+    (2/2)
   </span>
 </td>
   </tr>
@@ -78,18 +78,18 @@ Current scope:     <a href="../../index.html">all classes</a>
     <td class="name">PokemonFavoriteListViewModel$deleteFavorite$1</td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/1)
+    (1/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/3)
+    (2/2)
   </span>
 </td>
   </tr>
@@ -116,18 +116,18 @@ Current scope:     <a href="../../index.html">all classes</a>
     <td class="name">PokemonFavoriteListViewModel$loadFavorites$1</td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/1)
+    (1/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    63,6%
   </span>
   <span class="absValue">
-    (0/16)
+    (7/11)
   </span>
 </td>
   </tr>
@@ -154,18 +154,18 @@ Current scope:     <a href="../../index.html">all classes</a>
   <td class="name"><strong>Total</strong></td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    69,2%
   </span>
   <span class="absValue">
-    (0/13)
+    (9/13)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    56,5%
   </span>
   <span class="absValue">
-    (0/57)
+    (26/46)
   </span>
 </td>
 </tr>
@@ -189,31 +189,31 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import kotlinx.coroutines.launch
 &nbsp;
 &nbsp;class PokemonFavoriteListViewModel(
-<b class="nc">&nbsp;    private var pokemonRepository: PokemonApiRepository,</b>
-<b class="nc">&nbsp;    private var pokemonLocalRepository: PokemonLocalRepository</b>
-<b class="nc">&nbsp;) : ViewModel() {</b>
-<b class="nc">&nbsp;    private var isLoading = MutableLiveData&lt;Boolean&gt;().apply { value = false }</b>
-<b class="nc">&nbsp;    var pokemonsState = MutableLiveData&lt;List&lt;Pokemon?&gt;&gt;()</b>
+<b class="fc">&nbsp;    private var pokemonRepository: PokemonApiRepository,</b>
+<b class="fc">&nbsp;    private var pokemonLocalRepository: PokemonLocalRepository</b>
+<b class="fc">&nbsp;) : ViewModel() {</b>
+<b class="fc">&nbsp;    private var isLoading = MutableLiveData&lt;Boolean&gt;().apply { value = false }</b>
+<b class="fc">&nbsp;    var pokemonsState = MutableLiveData&lt;List&lt;Pokemon?&gt;&gt;()</b>
 &nbsp;
-<b class="nc">&nbsp;    var favoriteList = MutableLiveData&lt;List&lt;PokemonEntity&gt;&gt;()</b>
+<b class="fc">&nbsp;    var favoriteList = MutableLiveData&lt;List&lt;PokemonEntity&gt;&gt;()</b>
 &nbsp;
 &nbsp;    fun loadFavorites() {
-<b class="nc">&nbsp;        viewModelScope.launch(Dispatchers.IO) {</b>
-<b class="nc">&nbsp;            isLoading.postValue(true)</b>
+<b class="fc">&nbsp;        viewModelScope.launch(Dispatchers.IO) {</b>
+<b class="fc">&nbsp;            isLoading.postValue(true)</b>
 &nbsp;
-<b class="nc">&nbsp;            try {</b>
-<b class="nc">&nbsp;                val pokemonEntities = pokemonLocalRepository.getAllPokemons()</b>
-<b class="nc">&nbsp;                val favorites = pokemonEntities.filterNotNull()</b>
+<b class="fc">&nbsp;            try {</b>
+<b class="fc">&nbsp;                val pokemonEntities = pokemonLocalRepository.getAllPokemons()</b>
+<b class="fc">&nbsp;                val favorites = pokemonEntities.filterNotNull()</b>
 <b class="nc">&nbsp;                    .map { pokemonEntity -&gt;</b>
 <b class="nc">&nbsp;                        PokemonEntity(pokemonEntity.pokemonId, pokemonEntity.name)</b>
 &nbsp;                    }
 &nbsp;
 <b class="nc">&nbsp;                isLoading.postValue(false)</b>
 <b class="nc">&nbsp;                favoriteList.postValue(favorites)</b>
-<b class="nc">&nbsp;            } catch (e: Exception) {</b>
+<b class="fc">&nbsp;            } catch (e: Exception) {</b>
 &nbsp;                // Tratar exceção, se necessário
-<b class="nc">&nbsp;                isLoading.postValue(false)</b>
-<b class="nc">&nbsp;                favoriteList.postValue(emptyList())</b>
+<b class="fc">&nbsp;                isLoading.postValue(false)</b>
+<b class="fc">&nbsp;                favoriteList.postValue(emptyList())</b>
 &nbsp;            }
 &nbsp;        }
 &nbsp;    }
@@ -234,30 +234,30 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }
 &nbsp;
 &nbsp;    private fun addFavorite(pokemon: PokemonEntity) {
-<b class="nc">&nbsp;        viewModelScope.launch(Dispatchers.IO) {</b>
-<b class="nc">&nbsp;            pokemonLocalRepository.addFavorite(pokemon)</b>
-<b class="nc">&nbsp;            loadFavorites()</b>
+<b class="fc">&nbsp;        viewModelScope.launch(Dispatchers.IO) {</b>
+<b class="fc">&nbsp;            pokemonLocalRepository.addFavorite(pokemon)</b>
+<b class="fc">&nbsp;            loadFavorites()</b>
 &nbsp;        }
 &nbsp;    }
 &nbsp;
 &nbsp;     private fun deleteFavorite(pokemonId: Int) {
-<b class="nc">&nbsp;        viewModelScope.launch(Dispatchers.IO){</b>
-<b class="nc">&nbsp;            pokemonLocalRepository.deleteFavorite(pokemonId)</b>
-<b class="nc">&nbsp;            loadFavorites()</b>
+<b class="fc">&nbsp;        viewModelScope.launch(Dispatchers.IO){</b>
+<b class="fc">&nbsp;            pokemonLocalRepository.deleteFavorite(pokemonId)</b>
+<b class="fc">&nbsp;            loadFavorites()</b>
 &nbsp;        }
 &nbsp;    }
 &nbsp;
-<b class="nc">&nbsp;    fun isFavorite(favoriteList: List&lt;PokemonEntity&gt;, pokemon: Pokemon): Boolean = favoriteList.any { it.name == pokemon.name }</b>
+<b class="fc">&nbsp;    fun isFavorite(favoriteList: List&lt;PokemonEntity&gt;, pokemon: Pokemon): Boolean = favoriteList.any { it.name == pokemon.name }</b>
 &nbsp;
 &nbsp;    fun updateFavoritesList(pokemon: Pokemon, favoriteList: List&lt;PokemonEntity&gt;) {
-<b class="nc">&nbsp;        val pokemonFavorite = PokemonEntity(pokemon.number, pokemon.name)</b>
+<b class="fc">&nbsp;        val pokemonFavorite = PokemonEntity(pokemon.number, pokemon.name)</b>
 &nbsp;
-<b class="nc">&nbsp;        val isFavorite = isFavorite(favoriteList, pokemon)</b>
+<b class="fc">&nbsp;        val isFavorite = isFavorite(favoriteList, pokemon)</b>
 &nbsp;
-<b class="nc">&nbsp;        if (!isFavorite &amp;&amp; !pokemon.favorite  || isFavorite &amp;&amp; !pokemon.favorite) {</b>
-<b class="nc">&nbsp;            addFavorite(pokemonFavorite)</b>
+<b class="fc">&nbsp;        if (!isFavorite &amp;&amp; !pokemon.favorite  || isFavorite &amp;&amp; !pokemon.favorite) {</b>
+<b class="fc">&nbsp;            addFavorite(pokemonFavorite)</b>
 &nbsp;        } else {
-<b class="nc">&nbsp;            deleteFavorite(pokemon.number)</b>
+<b class="fc">&nbsp;            deleteFavorite(pokemon.number)</b>
 &nbsp;        }
 &nbsp;    }
 &nbsp;
@@ -287,7 +287,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2024-07-25 11:56</div>
+    <div style="float:right;">generated on 2024-07-25 15:00</div>
 </div>
 </body>
 </html>

@@ -6,6 +6,8 @@ import com.example.pokedex.data.local.model.PokemonEntity
 import com.example.pokedex.data.repository.api.PokemonApiRepository
 import com.example.pokedex.data.repository.local.PokemonLocalRepository
 import com.example.pokedex.domain.model.Pokemon
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert
@@ -14,6 +16,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito
+import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 
 class PokemonFavoriteListViewModelTest {
@@ -27,8 +30,14 @@ class PokemonFavoriteListViewModelTest {
     private lateinit var pokemonRepository: PokemonApiRepository
     @Mock
     private lateinit var pokemonLocalRepository: PokemonLocalRepository
+
+
     @Mock
     private lateinit var observer: Observer<List<Pokemon?>>
+    @Mock
+    private lateinit var isLoadingObserver: Observer<Boolean>
+    @Mock
+    private lateinit var favoriteListObserver: Observer<List<PokemonEntity?>>
 
 
     @Before
@@ -36,12 +45,16 @@ class PokemonFavoriteListViewModelTest {
         MockitoAnnotations.openMocks(this)
         viewModel = PokemonFavoriteListViewModel(pokemonRepository, pokemonLocalRepository)
         viewModel.pokemonsState.observeForever(observer)
+        viewModel.isLoading.observeForever(isLoadingObserver)
+        viewModel.favoriteList.observeForever(favoriteListObserver)
 
     }
 
     @After
     fun tearDown() {
         viewModel.pokemonsState.removeObserver(observer)
+        viewModel.isLoading.removeObserver(isLoadingObserver)
+        viewModel.favoriteList.removeObserver(favoriteListObserver)
     }
 
     @Test
@@ -102,5 +115,29 @@ class PokemonFavoriteListViewModelTest {
         Mockito.verify(pokemonLocalRepository).deleteFavorite(pokemon1.number)
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun `loadFavorites com sucesso`() = runTest{
+        val pokemonListFavorite = listOf(
+            PokemonEntity(1, "bulbasur"),
+            PokemonEntity(2, "ivysaur")
+        )
+
+        `when`(pokemonLocalRepository.getAllPokemons()).thenReturn(pokemonListFavorite)
+
+        viewModel.loadFavorites()
+
+        advanceUntilIdle()
+
+        Mockito.verify(isLoadingObserver).onChanged(true)
+        Mockito.verify(pokemonLocalRepository).getAllPokemons()
+
+        val favoriteListExpectatio = pokemonListFavorite.map {
+            PokemonEntity(it.pokemonId, it.name)
+        }
+
+        Mockito.verify(favoriteListObserver).onChanged(favoriteListExpectatio)
+
+    }
 
 }
