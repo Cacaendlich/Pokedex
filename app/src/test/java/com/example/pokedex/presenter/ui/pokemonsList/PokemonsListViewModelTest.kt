@@ -13,6 +13,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mock
+import org.mockito.Mockito
 import org.mockito.Mockito.anyInt
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
@@ -92,15 +93,24 @@ class PokemonsListViewModelTest {
         Assert.assertEquals(expectedUpdatedList, viewModel.pokemonsState.value)
     }
 
-//    @OptIn(ExperimentalCoroutinesApi::class)
-//    @Test
-//    fun refreshPokemonsTest() = runTest{
-//        viewModel.refreshPokemons()
-//        advanceUntilIdle()
-//        Mockito.verify(isLoginObserver).onChanged(true)
-//
-//        Mockito.verify(viewModel.refreshPokemons())
-//
-//    }
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun refreshPokemonsTest() = runTest{
+        val initialList = listOf(
+            Pokemon(1, "bulbasaur"),
+            Pokemon(2, "ivysaur")
+        )
+
+        `when`(pokemonRepository.listPokemons(14, 0)).thenReturn(initialList)
+
+        viewModel.refreshPokemons()
+
+        advanceUntilIdle()
+
+        Mockito.verify(isLoginObserver).onChanged(true)
+
+        Assert.assertEquals(initialList, viewModel.pokemonsState.value)
+
+    }
 
 }
