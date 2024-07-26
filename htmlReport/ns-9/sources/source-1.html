@@ -1,0 +1,308 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > PokemonAdapter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.pokedex.presenter.adapter</a>
+</div>
+
+<h1>Coverage Summary for Class: PokemonAdapter (com.example.pokedex.presenter.adapter)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PokemonAdapter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/24)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">PokemonAdapter$OnItemClickListener</td>
+  </tr>
+  <tr>
+    <td class="name">PokemonAdapter$PokemonViewHolder</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/26)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">PokemonAdapter$PokemonViewHolder$PokemonImageCustomTarget</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">PokemonAdapter$PokemonViewHolder$PokemonImageCustomTarget$onResourceReady$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/55)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.pokedex.presenter.adapter
+&nbsp;
+&nbsp;import android.graphics.Bitmap
+&nbsp;import android.util.Log
+&nbsp;import android.view.LayoutInflater
+&nbsp;import android.view.View
+&nbsp;import android.view.ViewGroup
+&nbsp;import android.widget.ImageView
+&nbsp;import android.widget.TextView
+&nbsp;import androidx.cardview.widget.CardView
+&nbsp;import androidx.palette.graphics.Palette
+&nbsp;import androidx.recyclerview.widget.RecyclerView
+&nbsp;import com.bumptech.glide.Glide
+&nbsp;import com.bumptech.glide.request.target.CustomTarget
+&nbsp;import com.bumptech.glide.request.transition.Transition
+&nbsp;import com.example.pokedex.R
+&nbsp;import com.example.pokedex.domain.model.Pokemon
+&nbsp;
+&nbsp;class PokemonAdapter(
+<b class="nc">&nbsp;    val mPokemonList: List&lt;Pokemon?&gt;</b>
+<b class="nc">&nbsp;) : RecyclerView.Adapter&lt;PokemonAdapter.PokemonViewHolder&gt;() {</b>
+&nbsp;
+&nbsp;    private var onItemClickListener: OnItemClickListener? = null
+&nbsp;
+&nbsp;    interface OnItemClickListener {
+&nbsp;        fun onFavoriteClick(position: Int, imageView: ImageView)
+&nbsp;        fun onDetailClick(position: Int, imageView: ImageView)
+&nbsp;    }
+&nbsp;
+&nbsp;    fun setOnItemClickListener(listener: OnItemClickListener) {
+<b class="nc">&nbsp;        onItemClickListener = listener</b>
+&nbsp;    }
+&nbsp;    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonViewHolder {
+<b class="nc">&nbsp;        val view = LayoutInflater.from(parent.context).inflate(R.layout.pokemon_item, parent, false)</b>
+<b class="nc">&nbsp;        return PokemonViewHolder(view)</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    override fun getItemCount() = mPokemonList.size</b>
+&nbsp;
+&nbsp;    override fun onBindViewHolder(holder: PokemonViewHolder, position: Int) {
+<b class="nc">&nbsp;        val currentItem = mPokemonList[position]</b>
+<b class="nc">&nbsp;        holder.bindPokemon(currentItem)</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    inner class PokemonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {</b>
+&nbsp;        //referencias de dados
+<b class="nc">&nbsp;        private val mImageViewPokemon: ImageView = itemView.findViewById(R.id.image_view_pokemon)</b>
+<b class="nc">&nbsp;        private val mNameViewPokemon: TextView = itemView.findViewById(R.id.name_view_pokemon)</b>
+<b class="nc">&nbsp;        private val mCardViewPokemon: CardView = itemView.findViewById(R.id.card_view_pokemon)</b>
+<b class="nc">&nbsp;        private val mImageViewFavoriteOFF: ImageView = itemView.findViewById(R.id.favorite_off)</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;        init {</b>
+<b class="nc">&nbsp;            mImageViewFavoriteOFF.setOnClickListener {</b>
+<b class="nc">&nbsp;                bindingAdapterPosition.let {</b>
+<b class="nc">&nbsp;                    onItemClickListener?.onFavoriteClick(it, mImageViewFavoriteOFF)</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            mImageViewPokemon.setOnClickListener {</b>
+<b class="nc">&nbsp;                bindingAdapterPosition.let {</b>
+<b class="nc">&nbsp;                    onItemClickListener?.onDetailClick(it, mImageViewPokemon)</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+&nbsp;        fun bindPokemon(currentItem: Pokemon?) {
+<b class="nc">&nbsp;            currentItem?.let { pokemon -&gt;</b>
+<b class="nc">&nbsp;                loadPokemonImageUrl(pokemon.imageUrl)</b>
+<b class="nc">&nbsp;                mNameViewPokemon.text = currentItem.name</b>
+<b class="nc">&nbsp;                Log.d(&quot;PokemonAdapter&quot;, &quot;${pokemon.name} - Actual Favorite Status:  ${pokemon.favorite}&quot;)</b>
+<b class="nc">&nbsp;                updateFavoriteIcon(pokemon.favorite, mImageViewFavoriteOFF)</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        private fun loadPokemonImageUrl(imageUrl: String) {
+<b class="nc">&nbsp;            imageUrl.let { url -&gt;</b>
+<b class="nc">&nbsp;                Glide.with(itemView.context)</b>
+<b class="nc">&nbsp;                    .asBitmap()</b>
+<b class="nc">&nbsp;                    .load(url)</b>
+<b class="nc">&nbsp;                    .into(PokemonImageCustomTarget())</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        private inner class PokemonImageCustomTarget : CustomTarget&lt;Bitmap&gt;() {</b>
+&nbsp;            override fun onResourceReady(resource: Bitmap, transition: Transition&lt;in Bitmap&gt;?) {
+<b class="nc">&nbsp;                mImageViewPokemon.setImageBitmap(resource)</b>
+<b class="nc">&nbsp;                extractDominantColor(resource) { color -&gt;</b>
+<b class="nc">&nbsp;                    mCardViewPokemon.setCardBackgroundColor(color)</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;
+&nbsp;            override fun onLoadCleared(placeholder: android.graphics.drawable.Drawable?) {
+<b class="nc">&nbsp;                mImageViewPokemon.setImageBitmap(null)</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    // Extrai a cor principal do Pokémon da imagem usando a biblioteca Palette
+&nbsp;    private fun extractDominantColor(bitmap: Bitmap, onColorExtracted: (Int) -&gt; Unit) {
+<b class="nc">&nbsp;        val croppedBitmap = cropCenteredBitmap(bitmap)</b>
+&nbsp;
+&nbsp;        // Passar o bitmap recortado para a Palette para extrair a cor predominante
+<b class="nc">&nbsp;        Palette.from(croppedBitmap).generate { palette -&gt;</b>
+<b class="nc">&nbsp;            val dominantColor = palette?.dominantSwatch?.rgb</b>
+<b class="nc">&nbsp;            dominantColor?.let {</b>
+<b class="nc">&nbsp;                onColorExtracted(it)</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private fun cropCenteredBitmap(bitmap: Bitmap): Bitmap {
+&nbsp;        // Determinar as dimensões do retângulo de recorte
+<b class="nc">&nbsp;        val cropLeft = bitmap.width / 4</b>
+<b class="nc">&nbsp;        val cropTop = bitmap.height / 4</b>
+<b class="nc">&nbsp;        val cropRight = bitmap.width * 3 / 4</b>
+<b class="nc">&nbsp;        val cropBottom = bitmap.height * 3 / 4</b>
+&nbsp;        // Recortar a imagem
+<b class="nc">&nbsp;        return Bitmap.createBitmap(bitmap, cropLeft, cropTop, cropRight - cropLeft, cropBottom - cropTop)</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private fun updateFavoriteIcon(isFavorite: Boolean, imageView: ImageView) {
+<b class="nc">&nbsp;        if (isFavorite) {</b>
+<b class="nc">&nbsp;            imageView.setImageResource(R.drawable.favorite_on)</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            imageView.setImageResource(R.drawable.favorite_off)</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    fun updatePokemonFavoriteStatus(position: Int, isFavorite: Boolean) {
+&nbsp;        // Atualiza apenas o item alterado
+<b class="nc">&nbsp;        mPokemonList[position]?.favorite = isFavorite</b>
+<b class="nc">&nbsp;        notifyItemChanged(position)</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-25 15:53</div>
+</div>
+</body>
+</html>

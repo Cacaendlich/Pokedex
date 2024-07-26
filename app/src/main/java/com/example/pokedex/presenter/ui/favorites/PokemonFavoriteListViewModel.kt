@@ -1,111 +1,88 @@
 package com.example.pokedex.presenter.ui.favorites
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.pokedex.data.local.database.PokemonDataBase
 import com.example.pokedex.data.local.model.PokemonEntity
-import com.example.pokedex.data.network.RetrofitClient
+import com.example.pokedex.data.repository.api.PokemonApiRepository
+import com.example.pokedex.data.repository.local.PokemonLocalRepository
 import com.example.pokedex.domain.model.Pokemon
-import com.example.pokedex.presenter.adapter.PokemonAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class PokemonFavoriteListViewModel : ViewModel() {
-    private var isLoading = MutableLiveData<Boolean>().apply { value = false }
+class PokemonFavoriteListViewModel(
+    private var pokemonRepository: PokemonApiRepository,
+    private var pokemonLocalRepository: PokemonLocalRepository
+) : ViewModel() {
+    var isLoading = MutableLiveData<Boolean>().apply { value = false }
     var pokemonsState = MutableLiveData<List<Pokemon?>>()
 
     var favoriteList = MutableLiveData<List<PokemonEntity>>()
 
-    fun loadPokemons(favoriteList: List<PokemonEntity>) {
-        val limit = 1000
-        val offset = 0
-
-        val pokemonsApiResultAPI = RetrofitClient.listPokemons(limit, offset)
-
-        pokemonsApiResultAPI?.results?.let { results ->
-
-            val pokesFiltrates = results.filter { pokemonItemResponse ->
-                val name = pokemonItemResponse.name
-                favoriteList.any{
-                    it.name == name
-                }
-            }
-
-            pokemonsState.postValue(pokesFiltrates.map { pokemonResult ->
-
-                val name = pokemonResult.name
-
-                val pokemonApiResult = RetrofitClient.getPokemon(name)
-
-                pokemonApiResult?.let { Pokemon(pokemonApiResult.id, pokemonApiResult.name) }
-
-            })
-
-        }
-
-    }
-
-    fun loadFavorites(context: Context, callback: (List<PokemonEntity>) -> Unit) {
+    fun loadFavorites() {
         viewModelScope.launch(Dispatchers.IO) {
             isLoading.postValue(true)
-            val favorites = PokemonDataBase
-                .getDataBase(context)
-                .PokemonDao()
-                .getAllPokemonsFavorites()
-                .map { pokemonEntity ->
-                    PokemonEntity(pokemonEntity.pokemonId, pokemonEntity.name)
-                }
-            isLoading.postValue(false)
-            callback(favorites)
+
+            try {
+                val pokemonEntities = pokemonLocalRepository.getAllPokemons()
+                val favorites = pokemonEntities.filterNotNull()
+                    .map { pokemonEntity ->
+                        PokemonEntity(pokemonEntity.pokemonId, pokemonEntity.name)
+                    }
+
+                favoriteList.postValue(favorites)
+            } catch (e: Exception) {
+                // Tratar exceção, se necessário
+                favoriteList.postValue(emptyList())
+            } finally {
+                isLoading.postValue(false)
+            }
         }
     }
 
-    private fun addFavorite(pokemon: PokemonEntity, context: Context, callback: () -> Unit) {
+    fun loadAndFilterPokemonsFromFavoriteList(favoriteList: List<PokemonEntity>) {
         viewModelScope.launch(Dispatchers.IO) {
-            PokemonDataBase.getDataBase(context).PokemonDao().insertPokemonFavorite(pokemon)
-            callback()
+            val limit = 1000
+            val offset = 0
+
+            val loadPokemons = pokemonRepository.listPokemons(limit, offset)
+
+            pokemonsState.postValue(loadPokemons.filter { pokemon ->
+                favoriteList.any{
+                    it.name == pokemon?.name
+                }
+            })
         }
     }
 
-    private fun deleteFavorite(pokemonId: Int, context: Context, callback: () -> Unit) {
+    private fun addFavorite(pokemon: PokemonEntity) {
+        viewModelScope.launch(Dispatchers.IO) {
+            pokemonLocalRepository.addFavorite(pokemon)
+            loadFavorites()
+        }
+    }
+
+     private fun deleteFavorite(pokemonId: Int) {
         viewModelScope.launch(Dispatchers.IO){
-            PokemonDataBase.getDataBase(context).PokemonDao().deletePokemonFavorite(pokemonId)
-            callback()
+            pokemonLocalRepository.deleteFavorite(pokemonId)
+            loadFavorites()
         }
     }
 
-    fun isFavorite(favoriteList: List<PokemonEntity>, pokemon: Pokemon): Boolean {
-        return favoriteList.any {
-            it.name == pokemon.name
-        }
-    }
+    fun isFavorite(favoriteList: List<PokemonEntity>, pokemon: Pokemon): Boolean = favoriteList.any { it.name == pokemon.name }
 
-    fun updateFavoritesList(position: Int, pokemon: Pokemon, favoriteList: List<PokemonEntity>, adapter: PokemonAdapter, context: Context) {
+    fun updateFavoritesList(pokemon: Pokemon, favoriteList: List<PokemonEntity>) {
         val pokemonFavorite = PokemonEntity(pokemon.number, pokemon.name)
 
         val isFavorite = isFavorite(favoriteList, pokemon)
 
         if (!isFavorite && !pokemon.favorite  || isFavorite && !pokemon.favorite) {
-            addFavorite(pokemonFavorite, context) {
-                adapter.updatePokemonFavoriteStatus(position, true)
-            }
+            addFavorite(pokemonFavorite)
         } else {
-            deleteFavorite(pokemon.number, context) {
-                adapter.updatePokemonFavoriteStatus(position, false)
-            }
+            deleteFavorite(pokemon.number)
         }
     }
 
-    fun removeFavorite(pokemon: Pokemon, context: Context) {
-        viewModelScope.launch(Dispatchers.IO) {
-            deleteFavorite(pokemon.number, context) {
-                loadFavorites(context) { favorites ->
-                    loadPokemons(favorites)
-                }
-            }
-        }
-    }
+    fun removeFavorite(pokemon: Pokemon) = viewModelScope.launch(Dispatchers.IO) { deleteFavorite(pokemon.number) }
 
 }

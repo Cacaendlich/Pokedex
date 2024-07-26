@@ -1,0 +1,165 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > PokemonDetailActivity</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.pokedex.presenter.ui.details</a>
+</div>
+
+<h1>Coverage Summary for Class: PokemonDetailActivity (com.example.pokedex.presenter.ui.details)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PokemonDetailActivity</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/15)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.pokedex.presenter.ui.details
+&nbsp;
+&nbsp;import android.content.Intent
+&nbsp;import android.os.Bundle
+&nbsp;import android.util.Log
+&nbsp;import android.widget.ImageView
+&nbsp;import android.widget.TextView
+&nbsp;import androidx.appcompat.app.AppCompatActivity
+&nbsp;import androidx.lifecycle.ViewModelProvider
+&nbsp;import androidx.recyclerview.widget.LinearLayoutManager
+&nbsp;import androidx.recyclerview.widget.RecyclerView
+&nbsp;import com.example.pokedex.databinding.ActivityPokemonDetailBinding
+&nbsp;import com.example.pokedex.presenter.adapter.PokemonTypesAdapter
+&nbsp;import com.example.pokedex.presenter.ui.main.MainActivity
+&nbsp;
+<b class="nc">&nbsp;class PokemonDetailActivity : AppCompatActivity() {</b>
+&nbsp;
+&nbsp;    private lateinit var binding: ActivityPokemonDetailBinding
+&nbsp;    private lateinit var pokemonDetailsViewModel : PokemonDetailsViewModel
+&nbsp;    private lateinit var mRecyclerView: RecyclerView
+&nbsp;    private lateinit var mPokemonTypesAdapter: PokemonTypesAdapter
+&nbsp;    private lateinit var mLayoutManager: LinearLayoutManager
+&nbsp;
+&nbsp;    private lateinit var mPokemonNumber: TextView
+&nbsp;    private lateinit var mPokemonImage: ImageView
+&nbsp;    private lateinit var mPokemonName: TextView
+&nbsp;    private lateinit var mTypeList: List&lt;String&gt;
+&nbsp;    private lateinit var mHp: TextView
+&nbsp;    private lateinit var mAtk: TextView
+&nbsp;    private lateinit var mDef: TextView
+&nbsp;    private lateinit var mSpd: TextView
+&nbsp;    private lateinit var mHeight: TextView
+&nbsp;    private lateinit var mWeight: TextView
+&nbsp;
+&nbsp;
+&nbsp;    override fun onCreate(savedInstanceState: Bundle?) {
+<b class="nc">&nbsp;        super.onCreate(savedInstanceState)</b>
+<b class="nc">&nbsp;        binding = ActivityPokemonDetailBinding.inflate(layoutInflater)</b>
+<b class="nc">&nbsp;        val view = binding.root</b>
+<b class="nc">&nbsp;        setContentView(view)</b>
+&nbsp;
+<b class="nc">&nbsp;        pokemonDetailsViewModel = ViewModelProvider(this)[PokemonDetailsViewModel::class.java]</b>
+&nbsp;
+<b class="nc">&nbsp;        val position = intent.getIntExtra(&quot;EXTRA_POKEMON_POSITION&quot;, -1)</b>
+<b class="nc">&nbsp;        Log.d(&quot;PokemonDetailActivity&quot;, &quot;Position received: $position&quot;)</b>
+&nbsp;
+<b class="nc">&nbsp;        mRecyclerView = binding.recyclerViewPokemonTypes</b>
+&nbsp;
+<b class="nc">&nbsp;        binding.imageViewBackToList.setOnClickListener {</b>
+<b class="nc">&nbsp;            startActivity(Intent(this, MainActivity::class.java))</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    private fun updateRecyclerView(types: List&lt;String&gt;) {
+<b class="nc">&nbsp;        mLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)</b>
+<b class="nc">&nbsp;        mPokemonTypesAdapter = PokemonTypesAdapter(types)</b>
+&nbsp;
+<b class="nc">&nbsp;        mRecyclerView.layoutManager = mLayoutManager</b>
+<b class="nc">&nbsp;        mRecyclerView.adapter = mPokemonTypesAdapter</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-25 15:53</div>
+</div>
+</body>
+</html>

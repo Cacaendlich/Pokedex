@@ -14,10 +14,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pokedex.data.local.model.PokemonEntity
+import com.example.pokedex.data.network.RetrofitClient
+import com.example.pokedex.data.repository.api.PokemonApiRepositoryImpl
+import com.example.pokedex.data.repository.local.PokemonLocalRepositoryImpl
 import com.example.pokedex.databinding.FragmentPokemonsListBinding
 import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presenter.adapter.PokemonAdapter
 import com.example.pokedex.presenter.ui.details.PokemonDetailActivity
+import com.example.pokedex.presenter.ui.factory.PokemonsListViewModelFactory
 import com.example.pokedex.presenter.ui.favorites.PokemonFavoriteListViewModel
 
 class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
@@ -50,20 +54,30 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        pokemonsListViewModel = ViewModelProvider(requireActivity())[PokemonsListViewModel::class.java]
-        favoriteListViewModel = ViewModelProvider(requireActivity())[PokemonFavoriteListViewModel::class.java]
+        val retrofitClient = RetrofitClient
+        val pokemonApiRepository = PokemonApiRepositoryImpl(retrofitClient)
+        val pokemonLocalRepository = PokemonLocalRepositoryImpl(requireActivity())
+        val factory = PokemonsListViewModelFactory(pokemonApiRepository, pokemonLocalRepository)
 
-        favoriteListViewModel.loadFavorites(requireContext()) { favorites ->
+        pokemonsListViewModel = ViewModelProvider(requireActivity(), factory)[PokemonsListViewModel::class.java]
+        favoriteListViewModel = ViewModelProvider(requireActivity(), factory)[PokemonFavoriteListViewModel::class.java]
+
+        favoriteListViewModel.favoriteList.observe(viewLifecycleOwner) { favorites ->
             mfavoriteList = favorites
-            favoriteListViewModel.favoriteList.postValue(mfavoriteList)
-            Log.d("PokemonsListFragment", "A lista de favoritos foi atualizada para: ${favoriteListViewModel.favoriteList.value}")
-            Log.d("PokemonsListFragment", "Está é a lista de favoritos: $mfavoriteList")
+            Log.d(
+                "PokemonsFavoriteListFragment",
+                "A lista de favoritos foi atualizada para: $favorites"
+            )
+            favoriteListViewModel.loadAndFilterPokemonsFromFavoriteList(mfavoriteList)
         }
+
+        favoriteListViewModel.loadFavorites()
 
         mfavoriteList = favoriteListViewModel.favoriteList.value ?: emptyList()
 
         mRecyclerView = binding.recyclerViewMain
         mRecyclerView.setHasFixedSize(true)
+
 
         pokemonsListViewModel.pokemonsState.observe(requireActivity()) { pokemons ->
             pokemons?.let {
@@ -103,33 +117,43 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
         if (!isAdded) {
             return
         }
+        initRecyclerView(pokemons, setLayout())
+        updatePokemonFavorites(pokemons)
+        mRecyclerView.layoutManager = mLayoutManager
+        setupAdapter(this)
+        mRecyclerView.scrollToPosition(currentPosition)
+    }
+    private fun initRecyclerView(pokemons: List<Pokemon?>, layoutManagerProvider: GridLayoutManager) {
+        mPokemonAdapter = PokemonAdapter(pokemons)
+        mLayoutManager = layoutManagerProvider
+    }
 
+    private fun setLayout(): GridLayoutManager {
+        val layoutManagerProvider = if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            GridLayoutManager(requireActivity(), 3)
+        } else {
+            GridLayoutManager(requireActivity(), 2)
+        }
+        return layoutManagerProvider
+    }
+
+    private fun setupAdapter(onItemClickListener: PokemonAdapter.OnItemClickListener) {
+        mRecyclerView.adapter = mPokemonAdapter
+        mPokemonAdapter.setOnItemClickListener(onItemClickListener)
+    }
+    private fun updatePokemonFavorites(pokemons: List<Pokemon?>) {
         pokemons.forEach { pokemon ->
             pokemon?.let {
                 it.favorite = favoriteListViewModel.isFavorite(mfavoriteList, it)
             }
         }
-
-        mLayoutManager =
-            if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                GridLayoutManager(requireActivity(), 3)
-            } else {
-                GridLayoutManager(requireActivity(), 2)
-            }
-        mPokemonAdapter = PokemonAdapter(pokemons)
-
-        mRecyclerView.layoutManager = mLayoutManager
-        mRecyclerView.adapter = mPokemonAdapter
-
-        mPokemonAdapter.setOnItemClickListener(this)
-        mRecyclerView.scrollToPosition(currentPosition)
-
     }
 
     override fun onFavoriteClick(position: Int, imageView: ImageView) {
         val pokemon = mPokemonAdapter.mPokemonList[position]
         pokemon?.let {
-            favoriteListViewModel.updateFavoritesList(position, it, mfavoriteList, mPokemonAdapter, requireContext())
+            favoriteListViewModel.updateFavoritesList(it, mfavoriteList)
+            mPokemonAdapter.updatePokemonFavoriteStatus(position, !favoriteListViewModel.isFavorite(mfavoriteList, pokemon))
         }
     }
 
