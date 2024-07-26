@@ -112,5 +112,4 @@ class PokemonsListViewModelTest {
         Assert.assertEquals(initialList, viewModel.pokemonsState.value)
 
     }
-
 }
