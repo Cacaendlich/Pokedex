@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -25,10 +26,10 @@ class PokemonDetailActivity : AppCompatActivity() {
     private lateinit var mPokemonImage: ImageView
     private lateinit var mPokemonName: TextView
     private lateinit var mTypeList: List<String>
-    private lateinit var mHp: TextView
-    private lateinit var mAtk: TextView
-    private lateinit var mDef: TextView
-    private lateinit var mSpd: TextView
+    private lateinit var mProgressBarHp: ProgressBar
+    private lateinit var mProgressBarAtk: ProgressBar
+    private lateinit var mProgressBarDef: ProgressBar
+    private lateinit var mProgressBarSpd: ProgressBar
     private lateinit var mHeight: TextView
     private lateinit var mWeight: TextView
 
@@ -41,10 +42,10 @@ class PokemonDetailActivity : AppCompatActivity() {
 
         mPokemonNumber = binding.textViewNumber
         mPokemonName = binding.textViewPokemonName
-        mHp = binding.textViewHP
-        mAtk = binding.textViewATK
-        mDef = binding.textViewDEF
-        mSpd = binding.textViewSPD
+        mProgressBarHp = binding.progressBarHP
+        mProgressBarAtk = binding.progressBarAtk
+        mProgressBarDef = binding.progressBarDef
+        mProgressBarSpd = binding.progressBarSpd
         mHeight = binding.textViewHeightValue
         mWeight = binding.textViewWeightValue
 
