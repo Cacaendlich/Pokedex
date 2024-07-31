@@ -39,10 +39,22 @@ class PokemonDetailActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        mPokemonNumber = binding.textViewNumber
+        mPokemonName = binding.textViewPokemonName
+        mHp = binding.textViewHP
+        mAtk = binding.textViewATK
+        mDef = binding.textViewDEF
+        mSpd = binding.textViewSPD
+        mHeight = binding.textViewHeightValue
+        mWeight = binding.textViewWeightValue
+
         pokemonDetailsViewModel = ViewModelProvider(this)[PokemonDetailsViewModel::class.java]
 
         val position = intent.getIntExtra("EXTRA_POKEMON_POSITION", -1)
+        val pokemonName = intent.getStringExtra("EXTRA_POKEMON_NAME")
         Log.d("PokemonDetailActivity", "Position received: $position")
+
+        mPokemonName.text = pokemonName
 
         mRecyclerView = binding.recyclerViewPokemonTypes
 

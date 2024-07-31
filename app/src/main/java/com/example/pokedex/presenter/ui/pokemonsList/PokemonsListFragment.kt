@@ -162,6 +162,7 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
         pokemon?.let {
             val intent = Intent(requireActivity(), PokemonDetailActivity::class.java)
             intent.putExtra("EXTRA_POKEMON_POSITION", position)
+                .putExtra("EXTRA_POKEMON_NAME", pokemon.name)
             startActivity(intent)
         }
     }
