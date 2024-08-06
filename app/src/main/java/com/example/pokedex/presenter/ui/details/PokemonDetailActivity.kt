@@ -2,7 +2,6 @@ package com.example.pokedex.presenter.ui.details
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -51,9 +50,7 @@ class PokemonDetailActivity : AppCompatActivity() {
 
         pokemonDetailsViewModel = ViewModelProvider(this)[PokemonDetailsViewModel::class.java]
 
-        val position = intent.getIntExtra("EXTRA_POKEMON_POSITION", -1)
         val pokemonName = intent.getStringExtra("EXTRA_POKEMON_NAME")
-        Log.d("PokemonDetailActivity", "Position received: $position")
 
         mPokemonName.text = pokemonName
 
