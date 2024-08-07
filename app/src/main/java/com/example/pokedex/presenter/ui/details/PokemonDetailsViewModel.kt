@@ -10,10 +10,7 @@ class PokemonDetailsViewModel(
 ) : ViewModel(){
     var pokemonLiveData: MutableLiveData<Pokemon?> = MutableLiveData()
 
-    suspend fun loadPokemon(name: String?) {
-        if (name == null) {
-            throw NullPointerException("Nome do Pokémon está vazio")
-        }
+    suspend fun loadPokemon(name: String) {
         if (name.isEmpty()) {
             throw IllegalArgumentException("Nome do Pokémon está vazio")
         }
