@@ -65,4 +65,14 @@ class PokemonDetailsViewModelTest {
         }
         Assert.assertEquals("Nome do Pokémon está vazio", exception.message)
     }
+    @Test
+    fun `live data foi atualizado com uma string nula`() = runTest{
+        val exception = assertThrows<NullPointerException> {
+            runBlocking {
+                viewModel.loadPokemon(null)
+
+            }
+        }
+        Assert.assertEquals("Nome do Pokémon está vazio", exception.message)
+    }
 }
