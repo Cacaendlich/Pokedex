@@ -9,8 +9,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.pokedex.data.network.RetrofitClient
+import com.example.pokedex.data.repository.api.PokemonApiRepositoryImpl
+import com.example.pokedex.data.repository.local.PokemonLocalRepositoryImpl
 import com.example.pokedex.databinding.ActivityPokemonDetailBinding
 import com.example.pokedex.presenter.adapter.PokemonTypesAdapter
+import com.example.pokedex.presenter.ui.factory.PokemonsListViewModelFactory
 import com.example.pokedex.presenter.ui.main.MainActivity
 
 class PokemonDetailActivity : AppCompatActivity() {
@@ -48,7 +52,13 @@ class PokemonDetailActivity : AppCompatActivity() {
         mHeight = binding.textViewHeightValue
         mWeight = binding.textViewWeightValue
 
-        pokemonDetailsViewModel = ViewModelProvider(this)[PokemonDetailsViewModel::class.java]
+        val retrofitClient = RetrofitClient
+        val pokemonApiRepository = PokemonApiRepositoryImpl(retrofitClient)
+        val pokemonLocalRepository = PokemonLocalRepositoryImpl(this)
+        val factory = PokemonsListViewModelFactory(pokemonApiRepository, pokemonLocalRepository)
+
+
+        pokemonDetailsViewModel = ViewModelProvider(this, factory)[PokemonDetailsViewModel::class.java]
 
         val pokemonName = intent.getStringExtra("EXTRA_POKEMON_NAME")
 

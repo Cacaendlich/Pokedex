@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.pokedex.data.repository.api.PokemonApiRepository
 import com.example.pokedex.data.repository.local.PokemonLocalRepository
+import com.example.pokedex.presenter.ui.details.PokemonDetailsViewModel
 import com.example.pokedex.presenter.ui.favorites.PokemonFavoriteListViewModel
 import com.example.pokedex.presenter.ui.pokemonsList.PokemonsListViewModel
 
@@ -20,6 +21,9 @@ class PokemonsListViewModelFactory(
             }
             modelClass.isAssignableFrom(PokemonFavoriteListViewModel::class.java) -> {
                 PokemonFavoriteListViewModel(pokemonRepository, pokemonLocalRepository) as T
+            }
+            modelClass.isAssignableFrom(PokemonDetailsViewModel::class.java) -> {
+                PokemonDetailsViewModel(pokemonRepository) as T
             }
 
             else -> throw IllegalArgumentException("Unknown ViewModel class")
