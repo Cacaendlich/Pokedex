@@ -4,8 +4,8 @@ package com.example.pokedex.domain.model
 data class Pokemon(
     val number: Int,
     val name: String,
-    val height: Float = 0f,
-    val weight: Float = 0f,
+    val height: Int = 0,
+    val weight: Int = 0,
     val type: List<String> = emptyList(),
     val hp: Int = 0,
     val atk: Int = 0,

@@ -15,6 +15,6 @@ data class PokemonApiResult(
     val id: Int,
     val name: String,
     val imageUrl: String,
-    val height: Float = 0f,
-    val weight: Float = 0f,
+    val height: Int = 0,
+    val weight: Int = 0,
 )

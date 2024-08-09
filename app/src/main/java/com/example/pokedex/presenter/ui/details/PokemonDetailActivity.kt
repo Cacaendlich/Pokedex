@@ -100,8 +100,8 @@ class PokemonDetailActivity : AppCompatActivity() {
     private fun updateUi(pokemon: Pokemon){
         pokemon.let {
             mPokemonName.text = pokemon.name
-            mHeight.text = pokemon.height.toString()
-            mWeight.text = pokemon.weight.toString()
+            mHeight.text = (pokemon.height/10.0).toString()
+            mWeight.text = (pokemon.weight/10.0).toString()
         }
     }
 
