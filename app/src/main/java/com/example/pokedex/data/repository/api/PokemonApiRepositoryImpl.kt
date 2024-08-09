@@ -16,7 +16,7 @@ class PokemonApiRepositoryImpl(private val retrofitClient: RetrofitClient) : Pok
     override suspend fun getPokemons(name: String): Pokemon? {
         val pokemonItemResult = retrofitClient.getPokemon(name)
         return pokemonItemResult?.let {
-            Pokemon(it.id, it.name)
+            Pokemon(it.id, it.name, it.height, it.weight)
         }
     }
 
