@@ -102,6 +102,14 @@ class PokemonDetailActivity : AppCompatActivity() {
             mPokemonName.text = pokemon.name
             mHeight.text = (pokemon.height/10.0).toString()
             mWeight.text = (pokemon.weight/10.0).toString()
+            pokemon.stats.forEach{ stats ->
+                when(stats.stat.name){
+                    "hp" -> mProgressBarHp.progress = stats.base_stat
+                    "attack" -> mProgressBarAtk.progress = stats.base_stat
+                    "defense" -> mProgressBarDef.progress = stats.base_stat
+                    "speed" -> mProgressBarSpd.progress = stats.base_stat
+                }
+            }
         }
     }
 
