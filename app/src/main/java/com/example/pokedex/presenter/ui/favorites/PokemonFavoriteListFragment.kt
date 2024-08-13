@@ -113,10 +113,12 @@ class PokemonFavoriteListFragment : Fragment(), PokemonAdapter.OnItemClickListen
         }
     }
 
-    override fun onDetailClick(position: Int, imageView: ImageView) {
+    override fun onDetailClick(position: Int, imageView: ImageView, color:Int) {
         val pokemon = mPokemonAdapter.mPokemonList[position]
         pokemon?.let {
             val intent = Intent(requireActivity(), PokemonDetailActivity::class.java)
+            intent.putExtra("EXTRA_POKEMON_NAME", pokemon.name)
+            intent.putExtra("EXTRA_POKEMON_COR", color)
             startActivity(intent)
         }
     }

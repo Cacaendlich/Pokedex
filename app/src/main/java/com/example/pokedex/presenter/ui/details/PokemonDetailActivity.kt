@@ -8,13 +8,11 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.pokedex.R
 import com.example.pokedex.data.network.RetrofitClient
 import com.example.pokedex.data.repository.api.PokemonApiRepositoryImpl
 import com.example.pokedex.data.repository.local.PokemonLocalRepositoryImpl
@@ -67,8 +65,10 @@ class PokemonDetailActivity : AppCompatActivity() {
         pokemonDetailsViewModel = ViewModelProvider(this, factory)[PokemonDetailsViewModel::class.java]
 
         val pokemonName = intent.getStringExtra("EXTRA_POKEMON_NAME")
+        val color = intent.getIntExtra("EXTRA_POKEMON_COR", -1)
+        Log.e("COLOR", color.toString())
 
-        backgroundColor(mBackgroundShape)
+        backgroundColor(mBackgroundShape, color)
 
         pokemonName?.let {
             lifecycleScope.launch {
@@ -129,11 +129,9 @@ class PokemonDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun backgroundColor(backgroundShape: ImageView){
+    private fun backgroundColor(backgroundShape: ImageView, color: Int){
         val drawable = backgroundShape.drawable as GradientDrawable
-
-        val newColor = ContextCompat.getColor(this, R.color.read)
-        drawable.setColor(newColor)
+        drawable.setColor(color)
     }
 
     private fun updateRecyclerView(types: List<String>) {
