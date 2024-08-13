@@ -1,17 +1,20 @@
 package com.example.pokedex.presenter.ui.details
 
 import android.content.Intent
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.pokedex.R
 import com.example.pokedex.data.network.RetrofitClient
 import com.example.pokedex.data.repository.api.PokemonApiRepositoryImpl
 import com.example.pokedex.data.repository.local.PokemonLocalRepositoryImpl
@@ -39,6 +42,7 @@ class PokemonDetailActivity : AppCompatActivity() {
     private lateinit var mHeight: TextView
     private lateinit var mWeight: TextView
     private lateinit var mRecyclerView: RecyclerView
+    private lateinit var mBackgroundShape: ImageView
 
     // Data
     private lateinit var mPokemon: Pokemon
@@ -63,6 +67,8 @@ class PokemonDetailActivity : AppCompatActivity() {
         pokemonDetailsViewModel = ViewModelProvider(this, factory)[PokemonDetailsViewModel::class.java]
 
         val pokemonName = intent.getStringExtra("EXTRA_POKEMON_NAME")
+
+        backgroundColor(mBackgroundShape)
 
         pokemonName?.let {
             lifecycleScope.launch {
@@ -97,10 +103,12 @@ class PokemonDetailActivity : AppCompatActivity() {
         mHeight = binding.textViewHeightValue
         mWeight = binding.textViewWeightValue
         mPokemonImage = binding.imageViewPokemon
+        mBackgroundShape = binding.imageViewBackgroundShape
     }
 
     private fun updateUi(pokemon: Pokemon){
         pokemon.let {
+            mPokemonNumber.text = ("#${pokemon.number}")
             mPokemonName.text = pokemon.name
             mHeight.text = (pokemon.height/10.0).toString()
             mWeight.text = (pokemon.weight/10.0).toString()
@@ -119,6 +127,13 @@ class PokemonDetailActivity : AppCompatActivity() {
                     .into(mPokemonImage)
             }
         }
+    }
+
+    private fun backgroundColor(backgroundShape: ImageView){
+        val drawable = backgroundShape.drawable as GradientDrawable
+
+        val newColor = ContextCompat.getColor(this, R.color.read)
+        drawable.setColor(newColor)
     }
 
     private fun updateRecyclerView(types: List<String>) {
