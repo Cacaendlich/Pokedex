@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.pokedex.data.network.RetrofitClient
 import com.example.pokedex.data.repository.api.PokemonApiRepositoryImpl
 import com.example.pokedex.data.repository.local.PokemonLocalRepositoryImpl
@@ -95,6 +96,7 @@ class PokemonDetailActivity : AppCompatActivity() {
         mProgressBarSpd = binding.progressBarSpd
         mHeight = binding.textViewHeightValue
         mWeight = binding.textViewWeightValue
+        mPokemonImage = binding.imageViewPokemon
     }
 
     private fun updateUi(pokemon: Pokemon){
@@ -109,6 +111,12 @@ class PokemonDetailActivity : AppCompatActivity() {
                     "defense" -> mProgressBarDef.progress = stats.base_stat
                     "speed" -> mProgressBarSpd.progress = stats.base_stat
                 }
+            }
+            pokemon.imageUrl.let { url ->
+                Glide.with(this)
+                    .asBitmap()
+                    .load(url)
+                    .into(mPokemonImage)
             }
         }
     }
