@@ -31,6 +31,35 @@ class PokemonsListViewModelTest {
     @Mock
     private lateinit var isLoginObserver: Observer<Boolean>
 
+    private val fakePokemon = Pokemon(
+        number = 1,
+        name = "bulbasaur",
+        height = 7,
+        weight = 69,
+        stats = listOf(),
+        type = listOf("grass", "poison"),
+        favorite = false
+    )
+
+    private val fakePokemon2 = Pokemon(
+        number = 4,
+        name = "charmander",
+        height = 6,
+        weight = 85,
+        stats = listOf(),
+        type = listOf("fire"),
+        favorite = false
+    )
+
+    private val fakePokemon3 = Pokemon(
+        number = 7,
+        name = "squirtle",
+        height = 5,
+        weight = 90,
+        stats = listOf(),
+        type = listOf("water"),
+        favorite = true
+    )
     @Before
     fun setUp() {
         MockitoAnnotations.openMocks(this)
@@ -48,9 +77,9 @@ class PokemonsListViewModelTest {
     @Test
     fun `test initial loading of pokemons successfully`() = runTest {
         val listMock = listOf(
-            Pokemon(1, "bulbasaur"),
-            Pokemon(2, "ivysaur"),
-            Pokemon(3, "venosaur")
+            fakePokemon,
+            fakePokemon2,
+            fakePokemon3,
         )
 
         `when`(pokemonRepository.listPokemons(anyInt(), anyInt())).thenReturn(listMock)
@@ -72,12 +101,11 @@ class PokemonsListViewModelTest {
     @Test
     fun `teste carregamento de  mais pokemons com sucesso`() = runTest {
         val initialList = listOf(
-            Pokemon(1, "bulbasaur"),
-            Pokemon(2, "ivysaur")
+            fakePokemon,
+            fakePokemon2
         )
         val additionalItens = listOf(
-            Pokemon(3, "venosaur"),
-            Pokemon(4, "charmander")
+            fakePokemon3
         )
         val expectedUpdatedList = initialList + additionalItens
 
@@ -97,8 +125,8 @@ class PokemonsListViewModelTest {
     @Test
     fun refreshPokemonsTest() = runTest{
         val initialList = listOf(
-            Pokemon(1, "bulbasaur"),
-            Pokemon(2, "ivysaur")
+            fakePokemon,
+            fakePokemon2
         )
 
         `when`(pokemonRepository.listPokemons(14, 0)).thenReturn(initialList)

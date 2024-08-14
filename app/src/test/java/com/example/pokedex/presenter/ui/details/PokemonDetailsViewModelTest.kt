@@ -30,6 +30,37 @@ class PokemonDetailsViewModelTest {
     @Mock
     private lateinit var pokemonRepository: PokemonApiRepository
 
+    private val fakePokemon = Pokemon(
+        number = 1,
+        name = "bulbasaur",
+        height = 7,
+        weight = 69,
+        stats = listOf(),
+        type = listOf("grass", "poison"),
+        favorite = false
+    )
+
+    private val fakePokemon2 = Pokemon(
+        number = 4,
+        name = "charmander",
+        height = 6,
+        weight = 85,
+        stats = listOf(),
+        type = listOf("fire"),
+        favorite = false
+    )
+
+    private val fakePokemon3 = Pokemon(
+        number = 7,
+        name = "squirtle",
+        height = 5,
+        weight = 90,
+        stats = listOf(),
+        type = listOf("water"),
+        favorite = true
+    )
+
+
     @Before
     fun setUp() {
         MockitoAnnotations.openMocks(this)
@@ -45,7 +76,7 @@ class PokemonDetailsViewModelTest {
     @Test
     fun `live data foi atualizado com sucesso`() = runTest{
         val name = "bulbasaur"
-        val expectedPokemon = Pokemon(1, name)
+        val expectedPokemon = fakePokemon
 
         `when`(pokemonRepository.getPokemons(anyString())).thenReturn(expectedPokemon)
 
