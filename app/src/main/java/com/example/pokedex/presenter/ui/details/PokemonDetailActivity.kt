@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -40,7 +41,7 @@ class PokemonDetailActivity : AppCompatActivity() {
     private lateinit var mHeight: TextView
     private lateinit var mWeight: TextView
     private lateinit var mRecyclerView: RecyclerView
-    private lateinit var mBackgroundShape: ImageView
+    private lateinit var mRelativeLayout: RelativeLayout
 
     // Data
     private lateinit var mPokemon: Pokemon
@@ -68,7 +69,7 @@ class PokemonDetailActivity : AppCompatActivity() {
         val color = intent.getIntExtra("EXTRA_POKEMON_COR", -1)
         Log.e("COLOR", color.toString())
 
-        backgroundColor(mBackgroundShape, color)
+        backgroundColor(color)
 
         pokemonName?.let {
             lifecycleScope.launch {
@@ -103,7 +104,7 @@ class PokemonDetailActivity : AppCompatActivity() {
         mHeight = binding.textViewHeightValue
         mWeight = binding.textViewWeightValue
         mPokemonImage = binding.imageViewPokemon
-        mBackgroundShape = binding.imageViewBackgroundShape
+        mRelativeLayout = binding.relativeLayout
     }
 
     private fun updateUi(pokemon: Pokemon){
@@ -129,9 +130,13 @@ class PokemonDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun backgroundColor(backgroundShape: ImageView, color: Int){
-        val drawable = backgroundShape.drawable as GradientDrawable
-        drawable.setColor(color)
+    private fun backgroundColor(color: Int){
+        val gradientDrawable = GradientDrawable(
+            GradientDrawable.Orientation.TOP_BOTTOM,
+            intArrayOf(color,color,android.graphics.Color.BLACK)
+        )
+
+        mRelativeLayout.background = gradientDrawable
     }
 
     private fun updateRecyclerView(types: List<String>) {
