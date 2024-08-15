@@ -60,7 +60,7 @@ class PokemonDetailsViewModelTest {
     }
 
     @Test
-    fun `live data foi atualizado com sucesso`() = runTest{
+    fun `deve atualizar o LiveData com o Pokemon correto quando carregado com sucesso`() = runTest{
         val name = "bulbasaur"
         val expectedPokemon = fakePokemon
 
@@ -71,7 +71,7 @@ class PokemonDetailsViewModelTest {
         Assert.assertEquals(expectedPokemon, viewModel.pokemonLiveData.value)
     }
     @Test
-    fun `live data foi atualizado com uma string vazia`() = runTest{
+    fun `deve lancar uma excecao quando tentar carregar um Pokemon com nome vazio`() = runTest{
         val name = ""
 
         val exception = assertThrows<IllegalArgumentException> {
@@ -84,7 +84,7 @@ class PokemonDetailsViewModelTest {
     }
 
     @Test
-    fun `update background color ta chamando backgroundColor`(){
+    fun `deve chamar o metodo de atualizacao da cor de fundo quando a cor for valida`(){
         val color = -12324
 
         viewModel.updateBackgroundColor(relativeLayout, color)
@@ -93,12 +93,13 @@ class PokemonDetailsViewModelTest {
     }
 
     @Test
-    fun `update background color nao chama pq color e -1`(){
+    fun `nao deve chamar o metodo de atualizacao da cor de fundo quando a cor for invalida`(){
         val color = -1
 
         viewModel.updateBackgroundColor(relativeLayout, color)
 
         verify(relativeLayout, never()).background = any(GradientDrawable::class.java)
     }
+
 
 }
