@@ -47,27 +47,6 @@ class PokemonDetailsViewModelTest {
         favorite = false
     )
 
-    private val fakePokemon2 = Pokemon(
-        number = 4,
-        name = "charmander",
-        height = 6,
-        weight = 85,
-        stats = listOf(),
-        type = listOf("fire"),
-        favorite = false
-    )
-
-    private val fakePokemon3 = Pokemon(
-        number = 7,
-        name = "squirtle",
-        height = 5,
-        weight = 90,
-        stats = listOf(),
-        type = listOf("water"),
-        favorite = true
-    )
-
-
     @Before
     fun setUp() {
         MockitoAnnotations.openMocks(this)
