@@ -1,7 +1,6 @@
 package com.example.pokedex.presenter.ui.details
 
 import android.content.Intent
-import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
@@ -67,9 +66,9 @@ class PokemonDetailActivity : AppCompatActivity() {
 
         val pokemonName = intent.getStringExtra("EXTRA_POKEMON_NAME")
         val color = intent.getIntExtra("EXTRA_POKEMON_COR", -1)
-        Log.e("COLOR", color.toString())
-
-        backgroundColor(color)
+        color.let{
+            pokemonDetailsViewModel.updateBackgroundColor(mRelativeLayout,color)
+        }
 
         pokemonName?.let {
             lifecycleScope.launch {
@@ -128,15 +127,6 @@ class PokemonDetailActivity : AppCompatActivity() {
                     .into(mPokemonImage)
             }
         }
-    }
-
-    private fun backgroundColor(color: Int){
-        val gradientDrawable = GradientDrawable(
-            GradientDrawable.Orientation.TOP_BOTTOM,
-            intArrayOf(color,color,android.graphics.Color.BLACK)
-        )
-
-        mRelativeLayout.background = gradientDrawable
     }
 
     private fun updateRecyclerView(types: List<String>) {

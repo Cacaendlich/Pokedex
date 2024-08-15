@@ -1,5 +1,7 @@
 package com.example.pokedex.presenter.ui.details
 
+import android.graphics.drawable.GradientDrawable
+import android.widget.RelativeLayout
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.example.pokedex.data.repository.api.PokemonApiRepository
@@ -13,7 +15,10 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.Mock
+import org.mockito.Mockito.any
 import org.mockito.Mockito.anyString
+import org.mockito.Mockito.never
+import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 
@@ -29,6 +34,8 @@ class PokemonDetailsViewModelTest {
     private lateinit var observer: Observer<Pokemon?>
     @Mock
     private lateinit var pokemonRepository: PokemonApiRepository
+    @Mock
+    private lateinit var relativeLayout: RelativeLayout
 
     private val fakePokemon = Pokemon(
         number = 1,
@@ -95,6 +102,24 @@ class PokemonDetailsViewModelTest {
             }
         }
         Assert.assertEquals("Nome do Pokémon está vazio", exception.message)
+    }
+
+    @Test
+    fun `update background color ta chamando backgroundColor`(){
+        val color = -12324
+
+        viewModel.updateBackgroundColor(relativeLayout, color)
+
+        verify(relativeLayout).background = any(GradientDrawable::class.java)
+    }
+
+    @Test
+    fun `update background color nao chama pq color e -1`(){
+        val color = -1
+
+        viewModel.updateBackgroundColor(relativeLayout, color)
+
+        verify(relativeLayout, never()).background = any(GradientDrawable::class.java)
     }
 
 }
