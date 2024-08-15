@@ -16,9 +16,7 @@ class PokemonTypesAdapter(
         return PokemonTypesViewHolder(view)
     }
 
-    override fun getItemCount(): Int {
-        return typesList.size
-    }
+    override fun getItemCount() = typesList.size
 
     override fun onBindViewHolder(holder: PokemonTypesViewHolder, position: Int) {
         val type = typesList[position]

@@ -33,7 +33,6 @@ class PokemonDetailActivity : AppCompatActivity() {
     private lateinit var mPokemonNumber: TextView
     private lateinit var mPokemonImage: ImageView
     private lateinit var mPokemonName: TextView
-    private lateinit var mTypeList: List<PokemonType>
     private lateinit var mProgressBarHp: ProgressBar
     private lateinit var mProgressBarAtk: ProgressBar
     private lateinit var mProgressBarDef: ProgressBar
