@@ -6,9 +6,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pokedex.R
+import com.example.pokedex.data.model.PokemonType
 
 class PokemonTypesAdapter(
-    private val typesList: List<String>
+    private val typesList: List<PokemonType>
 ) : RecyclerView.Adapter<PokemonTypesAdapter.PokemonTypesViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonTypesViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.pokemon_type, parent, false)
@@ -27,9 +28,9 @@ class PokemonTypesAdapter(
     inner class PokemonTypesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val mTextViewPokemonType: TextView = itemView.findViewById(R.id.textView_pokemonType)
 
-        fun bindType(type: String) {
+        fun bindType(type: PokemonType) {
             type.let {
-                mTextViewPokemonType.text = type
+                mTextViewPokemonType.text = type.type.name
             }
         }
     }

@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.pokedex.data.model.PokemonType
 import com.example.pokedex.data.network.RetrofitClient
 import com.example.pokedex.data.repository.api.PokemonApiRepositoryImpl
 import com.example.pokedex.data.repository.local.PokemonLocalRepositoryImpl
@@ -32,7 +33,7 @@ class PokemonDetailActivity : AppCompatActivity() {
     private lateinit var mPokemonNumber: TextView
     private lateinit var mPokemonImage: ImageView
     private lateinit var mPokemonName: TextView
-    private lateinit var mTypeList: List<String>
+    private lateinit var mTypeList: List<PokemonType>
     private lateinit var mProgressBarHp: ProgressBar
     private lateinit var mProgressBarAtk: ProgressBar
     private lateinit var mProgressBarDef: ProgressBar
@@ -126,10 +127,11 @@ class PokemonDetailActivity : AppCompatActivity() {
                     .load(url)
                     .into(mPokemonImage)
             }
+            updateRecyclerView(pokemon.type)
         }
     }
 
-    private fun updateRecyclerView(types: List<String>) {
+    private fun updateRecyclerView(types: List<PokemonType>) {
         mLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         mPokemonTypesAdapter = PokemonTypesAdapter(types)
 
