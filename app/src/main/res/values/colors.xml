@@ -13,7 +13,7 @@
     <color name="yellow">#FBC02D</color>
     <color name="progressIndicatorColor">#00FF00</color>
     <color name="status_hp">#3A47D5</color>
-    <color name="status_atk">#FA5DEA</color>
+    <color name="status_atk">#D53A47</color>
     <color name="status_def">#3AD5A4</color>
     <color name="status_spd">#FBCE2D</color>
 
