@@ -65,7 +65,7 @@ class PokemonDetailsViewModelTest {
     }
 
     @Test
-    fun `deve atualizar o LiveData com o Pokemon correto quando carregado com sucesso`() = runTest{
+    fun `deve atualizar o LiveData com o Pokemon correto quando carregado com sucesso e chamar o repository com o nome correto do Pokemon`() = runTest{
         val name = "bulbasaur"
         val expectedPokemon = fakePokemon
 
@@ -74,6 +74,8 @@ class PokemonDetailsViewModelTest {
         viewModel.loadPokemon(name)
 
         Assert.assertEquals(expectedPokemon, viewModel.pokemonLiveData.value)
+        verify(pokemonRepository).getPokemons(name)
+
     }
     @Test
     fun `deve lancar uma excecao quando tentar carregar um Pokemon com nome vazio`() = runTest{
