@@ -105,6 +105,4 @@ class PokemonDetailsViewModelTest {
 
         verify(relativeLayout, never()).background = any(GradientDrawable::class.java)
     }
-
-
 }
