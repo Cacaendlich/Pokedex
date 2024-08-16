@@ -13,7 +13,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.pokedex.R
 import com.example.pokedex.data.model.PokemonType
+import com.example.pokedex.data.model.Stats
 import com.example.pokedex.data.network.RetrofitClient
 import com.example.pokedex.data.repository.api.PokemonApiRepositoryImpl
 import com.example.pokedex.data.repository.local.PokemonLocalRepositoryImpl
@@ -108,24 +110,14 @@ class PokemonDetailActivity : AppCompatActivity() {
 
     private fun updateUi(pokemon: Pokemon){
         pokemon.let {
-            mPokemonNumber.text = ("#${pokemon.number}")
+            mPokemonNumber.text = getString(R.string.pokemon_id, pokemon.number)
             mPokemonName.text = pokemon.name
             mHeight.text = (pokemon.height/10.0).toString()
             mWeight.text = (pokemon.weight/10.0).toString()
             pokemon.stats.forEach{ stats ->
-                when(stats.stat.name){
-                    "hp" -> mProgressBarHp.progress = stats.base_stat
-                    "attack" -> mProgressBarAtk.progress = stats.base_stat
-                    "defense" -> mProgressBarDef.progress = stats.base_stat
-                    "speed" -> mProgressBarSpd.progress = stats.base_stat
-                }
+               updateStats(stats)
             }
-            pokemon.imageUrl.let { url ->
-                Glide.with(this)
-                    .asBitmap()
-                    .load(url)
-                    .into(mPokemonImage)
-            }
+            updateImageUrl(pokemon.imageUrl)
             updateRecyclerView(pokemon.type)
         }
     }
@@ -136,5 +128,21 @@ class PokemonDetailActivity : AppCompatActivity() {
 
         mRecyclerView.layoutManager = mLayoutManager
         mRecyclerView.adapter = mPokemonTypesAdapter
+    }
+
+    private fun updateStats(stats: Stats){
+        when(stats.stat.name){
+            "hp" -> mProgressBarHp.progress = stats.base_stat
+            "attack" -> mProgressBarAtk.progress = stats.base_stat
+            "defense" -> mProgressBarDef.progress = stats.base_stat
+            "speed" -> mProgressBarSpd.progress = stats.base_stat
+        }
+    }
+
+    private fun updateImageUrl(url: String){
+        Glide.with(this)
+            .asBitmap()
+            .load(url)
+            .into(mPokemonImage)
     }
 }
