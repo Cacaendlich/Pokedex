@@ -1,8 +1,10 @@
 package com.example.pokedex.presenter.ui.details
 
+import android.animation.ValueAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
@@ -132,10 +134,10 @@ class PokemonDetailActivity : AppCompatActivity() {
 
     private fun updateStats(stats: Stats){
         when(stats.stat.name){
-            "hp" -> mProgressBarHp.progress = stats.base_stat
-            "attack" -> mProgressBarAtk.progress = stats.base_stat
-            "defense" -> mProgressBarDef.progress = stats.base_stat
-            "speed" -> mProgressBarSpd.progress = stats.base_stat
+            "hp" -> animateProgressBar(mProgressBarHp, stats.base_stat)
+            "attack" -> animateProgressBar(mProgressBarAtk, stats.base_stat)
+            "defense" -> animateProgressBar(mProgressBarDef, stats.base_stat)
+            "speed" -> animateProgressBar(mProgressBarSpd, stats.base_stat)
         }
     }
 
@@ -145,4 +147,15 @@ class PokemonDetailActivity : AppCompatActivity() {
             .load(url)
             .into(mPokemonImage)
     }
+
+    private fun animateProgressBar(progressBar: ProgressBar, toProgress: Int){
+        val animator = ValueAnimator.ofInt(0, toProgress)
+        animator.duration = 1000
+        animator.addUpdateListener { animation ->
+            progressBar.progress = animation.animatedValue as Int
+        }
+        animator.interpolator = AccelerateDecelerateInterpolator()
+        animator.start()
+    }
+
 }

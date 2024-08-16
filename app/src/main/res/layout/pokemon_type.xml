@@ -25,6 +25,10 @@
             android:textColor="@color/white"
             android:text="@string/type"
             android:textSize="20sp"
+            android:shadowColor="@color/gray"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="1.5"
             tools:ignore="TextContrastCheck" />
     </LinearLayout>
 
