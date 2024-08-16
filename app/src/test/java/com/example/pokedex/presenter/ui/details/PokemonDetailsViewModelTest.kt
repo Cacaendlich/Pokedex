@@ -4,6 +4,8 @@ import android.graphics.drawable.GradientDrawable
 import android.widget.RelativeLayout
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import com.example.pokedex.data.model.PokemonType
+import com.example.pokedex.data.model.Type
 import com.example.pokedex.data.repository.api.PokemonApiRepository
 import com.example.pokedex.domain.model.Pokemon
 import kotlinx.coroutines.runBlocking
@@ -37,13 +39,16 @@ class PokemonDetailsViewModelTest {
     @Mock
     private lateinit var relativeLayout: RelativeLayout
 
+    private val grassType = PokemonType(slot = 1, type = Type(name = "grass"))
+    private val poisonType = PokemonType(slot = 2, type = Type(name = "poison"))
+
     private val fakePokemon = Pokemon(
         number = 1,
         name = "bulbasaur",
         height = 7,
         weight = 69,
         stats = listOf(),
-        type = listOf("grass", "poison"),
+        type = listOf(grassType, poisonType),
         favorite = false
     )
 

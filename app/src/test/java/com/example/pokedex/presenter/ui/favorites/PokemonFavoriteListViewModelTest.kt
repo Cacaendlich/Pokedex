@@ -3,6 +3,8 @@ package com.example.pokedex.presenter.ui.favorites
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.example.pokedex.data.local.model.PokemonEntity
+import com.example.pokedex.data.model.PokemonType
+import com.example.pokedex.data.model.Type
 import com.example.pokedex.data.repository.api.PokemonApiRepository
 import com.example.pokedex.data.repository.local.PokemonLocalRepository
 import com.example.pokedex.domain.model.Pokemon
@@ -39,13 +41,18 @@ class PokemonFavoriteListViewModelTest {
     @Mock
     private lateinit var favoriteListObserver: Observer<List<PokemonEntity?>>
 
+    private val grassType = PokemonType(slot = 1, type = Type(name = "grass"))
+    private val poisonType = PokemonType(slot = 2, type = Type(name = "poison"))
+    private val fireType = PokemonType(slot = 2, type = Type(name = "fire"))
+    private val waterType = PokemonType(slot = 2, type = Type(name = "water"))
+
     private val fakePokemon = Pokemon(
         number = 1,
         name = "bulbasaur",
         height = 7,
         weight = 69,
         stats = listOf(),
-        type = listOf("grass", "poison"),
+        type = listOf(grassType,poisonType),
         favorite = false
     )
 
@@ -55,7 +62,7 @@ class PokemonFavoriteListViewModelTest {
         height = 6,
         weight = 85,
         stats = listOf(),
-        type = listOf("fire"),
+        type = listOf(fireType),
         favorite = false
     )
 
@@ -65,7 +72,7 @@ class PokemonFavoriteListViewModelTest {
         height = 5,
         weight = 90,
         stats = listOf(),
-        type = listOf("water"),
+        type = listOf(waterType),
         favorite = true
     )
 
