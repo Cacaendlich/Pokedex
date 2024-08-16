@@ -69,15 +69,15 @@ class PokemonDetailActivity : AppCompatActivity() {
         pokemonDetailsViewModel = ViewModelProvider(this, factory)[PokemonDetailsViewModel::class.java]
 
         val pokemonName = intent.getStringExtra("EXTRA_POKEMON_NAME")
-        val color = intent.getIntExtra("EXTRA_POKEMON_COR", -1)
-        color.let{
-            pokemonDetailsViewModel.updateBackgroundColor(mRelativeLayout,color)
-        }
-
         pokemonName?.let {
             lifecycleScope.launch {
                 pokemonDetailsViewModel.loadPokemon(pokemonName.toString())
             }
+        }
+
+        val color = intent.getIntExtra("EXTRA_POKEMON_COR", -1)
+        color.let {
+            pokemonDetailsViewModel.updateBackgroundColor(mRelativeLayout,color)
         }
 
         pokemonDetailsViewModel.pokemonLiveData.observe(this){pokemon ->
@@ -87,7 +87,6 @@ class PokemonDetailActivity : AppCompatActivity() {
                 Log.e("PokemonDetailActivity, Loaded Pokemon: ", mPokemon.toString())
             }
         }
-
 
         mRecyclerView = binding.recyclerViewPokemonTypes
 
