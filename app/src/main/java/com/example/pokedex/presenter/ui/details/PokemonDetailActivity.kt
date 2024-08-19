@@ -1,7 +1,6 @@
 package com.example.pokedex.presenter.ui.details
 
 import android.animation.ValueAnimator
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -25,7 +24,6 @@ import com.example.pokedex.databinding.ActivityPokemonDetailBinding
 import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presenter.adapter.PokemonTypesAdapter
 import com.example.pokedex.presenter.ui.factory.PokemonsListViewModelFactory
-import com.example.pokedex.presenter.ui.main.MainActivity
 import kotlinx.coroutines.launch
 
 class PokemonDetailActivity : AppCompatActivity() {
@@ -91,7 +89,7 @@ class PokemonDetailActivity : AppCompatActivity() {
         mRecyclerView = binding.recyclerViewPokemonTypes
 
         binding.imageViewBackToList.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
+            finish()
         }
 
     }
