@@ -29,4 +29,6 @@
     <string name="statics">STATS</string>
     <string name="_44">44</string>
     <string name="pokemon_id">"#%1$d"</string>
+    <string name="ninho_vazio">ninho vazio</string>
+    <string name="voc_ainda_n_o_favoritou_nenhum_pok_mon">Você ainda não favoritou nenhum Pokémon</string>
 </resources>
