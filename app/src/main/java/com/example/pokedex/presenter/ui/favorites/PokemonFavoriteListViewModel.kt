@@ -46,12 +46,19 @@ class PokemonFavoriteListViewModel(
             val offset = 0
 
             val loadPokemons = pokemonRepository.listPokemons(limit, offset)
+            val filteredPokemons = mutableListOf<Pokemon?>()
 
-            pokemonsState.postValue(loadPokemons.filter { pokemon ->
-                favoriteList.any{
-                    it.name == pokemon?.name
+            for (pokemon in loadPokemons){
+                if (favoriteList.any{ it.name == pokemon?.name }){
+                    filteredPokemons.add(pokemon)
+                    if (filteredPokemons.size == favoriteList.size){
+                        break
+                    }
                 }
-            })
+            }
+
+            pokemonsState.postValue(filteredPokemons)
+
         }
     }
 

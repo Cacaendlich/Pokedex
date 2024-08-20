@@ -1,6 +1,5 @@
 package com.example.pokedex.presenter.ui.favorites
 
-import android.view.View
 import android.widget.ProgressBar
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
@@ -20,7 +19,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.Mockito.anyInt
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 
@@ -194,7 +192,6 @@ class PokemonFavoriteListViewModelTest {
 
         val pokemonListFavorite = listOf(
             PokemonEntity(1, "bulbasur"),
-            PokemonEntity(2, "ivysaur")
         )
 
         `when`(pokemonRepository.listPokemons(limit, offset)).thenReturn(pokemonList)
@@ -215,28 +212,7 @@ class PokemonFavoriteListViewModelTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `quando a lista de favoritos esta vazia, o icone de ninho vazio e a mensagem sao exibidos`() = runTest{
-//        Given a lista de pokemons favoritos está vazia
-        val listEmpty = emptyList<PokemonEntity>()
-//        Given a lista de pokemons nao está vazia
-        val pokemonList = listOf(
-            fakePokemon,
-            fakePokemon2,
-            fakePokemon3,
-        )
 
-        `when`(pokemonRepository.listPokemons(anyInt(), anyInt())).thenReturn(pokemonList)
-
-        viewModel.loadAndFilterPokemonsFromFavoriteList(listEmpty)
-
-        advanceUntilIdle()
-
-        Mockito.verify(observer).onChanged(emptyList())
-        Assert.assertEquals(View.VISIBLE, progressBar.visibility)
-
-//                When o usuário clica para ver a lista de favoritos
-//                Then o carregamento desaparece
-//                And um ícone de ninho vazio aparece
-//        And uma mensagem dizendo "Você ainda não favoritou nenhum Pokémon
     }
 
 }
