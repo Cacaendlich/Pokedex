@@ -1,5 +1,6 @@
 package com.example.pokedex.presenter.ui.favorites
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
