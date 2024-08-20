@@ -199,10 +199,29 @@ class PokemonFavoriteListViewModelTest {
 
         Mockito.verify(observer).onChanged(favoriteListExpectatio)
     }
-
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `quando a lista de favoritos esta vazia`() = runTest{
+    fun `loadAndFilterPokemonsFromFavoriteList quando a lista de favoritos esta vazia`() = runTest{
+        val limit = 1000
+        val offset = 0
 
+        val pokemonList = listOf(
+            fakePokemon,
+            fakePokemon2,
+            fakePokemon3,
+        )
+
+        val pokemonListFavorite = emptyList<PokemonEntity>()
+
+
+        `when`(pokemonRepository.listPokemons(limit, offset)).thenReturn(pokemonList)
+
+        viewModel.loadAndFilterPokemonsFromFavoriteList(pokemonListFavorite)
+
+        advanceUntilIdle()
+
+        Mockito.verify(observer).onChanged(emptyList<Pokemon>())
     }
+
 
 }
