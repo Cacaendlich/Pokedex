@@ -1,6 +1,5 @@
 package com.example.pokedex.presenter.ui.favorites
 
-import android.widget.ProgressBar
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.example.pokedex.data.local.model.PokemonEntity
@@ -33,8 +32,6 @@ class PokemonFavoriteListViewModelTest {
     private lateinit var pokemonRepository: PokemonApiRepository
     @Mock
     private lateinit var pokemonLocalRepository: PokemonLocalRepository
-    @Mock
-    private lateinit var progressBar: ProgressBar
 
 
     @Mock
@@ -191,7 +188,11 @@ class PokemonFavoriteListViewModelTest {
         )
 
         val pokemonListFavorite = listOf(
-            PokemonEntity(1, "bulbasur"),
+            PokemonEntity(1, "bulbasaur"),
+        )
+
+        val favoriteListExpectatio = listOf(
+            fakePokemon
         )
 
         `when`(pokemonRepository.listPokemons(limit, offset)).thenReturn(pokemonList)
@@ -200,16 +201,9 @@ class PokemonFavoriteListViewModelTest {
 
         advanceUntilIdle()
 
-        val favoriteListExpectatio = pokemonList.filter { pokemon ->
-            pokemonListFavorite.any{
-                it.name == pokemon.name
-            }
-        }
-
         Mockito.verify(observer).onChanged(favoriteListExpectatio)
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `quando a lista de favoritos esta vazia, o icone de ninho vazio e a mensagem sao exibidos`() = runTest{
 
