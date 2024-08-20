@@ -167,11 +167,7 @@ class PokemonFavoriteListViewModelTest {
 
         Mockito.verify(pokemonLocalRepository).getAllPokemons()
 
-        val favoriteListExpectatio = pokemonListFavorite.map {
-            PokemonEntity(it.pokemonId, it.name)
-        }
-
-        Mockito.verify(favoriteListObserver).onChanged(favoriteListExpectatio)
+        Mockito.verify(favoriteListObserver).onChanged(pokemonListFavorite)
 
     }
 
@@ -205,7 +201,7 @@ class PokemonFavoriteListViewModelTest {
     }
 
     @Test
-    fun `quando a lista de favoritos esta vazia, o icone de ninho vazio e a mensagem sao exibidos`() = runTest{
+    fun `quando a lista de favoritos esta vazia`() = runTest{
 
     }
 
