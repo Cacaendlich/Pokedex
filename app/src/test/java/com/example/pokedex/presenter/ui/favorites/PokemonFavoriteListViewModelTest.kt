@@ -3,6 +3,8 @@ package com.example.pokedex.presenter.ui.favorites
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.example.pokedex.data.local.model.PokemonEntity
+import com.example.pokedex.data.model.PokemonType
+import com.example.pokedex.data.model.Type
 import com.example.pokedex.data.repository.api.PokemonApiRepository
 import com.example.pokedex.data.repository.local.PokemonLocalRepository
 import com.example.pokedex.domain.model.Pokemon
@@ -39,6 +41,42 @@ class PokemonFavoriteListViewModelTest {
     @Mock
     private lateinit var favoriteListObserver: Observer<List<PokemonEntity?>>
 
+    private val grassType = PokemonType(slot = 1, type = Type(name = "grass"))
+    private val poisonType = PokemonType(slot = 2, type = Type(name = "poison"))
+    private val fireType = PokemonType(slot = 2, type = Type(name = "fire"))
+    private val waterType = PokemonType(slot = 2, type = Type(name = "water"))
+
+    private val fakePokemon = Pokemon(
+        number = 1,
+        name = "bulbasaur",
+        height = 7,
+        weight = 69,
+        stats = listOf(),
+        type = listOf(grassType,poisonType),
+        favorite = false
+    )
+
+    private val fakePokemon2 = Pokemon(
+        number = 4,
+        name = "charmander",
+        height = 6,
+        weight = 85,
+        stats = listOf(),
+        type = listOf(fireType),
+        favorite = false
+    )
+
+    private val fakePokemon3 = Pokemon(
+        number = 7,
+        name = "squirtle",
+        height = 5,
+        weight = 90,
+        stats = listOf(),
+        type = listOf(waterType),
+        favorite = true
+    )
+
+
 
     @Before
     fun setUp() {
@@ -59,16 +97,13 @@ class PokemonFavoriteListViewModelTest {
 
     @Test
     fun `isFavorite achando pokemon na lista de favoritos`() {
-        val pokemon1 = Pokemon(1, "bulbasur")
-        val pokemon2 = Pokemon(2, "ivysaur")
-
-        val pokemonListFavorite = listOf(
-            PokemonEntity(1, "bulbasur"),
-            PokemonEntity(2, "ivysaur")
+         val pokemonListFavorite = listOf(
+            PokemonEntity(1, "bulbasaur"),
+            PokemonEntity(4, "charmander")
         )
 
-        val result1 = viewModel.isFavorite(pokemonListFavorite, pokemon1)
-        val result2 = viewModel.isFavorite(pokemonListFavorite, pokemon2)
+        val result1 = viewModel.isFavorite(pokemonListFavorite, fakePokemon)
+        val result2 = viewModel.isFavorite(pokemonListFavorite, fakePokemon2)
 
         Assert.assertTrue(result1)
         Assert.assertTrue(result2)
@@ -76,8 +111,8 @@ class PokemonFavoriteListViewModelTest {
 
     @Test
     fun `isFavorite NAO achando pokemon na lista de favoritos`() {
-        val pokemon1 = Pokemon(1, "bulbasur")
-        val pokemon2 = Pokemon(2, "ivysaur")
+        val pokemon1 = fakePokemon
+        val pokemon2 = fakePokemon3
 
         val pokemonListFavorite = listOf(
             PokemonEntity(3, "venusaur"),
@@ -94,7 +129,7 @@ class PokemonFavoriteListViewModelTest {
 
     @Test
     fun `updateFavoriteList quando o pokemon nao esta na lista de favoritos`() = runTest {
-        val pokemon1 = Pokemon(1, "bulbasur")
+        val pokemon1 = fakePokemon
         val pokemonListFavorite = emptyList<PokemonEntity>()
         val pokemonFavoritado = PokemonEntity(pokemon1.number, pokemon1.name)
 
@@ -105,9 +140,9 @@ class PokemonFavoriteListViewModelTest {
 
     @Test
     fun `updateFavoriteList quando o pokemon esta na lista de favoritos`() = runTest {
-        val pokemon1 = Pokemon(1, "bulbasur", true)
+        val pokemon1 = fakePokemon3
         val pokemonListFavorite = listOf(
-            PokemonEntity(1, "bulbasur")
+            PokemonEntity(7, "squirtle")
         )
 
         viewModel.updateFavoritesList(pokemon1, pokemonListFavorite)
@@ -119,24 +154,20 @@ class PokemonFavoriteListViewModelTest {
     @Test
     fun `loadFavorites com sucesso`() = runTest{
         val pokemonListFavorite = listOf(
-            PokemonEntity(1, "bulbasur"),
+            PokemonEntity(1, "bulbasaur"),
             PokemonEntity(2, "ivysaur")
         )
 
         `when`(pokemonLocalRepository.getAllPokemons()).thenReturn(pokemonListFavorite)
 
         viewModel.loadFavorites()
+        Mockito.verify(isLoadingObserver).onChanged(true)
 
         advanceUntilIdle()
 
-        Mockito.verify(isLoadingObserver).onChanged(true)
         Mockito.verify(pokemonLocalRepository).getAllPokemons()
 
-        val favoriteListExpectatio = pokemonListFavorite.map {
-            PokemonEntity(it.pokemonId, it.name)
-        }
-
-        Mockito.verify(favoriteListObserver).onChanged(favoriteListExpectatio)
+        Mockito.verify(favoriteListObserver).onChanged(pokemonListFavorite)
 
     }
 
@@ -147,15 +178,17 @@ class PokemonFavoriteListViewModelTest {
         val offset = 0
 
         val pokemonList = listOf(
-            Pokemon(1, "bulbasur"),
-            Pokemon(2, "ivysaur"),
-            Pokemon(3, "venusaur"),
-            Pokemon(4, "charmander")
+            fakePokemon,
+            fakePokemon2,
+            fakePokemon3,
         )
 
         val pokemonListFavorite = listOf(
-            PokemonEntity(1, "bulbasur"),
-            PokemonEntity(2, "ivysaur")
+            PokemonEntity(1, "bulbasaur"),
+        )
+
+        val favoriteListExpectatio = listOf(
+            fakePokemon
         )
 
         `when`(pokemonRepository.listPokemons(limit, offset)).thenReturn(pokemonList)
@@ -164,13 +197,31 @@ class PokemonFavoriteListViewModelTest {
 
         advanceUntilIdle()
 
-        val favoriteListExpectatio = pokemonList.filter { pokemon ->
-            pokemonListFavorite.any{
-                it.name == pokemon.name
-            }
-        }
-
         Mockito.verify(observer).onChanged(favoriteListExpectatio)
     }
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun `loadAndFilterPokemonsFromFavoriteList quando a lista de favoritos esta vazia`() = runTest{
+        val limit = 1000
+        val offset = 0
+
+        val pokemonList = listOf(
+            fakePokemon,
+            fakePokemon2,
+            fakePokemon3,
+        )
+
+        val pokemonListFavorite = emptyList<PokemonEntity>()
+
+
+        `when`(pokemonRepository.listPokemons(limit, offset)).thenReturn(pokemonList)
+
+        viewModel.loadAndFilterPokemonsFromFavoriteList(pokemonListFavorite)
+
+        advanceUntilIdle()
+
+        Mockito.verify(observer).onChanged(emptyList<Pokemon>())
+    }
+
 
 }

@@ -1,10 +1,17 @@
 package com.example.pokedex.domain.model
 
+import com.example.pokedex.data.model.PokemonType
+import com.example.pokedex.data.model.Stats
+
 //modelo pokemon list
 data class Pokemon(
     val number: Int,
     val name: String,
-    var favorite: Boolean = false
+    val height: Int = 0,
+    val weight: Int = 0,
+    val stats: List<Stats>,
+    val type: List<PokemonType>,
+    var favorite: Boolean = false,
 ) {
     val imageUrl by lazy { "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${number}.png" }
 

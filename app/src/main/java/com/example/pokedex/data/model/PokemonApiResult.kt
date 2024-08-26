@@ -15,5 +15,24 @@ data class PokemonApiResult(
     val id: Int,
     val name: String,
     val imageUrl: String,
+    val height: Int = 0,
+    val weight: Int = 0,
+    val stats : List<Stats>,
+    val types : List<PokemonType>
+)
 
+data class Stats(
+    val base_stat: Int,
+    val stat: Stat
+)
+data class Stat(
+    val name: String
+)
+
+data class PokemonType(
+    val slot: Int,
+    val type: Type
+)
+data class Type(
+    val name: String
 )

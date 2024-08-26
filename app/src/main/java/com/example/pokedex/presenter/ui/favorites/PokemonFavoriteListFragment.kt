@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -32,6 +33,8 @@ class PokemonFavoriteListFragment : Fragment(), PokemonAdapter.OnItemClickListen
     private lateinit var mPokemonAdapter: PokemonAdapter
     private lateinit var progressBar: ProgressBar
     private lateinit var mfavoriteList: List<PokemonEntity>
+    private lateinit var mImageView: ImageView
+    private lateinit var mTextView: TextView
 
     companion object {
         fun newInstance() = PokemonFavoriteListFragment()
@@ -48,6 +51,9 @@ class PokemonFavoriteListFragment : Fragment(), PokemonAdapter.OnItemClickListen
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        mImageView = binding.iconEmptyList
+        mTextView = binding.textViewEmptyList
 
         val retrofitClient = RetrofitClient
         val pokemonApiRepository = PokemonApiRepositoryImpl(retrofitClient)
@@ -75,7 +81,8 @@ class PokemonFavoriteListFragment : Fragment(), PokemonAdapter.OnItemClickListen
         favoriteListViewModel.pokemonsState.observe(requireActivity()) { pokemons ->
             pokemons?.let {
                 updateRecyclerView(pokemons)
-                progressBar.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
+                mImageView.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
+                mTextView.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
             }
         }
 
@@ -113,10 +120,12 @@ class PokemonFavoriteListFragment : Fragment(), PokemonAdapter.OnItemClickListen
         }
     }
 
-    override fun onDetailClick(position: Int, imageView: ImageView) {
+    override fun onDetailClick(position: Int, imageView: ImageView, color:Int) {
         val pokemon = mPokemonAdapter.mPokemonList[position]
         pokemon?.let {
             val intent = Intent(requireActivity(), PokemonDetailActivity::class.java)
+            intent.putExtra("EXTRA_POKEMON_NAME", pokemon.name)
+            intent.putExtra("EXTRA_POKEMON_COR", color)
             startActivity(intent)
         }
     }
