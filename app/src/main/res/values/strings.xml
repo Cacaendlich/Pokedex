@@ -31,4 +31,5 @@
     <string name="pokemon_id">"#%1$d"</string>
     <string name="ninho_vazio">ninho vazio</string>
     <string name="voc_ainda_n_o_favoritou_nenhum_pok_mon">Você ainda não favoritou nenhum Pokémon</string>
+    <string name="title_activity_battle">BattleActivity</string>
 </resources>

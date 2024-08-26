@@ -15,6 +15,11 @@
         android:theme="@style/Theme.Pokedex"
         tools:targetApi="s">
         <activity
+            android:name=".presenter.ui.battle.ui.theme.BattleActivity"
+            android:exported="false"
+            android:label="@string/title_activity_battle"
+            android:theme="@style/Theme.Pokedex" />
+        <activity
             android:name=".presenter.ui.details.PokemonDetailActivity"
             android:exported="false" />
         <activity
