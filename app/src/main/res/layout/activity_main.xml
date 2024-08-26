@@ -18,12 +18,25 @@
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/battleIcon"
         app:layout_constraintBottom_toTopOf="@id/fragment_container"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="10dp"
         android:layout_marginStart="16dp"
-        app:layout_constraintHorizontal_bias="0.0" />
+        app:layout_constraintHorizontal_bias="0.0"/>
+
+    <ImageView
+        android:id="@+id/battleIcon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:contentDescription="@string/todo"
+        android:src="@drawable/battle_icon"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
 
     <!-- Contêiner de fragmento -->
     <FrameLayout
