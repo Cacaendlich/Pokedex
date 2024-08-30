@@ -62,7 +62,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        window.statusBarColor = getColor(R.color.read)
+        window.statusBarColor = getColor(R.color.red)
     }
 
     private fun goToMainActivity() {
