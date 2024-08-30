@@ -1,6 +1,5 @@
-package com.example.pokedex.presenter.ui.login.ui.theme
+package com.example.pokedex.presenter.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
