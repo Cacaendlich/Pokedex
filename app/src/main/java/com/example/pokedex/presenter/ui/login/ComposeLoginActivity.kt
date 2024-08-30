@@ -1,9 +1,5 @@
 package com.example.pokedex.presenter.ui.login
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -18,7 +14,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -44,27 +39,9 @@ import androidx.compose.ui.unit.sp
 import com.example.pokedex.R
 import com.example.pokedex.presenter.ui.login.ui.theme.PokedexTheme
 
-class ComposeLoginActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            PokedexTheme {
-                Scaffold(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                ) { innerPadding ->
-                    MainScreen(
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
-        }
-    }
-}
 
 @Composable
-fun MainScreen(modifier: Modifier = Modifier) {
+fun LoginScreen(viewModel: LoginViewModel, goToMainActivity: () -> Unit) {
     val email by rememberSaveable { mutableStateOf("") }
     val password by rememberSaveable { mutableStateOf("") }
     Box(
@@ -164,6 +141,6 @@ fun ButtonLogin(onClick: () -> Unit) {
 @Composable
 fun GreetingPreview2() {
     PokedexTheme {
-        MainScreen()
+        LoginScreen(viewModel = LoginViewModel(), goToMainActivity = {})
     }
 }
