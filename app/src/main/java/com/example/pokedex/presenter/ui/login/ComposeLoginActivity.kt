@@ -44,7 +44,6 @@ class ComposeLoginActivity : ComponentActivity() {
                         .fillMaxSize(),
                 ) { innerPadding ->
                     MainScreen(
-                        name = "Android",
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -54,7 +53,7 @@ class ComposeLoginActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainScreen(name: String, modifier: Modifier = Modifier) {
+fun MainScreen(modifier: Modifier = Modifier) {
     var email by remember { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     Box(
@@ -80,7 +79,7 @@ fun MainScreen(name: String, modifier: Modifier = Modifier) {
                     .height(200.dp)
                     .fillMaxSize(),
                 painter = painterResource(id = R.drawable.logo_pokebola),
-                contentDescription = "Pokeball"
+                contentDescription = "Poke ball"
             )
             Text(
                 text = "Pokedex",
@@ -111,17 +110,10 @@ fun ButtonLogin(onClick: () -> Unit) {
     }
 }
 
-@Composable
-fun BackgroundVerticalGradient() {
-    Brush.verticalGradient(
-        listOf(colorResource(R.color.red), colorResource(R.color.yellow))
-    )
-}
-
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview2() {
     PokedexTheme {
-        MainScreen("Android")
+        MainScreen()
     }
 }
