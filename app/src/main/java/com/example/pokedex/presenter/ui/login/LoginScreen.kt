@@ -18,11 +18,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -37,13 +32,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.pokedex.R
-import com.example.pokedex.presenter.ui.login.ui.theme.PokedexTheme
 
 
 @Composable
-fun LoginScreen(viewModel: LoginViewModel, goToMainActivity: () -> Unit) {
-    val email by rememberSaveable { mutableStateOf("") }
-    val password by rememberSaveable { mutableStateOf("") }
+fun LoginScreen(
+    email: String,
+    password: String,
+    onEmailChanged: (String) -> Unit,
+    onPasswordChanged: (String) -> Unit,
+    onLoginClick: () -> Unit
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -81,27 +79,25 @@ fun LoginScreen(viewModel: LoginViewModel, goToMainActivity: () -> Unit) {
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            InputText(value = remember { mutableStateOf(email) }, text = "E-mail")
+            InputText(value = email ,onValueChange = onEmailChanged, text = "E-mail")
 
             InputText(
-                value = remember { mutableStateOf(password) },
+                value = password,
+                onValueChange = onPasswordChanged,
                 text = "Password",
                 visualTransformation = PasswordVisualTransformation()
             )
 
-            ButtonLogin {
-
-            }
-
+            ButtonLogin (onClick = onLoginClick)
         }
     }
 }
 
 @Composable
-fun InputText(value: MutableState<String>, text: String, visualTransformation: VisualTransformation = VisualTransformation.None){
+fun InputText(value: String, onValueChange: (String) -> Unit, text: String, visualTransformation: VisualTransformation = VisualTransformation.None){
     TextField(
-        value = value.value,
-        onValueChange = { value.value = it },
+        value = value,
+        onValueChange = onValueChange,
         placeholder = { Text(text = text) },
         shape = RoundedCornerShape(20.dp),
         visualTransformation = visualTransformation,
@@ -122,7 +118,7 @@ fun InputText(value: MutableState<String>, text: String, visualTransformation: V
 @Composable
 fun ButtonLogin(onClick: () -> Unit) {
     Button(
-        onClick = { onClick() },
+        onClick = onClick,
         modifier = Modifier
             .fillMaxWidth()
             .height(56.dp)
@@ -143,8 +139,12 @@ fun ButtonLogin(onClick: () -> Unit) {
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview2() {
-    PokedexTheme {
-        LoginScreen(viewModel = LoginViewModel(), goToMainActivity = {})
-    }
+fun LoginScreenPreview() {
+    LoginScreen(
+        email = "",
+        password = "",
+        onEmailChanged = {},
+        onPasswordChanged = {},
+        onLoginClick = {}
+    )
 }
