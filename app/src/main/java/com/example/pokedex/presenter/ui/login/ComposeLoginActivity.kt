@@ -133,7 +133,11 @@ fun ButtonLogin(onClick: () -> Unit) {
             contentColor = Color.White, //cor do texto
         )
     ) {
-        Text("LOGIN")
+        Text(
+            text= "LOGIN",
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold
+        )
     }
 }
 
