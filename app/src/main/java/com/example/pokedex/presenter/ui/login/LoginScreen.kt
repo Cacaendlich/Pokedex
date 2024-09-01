@@ -21,9 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TileMode
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -128,8 +126,8 @@ fun ButtonLogin(onClick: () -> Unit) {
             .padding(horizontal = 56.dp),
         shape = RoundedCornerShape(20.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = colorResource(id = R.color.yellow), //Cor do fundo
-            contentColor = Color.White, //cor do texto
+            containerColor = Yellow, //Cor do fundo
+            contentColor = White, //cor do texto
         )
     ) {
         Text(
