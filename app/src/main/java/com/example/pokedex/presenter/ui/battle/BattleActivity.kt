@@ -33,6 +33,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import com.example.pokedex.R
 import com.example.pokedex.data.model.PokemonType
 import com.example.pokedex.data.model.Stat
@@ -123,6 +125,7 @@ fun BattleScreen(pokemon1: Pokemon, pokemon2: Pokemon) {
     }
 }
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun PokemonDetail(
     pokemon: Pokemon
@@ -133,11 +136,19 @@ fun PokemonDetail(
         ),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+
         Image(
             modifier = Modifier
-                .size(100.dp),
-            painter = painterResource(id = R.drawable.logo_pokebola),
-            contentDescription = "Poke ball"
+                .size(40.dp),
+            painter = painterResource(id = R.drawable.star),
+            contentDescription = "Star gold"
+        )
+
+        GlideImage(
+            model = pokemon.imageUrl,
+            contentDescription = "imagem do ${pokemon.name}",
+            modifier = Modifier
+                .size(100.dp)
         )
 
         Text(
@@ -228,7 +239,7 @@ fun HeightWeight(text: String, value: Int){
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = value.toFloat().toString(),
+            text = (value / 10.0).toString(),
             color = White,
             fontSize = 20.sp,
         )
