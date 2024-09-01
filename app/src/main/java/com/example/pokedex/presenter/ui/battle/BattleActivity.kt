@@ -3,9 +3,12 @@ package com.example.pokedex.presenter.ui.battle
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -17,10 +20,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color.Companion.Blue
+import androidx.compose.ui.graphics.Color.Companion.Green
+import androidx.compose.ui.graphics.Color.Companion.Yellow
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -134,8 +143,14 @@ fun PokemonDetail(
         Text(
             text = pokemon.name,
             color = White,
-            fontSize = 40.sp,
-            fontWeight = FontWeight.Bold
+            fontSize = 30.sp,
+            fontWeight = FontWeight.Bold,
+            maxLines = 1, // Limita o texto a uma linha
+            overflow = TextOverflow.Ellipsis, // Trunca o texto se ele for muito longo
+            modifier = Modifier
+                .width(200.dp)
+            ,
+            textAlign = TextAlign.Center
         )
 
         Text(
@@ -150,8 +165,8 @@ fun PokemonDetail(
             }
         }
 
-        HeightWeight(text = "HEIGHT", value = pokemon.height)
         HeightWeight(text = "WEIGHT", value = pokemon.weight)
+        HeightWeight(text = "HEIGHT", value = pokemon.height)
 
         Row{
             pokemon.stats.forEach { stat ->
@@ -242,7 +257,30 @@ fun VerticalProgressIndicator(progress: Int, stat: String){
             color = White
         )
 
-        //TODO: ProgressIndicator
+        Box(
+            modifier = Modifier
+                .height(100.dp) // Altura máxima da barra
+                .width(20.dp) // Largura da barra
+                .background(White, shape = RoundedCornerShape(8.dp)) // Cor de fundo da barra
+                .clip(RoundedCornerShape(8.dp)) // Bordas arredondadas
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxHeight(progress.toFloat() / 100) // Altura do progresso
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(8.dp))
+                    .align(Alignment.BottomCenter)
+                    .background(
+                        color = when (stat) {
+                            "hp" -> Blue
+                            "attack" -> Green
+                            "defense" -> Red
+                            "speed" -> Yellow
+                            else -> Black
+                        }
+                    )
+            )
+        }
 
         Text(
             text = stat.firstOrNull()?.uppercase().toString(),
