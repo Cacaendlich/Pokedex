@@ -107,7 +107,7 @@ val pokemon2 = Pokemon(
 
 @Composable
 fun BattleScreen(pokemon1: Pokemon, pokemon2: Pokemon) {
-    val showStar = if (isBatter(pokemon1, pokemon2)) pokemon1 else pokemon2
+    val winnerPokemon = if (isBatter(pokemon1, pokemon2)) pokemon1 else pokemon2
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly,
@@ -122,8 +122,8 @@ fun BattleScreen(pokemon1: Pokemon, pokemon2: Pokemon) {
                 )
             )
     ) {
-        PokemonDetail(pokemon1, pokemon1 == showStar)
-        PokemonDetail(pokemon2, pokemon2 == showStar)
+        PokemonDetail(pokemon1, pokemon1 == winnerPokemon)
+        PokemonDetail(pokemon2, pokemon2 == winnerPokemon)
     }
 }
 
@@ -310,7 +310,7 @@ fun VerticalProgressIndicator(progress: Int, stat: String){
 }
 
 fun isBatter(pokemon1: Pokemon, pokemon2: Pokemon): Boolean{
-    val competidor1 = pokemon1.stats.sumOf{
+    val competitor1 = pokemon1.stats.sumOf{
         when(it.stat.name){
             "hp" -> it.base_stat * 1.0
             "attack" -> it.base_stat * 1.5
@@ -320,7 +320,7 @@ fun isBatter(pokemon1: Pokemon, pokemon2: Pokemon): Boolean{
         }
 
     }
-    val competidor2 = pokemon2.stats.sumOf{
+    val competitor2 = pokemon2.stats.sumOf{
         when(it.stat.name){
             "hp" -> it.base_stat * 1.0
             "attack" -> it.base_stat * 1.5
@@ -331,7 +331,7 @@ fun isBatter(pokemon1: Pokemon, pokemon2: Pokemon): Boolean{
 
     }
 
-    return competidor1 > competidor2
+    return competitor1 > competitor2
 }
 
 @Preview(showBackground = true)
