@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -106,6 +107,7 @@ val pokemon2 = Pokemon(
 
 @Composable
 fun BattleScreen(pokemon1: Pokemon, pokemon2: Pokemon) {
+    val showStar = if (isBatter(pokemon1, pokemon2)) pokemon1 else pokemon2
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly,
@@ -120,15 +122,16 @@ fun BattleScreen(pokemon1: Pokemon, pokemon2: Pokemon) {
                 )
             )
     ) {
-        PokemonDetail(pokemon1)
-        PokemonDetail(pokemon2)
+        PokemonDetail(pokemon1, pokemon1 == showStar)
+        PokemonDetail(pokemon2, pokemon2 == showStar)
     }
 }
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun PokemonDetail(
-    pokemon: Pokemon
+    pokemon: Pokemon,
+    showStar: Boolean = false
 ){
     Column(
         verticalArrangement = Arrangement.spacedBy(
@@ -137,12 +140,17 @@ fun PokemonDetail(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
 
-        Image(
-            modifier = Modifier
-                .size(40.dp),
-            painter = painterResource(id = R.drawable.star),
-            contentDescription = "Star gold"
-        )
+        if (showStar){
+            Image(
+                modifier = Modifier
+                    .size(40.dp),
+                painter = painterResource(id = R.drawable.star),
+                contentDescription = "Star gold"
+            )
+        }else{
+            Spacer(modifier = Modifier.height(40.dp))
+
+        }
 
         GlideImage(
             model = pokemon.imageUrl,
@@ -299,6 +307,31 @@ fun VerticalProgressIndicator(progress: Int, stat: String){
         )
     }
 
+}
+
+fun isBatter(pokemon1: Pokemon, pokemon2: Pokemon): Boolean{
+    val competidor1 = pokemon1.stats.sumOf{
+        when(it.stat.name){
+            "hp" -> it.base_stat * 1.0
+            "attack" -> it.base_stat * 1.5
+            "defense" -> it.base_stat * 1.2
+            "speed" -> it.base_stat * 1.4
+            else -> it.base_stat * 1.0
+        }
+
+    }
+    val competidor2 = pokemon2.stats.sumOf{
+        when(it.stat.name){
+            "hp" -> it.base_stat * 1.0
+            "attack" -> it.base_stat * 1.5
+            "defense" -> it.base_stat * 1.2
+            "speed" -> it.base_stat * 1.4
+            else -> it.base_stat * 1.0
+        }
+
+    }
+
+    return competidor1 > competidor2
 }
 
 @Preview(showBackground = true)
