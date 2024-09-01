@@ -32,6 +32,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.pokedex.R
+import com.example.pokedex.presenter.ui.theme.Red
+import com.example.pokedex.presenter.ui.theme.Transparent
+import com.example.pokedex.presenter.ui.theme.White
+import com.example.pokedex.presenter.ui.theme.Yellow
 
 
 @Composable
@@ -47,7 +51,7 @@ fun LoginScreen(
             .fillMaxSize()
             .background(
                 Brush.verticalGradient(
-                    listOf(colorResource(R.color.red), colorResource(R.color.yellow)),
+                    listOf(Red, Yellow),
                     startY = 1300.0f, //indica que o gradiente começará a partir de 1300 pixels na direção vertical da tela.
                     endY = Float.POSITIVE_INFINITY, //o gradiente se estenderá até o final do contêiner
                     tileMode = TileMode.Clamp //garante que o gradiente não se repita, mas se estenda conforme necessário para preencher o espaço disponível
@@ -65,14 +69,13 @@ fun LoginScreen(
         ) {
             Image(
                 modifier = Modifier
-                    .size(200.dp)
-                    .fillMaxSize(),
+                    .size(200.dp),
                 painter = painterResource(id = R.drawable.logo_pokebola),
                 contentDescription = "Poke ball"
             )
             Text(
                 text = "Pokedex",
-                color = Color.White,
+                color = White,
                 fontSize = 50.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -102,14 +105,14 @@ fun InputText(value: String, onValueChange: (String) -> Unit, text: String, visu
         shape = RoundedCornerShape(20.dp),
         visualTransformation = visualTransformation,
         colors = TextFieldDefaults.colors(
-            focusedTextColor = Color.White, // Cor do texto quando focado
-            unfocusedTextColor = Color.White, // Cor do texto quando não focado
-            focusedContainerColor = colorResource(id = R.color.yellow), // Cor de fundo quando focado
-            unfocusedContainerColor = colorResource(id = R.color.yellow), // Cor de fundo quando não focado
-            focusedIndicatorColor = Color.Transparent, // Cor da linha inferior quando focado
-            unfocusedIndicatorColor = Color.Transparent, // Cor da linha inferior quando não focado
-            focusedPlaceholderColor = Color.White, // Cor do placeholder quando focado
-            unfocusedPlaceholderColor = Color.White // Cor do placeholder quando nao focado
+            focusedTextColor = White, // Cor do texto quando focado
+            unfocusedTextColor = White, // Cor do texto quando não focado
+            focusedContainerColor = Yellow, // Cor de fundo quando focado
+            unfocusedContainerColor = Yellow, // Cor de fundo quando não focado
+            focusedIndicatorColor = Transparent, // Cor da linha inferior quando focado
+            unfocusedIndicatorColor = Transparent, // Cor da linha inferior quando não focado
+            focusedPlaceholderColor = White, // Cor do placeholder quando focado
+            unfocusedPlaceholderColor = White // Cor do placeholder quando nao focado
         ),
 
         )
