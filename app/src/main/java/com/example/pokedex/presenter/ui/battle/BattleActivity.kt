@@ -57,11 +57,7 @@ class BattleActivity : ComponentActivity() {
                     }
                 }
 
-//                if (pokemon1 != null && pokemon2 != null){
-//                    BattleScreen(pokemon1 = pokemon1 , pokemon2 = pokemon2 )
-//                }else{
-//                    Text(text = "Carregando dados dos Pokémons...")
-//                }
+                    BattleScreen(pokemon1 = battleViewModel.validatePokemon(pokemon1) , pokemon2 = battleViewModel.validatePokemon(pokemon2) )
             }
         }
     }
