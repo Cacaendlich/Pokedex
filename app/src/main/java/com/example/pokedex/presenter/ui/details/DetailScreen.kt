@@ -52,6 +52,32 @@ import com.example.pokedex.presenter.ui.theme.White
 @Composable
 fun DetailScreen(pokemon: Pokemon, color: Int) {
     val pokemonColor = Color(color)
+
+//    Row(
+//        horizontalArrangement = Arrangement.SpaceBetween,
+//        verticalAlignment = Alignment.CenterVertically,
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .padding(vertical = 8.dp, horizontal = 12.dp)
+//    ) {
+//        Image(
+//            modifier = Modifier
+//                .size(30.dp)
+//                .clickable {
+//                    Log.e("ClickableImage", "Imagem clicada!")
+////                    depois ter um finish()
+//                },
+//            painter = painterResource(id = R.drawable.seta_esquerda),
+//            contentDescription = "Ícone de seta vermelha apontando para a esquerda, utilizado para retornar à tela anterior."
+//        )
+//
+//        Text(
+//            text = "#1",
+//            color = White,
+//            fontWeight = FontWeight.Bold,
+//            fontSize = 24.sp
+//        )
+//    }
     Column(
         verticalArrangement = Arrangement.spacedBy(
             space = 20.dp,
@@ -109,7 +135,7 @@ fun DetailScreen(pokemon: Pokemon, color: Int) {
         }
 
         Spacer(modifier = Modifier.height(5.dp))
-        
+
         Text(
             text = "STATS",
             color = White,
