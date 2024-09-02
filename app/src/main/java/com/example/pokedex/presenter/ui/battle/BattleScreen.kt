@@ -174,7 +174,7 @@ fun PokemonDetail(
 
         LazyRow {
             items(pokemon.type) { type ->
-                TypeChip(type.type.name)
+                TypeCard(type.type.name)
             }
         }
 
@@ -193,7 +193,7 @@ fun PokemonDetail(
 }
 
 @Composable
-fun TypeChip(typeName: String) {
+fun TypeCard(typeName: String) {
     Row (
         modifier = Modifier
             .padding(horizontal = 10.dp)
