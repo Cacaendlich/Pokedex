@@ -31,11 +31,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.pokedex.R
+import com.example.pokedex.data.model.PokemonType
+import com.example.pokedex.data.model.Stat
+import com.example.pokedex.data.model.Stats
+import com.example.pokedex.data.model.Type
 import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presenter.ui.theme.Black
 import com.example.pokedex.presenter.ui.theme.Bug
@@ -52,6 +57,7 @@ import com.example.pokedex.presenter.ui.theme.Ground
 import com.example.pokedex.presenter.ui.theme.Ice
 import com.example.pokedex.presenter.ui.theme.Normal
 import com.example.pokedex.presenter.ui.theme.Poison
+import com.example.pokedex.presenter.ui.theme.PokedexTheme
 import com.example.pokedex.presenter.ui.theme.Psychic
 import com.example.pokedex.presenter.ui.theme.Red
 import com.example.pokedex.presenter.ui.theme.Rock
@@ -62,9 +68,7 @@ import com.example.pokedex.presenter.ui.theme.White
 @Composable
 fun BattleScreen(pokemon1: Pokemon, pokemon2: Pokemon) {
     val winnerPokemon = if (isBatter(pokemon1, pokemon2)) pokemon1 else pokemon2
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceEvenly,
+    Box (
         modifier = Modifier
             .fillMaxSize()
             .background(
@@ -75,10 +79,26 @@ fun BattleScreen(pokemon1: Pokemon, pokemon2: Pokemon) {
                     tileMode = TileMode.Clamp
                 )
             )
-    ) {
-        PokemonDetail(pokemon1, pokemon1 == winnerPokemon)
-        PokemonDetail(pokemon2, pokemon2 == winnerPokemon)
+    ){
+        Image(
+            modifier = Modifier
+                .size(40.dp)
+                .padding(5.dp),
+            painter = painterResource(id = R.drawable.baseline_arrow_back_24),
+            contentDescription = "Star gold"
+        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            modifier = Modifier
+                .fillMaxSize()
+
+        ) {
+            PokemonDetail(pokemon1, pokemon1 == winnerPokemon)
+            PokemonDetail(pokemon2, pokemon2 == winnerPokemon)
+        }
     }
+
 }
 
 @OptIn(ExperimentalGlideComposeApi::class)
@@ -288,10 +308,51 @@ fun isBatter(pokemon1: Pokemon, pokemon2: Pokemon): Boolean{
     return competitor1 > competitor2
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun GreetingPreview() {
-//    PokedexTheme {
-//        BattleScreen(pokemon1 = pokemon1, pokemon2 = pokemon2)
-//    }
-//}
+// Mocked Pokemon data
+val pokemon1 = Pokemon(
+    number = 1,
+    name = "Bulbasaur",
+    height = 7,
+    weight = 69,
+    stats = listOf(
+        Stats(base_stat = 45, stat = Stat(name = "hp")),
+        Stats(base_stat = 49, stat = Stat(name = "attack")),
+        Stats(base_stat = 49, stat = Stat(name = "defense")),
+        Stats(base_stat = 65, stat = Stat(name = "special-attack")),
+        Stats(base_stat = 65, stat = Stat(name = "special-defense")),
+        Stats(base_stat = 45, stat = Stat(name = "speed"))
+    ),
+    type = listOf(
+        PokemonType(slot = 1, type = Type(name = "grass")),
+        PokemonType(slot = 2, type = Type(name = "poison"))
+    ),
+    favorite = false
+)
+
+val pokemon2 = Pokemon(
+    number = 25,
+    name = "Pikachu",
+    height = 4,
+    weight = 60,
+    stats = listOf(
+        Stats(base_stat = 35, stat = Stat(name = "hp")),
+        Stats(base_stat = 55, stat = Stat(name = "attack")),
+        Stats(base_stat = 40, stat = Stat(name = "defense")),
+        Stats(base_stat = 50, stat = Stat(name = "special-attack")),
+        Stats(base_stat = 50, stat = Stat(name = "special-defense")),
+        Stats(base_stat = 90, stat = Stat(name = "speed"))
+    ),
+    type = listOf(
+        PokemonType(slot = 1, type = Type(name = "electric"))
+    ),
+    favorite = false
+)
+
+
+@Preview(showBackground = true)
+@Composable
+fun GreetingPreview() {
+    PokedexTheme {
+        BattleScreen(pokemon1 = pokemon1, pokemon2 = pokemon2)
+    }
+}
