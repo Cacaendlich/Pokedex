@@ -1,6 +1,10 @@
 package com.example.pokedex.presenter.ui.details
 
+import android.app.Activity
+import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,6 +31,8 @@ import androidx.compose.ui.graphics.Color.Companion.Blue
 import androidx.compose.ui.graphics.Color.Companion.Green
 import androidx.compose.ui.graphics.Color.Companion.Yellow
 import androidx.compose.ui.graphics.TileMode
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -35,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.example.pokedex.R
 import com.example.pokedex.data.model.PokemonType
 import com.example.pokedex.data.model.Stat
 import com.example.pokedex.data.model.Stats
@@ -52,40 +59,10 @@ import com.example.pokedex.presenter.ui.theme.White
 @Composable
 fun DetailScreen(pokemon: Pokemon, color: Int) {
     val pokemonColor = Color(color)
+    val context = LocalContext.current
 
-//    Row(
-//        horizontalArrangement = Arrangement.SpaceBetween,
-//        verticalAlignment = Alignment.CenterVertically,
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .padding(vertical = 8.dp, horizontal = 12.dp)
-//    ) {
-//        Image(
-//            modifier = Modifier
-//                .size(30.dp)
-//                .clickable {
-//                    Log.e("ClickableImage", "Imagem clicada!")
-////                    depois ter um finish()
-//                },
-//            painter = painterResource(id = R.drawable.seta_esquerda),
-//            contentDescription = "Ícone de seta vermelha apontando para a esquerda, utilizado para retornar à tela anterior."
-//        )
-//
-//        Text(
-//            text = "#1",
-//            color = White,
-//            fontWeight = FontWeight.Bold,
-//            fontSize = 24.sp
-//        )
-//    }
     Column(
-        verticalArrangement = Arrangement.spacedBy(
-            space = 20.dp,
-            alignment = Alignment.CenterVertically
-        ),
-        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
-            .fillMaxSize()
             .background(
                 Brush.verticalGradient(
                     listOf(pokemonColor, Black),
@@ -94,71 +71,110 @@ fun DetailScreen(pokemon: Pokemon, color: Int) {
                     tileMode = TileMode.Clamp
                 )
             )
-            .padding(20.dp)
     ) {
-        GlideImage(
-            model = pokemon.imageUrl,
-            contentDescription = "Imagem do Pokémon ${pokemon.name}",
-            modifier = Modifier
-                .size(200.dp)
-        )
-
-        Text(
-            text = pokemon.name,
-            color = White,
-            fontSize = 40.sp,
-            fontWeight = FontWeight.Bold,
-            maxLines = 1, // Limita o texto a uma linha
-            overflow = TextOverflow.Ellipsis, // Trunca o texto se ele for muito longo
-            modifier = Modifier
-                .width(200.dp)
-            ,
-            textAlign = TextAlign.Center
-        )
-
-        LazyRow {
-            items(pokemon.type) { type ->
-                TypeCard(type.type.name)
-            }
-        }
-
-        Spacer(modifier = Modifier.height(5.dp))
-
         Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(
-                space = 60.dp
-            )
-        ) {
-            HeightWeight(text = "WEIGHT", value = pokemon.weight)
-            HeightWeight(text = "HEIGHT", value = pokemon.height)
-        }
-
-        Spacer(modifier = Modifier.height(5.dp))
-
-        Text(
-            text = "STATS",
-            color = White,
-            fontSize = 25.sp,
-            fontWeight = FontWeight.Bold,
-            maxLines = 1, // Limita o texto a uma linha
-            overflow = TextOverflow.Ellipsis, // Trunca o texto se ele for muito longo
             modifier = Modifier
-                .width(200.dp)
-            ,
-            textAlign = TextAlign.Center
-        )
+                .fillMaxWidth()
+                .padding(vertical = 8.dp, horizontal = 12.dp)
+        ) {
+            Image(
+                modifier = Modifier
+                    .size(30.dp)
+                    .clickable {
+                        Log.e("ClickableImage", "Imagem clicada!")
+                        if (context is Activity){
+                            context.finish()
+                        }
 
-        Column {
-            pokemon.stats.forEach{ stat ->
-                if (stat.stat.name != "special-attack" && stat.stat.name != "special-defense"){
-                    HorizontalProgressIndicator(progress = stat.base_stat, stat = stat.stat.name )
+                    },
+                painter = painterResource(id = R.drawable.seta_esquerda),
+                contentDescription = "Ícone de seta vermelha apontando para a esquerda, utilizado para retornar à tela anterior."
+            )
+
+            Text(
+                text = "#${ pokemon.number}",
+                color = Black,
+                fontWeight = FontWeight.Bold,
+                fontSize = 22.sp
+            )
+        }
+        Column(
+            verticalArrangement = Arrangement.spacedBy(
+                space = 20.dp,
+                alignment = Alignment.CenterVertically
+            ),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(20.dp)
+        ) {
+            GlideImage(
+                model = pokemon.imageUrl,
+                contentDescription = "Imagem do Pokémon ${pokemon.name}",
+                modifier = Modifier
+                    .size(200.dp)
+            )
+
+            Text(
+                text = pokemon.name,
+                color = White,
+                fontSize = 40.sp,
+                fontWeight = FontWeight.Bold,
+                maxLines = 1, // Limita o texto a uma linha
+                overflow = TextOverflow.Ellipsis, // Trunca o texto se ele for muito longo
+                modifier = Modifier
+                    .width(200.dp)
+                ,
+                textAlign = TextAlign.Center
+            )
+
+            LazyRow {
+                items(pokemon.type) { type ->
+                    TypeCard(type.type.name)
+                }
+            }
+
+            Spacer(modifier = Modifier.height(5.dp))
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(
+                    space = 60.dp
+                )
+            ) {
+                HeightWeight(text = "WEIGHT", value = pokemon.weight)
+                HeightWeight(text = "HEIGHT", value = pokemon.height)
+            }
+
+            Spacer(modifier = Modifier.height(5.dp))
+
+            Text(
+                text = "STATS",
+                color = White,
+                fontSize = 25.sp,
+                fontWeight = FontWeight.Bold,
+                maxLines = 1, // Limita o texto a uma linha
+                overflow = TextOverflow.Ellipsis, // Trunca o texto se ele for muito longo
+                modifier = Modifier
+                    .width(200.dp)
+                ,
+                textAlign = TextAlign.Center
+            )
+
+            Column {
+                pokemon.stats.forEach{ stat ->
+                    if (stat.stat.name != "special-attack" && stat.stat.name != "special-defense"){
+                        HorizontalProgressIndicator(progress = stat.base_stat, stat = stat.stat.name )
+                    }
                 }
             }
         }
+
+    }
     }
 
-}
 
 @Composable
 fun HorizontalProgressIndicator(progress: Int, stat: String){
