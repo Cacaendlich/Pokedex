@@ -25,6 +25,7 @@ class PokemonAdapter(
     interface OnItemClickListener {
         fun onFavoriteClick(position: Int, imageView: ImageView)
         fun onDetailClick(position: Int, imageView: ImageView, color: Int)
+        fun onSelectClick(position: Int, imageView: ImageView)
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
@@ -62,6 +63,19 @@ class PokemonAdapter(
                     val color = mCardViewPokemon.cardBackgroundColor.defaultColor
                     onItemClickListener?.onDetailClick(it, mImageViewPokemon, color)
                 }
+            }
+            mImageViewPokemon.setOnLongClickListener() {
+                bindingAdapterPosition.let {
+                    onItemClickListener?.onSelectClick(it, mImageViewPokemon)
+                }
+                true
+            }
+
+            mCardViewPokemon.setOnLongClickListener(){
+                bindingAdapterPosition.let {
+                    onItemClickListener?.onSelectClick(it, mImageViewPokemon)
+                }
+                true
             }
         }
 

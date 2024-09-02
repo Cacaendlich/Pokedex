@@ -168,4 +168,10 @@ class PokemonsListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
         }
     }
 
+    override fun onSelectClick(position: Int, imageView: ImageView) {
+        val pokemon = mPokemonAdapter.mPokemonList[position]
+        Log.e("onSelectClick", "$pokemon")
+
+    }
+
 }
