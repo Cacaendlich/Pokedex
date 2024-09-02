@@ -1,7 +1,9 @@
 package com.example.pokedex.presenter.ui.battle
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -83,9 +85,13 @@ fun BattleScreen(pokemon1: Pokemon, pokemon2: Pokemon) {
         Image(
             modifier = Modifier
                 .size(40.dp)
-                .padding(5.dp),
+                .padding(5.dp)
+                .clickable {
+                    Log.e("ClickableImage", "Imagem clicada!")
+//                    depois ter um finish()
+                },
             painter = painterResource(id = R.drawable.baseline_arrow_back_24),
-            contentDescription = "Star gold"
+            contentDescription = "Ícone de seta vermelha apontando para a esquerda, utilizado para retornar à tela anterior."
         )
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -119,7 +125,7 @@ fun PokemonDetail(
                 modifier = Modifier
                     .size(40.dp),
                 painter = painterResource(id = R.drawable.star),
-                contentDescription = "Star gold"
+                contentDescription = "Ícone de estrela dourada, representando o Pokémon mais poderoso."
             )
         }else{
             Spacer(modifier = Modifier.height(40.dp))
@@ -128,7 +134,7 @@ fun PokemonDetail(
 
         GlideImage(
             model = pokemon.imageUrl,
-            contentDescription = "imagem do ${pokemon.name}",
+            contentDescription = "Imagem do Pokémon ${pokemon.name}",
             modifier = Modifier
                 .size(100.dp)
         )
