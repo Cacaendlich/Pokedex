@@ -16,4 +16,6 @@
     <string name="title_activity_battle">BattleActivity</string>
     <string name="title_activity_compose_login">ComposeLoginActivity</string>
     <string name="title_activity_detail_screen">DetailScreen</string>
+    <string name="title_activity_main_screen">MainScreen</string>
+    <string name="title_activity_pokemon_list_screen">PokemonListScreen</string>
 </resources>
