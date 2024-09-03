@@ -80,7 +80,7 @@ fun HeadingPokedex(context: Context){
             text = "Pokedex",
             color = White,
             fontWeight = FontWeight.Bold,
-            fontSize = 22.sp
+            fontSize = 26.sp
         )
 
         Image(
