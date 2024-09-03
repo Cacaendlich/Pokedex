@@ -18,7 +18,6 @@ import com.example.pokedex.presenter.ui.pokemonsList.PokemonsListViewModel
 class MainActivity : AppCompatActivity() {
 
     private lateinit var pokemonsListViewModel: PokemonsListViewModel
-    private lateinit var mPokemonList: List<Pokemon>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
