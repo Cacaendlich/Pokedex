@@ -12,15 +12,12 @@ import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presenter.ui.factory.PokemonsViewModelFactory
 import com.example.pokedex.presenter.ui.theme.PokedexTheme
 import kotlinx.coroutines.launch
-import kotlin.properties.Delegates
 
 class PokemonDetailActivity : AppCompatActivity() {
 
     private lateinit var pokemonDetailsViewModel : PokemonDetailsViewModel
 
     private lateinit var mPokemon: Pokemon
-    private var mPokemonColor by Delegates.notNull<Int>()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,19 +37,13 @@ class PokemonDetailActivity : AppCompatActivity() {
             }
         }
 
-        val color = intent.getIntExtra("EXTRA_POKEMON_COR", -1)
-        color.let {
-            mPokemonColor = it
-        }
-
         pokemonDetailsViewModel.pokemonLiveData.observe(this) {
             mPokemon = pokemonDetailsViewModel.validatePokemon(it)
 
             setContent {
                 PokedexTheme {
                     DetailScreen(
-                        pokemon = pokemonDetailsViewModel.validatePokemon(mPokemon),
-                        color = mPokemonColor
+                        pokemon = pokemonDetailsViewModel.validatePokemon(mPokemon)
                     )
                 }
             }
