@@ -24,12 +24,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Blue
 import androidx.compose.ui.graphics.Color.Companion.Green
 import androidx.compose.ui.graphics.Color.Companion.Yellow
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -226,7 +230,16 @@ fun TypeCard(typeName: String) {
     ){
         Text(
             text = typeName,
-            color = White
+            color = White,
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            style = TextStyle(
+                shadow = Shadow(
+                    color = Color.Black.copy(alpha = 0.3f), // Cor da sombra com opacidade
+                    offset = Offset(4f, 4f), // Deslocamento da sombra
+                    blurRadius = 8f // Raio de desfoque da sombra
+                )
+            )
         )
     }
 }

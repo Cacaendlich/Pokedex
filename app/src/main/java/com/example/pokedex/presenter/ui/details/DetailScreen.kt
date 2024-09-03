@@ -26,14 +26,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Blue
 import androidx.compose.ui.graphics.Color.Companion.Green
 import androidx.compose.ui.graphics.Color.Companion.Yellow
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -106,8 +109,15 @@ private fun BodyScope(pokemon: Pokemon) {
             maxLines = 1, // Limita o texto a uma linha
             overflow = TextOverflow.Ellipsis, // Trunca o texto se ele for muito longo
             modifier = Modifier
-                .width(200.dp),
-            textAlign = TextAlign.Center
+                .width(220.dp),
+            textAlign = TextAlign.Center,
+            style = TextStyle(
+                shadow = Shadow(
+                    color = Color.Black.copy(alpha = 0.4f), // Cor da sombra com opacidade
+                    offset = Offset(4f, 4f), // Deslocamento da sombra
+                    blurRadius = 8f // Raio de desfoque da sombra
+                )
+            )
         )
 
         LazyRow {
@@ -116,7 +126,7 @@ private fun BodyScope(pokemon: Pokemon) {
             }
         }
 
-        Spacer(modifier = Modifier.height(5.dp))
+        Spacer(modifier = Modifier.height(1.dp))
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
