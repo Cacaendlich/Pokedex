@@ -203,7 +203,7 @@ fun HorizontalProgressIndicator(progress: Int, stat: String){
             alignment = Alignment.CenterHorizontally
         ),
         modifier = Modifier
-            .width(300.dp) // Ajuste a largura da barra aqui
+            .width(320.dp) // Ajuste a largura da barra aqui
             .height(30.dp)
             .padding(4.dp)
     ) {
