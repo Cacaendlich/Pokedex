@@ -36,6 +36,15 @@ class PokemonsListViewModel(
 
     }
 
+    fun validatePokemon(pokemon: Pokemon?) : Pokemon{
+        if (pokemon == null){
+            throw NullPointerException("Attempt to invoke method on a null object reference")
+        }
+
+        return pokemon
+    }
+
+
 //    fun loadMorePokemons() {
 //        setLoading(true)
 //

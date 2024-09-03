@@ -1,6 +1,5 @@
 package com.example.pokedex.presenter.ui.main
 
-import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -24,7 +23,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.TileMode
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -38,8 +36,7 @@ import com.example.pokedex.presenter.ui.theme.White
 import com.example.pokedex.presenter.ui.theme.Yellow
 
 @Composable
-fun MainScreen(onClick: () -> Unit, pokemons: List<Pokemon>) {
-    val context = LocalContext.current
+fun MainScreen(onClick: () -> Unit, pokemons: List<Pokemon>, onPokemonImageClick: (Pokemon) -> Unit) {
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -54,9 +51,9 @@ fun MainScreen(onClick: () -> Unit, pokemons: List<Pokemon>) {
                 )
             )
     ) {
-        HeadingPokedex(context = context)
+        HeadingPokedex()
         Box{
-            PokemonList(pokemons = pokemons)
+            PokemonList(pokemons = pokemons, onPokemonImageClick = onPokemonImageClick)
             FavoriteActionButton(
                 onClick = onClick,
                 modifier = Modifier
@@ -68,7 +65,7 @@ fun MainScreen(onClick: () -> Unit, pokemons: List<Pokemon>) {
 }
 
 @Composable
-fun HeadingPokedex(context: Context){
+fun HeadingPokedex(){
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -111,30 +108,3 @@ fun FavoriteActionButton(onClick: () -> Unit, modifier: Modifier){
         )
     }
 }
-
-//val pokemon1 = Pokemon(
-//    number = 1,
-//    name = "Bulbasaur",
-//    height = 7,
-//    weight = 69,
-//    stats = listOf(
-//        Stats(base_stat = 45, stat = Stat(name = "hp")),
-//        Stats(base_stat = 49, stat = Stat(name = "attack")),
-//        Stats(base_stat = 49, stat = Stat(name = "defense")),
-//        Stats(base_stat = 65, stat = Stat(name = "special-attack")),
-//        Stats(base_stat = 65, stat = Stat(name = "special-defense")),
-//        Stats(base_stat = 45, stat = Stat(name = "speed"))
-//    ),
-//    type = listOf(
-//        PokemonType(slot = 1, type = Type(name = "grass")),
-//        PokemonType(slot = 2, type = Type(name = "poison"))
-//    ),
-//    favorite = false
-//)
-//@Preview(showBackground = true)
-//@Composable
-//fun GreetingPreview3() {
-//    PokedexTheme {
-//        MainScreen(onClick = { Log.e("MainScreen", "FavoriteActionButton clicado!") })
-//    }
-//}

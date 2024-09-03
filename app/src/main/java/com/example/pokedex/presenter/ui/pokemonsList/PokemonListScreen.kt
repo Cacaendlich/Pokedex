@@ -44,7 +44,7 @@ import kotlinx.coroutines.withContext
 
 
 @Composable
-fun PokemonList(pokemons: List<Pokemon>) {
+fun PokemonList(pokemons: List<Pokemon>, onPokemonImageClick: (Pokemon) -> Unit) {
 
    LazyVerticalGrid(
        columns = GridCells.Fixed(2),
@@ -52,7 +52,7 @@ fun PokemonList(pokemons: List<Pokemon>) {
            .fillMaxSize()
    ) {
        items(pokemons.size){ index->
-           PokemonItem(pokemon = pokemons[index])
+           PokemonItem(pokemon = pokemons[index], onPokemonImageClick = onPokemonImageClick)
 
        }
    }
@@ -60,7 +60,7 @@ fun PokemonList(pokemons: List<Pokemon>) {
 
 @OptIn(ExperimentalGlideComposeApi::class, ExperimentalFoundationApi::class)
 @Composable
-fun PokemonItem(pokemon: Pokemon){
+fun PokemonItem(pokemon: Pokemon, onPokemonImageClick: (Pokemon) -> Unit){
     val context = LocalContext.current
     val defaultColor = Color.White
     val dominantColor = remember { mutableStateOf(defaultColor) }
@@ -116,7 +116,7 @@ fun PokemonItem(pokemon: Pokemon){
                 model = pokemon.imageUrl,
                 contentDescription = "",
                 modifier = Modifier
-                    .clickable { Log.e("PokemonList", "pokemonImage clicado!") }
+                    .clickable { onPokemonImageClick(pokemon)}
             )
 
             Spacer(modifier = Modifier.size(2.dp))
@@ -152,32 +152,3 @@ private fun cropCenteredBitmap(bitmap: Bitmap): Bitmap {
     // Recortar a imagem
     return Bitmap.createBitmap(bitmap, cropLeft, cropTop, cropRight - cropLeft, cropBottom - cropTop)
 }
-
-
-//val pokemon1 = Pokemon(
-//    number = 1,
-//    name = "Bulbasaur",
-//    height = 7,
-//    weight = 69,
-//    stats = listOf(
-//        Stats(base_stat = 45, stat = Stat(name = "hp")),
-//        Stats(base_stat = 49, stat = Stat(name = "attack")),
-//        Stats(base_stat = 49, stat = Stat(name = "defense")),
-//        Stats(base_stat = 65, stat = Stat(name = "special-attack")),
-//        Stats(base_stat = 65, stat = Stat(name = "special-defense")),
-//        Stats(base_stat = 45, stat = Stat(name = "speed"))
-//    ),
-//    type = listOf(
-//        PokemonType(slot = 1, type = Type(name = "grass")),
-//        PokemonType(slot = 2, type = Type(name = "poison"))
-//    ),
-//    favorite = false
-//)
-
-//@Preview(showBackground = true)
-//@Composable
-//fun GreetingPreview4() {
-//    PokedexTheme {
-//        PokemonList(pokemons = )
-//    }
-//}
