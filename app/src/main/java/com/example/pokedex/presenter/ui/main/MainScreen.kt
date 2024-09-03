@@ -119,7 +119,7 @@ fun HeadingPokedex(context: Context){
             modifier = Modifier
                 .size(50.dp)
                 .clickable {
-                    Log.e("ClickableImage", "Imagem clicada!")
+                    Log.e("MainScren", "BattleIcon clicado!")
                 }
             ,
             painter = painterResource(id = R.drawable.battle_icon),
@@ -148,6 +148,6 @@ fun FavoriteActionButton(onClick: () -> Unit, modifier: Modifier){
 @Composable
 fun GreetingPreview3() {
     PokedexTheme {
-        MainScreen(onClick = { Log.e("FavoriteActionButton", "clicado!") })
+        MainScreen(onClick = { Log.e("MainScreen", "FavoriteActionButton clicado!") })
     }
 }

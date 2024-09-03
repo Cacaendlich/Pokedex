@@ -1,6 +1,10 @@
 package com.example.pokedex.presenter.ui.pokemonsList
 
+import android.util.Log
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -49,14 +53,18 @@ fun PokemonList(pokemons: List<Pokemon>) {
    }
 }
 
-@OptIn(ExperimentalGlideComposeApi::class)
+@OptIn(ExperimentalGlideComposeApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun PokemonItem(pokemon: Pokemon, color: Int){
     val pokemonColor = Color(color)
     Card(
         modifier = Modifier
             .padding(8.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .combinedClickable(
+                onClick = { Log.e("PokemonList", "Card clicado!") },
+                onLongClick = { Log.e("PokemonList", "Card click longo clicado!") }
+            ),
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(pokemonColor)
     ){
@@ -74,10 +82,14 @@ fun PokemonItem(pokemon: Pokemon, color: Int){
                     .align(Alignment.End)
                     .size(50.dp)
                     .padding(horizontal = 6.dp)
+                    .clickable { Log.e("PokemonList", "favoriteIcon clicado!") }
+
             )
             GlideImage(
                 model = pokemon.imageUrl,
                 contentDescription = "",
+                modifier = Modifier
+                    .clickable { Log.e("PokemonList", "pokemonImage clicado!") }
             )
 
             Text(
