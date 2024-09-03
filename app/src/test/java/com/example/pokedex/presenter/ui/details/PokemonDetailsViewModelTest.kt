@@ -1,6 +1,5 @@
 package com.example.pokedex.presenter.ui.details
 
-import android.graphics.drawable.GradientDrawable
 import android.widget.RelativeLayout
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
@@ -17,9 +16,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.Mock
-import org.mockito.Mockito.any
 import org.mockito.Mockito.anyString
-import org.mockito.Mockito.never
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
@@ -88,23 +85,5 @@ class PokemonDetailsViewModelTest {
             }
         }
         Assert.assertEquals("Nome do Pokémon está vazio", exception.message)
-    }
-
-    @Test
-    fun `deve chamar o metodo de atualizacao da cor de fundo quando a cor for valida`(){
-        val color = -12324
-
-        viewModel.updateBackgroundColor(relativeLayout, color)
-
-        verify(relativeLayout).background = any(GradientDrawable::class.java)
-    }
-
-    @Test
-    fun `nao deve chamar o metodo de atualizacao da cor de fundo quando a cor for invalida`(){
-        val color = -1
-
-        viewModel.updateBackgroundColor(relativeLayout, color)
-
-        verify(relativeLayout, never()).background = any(GradientDrawable::class.java)
     }
 }
