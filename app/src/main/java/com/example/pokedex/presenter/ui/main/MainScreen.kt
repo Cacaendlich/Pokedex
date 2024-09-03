@@ -6,6 +6,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,11 +31,37 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.pokedex.R
+import com.example.pokedex.data.model.PokemonType
+import com.example.pokedex.data.model.Stat
+import com.example.pokedex.data.model.Stats
+import com.example.pokedex.data.model.Type
+import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presenter.ui.main.ui.theme.PokedexTheme
+import com.example.pokedex.presenter.ui.pokemonsList.PokemonList
 import com.example.pokedex.presenter.ui.theme.Black
 import com.example.pokedex.presenter.ui.theme.Red
 import com.example.pokedex.presenter.ui.theme.White
 import com.example.pokedex.presenter.ui.theme.Yellow
+
+val pokemon1 = Pokemon(
+    number = 1,
+    name = "Bulbasaur",
+    height = 7,
+    weight = 69,
+    stats = listOf(
+        Stats(base_stat = 45, stat = Stat(name = "hp")),
+        Stats(base_stat = 49, stat = Stat(name = "attack")),
+        Stats(base_stat = 49, stat = Stat(name = "defense")),
+        Stats(base_stat = 65, stat = Stat(name = "special-attack")),
+        Stats(base_stat = 65, stat = Stat(name = "special-defense")),
+        Stats(base_stat = 45, stat = Stat(name = "speed"))
+    ),
+    type = listOf(
+        PokemonType(slot = 1, type = Type(name = "grass")),
+        PokemonType(slot = 2, type = Type(name = "poison"))
+    ),
+    favorite = false
+)
 
 
 @Composable
@@ -55,11 +82,18 @@ fun MainScreen(onClick: () -> Unit) {
             )
     ) {
         HeadingPokedex(context = context)
-        Row {
+        Box{
+            PokemonList(
+                pokemons = listOf(
+                    pokemon1, pokemon1, pokemon1, pokemon1,
+                    pokemon1, pokemon1, pokemon1, pokemon1, pokemon1, pokemon1,
+                )
+            )
             FavoriteActionButton(
                 onClick = onClick,
                 modifier = Modifier
-                    .padding(vertical = 20.dp)
+                    .padding(vertical = 10.dp, horizontal = 10.dp)
+                    .align(Alignment.BottomEnd)
             )
         }
     }
