@@ -23,23 +23,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.pokedex.R
-import com.example.pokedex.data.model.PokemonType
-import com.example.pokedex.data.model.Stat
-import com.example.pokedex.data.model.Stats
-import com.example.pokedex.data.model.Type
 import com.example.pokedex.domain.model.Pokemon
-import com.example.pokedex.presenter.ui.pokemonsList.ui.theme.PokedexTheme
 import com.example.pokedex.presenter.ui.theme.White
 
 
 @Composable
-fun PokemonList(pokemons: List<Pokemon>) {
+fun PokemonList(pokemons: List<Pokemon>, color: Int) {
 
    LazyVerticalGrid(
        columns = GridCells.Fixed(2),
@@ -47,7 +41,7 @@ fun PokemonList(pokemons: List<Pokemon>) {
            .fillMaxSize()
    ) {
        items(pokemons.size){ index->
-           PokemonItem(pokemon = pokemons[index], color = -7815000)
+           PokemonItem(pokemon = pokemons[index], color = color)
 
        }
    }
@@ -102,49 +96,30 @@ fun PokemonItem(pokemon: Pokemon, color: Int){
     }
 }
 
-val pokemon1 = Pokemon(
-    number = 1,
-    name = "Bulbasaur",
-    height = 7,
-    weight = 69,
-    stats = listOf(
-        Stats(base_stat = 45, stat = Stat(name = "hp")),
-        Stats(base_stat = 49, stat = Stat(name = "attack")),
-        Stats(base_stat = 49, stat = Stat(name = "defense")),
-        Stats(base_stat = 65, stat = Stat(name = "special-attack")),
-        Stats(base_stat = 65, stat = Stat(name = "special-defense")),
-        Stats(base_stat = 45, stat = Stat(name = "speed"))
-    ),
-    type = listOf(
-        PokemonType(slot = 1, type = Type(name = "grass")),
-        PokemonType(slot = 2, type = Type(name = "poison"))
-    ),
-    favorite = false
-)
-val pokemon2 = Pokemon(
-    number = 1,
-    name = "Bulbasaur",
-    height = 7,
-    weight = 69,
-    stats = listOf(
-        Stats(base_stat = 45, stat = Stat(name = "hp")),
-        Stats(base_stat = 49, stat = Stat(name = "attack")),
-        Stats(base_stat = 49, stat = Stat(name = "defense")),
-        Stats(base_stat = 65, stat = Stat(name = "special-attack")),
-        Stats(base_stat = 65, stat = Stat(name = "special-defense")),
-        Stats(base_stat = 45, stat = Stat(name = "speed"))
-    ),
-    type = listOf(
-        PokemonType(slot = 1, type = Type(name = "grass")),
-        PokemonType(slot = 2, type = Type(name = "poison"))
-    ),
-    favorite = false
-)
+//val pokemon1 = Pokemon(
+//    number = 1,
+//    name = "Bulbasaur",
+//    height = 7,
+//    weight = 69,
+//    stats = listOf(
+//        Stats(base_stat = 45, stat = Stat(name = "hp")),
+//        Stats(base_stat = 49, stat = Stat(name = "attack")),
+//        Stats(base_stat = 49, stat = Stat(name = "defense")),
+//        Stats(base_stat = 65, stat = Stat(name = "special-attack")),
+//        Stats(base_stat = 65, stat = Stat(name = "special-defense")),
+//        Stats(base_stat = 45, stat = Stat(name = "speed"))
+//    ),
+//    type = listOf(
+//        PokemonType(slot = 1, type = Type(name = "grass")),
+//        PokemonType(slot = 2, type = Type(name = "poison"))
+//    ),
+//    favorite = false
+//)
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview4() {
-    PokedexTheme {
-        PokemonList(pokemons = listOf(pokemon1, pokemon2, pokemon1, pokemon2, pokemon1, pokemon2, pokemon1, pokemon2, pokemon1, pokemon2))
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun GreetingPreview4() {
+//    PokedexTheme {
+//        PokemonList(pokemons = )
+//    }
+//}

@@ -27,45 +27,18 @@ import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.pokedex.R
-import com.example.pokedex.data.model.PokemonType
-import com.example.pokedex.data.model.Stat
-import com.example.pokedex.data.model.Stats
-import com.example.pokedex.data.model.Type
 import com.example.pokedex.domain.model.Pokemon
-import com.example.pokedex.presenter.ui.main.ui.theme.PokedexTheme
 import com.example.pokedex.presenter.ui.pokemonsList.PokemonList
 import com.example.pokedex.presenter.ui.theme.Black
 import com.example.pokedex.presenter.ui.theme.Red
 import com.example.pokedex.presenter.ui.theme.White
 import com.example.pokedex.presenter.ui.theme.Yellow
 
-val pokemon1 = Pokemon(
-    number = 1,
-    name = "Bulbasaur",
-    height = 7,
-    weight = 69,
-    stats = listOf(
-        Stats(base_stat = 45, stat = Stat(name = "hp")),
-        Stats(base_stat = 49, stat = Stat(name = "attack")),
-        Stats(base_stat = 49, stat = Stat(name = "defense")),
-        Stats(base_stat = 65, stat = Stat(name = "special-attack")),
-        Stats(base_stat = 65, stat = Stat(name = "special-defense")),
-        Stats(base_stat = 45, stat = Stat(name = "speed"))
-    ),
-    type = listOf(
-        PokemonType(slot = 1, type = Type(name = "grass")),
-        PokemonType(slot = 2, type = Type(name = "poison"))
-    ),
-    favorite = false
-)
-
-
 @Composable
-fun MainScreen(onClick: () -> Unit) {
+fun MainScreen(onClick: () -> Unit, pokemons: List<Pokemon>, color: Int) {
     val context = LocalContext.current
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
@@ -84,10 +57,8 @@ fun MainScreen(onClick: () -> Unit) {
         HeadingPokedex(context = context)
         Box{
             PokemonList(
-                pokemons = listOf(
-                    pokemon1, pokemon1, pokemon1, pokemon1,
-                    pokemon1, pokemon1, pokemon1, pokemon1, pokemon1, pokemon1,
-                )
+                pokemons = pokemons,
+                color = color
             )
             FavoriteActionButton(
                 onClick = onClick,
@@ -144,10 +115,29 @@ fun FavoriteActionButton(onClick: () -> Unit, modifier: Modifier){
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview3() {
-    PokedexTheme {
-        MainScreen(onClick = { Log.e("MainScreen", "FavoriteActionButton clicado!") })
-    }
-}
+//val pokemon1 = Pokemon(
+//    number = 1,
+//    name = "Bulbasaur",
+//    height = 7,
+//    weight = 69,
+//    stats = listOf(
+//        Stats(base_stat = 45, stat = Stat(name = "hp")),
+//        Stats(base_stat = 49, stat = Stat(name = "attack")),
+//        Stats(base_stat = 49, stat = Stat(name = "defense")),
+//        Stats(base_stat = 65, stat = Stat(name = "special-attack")),
+//        Stats(base_stat = 65, stat = Stat(name = "special-defense")),
+//        Stats(base_stat = 45, stat = Stat(name = "speed"))
+//    ),
+//    type = listOf(
+//        PokemonType(slot = 1, type = Type(name = "grass")),
+//        PokemonType(slot = 2, type = Type(name = "poison"))
+//    ),
+//    favorite = false
+//)
+//@Preview(showBackground = true)
+//@Composable
+//fun GreetingPreview3() {
+//    PokedexTheme {
+//        MainScreen(onClick = { Log.e("MainScreen", "FavoriteActionButton clicado!") })
+//    }
+//}
