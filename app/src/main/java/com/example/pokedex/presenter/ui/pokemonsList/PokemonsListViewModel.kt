@@ -1,6 +1,5 @@
 package com.example.pokedex.presenter.ui.pokemonsList
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pokedex.data.repository.api.PokemonApiRepository
@@ -20,8 +19,6 @@ class PokemonsListViewModel(
 
     private val _pokemonsState = MutableStateFlow<List<Pokemon>>(emptyList())
     val pokemonsState: StateFlow<List<Pokemon>> = _pokemonsState
-
-    var isLoading = MutableLiveData<Boolean>().apply { value = false }
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -58,19 +55,15 @@ class PokemonsListViewModel(
 //        }
 //    }
     fun refreshPokemons() {
-        setLoading(true)
 
         viewModelScope.launch(Dispatchers.IO){
             try {
                 loadInitialPokemons()
             } catch (e: Exception) {
                 handleError(e)
-            } finally {
-                setLoading(false)
             }
         }
     }
-    private fun setLoading(loading: Boolean) = isLoading.postValue(loading)
 
     private fun handleError(e: Exception): Nothing {
         throw RuntimeException("Error loading pokemons: ${e.message}", e)
