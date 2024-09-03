@@ -22,7 +22,7 @@ import com.example.pokedex.databinding.FragmentPokemonsListBinding
 import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presenter.adapter.PokemonAdapter
 import com.example.pokedex.presenter.ui.details.PokemonDetailActivity
-import com.example.pokedex.presenter.ui.factory.PokemonsListViewModelFactory
+import com.example.pokedex.presenter.ui.factory.PokemonsViewModelFactory
 
 class PokemonFavoriteListFragment : Fragment(), PokemonAdapter.OnItemClickListener {
 
@@ -58,7 +58,7 @@ class PokemonFavoriteListFragment : Fragment(), PokemonAdapter.OnItemClickListen
         val retrofitClient = RetrofitClient
         val pokemonApiRepository = PokemonApiRepositoryImpl(retrofitClient)
         val pokemonLocalRepository = PokemonLocalRepositoryImpl(requireActivity())
-        val factory = PokemonsListViewModelFactory(pokemonApiRepository, pokemonLocalRepository)
+        val factory = PokemonsViewModelFactory(pokemonApiRepository, pokemonLocalRepository)
 
         favoriteListViewModel = ViewModelProvider(requireActivity(), factory)[PokemonFavoriteListViewModel::class.java]
         favoriteListViewModel.loadFavorites()

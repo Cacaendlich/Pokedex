@@ -9,7 +9,7 @@ import com.example.pokedex.presenter.ui.details.PokemonDetailsViewModel
 import com.example.pokedex.presenter.ui.favorites.PokemonFavoriteListViewModel
 import com.example.pokedex.presenter.ui.pokemonsList.PokemonsListViewModel
 
-class PokemonsListViewModelFactory(
+class PokemonsViewModelFactory(
     private val pokemonRepository: PokemonApiRepository,
     private val pokemonLocalRepository: PokemonLocalRepository
 ) : ViewModelProvider.Factory{
@@ -26,7 +26,7 @@ class PokemonsListViewModelFactory(
             modelClass.isAssignableFrom(PokemonDetailsViewModel::class.java) -> {
                 PokemonDetailsViewModel(pokemonRepository) as T
             }
-            modelClass.isAssignableFrom(PokemonDetailsViewModel::class.java) -> {
+            modelClass.isAssignableFrom(BattleViewModel::class.java) -> {
                 BattleViewModel(pokemonRepository) as T
             }
 

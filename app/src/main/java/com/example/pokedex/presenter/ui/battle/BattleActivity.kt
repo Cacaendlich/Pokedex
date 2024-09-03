@@ -15,7 +15,7 @@ import com.example.pokedex.data.repository.api.PokemonApiRepositoryImpl
 import com.example.pokedex.data.repository.local.PokemonLocalRepositoryImpl
 import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presenter.ui.battle.ui.theme.PokedexTheme
-import com.example.pokedex.presenter.ui.factory.PokemonsListViewModelFactory
+import com.example.pokedex.presenter.ui.factory.PokemonsViewModelFactory
 import kotlinx.coroutines.launch
 
 class BattleActivity : ComponentActivity() {
@@ -27,7 +27,7 @@ class BattleActivity : ComponentActivity() {
         val retrofitClient = RetrofitClient
         val pokemonApiRepository = PokemonApiRepositoryImpl(retrofitClient)
         val pokemonLocalRepository = PokemonLocalRepositoryImpl(this)
-        val factory = PokemonsListViewModelFactory(pokemonApiRepository, pokemonLocalRepository)
+        val factory = PokemonsViewModelFactory(pokemonApiRepository, pokemonLocalRepository)
         battleViewModel = ViewModelProvider(this, factory)[BattleViewModel::class]
 
         val pokemonIntent1 = intent.getStringExtra("EXTRA_POKEMON_NAME_1")
