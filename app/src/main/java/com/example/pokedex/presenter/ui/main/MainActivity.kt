@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.pokedex.data.network.RetrofitClient
 import com.example.pokedex.data.repository.api.PokemonApiRepositoryImpl
 import com.example.pokedex.data.repository.local.PokemonLocalRepositoryImpl
-import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presenter.ui.factory.PokemonsViewModelFactory
 import com.example.pokedex.presenter.ui.pokemonsList.PokemonsListViewModel
 
@@ -32,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         setContent {
             val pokemons by pokemonsListViewModel.pokemonsState.collectAsState()
-            MainScreen(onClick = { Log.e("MainScreen", "FavoriteActionButton clicado!") }, pokemons,  -7815000)
+            MainScreen(onClick = { Log.e("MainScreen", "FavoriteActionButton clicado!") }, pokemons)
         }
 
 

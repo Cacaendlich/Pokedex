@@ -38,7 +38,7 @@ import com.example.pokedex.presenter.ui.theme.White
 import com.example.pokedex.presenter.ui.theme.Yellow
 
 @Composable
-fun MainScreen(onClick: () -> Unit, pokemons: List<Pokemon>, color: Int) {
+fun MainScreen(onClick: () -> Unit, pokemons: List<Pokemon>) {
     val context = LocalContext.current
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
@@ -56,10 +56,7 @@ fun MainScreen(onClick: () -> Unit, pokemons: List<Pokemon>, color: Int) {
     ) {
         HeadingPokedex(context = context)
         Box{
-            PokemonList(
-                pokemons = pokemons,
-                color = color
-            )
+            PokemonList(pokemons = pokemons)
             FavoriteActionButton(
                 onClick = onClick,
                 modifier = Modifier
