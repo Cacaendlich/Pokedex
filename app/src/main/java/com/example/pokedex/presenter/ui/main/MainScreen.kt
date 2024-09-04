@@ -41,7 +41,6 @@ fun MainScreen(
     pokemons: List<Pokemon>,
     onPokemonImageClick: (Pokemon) -> Unit,
     onLoadMore: () -> Unit,
-    onIsFavorite: () -> Unit,
     onUpdateFavoritesList: (Pokemon) -> Unit,
 ) {
     Column(
@@ -60,7 +59,7 @@ fun MainScreen(
     ) {
         HeadingPokedex()
         Box{
-            PokemonList(pokemons = pokemons, onPokemonImageClick = onPokemonImageClick, onLoadMore =  onLoadMore, onIsFavorite = onIsFavorite, onUpdateFavoritesList = onUpdateFavoritesList)
+            PokemonList(pokemons = pokemons, onPokemonImageClick = onPokemonImageClick, onLoadMore =  onLoadMore, onUpdateFavoritesList = onUpdateFavoritesList)
             FavoriteActionButton(
                 onClick = onClick,
                 modifier = Modifier

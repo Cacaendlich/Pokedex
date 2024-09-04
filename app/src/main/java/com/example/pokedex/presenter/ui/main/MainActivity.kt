@@ -55,7 +55,6 @@ class MainActivity : AppCompatActivity() {
                 pokemons = pokemons,
                 onPokemonImageClick = {pokemon -> goToDetailActivity(pokemon)},
                 onLoadMore = { pokemonsListViewModel.loadMorePokemons()},
-                onIsFavorite = {},
                 onUpdateFavoritesList = { pokemon ->
                     favoriteListPokemonViewModel.updateFavoritesList(pokemon, mFavoriteList)
                 }
