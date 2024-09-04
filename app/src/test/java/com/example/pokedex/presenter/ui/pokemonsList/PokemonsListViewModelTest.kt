@@ -1,12 +1,12 @@
 package com.example.pokedex.presenter.ui.pokemonsList
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Observer
 import com.example.pokedex.data.model.PokemonType
 import com.example.pokedex.data.model.Type
 import com.example.pokedex.data.repository.api.PokemonApiRepository
 import com.example.pokedex.domain.model.Pokemon
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -15,7 +15,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.Mockito.anyInt
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
@@ -28,10 +27,6 @@ class PokemonsListViewModelTest {
 
     @Mock
     private lateinit var pokemonRepository: PokemonApiRepository
-    @Mock
-    private lateinit var observer: Observer<List<Pokemon?>>
-    @Mock
-    private lateinit var isLoginObserver: Observer<Boolean>
 
     private val grassType = PokemonType(slot = 1, type = Type(name = "grass"))
     private val poisonType = PokemonType(slot = 2, type = Type(name = "poison"))
@@ -71,14 +66,10 @@ class PokemonsListViewModelTest {
     fun setUp() {
         MockitoAnnotations.openMocks(this)
         viewModel = PokemonsListViewModel(pokemonRepository)
-        viewModel.pokemonsState.observeForever(observer)
-        viewModel.isLoading.observeForever(isLoginObserver)
     }
 
     @After
     fun tearDown() {
-        viewModel.pokemonsState.removeObserver(observer)
-        viewModel.isLoading.removeObserver(isLoginObserver)
     }
 
     @Test
@@ -93,7 +84,7 @@ class PokemonsListViewModelTest {
 
         viewModel.loadInitialPokemons()
 
-        Assert.assertEquals(listMock, viewModel.pokemonsState.value)
+        Assert.assertEquals(listMock, viewModel.pokemonsState.first())
     }
     @Test
     fun `test initial load of pokemons emptyList`() = runTest {
@@ -101,7 +92,7 @@ class PokemonsListViewModelTest {
 
         viewModel.loadInitialPokemons()
 
-        Assert.assertEquals(emptyList<Pokemon>(), viewModel.pokemonsState.value)
+        Assert.assertEquals(emptyList<Pokemon>(), viewModel.pokemonsState.first())
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -116,16 +107,16 @@ class PokemonsListViewModelTest {
         )
         val expectedUpdatedList = initialList + additionalItens
 
-        `when`(pokemonRepository.listPokemons(14, 0)).thenReturn(initialList)
-        `when`(pokemonRepository.listPokemons(14, initialList.size)).thenReturn(additionalItens)
+        `when`(pokemonRepository.listPokemons(20, 0)).thenReturn(initialList)
+        `when`(pokemonRepository.listPokemons(20, initialList.size)).thenReturn(additionalItens)
 
-        viewModel.pokemonsState.postValue(initialList)
+        viewModel.loadInitialPokemons()
         viewModel.loadMorePokemons()
 
         advanceUntilIdle()
         //avançar o tempo até que todas as coroutines pendentes tenham concluído a execução
 
-        Assert.assertEquals(expectedUpdatedList, viewModel.pokemonsState.value)
+        Assert.assertEquals(expectedUpdatedList, viewModel.pokemonsState.first())
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -136,15 +127,13 @@ class PokemonsListViewModelTest {
             fakePokemon2
         )
 
-        `when`(pokemonRepository.listPokemons(14, 0)).thenReturn(initialList)
+        `when`(pokemonRepository.listPokemons(20, 0)).thenReturn(initialList)
 
         viewModel.refreshPokemons()
 
         advanceUntilIdle()
 
-        Mockito.verify(isLoginObserver).onChanged(true)
-
-        Assert.assertEquals(initialList, viewModel.pokemonsState.value)
+        Assert.assertEquals(initialList, viewModel.pokemonsState.first())
 
     }
 }
