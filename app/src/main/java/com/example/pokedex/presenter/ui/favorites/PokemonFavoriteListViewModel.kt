@@ -76,9 +76,9 @@ class PokemonFavoriteListViewModel(
     fun updateFavoritesList(pokemon: Pokemon, favoriteList: List<PokemonEntity>) {
         val pokemonFavorite = PokemonEntity(pokemon.number, pokemon.name)
 
-        val isFavorite = isFavorite(favoriteList, pokemon)
+        val isFavorite = favoriteList.any { it.name == pokemon.name }
 
-        if (!isFavorite && !pokemon.favorite  || isFavorite && !pokemon.favorite) {
+        if (!isFavorite) {
             addFavorite(pokemonFavorite)
         } else {
             deleteFavorite(pokemon.number)
