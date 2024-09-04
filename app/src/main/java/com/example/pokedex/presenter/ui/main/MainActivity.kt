@@ -34,7 +34,10 @@ class MainActivity : AppCompatActivity() {
 
         setContent {
             val pokemons by pokemonsListViewModel.pokemonsState.collectAsState()
-            MainScreen(onClick = { Log.e("MainScreen", "FavoriteActionButton clicado!") }, pokemons, {pokemon -> goToDetailActivity(pokemon)})
+            MainScreen(onClick = {
+                Log.e("MainScreen", "FavoriteActionButton clicado!") },
+                pokemons,
+                {pokemon -> goToDetailActivity(pokemon)})
         }
 
     }
