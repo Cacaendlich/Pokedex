@@ -38,7 +38,8 @@ class MainActivity : AppCompatActivity() {
                 onClick = { Log.e("MainScreen", "FavoriteActionButton clicado!") },
                 pokemons = pokemons,
                 onPokemonImageClick = {pokemon -> goToDetailActivity(pokemon)},
-                onLoadMore = {Log.e("MainScreen", "Fim da lista!") } )
+                onLoadMore = { pokemonsListViewModel.loadMorePokemons()}
+            )
         }
 
     }
