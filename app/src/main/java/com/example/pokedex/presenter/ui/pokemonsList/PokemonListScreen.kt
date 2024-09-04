@@ -44,7 +44,14 @@ import kotlinx.coroutines.withContext
 
 
 @Composable
-fun PokemonList(pokemons: List<Pokemon>, onPokemonImageClick: (Pokemon) -> Unit, onLoadMore: () -> Unit) {
+fun PokemonList(
+    pokemons: List<Pokemon>,
+    onPokemonImageClick: (Pokemon) -> Unit,
+    onLoadMore: () -> Unit,
+    onIsFavorite: () -> Unit,
+    onUpdateFavoritesList: (Pokemon) -> Unit,
+)
+{
 
    LazyVerticalGrid(
        columns = GridCells.Fixed(2),
@@ -52,7 +59,7 @@ fun PokemonList(pokemons: List<Pokemon>, onPokemonImageClick: (Pokemon) -> Unit,
            .fillMaxSize()
    ) {
        items(pokemons.size){ index->
-           PokemonItem(pokemon = pokemons[index], onPokemonImageClick = onPokemonImageClick)
+           PokemonItem(pokemon = pokemons[index], onPokemonImageClick = onPokemonImageClick, onUpdateFavoritesList = onUpdateFavoritesList)
 
            if (index == pokemons.size -1){
                onLoadMore()
@@ -64,7 +71,7 @@ fun PokemonList(pokemons: List<Pokemon>, onPokemonImageClick: (Pokemon) -> Unit,
 
 @OptIn(ExperimentalGlideComposeApi::class, ExperimentalFoundationApi::class)
 @Composable
-fun PokemonItem(pokemon: Pokemon, onPokemonImageClick: (Pokemon) -> Unit){
+fun PokemonItem(pokemon: Pokemon, onPokemonImageClick: (Pokemon) -> Unit, onUpdateFavoritesList: (Pokemon) -> Unit){
     val context = LocalContext.current
     val defaultColor = Color.White
     val dominantColor = remember { mutableStateOf(defaultColor) }
@@ -107,13 +114,14 @@ fun PokemonItem(pokemon: Pokemon, onPokemonImageClick: (Pokemon) -> Unit){
                 .padding(5.dp)
         ) {
             Image(
-                painter = painterResource(id = R.drawable.favorite_off),
-                contentDescription = "heart whith empty, favorite off",
+                painter = painterResource(id = if (pokemon.favorite) R.drawable.favorite_off else R.drawable.favorite_on ),
+                contentDescription = if (pokemon.favorite) "white filled heart icon, favorite enabled"
+                else "white bordered heart icon with empty center, favorite disabled",
                 modifier = Modifier
                     .align(Alignment.End)
                     .size(50.dp)
                     .padding(horizontal = 6.dp)
-                    .clickable { Log.e("PokemonList", "favoriteIcon clicado!") }
+                    .clickable { onUpdateFavoritesList(pokemon)}
 
             )
             GlideImage(

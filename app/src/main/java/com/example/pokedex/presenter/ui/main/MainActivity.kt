@@ -8,18 +8,22 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.ViewModelProvider
+import com.example.pokedex.data.local.model.PokemonEntity
 import com.example.pokedex.data.network.RetrofitClient
 import com.example.pokedex.data.repository.api.PokemonApiRepositoryImpl
 import com.example.pokedex.data.repository.local.PokemonLocalRepositoryImpl
 import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presenter.ui.details.PokemonDetailActivity
 import com.example.pokedex.presenter.ui.factory.PokemonsViewModelFactory
+import com.example.pokedex.presenter.ui.favorites.PokemonFavoriteListViewModel
 import com.example.pokedex.presenter.ui.pokemonsList.PokemonsListViewModel
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var pokemonsListViewModel: PokemonsListViewModel
+    private lateinit var favoriteListPokemonViewModel: PokemonFavoriteListViewModel
+    private lateinit var mFavoriteList: List<PokemonEntity>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +35,18 @@ class MainActivity : AppCompatActivity() {
         val factory = PokemonsViewModelFactory(pokemonApiRepository, pokemonLocalRepository)
 
         pokemonsListViewModel = ViewModelProvider(this, factory)[PokemonsListViewModel::class.java]
+        favoriteListPokemonViewModel = ViewModelProvider(this, factory) [PokemonFavoriteListViewModel::class.java]
+
+        favoriteListPokemonViewModel.loadFavorites()
+
+        favoriteListPokemonViewModel.favoriteList.observe(this) { favoriteList ->
+            mFavoriteList = favoriteList
+            Log.d(
+                "MainActivty",
+                "A lista de favoritos foi atualizada para: $favoriteList"
+            )
+            favoriteListPokemonViewModel.loadAndFilterPokemonsFromFavoriteList(mFavoriteList)
+        }
 
         setContent {
             val pokemons by pokemonsListViewModel.pokemonsState.collectAsState()
@@ -38,7 +54,11 @@ class MainActivity : AppCompatActivity() {
                 onClick = { Log.e("MainScreen", "FavoriteActionButton clicado!") },
                 pokemons = pokemons,
                 onPokemonImageClick = {pokemon -> goToDetailActivity(pokemon)},
-                onLoadMore = { pokemonsListViewModel.loadMorePokemons()}
+                onLoadMore = { pokemonsListViewModel.loadMorePokemons()},
+                onIsFavorite = {},
+                onUpdateFavoritesList = { pokemon ->
+                    favoriteListPokemonViewModel.updateFavoritesList(pokemon, mFavoriteList)
+                }
             )
         }
 
