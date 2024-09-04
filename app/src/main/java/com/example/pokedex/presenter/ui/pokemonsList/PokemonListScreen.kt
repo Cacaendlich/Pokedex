@@ -44,7 +44,7 @@ import kotlinx.coroutines.withContext
 
 
 @Composable
-fun PokemonList(pokemons: List<Pokemon>, onPokemonImageClick: (Pokemon) -> Unit) {
+fun PokemonList(pokemons: List<Pokemon>, onPokemonImageClick: (Pokemon) -> Unit, onLoadMore: () -> Unit) {
 
    LazyVerticalGrid(
        columns = GridCells.Fixed(2),
@@ -54,7 +54,11 @@ fun PokemonList(pokemons: List<Pokemon>, onPokemonImageClick: (Pokemon) -> Unit)
        items(pokemons.size){ index->
            PokemonItem(pokemon = pokemons[index], onPokemonImageClick = onPokemonImageClick)
 
+           if (index == pokemons.size -1){
+               onLoadMore()
+           }
        }
+
    }
 }
 

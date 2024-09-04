@@ -36,7 +36,7 @@ import com.example.pokedex.presenter.ui.theme.White
 import com.example.pokedex.presenter.ui.theme.Yellow
 
 @Composable
-fun MainScreen(onClick: () -> Unit, pokemons: List<Pokemon>, onPokemonImageClick: (Pokemon) -> Unit) {
+fun MainScreen(onClick: () -> Unit, pokemons: List<Pokemon>, onPokemonImageClick: (Pokemon) -> Unit, onLoadMore: () -> Unit) {
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -53,7 +53,7 @@ fun MainScreen(onClick: () -> Unit, pokemons: List<Pokemon>, onPokemonImageClick
     ) {
         HeadingPokedex()
         Box{
-            PokemonList(pokemons = pokemons, onPokemonImageClick = onPokemonImageClick)
+            PokemonList(pokemons = pokemons, onPokemonImageClick = onPokemonImageClick, onLoadMore =  onLoadMore)
             FavoriteActionButton(
                 onClick = onClick,
                 modifier = Modifier

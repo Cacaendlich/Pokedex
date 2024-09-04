@@ -13,7 +13,7 @@ class PokemonsListViewModel(
     private var pokemonRepository: PokemonApiRepository
 ) : ViewModel() {
     companion object {
-        private const val LIMIT = 50
+        private const val LIMIT = 20
         private const val OFFSET = 0
     }
 
