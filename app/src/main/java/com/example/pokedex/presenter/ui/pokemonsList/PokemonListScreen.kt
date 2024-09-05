@@ -113,8 +113,8 @@ fun PokemonItem(pokemon: Pokemon, onPokemonImageClick: (Pokemon) -> Unit, onUpda
                 .padding(5.dp)
         ) {
             Image(
-                painter = painterResource(id = R.drawable.favorite_off),
-                contentDescription = "white bordered heart icon with empty center, favorite disabled",
+                painter = painterResource(id = if (pokemon.favorite) R.drawable.favorite_on else R.drawable.favorite_off),
+                contentDescription = if (pokemon.favorite) "white filled heart icon, favorite enabled" else "white bordered heart icon with empty center, favorite disabled",
                 modifier = Modifier
                     .align(Alignment.End)
                     .size(50.dp)

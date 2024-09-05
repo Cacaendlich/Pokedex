@@ -1,5 +1,6 @@
 package com.example.pokedex.presenter.ui.favorites
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -21,8 +22,8 @@ class PokemonFavoriteListViewModel(
     fun loadFavorites() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val pokemonEntities = pokemonLocalRepository.getAllPokemons()
-                val favorites = pokemonEntities
+                val allPokemonsFavorites = pokemonLocalRepository.getAllPokemons()
+                val favorites = allPokemonsFavorites
                     .map { pokemonEntity ->
                         PokemonEntity(pokemonEntity.pokemonId, pokemonEntity.name)
                     }
@@ -45,6 +46,7 @@ class PokemonFavoriteListViewModel(
 
             for (pokemon in loadPokemons){
                 if (favoriteList.any{ it.name == pokemon.name }){
+                    pokemon.favorite = true
                     filteredPokemons.add(pokemon)
                     if (filteredPokemons.size == favoriteList.size){
                         break
@@ -52,6 +54,7 @@ class PokemonFavoriteListViewModel(
                 }
             }
 
+            Log.e("PokemonFavoriteListViewModel", "$filteredPokemons")
             pokemonsState.postValue(filteredPokemons)
 
         }

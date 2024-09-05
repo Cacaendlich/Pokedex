@@ -1,6 +1,5 @@
 package com.example.pokedex.presenter.ui.pokemonsList
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pokedex.data.repository.api.PokemonApiRepository

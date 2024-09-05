@@ -50,9 +50,18 @@ class MainActivity : AppCompatActivity() {
 
         setContent {
             val pokemons by pokemonsListViewModel.pokemonsState.collectAsState()
+
+            val updatePokemon = pokemons.map { pokemon ->
+                if (mFavoriteList.any{it.name == pokemon.name}){
+                    pokemon.copy(favorite = true)
+                } else{
+                    pokemon.copy(favorite = false)
+                }
+            }
+
             MainScreen(
                 onClick = { Log.e("MainScreen", "FavoriteActionButton clicado!") },
-                pokemons = pokemons,
+                pokemons = updatePokemon,
                 onPokemonImageClick = {pokemon -> goToDetailActivity(pokemon)},
                 onLoadMore = { pokemonsListViewModel.loadMorePokemons()},
                 onUpdateFavoritesList = { pokemon ->
