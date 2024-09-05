@@ -61,7 +61,7 @@ class PokemonFavoriteListFragment : Fragment(), PokemonAdapter.OnItemClickListen
         val factory = PokemonsViewModelFactory(pokemonApiRepository, pokemonLocalRepository)
 
         favoriteListViewModel = ViewModelProvider(requireActivity(), factory)[PokemonFavoriteListViewModel::class.java]
-        favoriteListViewModel.loadFavorites()
+//        favoriteListViewModel.loadFavorites()
 
         favoriteListViewModel.favoriteList.observe(viewLifecycleOwner) { favorites ->
             mfavoriteList = favorites
@@ -95,7 +95,7 @@ class PokemonFavoriteListFragment : Fragment(), PokemonAdapter.OnItemClickListen
 
         pokemons.forEach { pokemon ->
             pokemon?.let {
-                it.favorite = favoriteListViewModel.isFavorite(mfavoriteList, it)
+//                it.favorite = favoriteListViewModel.isFavorite(mfavoriteList, it)
             }
         }
 
@@ -116,7 +116,7 @@ class PokemonFavoriteListFragment : Fragment(), PokemonAdapter.OnItemClickListen
     override fun onFavoriteClick(position: Int, imageView: ImageView) {
         val pokemon = mPokemonAdapter.mPokemonList[position]
         pokemon?.let {
-            favoriteListViewModel.removeFavorite(it)
+//            favoriteListViewModel.removeFavorite(it)
         }
     }
 

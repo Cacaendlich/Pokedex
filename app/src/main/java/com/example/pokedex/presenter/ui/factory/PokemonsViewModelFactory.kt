@@ -18,7 +18,7 @@ class PokemonsViewModelFactory(
 
         return when {
             modelClass.isAssignableFrom(PokemonsListViewModel::class.java) -> {
-                PokemonsListViewModel(pokemonRepository) as T
+                PokemonsListViewModel(pokemonRepository, pokemonLocalRepository) as T
             }
             modelClass.isAssignableFrom(PokemonFavoriteListViewModel::class.java) -> {
                 PokemonFavoriteListViewModel(pokemonRepository, pokemonLocalRepository) as T

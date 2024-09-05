@@ -1,8 +1,11 @@
 package com.example.pokedex.presenter.ui.pokemonsList
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.pokedex.data.local.model.PokemonEntity
 import com.example.pokedex.data.repository.api.PokemonApiRepository
+import com.example.pokedex.data.repository.local.PokemonLocalRepository
 import com.example.pokedex.domain.model.Pokemon
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,7 +13,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class PokemonsListViewModel(
-    private var pokemonRepository: PokemonApiRepository
+    private var pokemonRepository: PokemonApiRepository,
+    private var pokemonLocalRepository: PokemonLocalRepository
+
 ) : ViewModel() {
     companion object {
         private const val LIMIT = 20
@@ -63,4 +68,63 @@ class PokemonsListViewModel(
     private fun handleError(e: Exception): Nothing {
         throw RuntimeException("Error loading pokemons: ${e.message}", e)
     }
+
+
+    // favorites metode
+
+
+    var favoriteList = MutableLiveData<List<PokemonEntity>>()
+
+    fun loadFavorites() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val allPokemonsFavorites = pokemonLocalRepository.getAllPokemons()
+                val favorites = allPokemonsFavorites
+                    .map { pokemonEntity ->
+                        PokemonEntity(pokemonEntity.pokemonId, pokemonEntity.name)
+                    }
+
+                favoriteList.postValue(favorites)
+            } catch (e: Exception) {
+                // Tratar exceção, se necessário
+                favoriteList.postValue(emptyList())
+            }
+        }
+    }
+
+    private fun addFavorite(pokemon: PokemonEntity) {
+        viewModelScope.launch(Dispatchers.IO) {
+            pokemonLocalRepository.addFavorite(pokemon)
+        }
+    }
+
+    private fun deleteFavorite(pokemonId: Int) {
+        viewModelScope.launch(Dispatchers.IO){
+            pokemonLocalRepository.deleteFavorite(pokemonId)
+        }
+    }
+
+    suspend fun updateFavoritesList(pokemon: Pokemon, favoriteList: List<PokemonEntity>) {
+        val pokemonFavorite = PokemonEntity(pokemon.number, pokemon.name)
+
+        val isFavorite = favoriteList.any { it.name == pokemon.name }
+
+        if (!isFavorite) {
+            addFavorite(pokemonFavorite)
+            loadInitialPokemons()
+        } else {
+            deleteFavorite(pokemon.number)
+            loadInitialPokemons()
+        }
+
+        _pokemonsState.value = _pokemonsState.value.map {
+            if (it.name == pokemon.name){
+                it.copy(favorite = !isFavorite)
+            } else{
+                it
+            }
+        }
+    }
+
+
 }

@@ -19,22 +19,22 @@ class PokemonFavoriteListViewModel(
 
     var favoriteList = MutableLiveData<List<PokemonEntity>>()
 
-    fun loadFavorites() {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val allPokemonsFavorites = pokemonLocalRepository.getAllPokemons()
-                val favorites = allPokemonsFavorites
-                    .map { pokemonEntity ->
-                        PokemonEntity(pokemonEntity.pokemonId, pokemonEntity.name)
-                    }
-
-                favoriteList.postValue(favorites)
-            } catch (e: Exception) {
-                // Tratar exceção, se necessário
-                favoriteList.postValue(emptyList())
-            }
-        }
-    }
+//    fun loadFavorites() {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            try {
+//                val allPokemonsFavorites = pokemonLocalRepository.getAllPokemons()
+//                val favorites = allPokemonsFavorites
+//                    .map { pokemonEntity ->
+//                        PokemonEntity(pokemonEntity.pokemonId, pokemonEntity.name)
+//                    }
+//
+//                favoriteList.postValue(favorites)
+//            } catch (e: Exception) {
+//                // Tratar exceção, se necessário
+//                favoriteList.postValue(emptyList())
+//            }
+//        }
+//    }
 
     fun loadAndFilterPokemonsFromFavoriteList(favoriteList: List<PokemonEntity>) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -60,32 +60,32 @@ class PokemonFavoriteListViewModel(
         }
     }
 
-    private fun addFavorite(pokemon: PokemonEntity) {
-        viewModelScope.launch(Dispatchers.IO) {
-            pokemonLocalRepository.addFavorite(pokemon)
-        }
-    }
+//    private fun addFavorite(pokemon: PokemonEntity) {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            pokemonLocalRepository.addFavorite(pokemon)
+//        }
+//    }
+//
+//     private fun deleteFavorite(pokemonId: Int) {
+//        viewModelScope.launch(Dispatchers.IO){
+//            pokemonLocalRepository.deleteFavorite(pokemonId)
+//        }
+//    }
+//
+//    fun isFavorite(favoriteList: List<PokemonEntity>, pokemon: Pokemon): Boolean = favoriteList.any { it.name == pokemon.name }
+//
+//    fun updateFavoritesList(pokemon: Pokemon, favoriteList: List<PokemonEntity>) {
+//        val pokemonFavorite = PokemonEntity(pokemon.number, pokemon.name)
+//
+//        val isFavorite = favoriteList.any { it.name == pokemon.name }
+//
+//        if (!isFavorite) {
+//            addFavorite(pokemonFavorite)
+//        } else {
+//            deleteFavorite(pokemon.number)
+//        }
+//    }
 
-     private fun deleteFavorite(pokemonId: Int) {
-        viewModelScope.launch(Dispatchers.IO){
-            pokemonLocalRepository.deleteFavorite(pokemonId)
-        }
-    }
-
-    fun isFavorite(favoriteList: List<PokemonEntity>, pokemon: Pokemon): Boolean = favoriteList.any { it.name == pokemon.name }
-
-    fun updateFavoritesList(pokemon: Pokemon, favoriteList: List<PokemonEntity>) {
-        val pokemonFavorite = PokemonEntity(pokemon.number, pokemon.name)
-
-        val isFavorite = favoriteList.any { it.name == pokemon.name }
-
-        if (!isFavorite) {
-            addFavorite(pokemonFavorite)
-        } else {
-            deleteFavorite(pokemon.number)
-        }
-    }
-
-    fun removeFavorite(pokemon: Pokemon) = viewModelScope.launch(Dispatchers.IO) { deleteFavorite(pokemon.number) }
+//    fun removeFavorite(pokemon: Pokemon) = viewModelScope.launch(Dispatchers.IO) { deleteFavorite(pokemon.number) }
 
 }
