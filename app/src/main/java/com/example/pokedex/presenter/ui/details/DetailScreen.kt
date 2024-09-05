@@ -4,15 +4,16 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -22,6 +23,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,7 +37,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Blue
 import androidx.compose.ui.graphics.Color.Companion.Green
-import androidx.compose.ui.graphics.Color.Companion.Yellow
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.toArgb
@@ -64,6 +65,7 @@ import com.example.pokedex.presenter.ui.details.ui.theme.PokedexTheme
 import com.example.pokedex.presenter.ui.theme.Black
 import com.example.pokedex.presenter.ui.theme.Red
 import com.example.pokedex.presenter.ui.theme.White
+import com.example.pokedex.presenter.ui.theme.Yellow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -206,7 +208,7 @@ fun Heading(context: Context, pokemon: Pokemon){
                 .size(30.dp)
                 .clickable {
                     Log.e("ClickableImage", "Imagem clicada!")
-                    if (context is Activity){
+                    if (context is Activity) {
                         context.finish()
                     }
 
@@ -226,6 +228,26 @@ fun Heading(context: Context, pokemon: Pokemon){
 
 @Composable
 fun HorizontalProgressIndicator(progress: Int, stat: String){
+    val progressState = remember { Animatable(0f) }
+
+    LaunchedEffect(key1 = progress) {
+        progressState.animateTo(
+            targetValue = progress.toFloat(),
+            animationSpec = tween(
+                durationMillis = 1000,  // duração da animação
+                delayMillis = 500,      // atraso antes de começar
+                easing = FastOutSlowInEasing
+            )
+        )
+    }
+
+    val statColor = when (stat) {
+        "hp" -> Blue
+        "attack" -> Green
+        "defense" -> Red
+        "speed" -> Yellow
+        else -> Black
+    }
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(
@@ -233,50 +255,36 @@ fun HorizontalProgressIndicator(progress: Int, stat: String){
             alignment = Alignment.CenterHorizontally
         ),
         modifier = Modifier
-            .width(320.dp) // Ajuste a largura da barra aqui
+            .width(300.dp) // Ajuste a largura da barra aqui
             .height(30.dp)
             .padding(4.dp)
     ) {
         Text(
             text = when(stat){
-                "hp" -> "HP "
-                "attack" -> "ATK"
-                "defense" -> "DEF"
-                "speed" -> "SPD"
+                "hp" -> "HP   "
+                "attack" -> "ATK "
+                "defense" -> "DEF "
+                "speed" -> "SPD "
                 else -> ""
             },
             color = White
         )
 
-        Box(
+        LinearProgressIndicator(
+            progress = { progressState.value / 100F },
             modifier = Modifier
-                .height(20.dp) // Altura máxima da barra
-                .width(200.dp) // Largura da barra
-                .background(White, shape = RoundedCornerShape(8.dp)) // Cor de fundo da barra
-                .clip(RoundedCornerShape(8.dp)) // Bordas arredondadas
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxHeight() // Altura do progresso
-                    .fillMaxWidth((progress.toFloat()) / 100)
-                    .clip(RoundedCornerShape(8.dp))
-                    .align(Alignment.BottomStart)
-                    .background(
-                        color = when (stat) {
-                            "hp" -> Blue
-                            "attack" -> Green
-                            "defense" -> Red
-                            "speed" -> Yellow
-                            else -> Black
-                        }
-                    )
-            )
-        }
+                .fillMaxSize()
+                .weight(1F)
+                .clip(RoundedCornerShape(10.dp))
+                .padding(vertical = 2.dp)
+                .background(statColor.copy(alpha = 0.3f)),
+            color = statColor,
+        )
 
         Text(
-            text = progress.toString(),
-            color = White
-        )
+            text = if (progress < 99) "  $progress" else "$progress",
+            color = White,
+            )
 
     }
 
