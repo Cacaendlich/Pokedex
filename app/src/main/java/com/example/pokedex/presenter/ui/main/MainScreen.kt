@@ -37,7 +37,7 @@ import com.example.pokedex.presenter.ui.theme.Yellow
 
 @Composable
 fun MainScreen(
-    onClick: () -> Unit,
+    onFavoriteList: () -> Unit,
     pokemons: List<Pokemon>,
     onPokemonImageClick: (Pokemon) -> Unit,
     onLoadMore: () -> Unit,
@@ -61,7 +61,7 @@ fun MainScreen(
         Box{
             PokemonList(pokemons = pokemons, onPokemonImageClick = onPokemonImageClick, onLoadMore =  onLoadMore, onUpdateFavoritesList = onUpdateFavoritesList)
             FavoriteActionButton(
-                onClick = onClick,
+                onClick = onFavoriteList,
                 modifier = Modifier
                     .padding(vertical = 10.dp, horizontal = 10.dp)
                     .align(Alignment.BottomEnd)
