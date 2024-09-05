@@ -63,14 +63,12 @@ class PokemonFavoriteListViewModel(
     private fun addFavorite(pokemon: PokemonEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             pokemonLocalRepository.addFavorite(pokemon)
-            loadFavorites()
         }
     }
 
      private fun deleteFavorite(pokemonId: Int) {
         viewModelScope.launch(Dispatchers.IO){
             pokemonLocalRepository.deleteFavorite(pokemonId)
-            loadFavorites()
         }
     }
 
