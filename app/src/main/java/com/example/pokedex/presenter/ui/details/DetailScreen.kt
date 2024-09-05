@@ -297,7 +297,6 @@ private fun cropCenteredBitmap(bitmap: Bitmap): Bitmap {
     val cropRight = bitmap.width * 3 / 4  // 75% da largura da imagem original
     val cropBottom = bitmap.height * 3 / 4  // 75% da altura da imagem original
 
-    // Recortar a imagem
     return Bitmap.createBitmap(bitmap, cropLeft, cropTop, cropRight - cropLeft, cropBottom - cropTop)
 }
 

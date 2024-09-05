@@ -3,7 +3,6 @@ package com.example.pokedex.presenter.ui.login
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -44,21 +43,18 @@ fun LoginScreen(
     onPasswordChanged: (String) -> Unit,
     onLoginClick: () -> Unit
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
-                Brush.verticalGradient(
-                    listOf(Red, Yellow),
-                    startY = 1300.0f, //indica que o gradiente começará a partir de 1300 pixels na direção vertical da tela.
-                    endY = Float.POSITIVE_INFINITY, //o gradiente se estenderá até o final do contêiner
-                    tileMode = TileMode.Clamp //garante que o gradiente não se repita, mas se estenda conforme necessário para preencher o espaço disponível
-                )
-            )
-    ) {
+
         Column(
             Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .background(
+                    Brush.verticalGradient(
+                        listOf(Red, Yellow),
+                        startY = 1300.0f, //indica que o gradiente começará a partir de 1300 pixels na direção vertical da tela.
+                        endY = Float.POSITIVE_INFINITY, //o gradiente se estenderá até o final do contêiner
+                        tileMode = TileMode.Clamp //garante que o gradiente não se repita, mas se estenda conforme necessário para preencher o espaço disponível
+                    )
+                ),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(
                 space = 16.dp,
@@ -91,7 +87,7 @@ fun LoginScreen(
 
             ButtonLogin (onClick = onLoginClick)
         }
-    }
+
 }
 
 @Composable
