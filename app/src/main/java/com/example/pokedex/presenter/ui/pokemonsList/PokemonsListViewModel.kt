@@ -104,26 +104,29 @@ class PokemonsListViewModel(
         }
     }
 
-    suspend fun updateFavoritesList(pokemon: Pokemon, favoriteList: List<PokemonEntity>) {
-        val pokemonFavorite = PokemonEntity(pokemon.number, pokemon.name)
-
-        val isFavorite = favoriteList.any { it.name == pokemon.name }
-
-        if (!isFavorite) {
-            addFavorite(pokemonFavorite)
-            loadInitialPokemons()
-        } else {
-            deleteFavorite(pokemon.number)
-            loadInitialPokemons()
-        }
-
-        _pokemonsState.value = _pokemonsState.value.map {
-            if (it.name == pokemon.name){
-                it.copy(favorite = !isFavorite)
-            } else{
+    fun updateFavoritesList(pokemon: Pokemon) {
+        // Atualiza instantaneamente o estado do favorito na lista de Pokémons
+        val updatedPokemons = _pokemonsState.value.map {
+            if (it.name == pokemon.name) {
+                it.copy(favorite = !it.favorite) // Alterna o status de favorito
+            } else {
                 it
             }
         }
+
+        // Atualiza o estado com a lista modificada para refletir na UI imediatamente
+        _pokemonsState.value = updatedPokemons
+
+        val pokemonFavorite = PokemonEntity(pokemon.number, pokemon.name)
+
+        viewModelScope.launch {
+            if (!pokemon.favorite) {
+                addFavorite(pokemonFavorite)
+            } else {
+                deleteFavorite(pokemon.number)
+            }
+        }
+        loadFavorites()
     }
 
 

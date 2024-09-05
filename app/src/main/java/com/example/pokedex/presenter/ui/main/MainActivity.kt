@@ -15,14 +15,12 @@ import com.example.pokedex.data.repository.local.PokemonLocalRepositoryImpl
 import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presenter.ui.details.PokemonDetailActivity
 import com.example.pokedex.presenter.ui.factory.PokemonsViewModelFactory
-import com.example.pokedex.presenter.ui.favorites.PokemonFavoriteListViewModel
 import com.example.pokedex.presenter.ui.pokemonsList.PokemonsListViewModel
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var pokemonsListViewModel: PokemonsListViewModel
-    private lateinit var favoriteListPokemonViewModel: PokemonFavoriteListViewModel
     private lateinit var mFavoriteList: List<PokemonEntity>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,17 +33,15 @@ class MainActivity : AppCompatActivity() {
         val factory = PokemonsViewModelFactory(pokemonApiRepository, pokemonLocalRepository)
 
         pokemonsListViewModel = ViewModelProvider(this, factory)[PokemonsListViewModel::class.java]
-        favoriteListPokemonViewModel = ViewModelProvider(this, factory) [PokemonFavoriteListViewModel::class.java]
 
-        favoriteListPokemonViewModel.loadFavorites()
+        pokemonsListViewModel.loadFavorites()
 
-        favoriteListPokemonViewModel.favoriteList.observe(this) { favoriteList ->
+        pokemonsListViewModel.favoriteList.observe(this) { favoriteList ->
             mFavoriteList = favoriteList
             Log.d(
                 "MainActivty",
                 "A lista de favoritos foi atualizada para: $favoriteList"
             )
-            favoriteListPokemonViewModel.loadAndFilterPokemonsFromFavoriteList(mFavoriteList)
         }
 
         setContent {
@@ -65,7 +61,7 @@ class MainActivity : AppCompatActivity() {
                 onPokemonImageClick = {pokemon -> goToDetailActivity(pokemon)},
                 onLoadMore = { pokemonsListViewModel.loadMorePokemons()},
                 onUpdateFavoritesList = { pokemon ->
-                    favoriteListPokemonViewModel.updateFavoritesList(pokemon, mFavoriteList)
+                    pokemonsListViewModel.updateFavoritesList(pokemon)
                 }
             )
         }
