@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.pokedex.data.model.PokemonType
 import com.example.pokedex.data.model.Type
 import com.example.pokedex.data.repository.api.PokemonApiRepository
+import com.example.pokedex.data.repository.local.PokemonLocalRepository
 import com.example.pokedex.domain.model.Pokemon
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
@@ -27,6 +28,8 @@ class PokemonsListViewModelTest {
 
     @Mock
     private lateinit var pokemonRepository: PokemonApiRepository
+    @Mock
+    private lateinit var pokemonLocalRepository: PokemonLocalRepository
 
     private val grassType = PokemonType(slot = 1, type = Type(name = "grass"))
     private val poisonType = PokemonType(slot = 2, type = Type(name = "poison"))
@@ -65,7 +68,7 @@ class PokemonsListViewModelTest {
     @Before
     fun setUp() {
         MockitoAnnotations.openMocks(this)
-        viewModel = PokemonsListViewModel(pokemonRepository)
+        viewModel = PokemonsListViewModel(pokemonRepository, pokemonLocalRepository)
     }
 
     @After
@@ -119,21 +122,4 @@ class PokemonsListViewModelTest {
         Assert.assertEquals(expectedUpdatedList, viewModel.pokemonsState.first())
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    @Test
-    fun refreshPokemonsTest() = runTest{
-        val initialList = listOf(
-            fakePokemon,
-            fakePokemon2
-        )
-
-        `when`(pokemonRepository.listPokemons(20, 0)).thenReturn(initialList)
-
-        viewModel.refreshPokemons()
-
-        advanceUntilIdle()
-
-        Assert.assertEquals(initialList, viewModel.pokemonsState.first())
-
-    }
 }

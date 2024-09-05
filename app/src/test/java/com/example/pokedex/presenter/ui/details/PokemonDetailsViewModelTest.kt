@@ -1,6 +1,5 @@
 package com.example.pokedex.presenter.ui.details
 
-import android.widget.RelativeLayout
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.example.pokedex.data.model.PokemonType
@@ -33,8 +32,6 @@ class PokemonDetailsViewModelTest {
     private lateinit var observer: Observer<Pokemon?>
     @Mock
     private lateinit var pokemonRepository: PokemonApiRepository
-    @Mock
-    private lateinit var relativeLayout: RelativeLayout
 
     private val grassType = PokemonType(slot = 1, type = Type(name = "grass"))
     private val poisonType = PokemonType(slot = 2, type = Type(name = "poison"))
