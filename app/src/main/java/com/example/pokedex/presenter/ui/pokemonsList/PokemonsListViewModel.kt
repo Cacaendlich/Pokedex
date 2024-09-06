@@ -1,5 +1,6 @@
 package com.example.pokedex.presenter.ui.pokemonsList
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -21,9 +22,20 @@ class PokemonsListViewModel(
         private const val LIMIT = 20
         private const val OFFSET = 0
     }
+    var favoriteList = MutableLiveData<List<PokemonEntity>>()
 
-    private val _pokemonsState = MutableStateFlow<List<Pokemon>>(emptyList())
-    val pokemonsState: StateFlow<List<Pokemon>> = _pokemonsState
+    private val _pokemonAllState = MutableStateFlow<List<Pokemon>>(emptyList())
+    val pokemonsAllState: StateFlow<List<Pokemon>> = _pokemonAllState
+
+    private val _pokemonFavoriteState = MutableStateFlow<List<Pokemon>>(emptyList())
+    val pokemonsFavoriteState: StateFlow<List<Pokemon>> = _pokemonFavoriteState
+
+    private val _isFilteredView = MutableStateFlow(false)
+    val isFilteredView: StateFlow<Boolean> = _isFilteredView
+
+    fun updateTesteState(value: Boolean) {
+        _isFilteredView.value = value
+    }
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -33,7 +45,7 @@ class PokemonsListViewModel(
     suspend fun loadInitialPokemons() {
         try {
             val pokemonsList = pokemonRepository.listPokemons(LIMIT, OFFSET)
-            _pokemonsState.value = pokemonsList
+            _pokemonAllState.value = pokemonsList
 
         }catch (e: Exception) {
             handleError(e)
@@ -42,12 +54,12 @@ class PokemonsListViewModel(
     }
 
     fun loadMorePokemons() {
-        val currentOffset = pokemonsState.value.size
+        val currentOffset = pokemonsAllState.value.size
 
         viewModelScope.launch(Dispatchers.IO){
             try{
                 val pokemonList = pokemonRepository.listPokemons(LIMIT, currentOffset)
-                _pokemonsState.value += pokemonList
+                _pokemonAllState.value += pokemonList
             } catch (e: Exception) {
                 handleError(e)
             }
@@ -73,7 +85,6 @@ class PokemonsListViewModel(
     // favorites metode
 
 
-    var favoriteList = MutableLiveData<List<PokemonEntity>>()
 
     fun loadFavorites() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -92,9 +103,33 @@ class PokemonsListViewModel(
         }
     }
 
+    fun loadAndFilterPokemonsFromFavoriteList(favoriteList: List<PokemonEntity>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val limit = 1000
+            val offset = 0
+
+            val loadPokemons = pokemonRepository.listPokemons(limit, offset)
+            val filteredPokemons = mutableListOf<Pokemon>()
+
+            for (pokemon in loadPokemons){
+                if (favoriteList.any{ it.name == pokemon.name }){
+                    pokemon.favorite = true
+                    filteredPokemons.add(pokemon)
+                    if (filteredPokemons.size == favoriteList.size){
+                        break
+                    }
+                }
+            }
+
+            Log.e("PokemonFavoriteListViewModel", "$filteredPokemons")
+
+            _pokemonFavoriteState.value = filteredPokemons
+        }
+    }
+
     fun updateFavoritesList(pokemon: Pokemon) {
         // Atualiza instantaneamente o estado do favorito na lista de Pokémons
-        val updatedPokemons = _pokemonsState.value.map {
+        val updatedPokemons = _pokemonAllState.value.map {
             if (it.name == pokemon.name) {
                 it.copy(favorite = !it.favorite) // Alterna o status de favorito
             } else {
@@ -103,7 +138,7 @@ class PokemonsListViewModel(
         }
 
         // Atualiza o estado com a lista modificada para refletir na UI imediatamente
-        _pokemonsState.value = updatedPokemons
+        _pokemonAllState.value = updatedPokemons
 
         val pokemonFavorite = PokemonEntity(pokemon.number, pokemon.name)
 

@@ -40,23 +40,42 @@ class MainActivity : AppCompatActivity() {
             mFavoriteList = favoriteList
             Log.d(
                 "MainActivty",
-                "A lista de favoritos foi atualizada para: $favoriteList"
+                "A lista de favoritos foi atualizada para: ${favoriteList.map { it.name }}"
             )
+            pokemonsListViewModel.loadAndFilterPokemonsFromFavoriteList(mFavoriteList)
         }
 
-        setContent {
-            val pokemons by pokemonsListViewModel.pokemonsState.collectAsState()
 
-            val updatePokemon = pokemons.map { pokemon ->
-                if (mFavoriteList.any{it.name == pokemon.name}){
-                    pokemon.copy(favorite = true)
-                } else{
-                    pokemon.copy(favorite = false)
+        setContent {
+            val pokemons by pokemonsListViewModel.pokemonsAllState.collectAsState()
+
+            val favoritePokemons by pokemonsListViewModel.pokemonsFavoriteState.collectAsState()
+
+            val isFilteredView by pokemonsListViewModel.isFilteredView.collectAsState()
+
+            Log.d("MainActivity", "Lista de Pokémons Favoritos: ${favoritePokemons.map { it.name }}")
+            Log.d("MainActivity", "teste: $isFilteredView}")
+
+            val updatePokemon = if (!isFilteredView) {
+                pokemons.map { pokemon ->
+                    if (mFavoriteList.any { it.name == pokemon.name }) {
+                        pokemon.copy(favorite = true)
+                    } else {
+                        pokemon.copy(favorite = false)
+                    }
+                }
+            } else {
+                favoritePokemons.map { pokemon ->
+                    if (mFavoriteList.any { it.name == pokemon.name }) {
+                        pokemon.copy(favorite = true)
+                    } else {
+                        pokemon.copy(favorite = false)
+                    }
                 }
             }
 
             MainScreen(
-                onFavoriteList = { Log.e("MainScreen", "FavoriteActionButton clicado!") },
+                onFavoriteList = { pokemonsListViewModel.updateTesteState(true)},
                 pokemons = updatePokemon,
                 onPokemonImageClick = {pokemon -> goToDetailActivity(pokemon)},
                 onLoadMore = { pokemonsListViewModel.loadMorePokemons()},

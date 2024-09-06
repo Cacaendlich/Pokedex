@@ -69,7 +69,7 @@ class PokemonFavoriteListFragment : Fragment(), PokemonAdapter.OnItemClickListen
                 "PokemonsFavoriteListFragment",
                 "A lista de favoritos foi atualizada para: $favorites"
             )
-            favoriteListViewModel.loadAndFilterPokemonsFromFavoriteList(mfavoriteList)
+//            favoriteListViewModel.loadAndFilterPokemonsFromFavoriteList(mfavoriteList)
         }
 
         mfavoriteList = favoriteListViewModel.favoriteList.value ?: emptyList()

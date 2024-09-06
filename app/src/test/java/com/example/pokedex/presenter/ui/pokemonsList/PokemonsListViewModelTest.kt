@@ -87,7 +87,7 @@ class PokemonsListViewModelTest {
 
         viewModel.loadInitialPokemons()
 
-        Assert.assertEquals(listMock, viewModel.pokemonsState.first())
+        Assert.assertEquals(listMock, viewModel.pokemonsAllState.first())
     }
     @Test
     fun `test initial load of pokemons emptyList`() = runTest {
@@ -95,7 +95,7 @@ class PokemonsListViewModelTest {
 
         viewModel.loadInitialPokemons()
 
-        Assert.assertEquals(emptyList<Pokemon>(), viewModel.pokemonsState.first())
+        Assert.assertEquals(emptyList<Pokemon>(), viewModel.pokemonsAllState.first())
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -119,7 +119,7 @@ class PokemonsListViewModelTest {
         advanceUntilIdle()
         //avançar o tempo até que todas as coroutines pendentes tenham concluído a execução
 
-        Assert.assertEquals(expectedUpdatedList, viewModel.pokemonsState.first())
+        Assert.assertEquals(expectedUpdatedList, viewModel.pokemonsAllState.first())
     }
 
 }
