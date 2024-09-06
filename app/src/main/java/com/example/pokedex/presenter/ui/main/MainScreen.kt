@@ -20,8 +20,6 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -45,10 +43,8 @@ fun MainScreen(
     onPokemonImageClick: (Pokemon) -> Unit,
     onLoadMore: () -> Unit,
     onUpdateFavoritesList: (Pokemon) -> Unit,
-    isFilteredView: Boolean,
-    onSelectPokemons: (List<Pokemon>) -> Unit
+    isFilteredView: Boolean
 ) {
-
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -65,13 +61,7 @@ fun MainScreen(
     ) {
         HeadingPokedex()
         Box{
-            PokemonList(
-                pokemons = pokemons,
-                onPokemonImageClick = onPokemonImageClick,
-                onLoadMore =  onLoadMore,
-                onUpdateFavoritesList = onUpdateFavoritesList,
-                onSelectPokemons = onSelectPokemons
-            )
+            PokemonList(pokemons = pokemons, onPokemonImageClick = onPokemonImageClick, onLoadMore =  onLoadMore, onUpdateFavoritesList = onUpdateFavoritesList)
             FavoriteActionButton(
                 onFavoriteList = onFavoriteList,
                 isFilteredView = isFilteredView,
