@@ -29,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.pokedex.R
+import com.example.pokedex.presenter.ui.theme.Black
 import com.example.pokedex.presenter.ui.theme.Red
 import com.example.pokedex.presenter.ui.theme.Transparent
 import com.example.pokedex.presenter.ui.theme.White
@@ -49,7 +50,7 @@ fun LoginScreen(
                 .fillMaxSize()
                 .background(
                     Brush.verticalGradient(
-                        listOf(Red, Yellow),
+                        listOf(Red, Black),
                         startY = 1300.0f, //indica que o gradiente começará a partir de 1300 pixels na direção vertical da tela.
                         endY = Float.POSITIVE_INFINITY, //o gradiente se estenderá até o final do contêiner
                         tileMode = TileMode.Clamp //garante que o gradiente não se repita, mas se estenda conforme necessário para preencher o espaço disponível

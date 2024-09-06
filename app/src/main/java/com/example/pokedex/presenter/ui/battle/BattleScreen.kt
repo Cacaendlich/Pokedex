@@ -1,5 +1,6 @@
 package com.example.pokedex.presenter.ui.battle
 
+import android.graphics.Bitmap
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -21,6 +22,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,6 +36,8 @@ import androidx.compose.ui.graphics.Color.Companion.Green
 import androidx.compose.ui.graphics.Color.Companion.Yellow
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.TileMode
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -40,6 +46,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.palette.graphics.Palette
+import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.pokedex.R
@@ -70,6 +78,8 @@ import com.example.pokedex.presenter.ui.theme.Rock
 import com.example.pokedex.presenter.ui.theme.Steel
 import com.example.pokedex.presenter.ui.theme.Water
 import com.example.pokedex.presenter.ui.theme.White
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @Composable
 fun BattleScreen(pokemon1: Pokemon, pokemon2: Pokemon) {
@@ -79,9 +89,9 @@ fun BattleScreen(pokemon1: Pokemon, pokemon2: Pokemon) {
             .fillMaxSize()
             .background(
                 Brush.verticalGradient(
-                    listOf(Black, Red),
-                    startY = 1300.0f,
-                    endY = Float.POSITIVE_INFINITY,
+                    listOf(Black, White, Black),
+                    startY = 200.0f,
+                    endY = 2000.0f,
                     tileMode = TileMode.Clamp
                 )
             )
@@ -131,7 +141,40 @@ fun PokemonDetail(
     pokemon: Pokemon,
     showStar: Boolean = false
 ){
+    val context = LocalContext.current
+
+    val defaultColor = Color.White
+    val dominantColor = remember { mutableStateOf(defaultColor) }
+
+    LaunchedEffect(pokemon.imageUrl) {
+        withContext(Dispatchers.IO){
+            val bitmap = Glide.with(context)
+                .asBitmap()
+                .load(pokemon.imageUrl)
+                .submit()
+                .get()
+
+            // Recortar a imagem ao centro antes de extrair a cor dominante
+            val croppedBitmap = cropCenteredBitmap(bitmap)
+
+            withContext(Dispatchers.IO) {
+                extractDominantColor(croppedBitmap) { color ->
+                    dominantColor.value = Color(color)
+                }
+            }
+        }
+    }
     Column(
+        modifier = Modifier
+            .background(
+                Brush.verticalGradient(
+                    listOf(Black, dominantColor.value, Black),
+                    startY = 100.0f,
+                    endY = Float.POSITIVE_INFINITY,
+                    tileMode = TileMode.Clamp
+                )
+            ),
+
         verticalArrangement = Arrangement.spacedBy(
             space = 20.dp
         ),
@@ -339,6 +382,24 @@ fun isBatter(pokemon1: Pokemon, pokemon2: Pokemon): Boolean{
     }
 
     return competitor1 > competitor2
+}
+
+// Função para extrair a cor dominante usando Palette
+private fun extractDominantColor(bitmap: Bitmap, onColorExtracted: (Int) -> Unit) {
+    Palette.from(bitmap).generate { palette ->
+        val dominantColor = palette?.dominantSwatch?.rgb ?: Color.White.toArgb()
+        onColorExtracted(dominantColor)
+    }
+}
+
+private fun cropCenteredBitmap(bitmap: Bitmap): Bitmap {
+    // Determinar as dimensões do retângulo de recorte
+    val cropLeft = bitmap.width / 4  // 25% da largura da imagem original
+    val cropTop = bitmap.height / 4  // 25% da altura da imagem original
+    val cropRight = bitmap.width * 3 / 4  // 75% da largura da imagem original
+    val cropBottom = bitmap.height * 3 / 4  // 75% da altura da imagem original
+
+    return Bitmap.createBitmap(bitmap, cropLeft, cropTop, cropRight - cropLeft, cropBottom - cropTop)
 }
 
 // Mocked Pokemon data
