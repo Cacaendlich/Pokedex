@@ -7,12 +7,15 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModelProvider
 import com.example.pokedex.data.local.model.PokemonEntity
 import com.example.pokedex.data.network.RetrofitClient
 import com.example.pokedex.data.repository.api.PokemonApiRepositoryImpl
 import com.example.pokedex.data.repository.local.PokemonLocalRepositoryImpl
 import com.example.pokedex.domain.model.Pokemon
+import com.example.pokedex.presenter.ui.battle.BattleActivity
 import com.example.pokedex.presenter.ui.details.PokemonDetailActivity
 import com.example.pokedex.presenter.ui.factory.PokemonsViewModelFactory
 import com.example.pokedex.presenter.ui.pokemonsList.PokemonsListViewModel
@@ -53,6 +56,9 @@ class MainActivity : AppCompatActivity() {
 
             val isFilteredView by pokemonsListViewModel.isFilteredView.collectAsState()
 
+            val selectPokemons = remember { mutableStateListOf<Pokemon>() }
+
+
             Log.d("MainActivity", "Lista de Pokémons Favoritos: ${favoritePokemons.map { it.name }}")
             Log.d("MainActivity", "teste: $isFilteredView}")
 
@@ -82,7 +88,20 @@ class MainActivity : AppCompatActivity() {
                 onUpdateFavoritesList = { pokemon ->
                     pokemonsListViewModel.updateFavoritesList(pokemon)
                 },
-                isFilteredView = isFilteredView
+                isFilteredView = isFilteredView,
+                onSelectPokemons = { newSelectedPokemons ->
+                    selectPokemons.clear()
+                    selectPokemons.addAll(newSelectedPokemons)
+
+                    Log.d("MainScreen", "Pokémon selecionados: ${selectPokemons.joinToString { it.name }}")
+
+                    if (selectPokemons.size == 2){
+                        val intent = Intent(this, BattleActivity::class.java)
+                        intent.putExtra("EXTRA_POKEMON_SELECT_NAME_1", selectPokemons[0].name)
+                        intent.putExtra("EXTRA_POKEMON_SELECT_NAME_2", selectPokemons[1].name)
+                    }
+
+                }
             )
         }
 
