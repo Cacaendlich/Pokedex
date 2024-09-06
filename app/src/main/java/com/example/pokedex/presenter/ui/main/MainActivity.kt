@@ -7,6 +7,8 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModelProvider
 import com.example.pokedex.data.local.model.PokemonEntity
 import com.example.pokedex.data.network.RetrofitClient
@@ -53,8 +55,7 @@ class MainActivity : AppCompatActivity() {
 
             val isFilteredView by pokemonsListViewModel.isFilteredView.collectAsState()
 
-            Log.d("MainActivity", "Lista de Pokémons Favoritos: ${favoritePokemons.map { it.name }}")
-            Log.d("MainActivity", "teste: $isFilteredView}")
+            val selectedPokemon by remember { mutableStateOf(listOf<Pokemon>()) }
 
             val updatePokemon = if (!isFilteredView) {
                 pokemons.map { pokemon ->
@@ -82,7 +83,8 @@ class MainActivity : AppCompatActivity() {
                 onUpdateFavoritesList = { pokemon ->
                     pokemonsListViewModel.updateFavoritesList(pokemon)
                 },
-                isFilteredView = isFilteredView
+                isFilteredView = isFilteredView,
+                onStartBattle = {Log.e("MAINACTIVITY", "Start Battle")}
             )
         }
 
