@@ -81,7 +81,8 @@ class MainActivity : AppCompatActivity() {
                 onLoadMore = { pokemonsListViewModel.loadMorePokemons()},
                 onUpdateFavoritesList = { pokemon ->
                     pokemonsListViewModel.updateFavoritesList(pokemon)
-                }
+                },
+                isFilteredView = isFilteredView
             )
         }
 

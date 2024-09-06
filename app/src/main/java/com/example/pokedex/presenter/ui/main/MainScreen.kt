@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -42,6 +43,7 @@ fun MainScreen(
     onPokemonImageClick: (Pokemon) -> Unit,
     onLoadMore: () -> Unit,
     onUpdateFavoritesList: (Pokemon) -> Unit,
+    isFilteredView: Boolean
 ) {
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
@@ -61,7 +63,8 @@ fun MainScreen(
         Box{
             PokemonList(pokemons = pokemons, onPokemonImageClick = onPokemonImageClick, onLoadMore =  onLoadMore, onUpdateFavoritesList = onUpdateFavoritesList)
             FavoriteActionButton(
-                onClick = onFavoriteList,
+                onFavoriteList = onFavoriteList,
+                isFilteredView = isFilteredView,
                 modifier = Modifier
                     .padding(vertical = 10.dp, horizontal = 10.dp)
                     .align(Alignment.BottomEnd)
@@ -100,16 +103,16 @@ fun HeadingPokedex(){
 }
 
 @Composable
-fun FavoriteActionButton(onClick: () -> Unit, modifier: Modifier){
+fun FavoriteActionButton(onFavoriteList: () -> Unit, isFilteredView: Boolean, modifier: Modifier){
     FloatingActionButton(
-        onClick = { onClick() },
+        onClick = { onFavoriteList() },
         modifier = modifier,
         containerColor = Yellow,
         contentColor = Red,
         shape = CircleShape
     ) {
         Icon(
-            imageVector =  Icons.Filled.Favorite,
+            imageVector =  if (!isFilteredView) Icons.Filled.Favorite else Icons.AutoMirrored.Filled.ArrowBack,
             contentDescription = "Black heart icon that navigates to the favorites list",
         )
     }
