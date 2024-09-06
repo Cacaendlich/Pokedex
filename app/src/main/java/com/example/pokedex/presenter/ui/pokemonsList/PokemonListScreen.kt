@@ -21,7 +21,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -50,33 +49,16 @@ fun PokemonList(
     onPokemonImageClick: (Pokemon) -> Unit,
     onLoadMore: () -> Unit,
     onUpdateFavoritesList: (Pokemon) -> Unit,
-    onSelectPokemons: (List<Pokemon>) -> Unit
 )
 {
 
-    val selectPokemons = remember { mutableStateListOf<Pokemon>() }
-    
    LazyVerticalGrid(
        columns = GridCells.Fixed(2),
        modifier = Modifier
            .fillMaxSize()
    ) {
        items(pokemons.size){ index->
-           PokemonItem(
-               pokemon = pokemons[index],
-               isSelect = selectPokemons.contains(pokemons[index]),
-               onPokemonImageClick = onPokemonImageClick,
-               onUpdateFavoritesList = onUpdateFavoritesList,
-               onSelectPokemons = { pokemon ->
-                   if (selectPokemons.contains(pokemon)){
-                       selectPokemons.remove(pokemon)
-                   } else if (selectPokemons.size < 2) {
-                       selectPokemons.add(pokemon)
-                   }
-                   onSelectPokemons(selectPokemons)
-               }
-           )
-
+           PokemonItem(pokemon = pokemons[index], onPokemonImageClick = onPokemonImageClick, onUpdateFavoritesList = onUpdateFavoritesList)
 
            if (index == pokemons.size -1){
                onLoadMore()
@@ -88,13 +70,7 @@ fun PokemonList(
 
 @OptIn(ExperimentalGlideComposeApi::class, ExperimentalFoundationApi::class)
 @Composable
-fun PokemonItem(
-    pokemon: Pokemon,
-    onPokemonImageClick: (Pokemon) -> Unit,
-    onUpdateFavoritesList: (Pokemon) -> Unit,
-    isSelect: Boolean,
-    onSelectPokemons: (Pokemon) -> Unit
-){
+fun PokemonItem(pokemon: Pokemon, onPokemonImageClick: (Pokemon) -> Unit, onUpdateFavoritesList: (Pokemon) -> Unit){
     val context = LocalContext.current
     val defaultColor = Color.White
     val dominantColor = remember { mutableStateOf(defaultColor) }
@@ -124,7 +100,7 @@ fun PokemonItem(
             .fillMaxWidth()
             .combinedClickable(
                 onClick = { Log.e("PokemonList", "Card clicado!") },
-                onLongClick = { onSelectPokemons(pokemon) }
+                onLongClick = { Log.e("PokemonList", "Card click longo clicado!") }
             ),
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(dominantColor.value)
@@ -143,7 +119,7 @@ fun PokemonItem(
                     .align(Alignment.End)
                     .size(50.dp)
                     .padding(horizontal = 6.dp)
-                    .clickable { onUpdateFavoritesList(pokemon) }
+                    .clickable { onUpdateFavoritesList(pokemon)}
 
             )
             GlideImage(

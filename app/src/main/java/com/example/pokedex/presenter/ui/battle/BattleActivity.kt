@@ -30,8 +30,8 @@ class BattleActivity : ComponentActivity() {
         val factory = PokemonsViewModelFactory(pokemonApiRepository, pokemonLocalRepository)
         battleViewModel = ViewModelProvider(this, factory)[BattleViewModel::class]
 
-        val pokemonIntent1 = intent.getStringExtra("EXTRA_POKEMON_SELECT_NAME_1")
-        val pokemonIntent2 = intent.getStringExtra("EXTRA_POKEMON_SELECT_NAME_2")
+        val pokemonIntent1 = intent.getStringExtra("EXTRA_POKEMON_NAME_1")
+        val pokemonIntent2 = intent.getStringExtra("EXTRA_POKEMON_NAME_2")
 
         setContent {
             PokedexTheme {
