@@ -96,31 +96,18 @@ fun BattleScreen(pokemon1: Pokemon, pokemon2: Pokemon) {
                 )
             )
     ){
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
+        Image(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp, horizontal = 12.dp)
-        ) {
-            Image(
-                modifier = Modifier
-                    .size(30.dp)
-                    .clickable {
-                        Log.e("ClickableImage", "Imagem clicada!")
+                .size(50.dp)
+                .padding(horizontal = 10.dp)
+                .clickable {
+                    Log.e("ClickableImage", "Imagem clicada!")
 //                    depois ter um finish()
-                    },
-                painter = painterResource(id = R.drawable.baseline_arrow_back_24),
-                contentDescription = "Ícone de seta vermelha apontando para a esquerda, utilizado para retornar à tela anterior."
-            )
+                },
+            painter = painterResource(id = R.drawable.baseline_arrow_back_24),
+            contentDescription = "Ícone de seta vermelha apontando para a esquerda, utilizado para retornar à tela anterior."
+        )
 
-            Text(
-                text = "Battle",
-                color = White,
-                fontWeight = FontWeight.Bold,
-                fontSize = 24.sp
-            )
-        }
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceEvenly,
