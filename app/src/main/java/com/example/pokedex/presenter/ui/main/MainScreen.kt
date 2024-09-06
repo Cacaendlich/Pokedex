@@ -1,6 +1,5 @@
 package com.example.pokedex.presenter.ui.main
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -43,7 +42,8 @@ fun MainScreen(
     onPokemonImageClick: (Pokemon) -> Unit,
     onLoadMore: () -> Unit,
     onUpdateFavoritesList: (Pokemon) -> Unit,
-    isFilteredView: Boolean
+    isFilteredView: Boolean,
+    onStartBattle: () -> Unit
 ) {
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
@@ -59,7 +59,7 @@ fun MainScreen(
                 )
             )
     ) {
-        HeadingPokedex()
+        HeadingPokedex(onStartBattle = onStartBattle)
         Box{
             PokemonList(pokemons = pokemons, onPokemonImageClick = onPokemonImageClick, onLoadMore =  onLoadMore, onUpdateFavoritesList = onUpdateFavoritesList)
             FavoriteActionButton(
@@ -74,7 +74,7 @@ fun MainScreen(
 }
 
 @Composable
-fun HeadingPokedex(){
+fun HeadingPokedex(onStartBattle: () -> Unit){
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -93,7 +93,7 @@ fun HeadingPokedex(){
             modifier = Modifier
                 .size(50.dp)
                 .clickable {
-                    Log.e("MainScren", "BattleIcon clicado!")
+                    onStartBattle()
                 }
             ,
             painter = painterResource(id = R.drawable.battle_icon),
