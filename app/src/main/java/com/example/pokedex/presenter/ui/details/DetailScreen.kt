@@ -235,7 +235,7 @@ fun HorizontalProgressIndicator(progress: Int, stat: String){
             targetValue = progress.toFloat(),
             animationSpec = tween(
                 durationMillis = 1000,  // duração da animação
-                delayMillis = 500,      // atraso antes de começar
+                delayMillis = 250,      // atraso antes de começar
                 easing = FastOutSlowInEasing
             )
         )
