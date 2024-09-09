@@ -13,6 +13,7 @@ import com.example.pokedex.data.network.RetrofitClient
 import com.example.pokedex.data.repository.api.PokemonApiRepositoryImpl
 import com.example.pokedex.data.repository.local.PokemonLocalRepositoryImpl
 import com.example.pokedex.domain.model.Pokemon
+import com.example.pokedex.presenter.ui.battle.BattleActivity
 import com.example.pokedex.presenter.ui.details.PokemonDetailActivity
 import com.example.pokedex.presenter.ui.factory.PokemonsViewModelFactory
 import com.example.pokedex.presenter.ui.pokemonsList.PokemonsListViewModel
@@ -81,7 +82,9 @@ class MainActivity : AppCompatActivity() {
                     pokemonsListViewModel.updateFavoritesList(pokemon)
                 },
                 isFilteredView = isFilteredView,
-                onStartBattle = {Log.e("MAINACTIVITY", "Start Battle")},
+                onStartBattle = {
+                    Log.e("MAinActivity", "Pokemons Selecionados: ${pokemonsListViewModel.onSelectPokemon.map { it.name }}")
+                },
                 isSelected = { pokemon -> pokemonsListViewModel.onSelectPokemon.contains(pokemon) },
                 onSelectPokemon = { pokemon ->
                     pokemonsListViewModel.selectPokemons(pokemon)
@@ -93,6 +96,12 @@ class MainActivity : AppCompatActivity() {
     private fun goToDetailActivity(pokemon: Pokemon) {
         val intent = Intent(this, PokemonDetailActivity::class.java)
         intent.putExtra("EXTRA_POKEMON_NAME", pokemon.name)
+        startActivity(intent)
+    }
+    private fun goToBattleActivity(pokemon1: Pokemon, pokemon2: Pokemon) {
+        val intent = Intent(this, BattleActivity::class.java)
+        intent.putExtra("EXTRA_POKEMON_NAME_1", pokemon1.name)
+        intent.putExtra("EXTRA_POKEMON_NAME_2", pokemon2.name)
         startActivity(intent)
     }
 
