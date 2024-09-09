@@ -87,6 +87,10 @@ class MainActivity : AppCompatActivity() {
                 isFilteredView = isFilteredView,
                 onStartBattle = {
                     Log.e("MAinActivity", "Pokemons Selecionados: $pokemon1 e $pokemon2")
+                    goToBattleActivity(
+                        pokemon1 = pokemon1,
+                        pokemon2 = pokemon2
+                    )
                 },
                 isSelected = { pokemon -> pokemonsListViewModel.onSelectPokemon.contains(pokemon) },
                 onSelectPokemon = { pokemon ->
@@ -101,10 +105,10 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra("EXTRA_POKEMON_NAME", pokemon.name)
         startActivity(intent)
     }
-    private fun goToBattleActivity(pokemon1: Pokemon, pokemon2: Pokemon) {
+    private fun goToBattleActivity(pokemon1: String, pokemon2: String) {
         val intent = Intent(this, BattleActivity::class.java)
-        intent.putExtra("EXTRA_POKEMON_NAME_1", pokemon1.name)
-        intent.putExtra("EXTRA_POKEMON_NAME_2", pokemon2.name)
+        intent.putExtra("EXTRA_POKEMON_NAME_1", pokemon1)
+        intent.putExtra("EXTRA_POKEMON_NAME_2", pokemon2)
         startActivity(intent)
     }
 
