@@ -1,6 +1,7 @@
 package com.example.pokedex.presenter.ui.pokemonsList
 
 import android.util.Log
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -36,6 +37,9 @@ class PokemonsListViewModel(
     fun updateTesteState(value: Boolean) {
         _isFilteredView.value = value
     }
+
+    private val _onSelectPokemon =  mutableStateListOf<Pokemon>()
+    val onSelectPokemon: List<Pokemon> get() = _onSelectPokemon
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -151,6 +155,20 @@ class PokemonsListViewModel(
 
             loadFavorites()
         }
+    }
+
+    //Battle
+
+    fun selectPokemons(pokemon: Pokemon){
+        if (_onSelectPokemon.contains(pokemon)){
+            _onSelectPokemon.remove(pokemon)
+            Log.e("MinaActivity", "${pokemon.name} removido")
+        } else {
+            _onSelectPokemon.add(pokemon)
+            Log.e("MinaActivity", "${pokemon.name} adicionado")
+
+        }
+        Log.e("MinaActivity", "Pokemons Selecionados: ${_onSelectPokemon.map { it.name }}")
     }
 
 
