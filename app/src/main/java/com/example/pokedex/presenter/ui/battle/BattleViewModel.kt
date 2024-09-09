@@ -1,21 +1,35 @@
 package com.example.pokedex.presenter.ui.battle
 
-import androidx.lifecycle.MutableLiveData
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.pokedex.data.repository.api.PokemonApiRepository
 import com.example.pokedex.domain.model.Pokemon
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 class BattleViewModel(
     private var pokemonApiRepository: PokemonApiRepository
 ): ViewModel() {
-var pokemonLiveData: MutableLiveData<Pokemon?> = MutableLiveData()
+    private val _pokemon1StateFlow = MutableStateFlow<Pokemon?>(null)
+    val pokemon1StateFlow: StateFlow<Pokemon?> = _pokemon1StateFlow
 
-    suspend fun loadPokemon(name: String) {
+    private val _pokemon2StateFlow = MutableStateFlow<Pokemon?>(null)
+    val pokemon2StateFlow: StateFlow<Pokemon?> = _pokemon2StateFlow
+
+    suspend fun loadPokemon1(name: String) {
         if (name.isEmpty()) {
             throw IllegalArgumentException("Nome do Pokémon está vazio")
         }
         val pokemon = pokemonApiRepository.getPokemons(name)
-        pokemonLiveData.postValue(pokemon)
+        _pokemon1StateFlow.value = pokemon
+    }
+
+    suspend fun loadPokemon2(name: String) {
+        if (name.isEmpty()) {
+            throw IllegalArgumentException("Nome do Pokémon está vazio")
+        }
+        val pokemon = pokemonApiRepository.getPokemons(name)
+        _pokemon2StateFlow.value = pokemon
     }
 
     fun validatePokemon(pokemon: Pokemon?) : Pokemon{
