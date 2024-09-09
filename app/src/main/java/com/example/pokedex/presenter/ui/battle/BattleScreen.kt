@@ -163,16 +163,16 @@ fun PokemonDetail(
             ),
 
         verticalArrangement = Arrangement.spacedBy(
-            space = 20.dp
+            space = 15.dp
         ),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
 
-        if (showStar){
+       if (showStar){
             Image(
                 modifier = Modifier
                     .size(40.dp),
-                painter = painterResource(id = R.drawable.star),
+                painter = painterResource(id = R.drawable.baseline_star_24),
                 contentDescription = "Ícone de estrela dourada, representando o Pokémon mais poderoso."
             )
         }else{
@@ -184,7 +184,7 @@ fun PokemonDetail(
             model = pokemon.imageUrl,
             contentDescription = "Imagem do Pokémon ${pokemon.name}",
             modifier = Modifier
-                .size(100.dp)
+                .size(150.dp)
         )
 
         Text(
@@ -287,11 +287,13 @@ fun HeightWeight(text: String, value: Int){
             text = (value / 10.0).toString(),
             color = White,
             fontSize = 20.sp,
+            fontWeight = FontWeight.Bold
         )
         Text(
             text = text,
             color = White,
-            fontSize = 20.sp,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Bold
         )
     }
 }
