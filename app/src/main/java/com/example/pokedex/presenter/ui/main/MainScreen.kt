@@ -44,7 +44,7 @@ fun MainScreen(
     onUpdateFavoritesList: (Pokemon) -> Unit,
     isFilteredView: Boolean,
     onStartBattle: () -> Unit,
-    isSelected: Boolean,
+    isSelected: (Pokemon) -> Boolean,
     onSelectPokemon: (Pokemon) -> Unit
 ) {
     Column(

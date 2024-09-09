@@ -50,7 +50,7 @@ fun PokemonList(
     onPokemonImageClick: (Pokemon) -> Unit,
     onLoadMore: () -> Unit,
     onUpdateFavoritesList: (Pokemon) -> Unit,
-    isSelected: Boolean,
+    isSelected: (Pokemon) -> Boolean,
     onSelectPokemon: (Pokemon) -> Unit
 )
 {
@@ -83,7 +83,7 @@ fun PokemonItem(
     pokemon: Pokemon,
     onPokemonImageClick: (Pokemon) -> Unit,
     onUpdateFavoritesList: (Pokemon) -> Unit,
-    isSelected: Boolean,
+    isSelected: (Pokemon) -> Boolean,
     onSelectPokemon: (Pokemon) -> Unit
 ){
     val context = LocalContext.current
@@ -119,7 +119,7 @@ fun PokemonItem(
             ),
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(dominantColor.value),
-        border = if (isSelected){ BorderStroke(
+        border = if (isSelected(pokemon)){ BorderStroke(
             5.dp,
             color = White
         )

@@ -25,8 +25,6 @@ class PokemonsListViewModel(
     }
     var favoriteList = MutableLiveData<List<PokemonEntity>>()
 
-    var isSelected : Boolean = false
-
     private val _pokemonAllState = MutableStateFlow<List<Pokemon>>(emptyList())
     val pokemonsAllState: StateFlow<List<Pokemon>> = _pokemonAllState
 

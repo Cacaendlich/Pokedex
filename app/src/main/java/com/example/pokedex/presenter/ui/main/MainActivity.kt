@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity() {
                 },
                 isFilteredView = isFilteredView,
                 onStartBattle = {Log.e("MAINACTIVITY", "Start Battle")},
-                isSelected = false,
+                isSelected = { pokemon -> pokemonsListViewModel.onSelectPokemon.contains(pokemon) },
                 onSelectPokemon = { pokemon ->
                     pokemonsListViewModel.selectPokemons(pokemon)
                 }
