@@ -2,6 +2,9 @@ package com.example.pokedex.presenter.ui.battle
 
 import android.graphics.Bitmap
 import android.util.Log
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -10,7 +13,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -20,6 +22,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -33,9 +36,9 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Blue
 import androidx.compose.ui.graphics.Color.Companion.Green
-import androidx.compose.ui.graphics.Color.Companion.Yellow
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.TileMode
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -43,6 +46,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.palette.graphics.Palette
@@ -70,6 +74,7 @@ import com.example.pokedex.presenter.ui.theme.Ground
 import com.example.pokedex.presenter.ui.theme.Ice
 import com.example.pokedex.presenter.ui.theme.Normal
 import com.example.pokedex.presenter.ui.theme.Poison
+import com.example.pokedex.presenter.ui.theme.PokedexTheme
 import com.example.pokedex.presenter.ui.theme.Psychic
 import com.example.pokedex.presenter.ui.theme.Red
 import com.example.pokedex.presenter.ui.theme.Rock
@@ -117,8 +122,8 @@ fun BattleScreen(
                 .fillMaxSize()
 
         ) {
-            PokemonDetail(pokemon1, pokemon1 == winnerPokemon)
-            PokemonDetail(pokemon2, pokemon2 == winnerPokemon)
+            PokemonDetail(pokemon1, pokemon1 == winnerPokemon, leftColumn = true)
+            PokemonDetail(pokemon2, pokemon2 == winnerPokemon, leftColumn = false)
         }
     }
 
@@ -128,7 +133,8 @@ fun BattleScreen(
 @Composable
 fun PokemonDetail(
     pokemon: Pokemon,
-    showStar: Boolean = false
+    showStar: Boolean = false,
+    leftColumn: Boolean
 ){
     val context = LocalContext.current
 
@@ -165,7 +171,7 @@ fun PokemonDetail(
             ),
 
         verticalArrangement = Arrangement.spacedBy(
-            space = 15.dp
+            space = 22.dp
         ),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -217,10 +223,10 @@ fun PokemonDetail(
         HeightWeight(text = "WEIGHT", value = pokemon.weight)
         HeightWeight(text = "HEIGHT", value = pokemon.height)
 
-        Row{
+        Column{
             pokemon.stats.forEach { stat ->
                 if (stat.stat.name != "special-attack" && stat.stat.name != "special-defense")
-                VerticalProgressIndicator(progress = stat.base_stat, stat = stat.stat.name)
+                ProgressIndicator(progress = stat.base_stat, stat = stat.stat.name, leftColumn = leftColumn)
             }
         }
 
@@ -299,53 +305,69 @@ fun HeightWeight(text: String, value: Int){
         )
     }
 }
-
 @Composable
-fun VerticalProgressIndicator(progress: Int, stat: String){
-    Column(
-        verticalArrangement = Arrangement.spacedBy(
-            space = 16.dp
-        ),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .height(200.dp) // Ajuste a altura da barra aqui
-            .width(40.dp) // Ajuste a largura da barra aqui
-            .padding(8.dp) // Espaço entre o contorno e o preenchimento
-    ) {
-        Text(
-            text = progress.toString(),
-            color = White
-        )
+fun ProgressIndicator(progress: Int, stat: String, leftColumn: Boolean){
+    val progressState = remember { Animatable(0f) }
 
-        Box(
-            modifier = Modifier
-                .height(100.dp) // Altura máxima da barra
-                .width(20.dp) // Largura da barra
-                .background(White, shape = RoundedCornerShape(8.dp)) // Cor de fundo da barra
-                .clip(RoundedCornerShape(8.dp)) // Bordas arredondadas
-        ) {
+    LaunchedEffect(key1 = progress) {
+        progressState.animateTo(
+            targetValue = progress.toFloat(),
+            animationSpec = tween(
+                durationMillis = 1000,  // duração da animação
+                delayMillis = 250,      // atraso antes de começar
+                easing = FastOutSlowInEasing
+            )
+        )
+    }
+
+    val statColor = when (stat) {
+        "hp" -> Blue
+        "attack" -> Green
+        "defense" -> Red
+        "speed" -> com.example.pokedex.presenter.ui.theme.Yellow
+        else -> Black
+    }
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(
+            space = 16.dp,
+            alignment = Alignment.CenterHorizontally
+        ),
+        modifier = Modifier
+            .width(150.dp) // Ajuste a largura da barra aqui
+            .height(30.dp)
+            .padding(4.dp)
+    ) {
+
+        if (leftColumn){
             Box(
                 modifier = Modifier
-                    .fillMaxHeight(progress.toFloat() / 100) // Altura do progresso
                     .fillMaxWidth()
-                    .clip(RoundedCornerShape(8.dp))
-                    .align(Alignment.BottomCenter)
-                    .background(
-                        color = when (stat) {
-                            "hp" -> Blue
-                            "attack" -> Green
-                            "defense" -> Red
-                            "speed" -> Yellow
-                            else -> Black
-                        }
-                    )
+                    .graphicsLayer(scaleX = -1f) // Espelha horizontalmente
+            ){
+                LinearProgressIndicator(
+                    progress = { progressState.value / 100F },
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clip(RoundedCornerShape(10.dp))
+                        .padding(vertical = 2.dp)
+                        .background(statColor.copy(alpha = 0.3f)),
+                    color = statColor,
+                )
+            }
+        } else{
+            LinearProgressIndicator(
+                progress = { progressState.value / 100F },
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clip(RoundedCornerShape(10.dp))
+                    .padding(vertical = 2.dp)
+                    .background(statColor.copy(alpha = 0.3f)),
+                color = statColor,
             )
         }
 
-        Text(
-            text = stat.firstOrNull()?.uppercase().toString(),
-            color = White
-        )
+
     }
 
 }
@@ -434,10 +456,13 @@ val pokemon2 = Pokemon(
 )
 
 
-//@Preview(showBackground = true)
-//@Composable
-//fun GreetingPreview() {
-//    PokedexTheme {
-//        BattleScreen(pokemon1 = pokemon1, pokemon2 = pokemon2)
-//    }
-//}
+@Preview(showBackground = true)
+@Composable
+fun GreetingPreview() {
+    PokedexTheme {
+        BattleScreen(
+            pokemon1 = pokemon1,
+            pokemon2 = pokemon2,
+            goBack = {})
+    }
+}
