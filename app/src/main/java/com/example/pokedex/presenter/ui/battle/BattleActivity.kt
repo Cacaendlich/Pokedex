@@ -90,7 +90,10 @@ class BattleActivity : ComponentActivity() {
                         )
                     }
                 } else {
-                    BattleScreen(pokemon1 = battleViewModel.validatePokemon(pokemon1) , pokemon2 = battleViewModel.validatePokemon(pokemon2) )
+                    BattleScreen(
+                        pokemon1 = battleViewModel.validatePokemon(pokemon1) ,
+                        pokemon2 = battleViewModel.validatePokemon(pokemon2) ,
+                        goBack = {finish()})
                 }
 
 

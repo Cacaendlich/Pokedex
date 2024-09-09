@@ -43,7 +43,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.palette.graphics.Palette
@@ -71,7 +70,6 @@ import com.example.pokedex.presenter.ui.theme.Ground
 import com.example.pokedex.presenter.ui.theme.Ice
 import com.example.pokedex.presenter.ui.theme.Normal
 import com.example.pokedex.presenter.ui.theme.Poison
-import com.example.pokedex.presenter.ui.theme.PokedexTheme
 import com.example.pokedex.presenter.ui.theme.Psychic
 import com.example.pokedex.presenter.ui.theme.Red
 import com.example.pokedex.presenter.ui.theme.Rock
@@ -82,7 +80,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 @Composable
-fun BattleScreen(pokemon1: Pokemon, pokemon2: Pokemon) {
+fun BattleScreen(
+    pokemon1: Pokemon,
+    pokemon2: Pokemon,
+    goBack: () -> Unit
+) {
     val winnerPokemon = if (isBatter(pokemon1, pokemon2)) pokemon1 else pokemon2
     Box (
         modifier = Modifier
@@ -102,7 +104,7 @@ fun BattleScreen(pokemon1: Pokemon, pokemon2: Pokemon) {
                 .padding(horizontal = 10.dp)
                 .clickable {
                     Log.e("ClickableImage", "Imagem clicada!")
-//                    depois ter um finish()
+                    goBack()
                 },
             painter = painterResource(id = R.drawable.baseline_arrow_back_24),
             contentDescription = "Ícone de seta vermelha apontando para a esquerda, utilizado para retornar à tela anterior."
@@ -432,10 +434,10 @@ val pokemon2 = Pokemon(
 )
 
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    PokedexTheme {
-        BattleScreen(pokemon1 = pokemon1, pokemon2 = pokemon2)
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun GreetingPreview() {
+//    PokedexTheme {
+//        BattleScreen(pokemon1 = pokemon1, pokemon2 = pokemon2)
+//    }
+//}
