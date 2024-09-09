@@ -1,6 +1,8 @@
 package com.example.pokedex.presenter.ui.pokemonsList
 
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -175,6 +177,23 @@ class PokemonsListViewModel(
 
         if (_onSelectPokemon.size == 2){ updateSelectedPokemons() }
         Log.e("PokemonListViewModel", "Pokemons Selecionados: ${_onSelectPokemon.map { it.name }}")
+    }
+
+    fun battleActionTips(context: Context, onStartBattleClick: Boolean){
+        when {
+            _onSelectPokemon.size == 0 -> {
+                Toast.makeText(context, "Selecione dois Pokémons para a BATALHA!", Toast.LENGTH_LONG).show()
+            }
+            _onSelectPokemon.size == 1 -> {
+                Toast.makeText(context, "Selecione o segundo Pokémon para a BATALHA!", Toast.LENGTH_LONG).show()
+            }
+            _onSelectPokemon.size == 2 && onStartBattleClick-> {
+                Toast.makeText(context, "Click para BATALHAR!", Toast.LENGTH_LONG).show()
+            }
+            else -> {
+                updateSelectedPokemons()
+            }
+        }
     }
 
 
