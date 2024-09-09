@@ -2,6 +2,7 @@ package com.example.pokedex.presenter.ui.pokemonsList
 
 import android.graphics.Bitmap
 import android.util.Log
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -49,6 +50,7 @@ fun PokemonList(
     onPokemonImageClick: (Pokemon) -> Unit,
     onLoadMore: () -> Unit,
     onUpdateFavoritesList: (Pokemon) -> Unit,
+    isSelected: Boolean
 )
 {
 
@@ -58,7 +60,11 @@ fun PokemonList(
            .fillMaxSize()
    ) {
        items(pokemons.size){ index->
-           PokemonItem(pokemon = pokemons[index], onPokemonImageClick = onPokemonImageClick, onUpdateFavoritesList = onUpdateFavoritesList)
+           PokemonItem(
+               pokemon = pokemons[index],
+               onPokemonImageClick = onPokemonImageClick,
+               onUpdateFavoritesList = onUpdateFavoritesList,
+               isSelected = isSelected)
 
            if (index == pokemons.size -1){
                onLoadMore()
@@ -70,7 +76,7 @@ fun PokemonList(
 
 @OptIn(ExperimentalGlideComposeApi::class, ExperimentalFoundationApi::class)
 @Composable
-fun PokemonItem(pokemon: Pokemon, onPokemonImageClick: (Pokemon) -> Unit, onUpdateFavoritesList: (Pokemon) -> Unit){
+fun PokemonItem(pokemon: Pokemon, onPokemonImageClick: (Pokemon) -> Unit, onUpdateFavoritesList: (Pokemon) -> Unit, isSelected: Boolean){
     val context = LocalContext.current
     val defaultColor = Color.White
     val dominantColor = remember { mutableStateOf(defaultColor) }
@@ -103,7 +109,17 @@ fun PokemonItem(pokemon: Pokemon, onPokemonImageClick: (Pokemon) -> Unit, onUpda
                 onLongClick = { Log.e("PokemonList", "Card click longo clicado!") }
             ),
         shape = RoundedCornerShape(20.dp),
-        colors = CardDefaults.cardColors(dominantColor.value)
+        colors = CardDefaults.cardColors(dominantColor.value),
+        border = if (isSelected){ BorderStroke(
+            5.dp,
+            color = White
+        )
+        } else{
+            BorderStroke(
+                5.dp,
+                color = Color.Transparent
+            )
+        }
     ){
         Column(
             verticalArrangement = Arrangement.Center,

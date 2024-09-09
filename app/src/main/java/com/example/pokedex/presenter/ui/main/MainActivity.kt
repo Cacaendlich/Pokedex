@@ -84,7 +84,8 @@ class MainActivity : AppCompatActivity() {
                     pokemonsListViewModel.updateFavoritesList(pokemon)
                 },
                 isFilteredView = isFilteredView,
-                onStartBattle = {Log.e("MAINACTIVITY", "Start Battle")}
+                onStartBattle = {Log.e("MAINACTIVITY", "Start Battle")},
+                isSelected = false
             )
         }
 

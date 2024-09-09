@@ -43,7 +43,8 @@ fun MainScreen(
     onLoadMore: () -> Unit,
     onUpdateFavoritesList: (Pokemon) -> Unit,
     isFilteredView: Boolean,
-    onStartBattle: () -> Unit
+    onStartBattle: () -> Unit,
+    isSelected: Boolean
 ) {
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
@@ -61,7 +62,12 @@ fun MainScreen(
     ) {
         HeadingPokedex(onStartBattle = onStartBattle)
         Box{
-            PokemonList(pokemons = pokemons, onPokemonImageClick = onPokemonImageClick, onLoadMore =  onLoadMore, onUpdateFavoritesList = onUpdateFavoritesList)
+            PokemonList(
+                pokemons = pokemons,
+                onPokemonImageClick = onPokemonImageClick,
+                onLoadMore =  onLoadMore,
+                onUpdateFavoritesList = onUpdateFavoritesList,
+                isSelected = isSelected)
             FavoriteActionButton(
                 onFavoriteList = onFavoriteList,
                 isFilteredView = isFilteredView,
