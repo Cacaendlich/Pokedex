@@ -11,6 +11,7 @@ val Yellow = Color(0xFFFBC02D)
 val ProgressIndicatorColor = Color(0xFF00FF00)
 val Transparent = Color(0x00000000)
 
+val SelectColor = Color(0xFFFFFB00)
 
 // Cores dos tipos de Pokémon
 val StatusHP = Color(0xFF3A47D5)

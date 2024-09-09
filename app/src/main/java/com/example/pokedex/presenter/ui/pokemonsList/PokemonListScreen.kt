@@ -39,6 +39,7 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.pokedex.R
 import com.example.pokedex.domain.model.Pokemon
+import com.example.pokedex.presenter.ui.theme.SelectColor
 import com.example.pokedex.presenter.ui.theme.White
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -116,19 +117,21 @@ fun PokemonItem(
             .combinedClickable(
                 onClick = { Log.e("PokemonList", "Card clicado!") },
                 onLongClick = { onSelectPokemon(pokemon)}
-            ),
+            )
+        ,
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(dominantColor.value),
+
         border = if (isSelected(pokemon)){ BorderStroke(
-            5.dp,
-            color = White
+            6.dp,
+            color = SelectColor
         )
         } else{
             BorderStroke(
-                5.dp,
+                6.dp,
                 color = Color.Transparent
             )
-        }
+        },
     ){
         Column(
             verticalArrangement = Arrangement.Center,
