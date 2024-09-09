@@ -41,6 +41,12 @@ class PokemonsListViewModel(
     private val _onSelectPokemon =  mutableStateListOf<Pokemon>()
     val onSelectPokemon: List<Pokemon> get() = _onSelectPokemon
 
+    private val _pokemon1State = MutableStateFlow("")
+    val pokemon1State: StateFlow<String> = _pokemon1State
+
+    private val _pokemon2State = MutableStateFlow("")
+    val pokemon2State: StateFlow<String> = _pokemon2State
+
     init {
         viewModelScope.launch(Dispatchers.IO) {
             loadInitialPokemons()
@@ -64,17 +70,6 @@ class PokemonsListViewModel(
             try{
                 val pokemonList = pokemonRepository.listPokemons(LIMIT, currentOffset)
                 _pokemonAllState.value += pokemonList
-            } catch (e: Exception) {
-                handleError(e)
-            }
-        }
-    }
-
-    fun refreshPokemons() {
-
-        viewModelScope.launch(Dispatchers.IO){
-            try {
-                loadInitialPokemons()
             } catch (e: Exception) {
                 handleError(e)
             }
@@ -159,6 +154,13 @@ class PokemonsListViewModel(
 
     //Battle
 
+    private fun updateSelectedPokemons(){
+        val selectPokemons = _onSelectPokemon
+        _pokemon1State.value = selectPokemons[0].name
+        _pokemon2State.value = selectPokemons[1].name
+    }
+
+
     fun selectPokemons(pokemon: Pokemon){
         if (_onSelectPokemon.contains(pokemon)) {
             _onSelectPokemon.remove(pokemon)
@@ -170,8 +172,9 @@ class PokemonsListViewModel(
         }else {
             Log.e("PokemonListViewModel", "Limite da lista excedido ${pokemon.name} nao pode ser adicionado!")
         }
+
+        if (_onSelectPokemon.size == 2){ updateSelectedPokemons() }
         Log.e("PokemonListViewModel", "Pokemons Selecionados: ${_onSelectPokemon.map { it.name }}")
-        Log.e("PokemonListViewModel", "Pokemons Selecionados tamanho: ${_onSelectPokemon.size}")
     }
 
 

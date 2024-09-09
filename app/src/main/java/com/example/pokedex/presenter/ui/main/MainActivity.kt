@@ -54,6 +54,9 @@ class MainActivity : AppCompatActivity() {
 
             val isFilteredView by pokemonsListViewModel.isFilteredView.collectAsState()
 
+            val pokemon1 by pokemonsListViewModel.pokemon1State.collectAsState()
+            val pokemon2 by pokemonsListViewModel.pokemon2State.collectAsState()
+
 
             val updatePokemon = if (!isFilteredView) {
                 pokemons.map { pokemon ->
@@ -83,7 +86,7 @@ class MainActivity : AppCompatActivity() {
                 },
                 isFilteredView = isFilteredView,
                 onStartBattle = {
-                    Log.e("MAinActivity", "Pokemons Selecionados: ${pokemonsListViewModel.onSelectPokemon.map { it.name }}")
+                    Log.e("MAinActivity", "Pokemons Selecionados: $pokemon1 e $pokemon2")
                 },
                 isSelected = { pokemon -> pokemonsListViewModel.onSelectPokemon.contains(pokemon) },
                 onSelectPokemon = { pokemon ->
