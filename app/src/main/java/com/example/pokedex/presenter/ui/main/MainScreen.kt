@@ -44,7 +44,8 @@ fun MainScreen(
     onUpdateFavoritesList: (Pokemon) -> Unit,
     isFilteredView: Boolean,
     onStartBattle: () -> Unit,
-    isSelected: Boolean
+    isSelected: Boolean,
+    onSelectPokemon: (Pokemon) -> Unit
 ) {
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
@@ -67,7 +68,9 @@ fun MainScreen(
                 onPokemonImageClick = onPokemonImageClick,
                 onLoadMore =  onLoadMore,
                 onUpdateFavoritesList = onUpdateFavoritesList,
-                isSelected = isSelected)
+                isSelected = isSelected,
+                onSelectPokemon = onSelectPokemon
+            )
             FavoriteActionButton(
                 onFavoriteList = onFavoriteList,
                 isFilteredView = isFilteredView,

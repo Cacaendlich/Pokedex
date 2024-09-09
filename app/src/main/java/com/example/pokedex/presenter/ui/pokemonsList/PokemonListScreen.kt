@@ -50,7 +50,8 @@ fun PokemonList(
     onPokemonImageClick: (Pokemon) -> Unit,
     onLoadMore: () -> Unit,
     onUpdateFavoritesList: (Pokemon) -> Unit,
-    isSelected: Boolean
+    isSelected: Boolean,
+    onSelectPokemon: (Pokemon) -> Unit
 )
 {
 
@@ -64,7 +65,9 @@ fun PokemonList(
                pokemon = pokemons[index],
                onPokemonImageClick = onPokemonImageClick,
                onUpdateFavoritesList = onUpdateFavoritesList,
-               isSelected = isSelected)
+               isSelected = isSelected,
+               onSelectPokemon = onSelectPokemon
+           )
 
            if (index == pokemons.size -1){
                onLoadMore()
@@ -76,7 +79,13 @@ fun PokemonList(
 
 @OptIn(ExperimentalGlideComposeApi::class, ExperimentalFoundationApi::class)
 @Composable
-fun PokemonItem(pokemon: Pokemon, onPokemonImageClick: (Pokemon) -> Unit, onUpdateFavoritesList: (Pokemon) -> Unit, isSelected: Boolean){
+fun PokemonItem(
+    pokemon: Pokemon,
+    onPokemonImageClick: (Pokemon) -> Unit,
+    onUpdateFavoritesList: (Pokemon) -> Unit,
+    isSelected: Boolean,
+    onSelectPokemon: (Pokemon) -> Unit
+){
     val context = LocalContext.current
     val defaultColor = Color.White
     val dominantColor = remember { mutableStateOf(defaultColor) }
@@ -106,7 +115,7 @@ fun PokemonItem(pokemon: Pokemon, onPokemonImageClick: (Pokemon) -> Unit, onUpda
             .fillMaxWidth()
             .combinedClickable(
                 onClick = { Log.e("PokemonList", "Card clicado!") },
-                onLongClick = { Log.e("PokemonList", "Card click longo clicado!") }
+                onLongClick = { onSelectPokemon(pokemon)}
             ),
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(dominantColor.value),
