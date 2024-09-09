@@ -25,6 +25,8 @@ class PokemonsListViewModel(
     }
     var favoriteList = MutableLiveData<List<PokemonEntity>>()
 
+    var isSelected : Boolean = false
+
     private val _pokemonAllState = MutableStateFlow<List<Pokemon>>(emptyList())
     val pokemonsAllState: StateFlow<List<Pokemon>> = _pokemonAllState
 
@@ -160,15 +162,18 @@ class PokemonsListViewModel(
     //Battle
 
     fun selectPokemons(pokemon: Pokemon){
-        if (_onSelectPokemon.contains(pokemon)){
+        if (_onSelectPokemon.contains(pokemon)) {
             _onSelectPokemon.remove(pokemon)
             Log.e("MinaActivity", "${pokemon.name} removido")
-        } else {
+        } else if (_onSelectPokemon.size < 2) {
             _onSelectPokemon.add(pokemon)
             Log.e("MinaActivity", "${pokemon.name} adicionado")
 
+        }else {
+            Log.e("PokemonListViewModel", "Limite da lista excedido ${pokemon.name} nao pode ser adicionado!")
         }
-        Log.e("MinaActivity", "Pokemons Selecionados: ${_onSelectPokemon.map { it.name }}")
+        Log.e("PokemonListViewModel", "Pokemons Selecionados: ${_onSelectPokemon.map { it.name }}")
+        Log.e("PokemonListViewModel", "Pokemons Selecionados tamanho: ${_onSelectPokemon.size}")
     }
 
 
