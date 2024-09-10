@@ -283,8 +283,8 @@ fun HorizontalProgressIndicator(progress: Int, stat: String){
 
         Text(
             text = if (progress < 99) "  $progress" else "$progress",
-            color = White,
-            )
+            color = White
+        )
 
     }
 

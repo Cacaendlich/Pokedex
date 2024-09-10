@@ -340,9 +340,15 @@ fun ProgressIndicator(progress: Int, stat: String, leftColumn: Boolean){
     ) {
 
         if (leftColumn){
+            Text(
+                text = "$progress",
+                color = White,
+                fontSize = 14.sp
+            )
+
             Box(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxWidth(0.9F)
                     .graphicsLayer(scaleX = -1f) // Espelha horizontalmente
             ){
                 LinearProgressIndicator(
@@ -356,16 +362,29 @@ fun ProgressIndicator(progress: Int, stat: String, leftColumn: Boolean){
                 )
             }
         } else{
-            LinearProgressIndicator(
-                progress = { progressState.value / 100F },
+            Box(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .clip(RoundedCornerShape(10.dp))
-                    .padding(vertical = 2.dp)
-                    .background(statColor.copy(alpha = 0.3f)),
-                color = statColor,
+                    .fillMaxWidth(0.7F)
+            )
+            {
+                LinearProgressIndicator(
+                    progress = { progressState.value / 100F },
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clip(RoundedCornerShape(10.dp))
+                        .padding(vertical = 2.dp)
+                        .background(statColor.copy(alpha = 0.3f)),
+                    color = statColor,
+                )
+            }
+
+            Text(
+                text = "$progress",
+                color = White,
+                fontSize = 14.sp
             )
         }
+
 
 
     }
