@@ -157,8 +157,8 @@ fun PokemonDetail(
             .background(
                 Brush.verticalGradient(
                     listOf(Black, dominantColor.value, Black),
-                    startY = 100.0f,
-                    endY = Float.POSITIVE_INFINITY,
+                    startY = 0.0f,
+                    endY = 1800.0F,
                     tileMode = TileMode.Clamp
                 )
             ),
