@@ -100,6 +100,13 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
+    override fun onResume() {
+        super.onResume()
+        pokemonsListViewModel.removeAllBattle()
+        //onResume é invocado sempre que a Activity volta a ser exibida após estar em segundo plano
+    }
+
     private fun goToDetailActivity(pokemon: Pokemon) {
         val intent = Intent(this, PokemonDetailActivity::class.java)
         intent.putExtra("EXTRA_POKEMON_NAME", pokemon.name)
