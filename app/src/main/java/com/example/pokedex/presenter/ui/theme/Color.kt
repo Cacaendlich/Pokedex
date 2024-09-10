@@ -2,13 +2,10 @@ package com.example.pokedex.presenter.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val LightBlue = Color(0xFF76C0E8)
 val Black = Color(0xFF000000)
-val Gray = Color(0xFF3A3A3A)
 val White = Color(0xFFFFFFFF)
 val Red = Color(0xFFD53A47)
 val Yellow = Color(0xFFFBC02D)
-val ProgressIndicatorColor = Color(0xFF00FF00)
 val Transparent = Color(0x00000000)
 
 val SelectColor = Color(0xFFFFFB00)
@@ -18,6 +15,14 @@ val StatusHP = Color(0xFF3A47D5)
 val StatusAtk = Color(0xFFD53A47)
 val StatusDef = Color(0xFF3AD5A4)
 val StatusSpd = Color(0xFFFBCE2D)
+
+// Cores do texto dos tipos de Pokémon
+
+val TextHP = Color(0xFF000B86)
+val TextAtk = Color(0xFF80000C)
+val TextDef = Color(0xFF006D4A)
+val TextSpd = Color(0xFFB68F02)
+
 
 val Bug = Color(0xFFA8B820)
 val Dark = Color(0xFF705848)

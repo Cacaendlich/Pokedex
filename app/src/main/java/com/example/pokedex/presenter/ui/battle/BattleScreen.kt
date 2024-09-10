@@ -34,8 +34,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Blue
-import androidx.compose.ui.graphics.Color.Companion.Green
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.graphicsLayer
@@ -76,9 +74,16 @@ import com.example.pokedex.presenter.ui.theme.Normal
 import com.example.pokedex.presenter.ui.theme.Poison
 import com.example.pokedex.presenter.ui.theme.PokedexTheme
 import com.example.pokedex.presenter.ui.theme.Psychic
-import com.example.pokedex.presenter.ui.theme.Red
 import com.example.pokedex.presenter.ui.theme.Rock
+import com.example.pokedex.presenter.ui.theme.StatusAtk
+import com.example.pokedex.presenter.ui.theme.StatusDef
+import com.example.pokedex.presenter.ui.theme.StatusHP
+import com.example.pokedex.presenter.ui.theme.StatusSpd
 import com.example.pokedex.presenter.ui.theme.Steel
+import com.example.pokedex.presenter.ui.theme.TextAtk
+import com.example.pokedex.presenter.ui.theme.TextDef
+import com.example.pokedex.presenter.ui.theme.TextHP
+import com.example.pokedex.presenter.ui.theme.TextSpd
 import com.example.pokedex.presenter.ui.theme.Water
 import com.example.pokedex.presenter.ui.theme.White
 import kotlinx.coroutines.Dispatchers
@@ -94,7 +99,7 @@ fun BattleScreen(
     Box (
         modifier = Modifier
             .fillMaxSize()
-            .background( color = Black)
+            .background(color = Black)
     ){
         Image(
             modifier = Modifier
@@ -314,12 +319,22 @@ fun ProgressIndicator(progress: Int, stat: String, leftColumn: Boolean){
     }
 
     val statColor = when (stat) {
-        "hp" -> Blue
-        "attack" -> Green
-        "defense" -> Red
-        "speed" -> com.example.pokedex.presenter.ui.theme.Yellow
+        "hp" -> StatusHP
+        "attack" -> StatusAtk
+        "defense" -> StatusDef
+        "speed" -> StatusSpd
         else -> Black
     }
+
+    val statTextColor = when (stat) {
+        "hp" -> TextHP
+        "attack" -> TextAtk
+        "defense" -> TextDef
+        "speed" -> TextSpd
+        else -> Black
+    }
+
+
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(
@@ -333,12 +348,6 @@ fun ProgressIndicator(progress: Int, stat: String, leftColumn: Boolean){
     ) {
 
         if (leftColumn){
-            Text(
-                text = "$progress",
-                color = White,
-                fontSize = 14.sp
-            )
-
             Box(
                 modifier = Modifier
                     .fillMaxWidth(0.9F)
@@ -353,11 +362,43 @@ fun ProgressIndicator(progress: Int, stat: String, leftColumn: Boolean){
                         .background(statColor.copy(alpha = 0.3f)),
                     color = statColor,
                 )
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 5.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ){
+                    Text(
+                        text = when (stat) {
+                            "hp" -> "HP"
+                            "attack" -> "ATK"
+                            "defense" -> "DEF"
+                            "speed" -> "SPD"
+                            else -> ""
+                        },
+                        modifier = Modifier
+                            .graphicsLayer(scaleX = -1F),
+                        color = statTextColor,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+
+                    Text(
+                        text = "$progress",
+                        modifier = Modifier
+                            .graphicsLayer(scaleX = -1F)
+                        ,
+                        color = statTextColor,
+                        fontSize = 12.sp
+                    )
+                }
             }
         } else{
             Box(
                 modifier = Modifier
-                    .fillMaxWidth(0.7F)
+                    .fillMaxWidth(0.9F)
             )
             {
                 LinearProgressIndicator(
@@ -369,13 +410,33 @@ fun ProgressIndicator(progress: Int, stat: String, leftColumn: Boolean){
                         .background(statColor.copy(alpha = 0.3f)),
                     color = statColor,
                 )
-            }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 5.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ){
+                    Text(
+                        text = when (stat) {
+                            "hp" -> "HP"
+                            "attack" -> "ATK"
+                            "defense" -> "DEF"
+                            "speed" -> "SPD"
+                            else -> ""
+                        },
+                        color = statTextColor,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Bold
+                    )
 
-            Text(
-                text = "$progress",
-                color = White,
-                fontSize = 14.sp
-            )
+                    Text(
+                        text = "$progress",
+                        color = statTextColor,
+                        fontSize = 12.sp
+                    )
+                }
+            }
         }
 
 
