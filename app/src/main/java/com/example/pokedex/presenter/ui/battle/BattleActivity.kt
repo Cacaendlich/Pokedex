@@ -24,7 +24,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.pokedex.data.network.RetrofitClient
 import com.example.pokedex.data.repository.api.PokemonApiRepositoryImpl
 import com.example.pokedex.data.repository.local.PokemonLocalRepositoryImpl
-import com.example.pokedex.presenter.ui.battle.ui.theme.PokedexTheme
+import com.example.pokedex.presenter.ui.theme.PokedexTheme
 import com.example.pokedex.presenter.ui.battle.view.BattleScreen
 import com.example.pokedex.presenter.ui.factory.PokemonsViewModelFactory
 import com.example.pokedex.presenter.ui.theme.Black
