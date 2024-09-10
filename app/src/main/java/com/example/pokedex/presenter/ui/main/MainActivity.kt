@@ -59,7 +59,6 @@ class MainActivity : AppCompatActivity() {
             val pokemon2 by pokemonsListViewModel.pokemon2State.collectAsState()
 
             val popupState by pokemonsListViewModel.popupState.collectAsState()
-            Log.e("MainActivity", "$popupState")
 
 
 
