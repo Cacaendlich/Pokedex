@@ -16,6 +16,7 @@ import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presenter.ui.battle.BattleActivity
 import com.example.pokedex.presenter.ui.details.PokemonDetailActivity
 import com.example.pokedex.presenter.ui.factory.PokemonsViewModelFactory
+import com.example.pokedex.presenter.ui.main.view.MainScreen
 import com.example.pokedex.presenter.ui.pokemonsList.PokemonsListViewModel
 
 

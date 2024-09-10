@@ -18,4 +18,16 @@
     <string name="title_activity_detail_screen">DetailScreen</string>
     <string name="title_activity_main_screen">MainScreen</string>
     <string name="title_activity_pokemon_list_screen">PokemonListScreen</string>
+    <string name="title_activity_pokemon_item">PokemonItem</string>
+    <string name="title_activity_type_card">TypeCard</string>
+    <string name="title_activity_progress_indicator">ProgressIndicator</string>
+    <string name="title_activity_height_weight">HeightWeight</string>
+    <string name="title_activity_input_text">InputText</string>
+    <string name="title_activity_button_login">ButtonLogin</string>
+    <string name="title_activity_heading_pokedex">HeadingPokedex</string>
+    <string name="title_activity_favorite_action_button">FavoriteActionButton</string>
+    <string name="title_activity_pokemon_detail">PokemonDetail</string>
+    <string name="title_activity_body_scope">BodyScope</string>
+    <string name="title_activity_heading">Heading</string>
+    <string name="title_activity_horizontal_progress_indicator">HorizontalProgressIndicator</string>
 </resources>

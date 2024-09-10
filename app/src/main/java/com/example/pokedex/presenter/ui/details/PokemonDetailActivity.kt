@@ -9,6 +9,7 @@ import com.example.pokedex.data.network.RetrofitClient
 import com.example.pokedex.data.repository.api.PokemonApiRepositoryImpl
 import com.example.pokedex.data.repository.local.PokemonLocalRepositoryImpl
 import com.example.pokedex.domain.model.Pokemon
+import com.example.pokedex.presenter.ui.details.view.DetailScreen
 import com.example.pokedex.presenter.ui.factory.PokemonsViewModelFactory
 import com.example.pokedex.presenter.ui.theme.PokedexTheme
 import kotlinx.coroutines.launch
