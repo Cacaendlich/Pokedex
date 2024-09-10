@@ -21,7 +21,7 @@ import com.example.pokedex.data.model.Stat
 import com.example.pokedex.data.model.Stats
 import com.example.pokedex.data.model.Type
 import com.example.pokedex.domain.model.Pokemon
-import com.example.pokedex.presenter.ui.details.ui.theme.PokedexTheme
+import com.example.pokedex.presenter.ui.theme.PokedexTheme
 import com.example.pokedex.presenter.ui.theme.Black
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
