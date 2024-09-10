@@ -94,14 +94,7 @@ fun BattleScreen(
     Box (
         modifier = Modifier
             .fillMaxSize()
-            .background(
-                Brush.verticalGradient(
-                    listOf(Black, White, Black),
-                    startY = 200.0f,
-                    endY = 2000.0f,
-                    tileMode = TileMode.Clamp
-                )
-            )
+            .background( color = Black)
     ){
         Image(
             modifier = Modifier
