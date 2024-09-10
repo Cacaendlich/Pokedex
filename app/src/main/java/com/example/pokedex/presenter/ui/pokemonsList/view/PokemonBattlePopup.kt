@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
@@ -22,7 +23,6 @@ import androidx.compose.ui.window.Popup
 import com.example.pokedex.R
 import com.example.pokedex.presenter.ui.theme.PokedexTheme
 import com.example.pokedex.presenter.ui.theme.White
-import com.example.pokedex.presenter.ui.theme.Yellow
 
 
 @Composable
@@ -34,13 +34,13 @@ fun PokemonBattlePopup(
 ) {
     if (visible){
         Popup(
-            alignment = Alignment.TopStart,
+            alignment = Alignment.TopCenter,
             offset = IntOffset(offset.x.toInt(), offset.y.toInt())
         ) {
             Box(
                 modifier = modifier
                     .background(
-                        color = Yellow,
+                        color = Red,
                         shape = RoundedCornerShape(14.dp)
                     )
                     .padding(8.dp)
@@ -52,14 +52,14 @@ fun PokemonBattlePopup(
                     Text(
                         text = text,
                         color = White,
-                        fontSize = 14.sp
+                        fontSize = 24.sp
                     )
 
                     Image(
                         modifier = Modifier
-                            .size(30.dp),
-                        painter = painterResource(id = R.drawable.battle_icon),
-                        contentDescription = "Ícone de seta vermelha apontando para a esquerda, utilizado para retornar à tela anterior."
+                            .size(20.dp),
+                        painter = painterResource(id = R.drawable.baseline_arrow_forward_24),
+                        contentDescription = "Ícone de seta amarela apontando para a direita."
                     )
                 }
             }

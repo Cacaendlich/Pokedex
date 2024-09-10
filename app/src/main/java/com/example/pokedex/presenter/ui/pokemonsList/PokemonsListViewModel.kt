@@ -49,6 +49,9 @@ class PokemonsListViewModel(
     private val _pokemon2State = MutableStateFlow("")
     val pokemon2State: StateFlow<String> = _pokemon2State
 
+    private val _popupState = MutableStateFlow(false)
+    val popupState: StateFlow<Boolean> = _popupState
+
     init {
         viewModelScope.launch(Dispatchers.IO) {
             loadInitialPokemons()
@@ -171,7 +174,10 @@ class PokemonsListViewModel(
             Log.e("PokemonListViewModel", "Limite da lista excedido ${pokemon.name} nao pode ser adicionado!")
         }
 
-        if (_onSelectPokemon.size == 2){ updateSelectedPokemons() }
+        if (_onSelectPokemon.size == 2){
+            _popupState.value = true
+            updateSelectedPokemons()
+        }
     }
 
     fun removeAllBattle(){

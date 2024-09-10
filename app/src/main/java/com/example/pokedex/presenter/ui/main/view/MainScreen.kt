@@ -27,8 +27,11 @@ fun MainScreen(
     isFilteredView: Boolean,
     onStartBattle: () -> Unit,
     isSelected: (Pokemon) -> Boolean,
-    onSelectPokemon: (Pokemon) -> Unit
+    onSelectPokemon: (Pokemon) -> Unit,
+    isPopupStart: Boolean
 ) {
+
+
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -43,7 +46,8 @@ fun MainScreen(
                 )
             )
     ) {
-        HeadingPokedex(onStartBattle = onStartBattle)
+        HeadingPokedex(onStartBattle = onStartBattle, isPopupStart = isPopupStart)
+
         Box{
             PokemonList(
                 pokemons = pokemons,
