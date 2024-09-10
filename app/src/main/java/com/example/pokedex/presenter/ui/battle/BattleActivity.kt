@@ -1,7 +1,6 @@
 package com.example.pokedex.presenter.ui.battle
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -93,13 +92,11 @@ class BattleActivity : ComponentActivity() {
                     BattleScreen(
                         pokemon1 = battleViewModel.validatePokemon(pokemon1) ,
                         pokemon2 = battleViewModel.validatePokemon(pokemon2) ,
-                        goBack = {finish()})
+                        goBack = {
+                            finish()
+                        }
+                    )
                 }
-
-
-                Log.e("BattleActivity", "Pokemon 1: $pokemon1")
-                Log.e("BattleActivity", "Pokemon 2: $pokemon2")
-
             }
         }
     }

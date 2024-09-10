@@ -122,8 +122,6 @@ class PokemonsListViewModel(
                 }
             }
 
-            Log.e("PokemonFavoriteListViewModel", "$filteredPokemons")
-
             _pokemonFavoriteState.value = filteredPokemons
         }
     }
@@ -166,17 +164,18 @@ class PokemonsListViewModel(
     fun selectPokemons(pokemon: Pokemon){
         if (_onSelectPokemon.contains(pokemon)) {
             _onSelectPokemon.remove(pokemon)
-            Log.e("MinaActivity", "${pokemon.name} removido")
         } else if (_onSelectPokemon.size < 2) {
             _onSelectPokemon.add(pokemon)
-            Log.e("MinaActivity", "${pokemon.name} adicionado")
 
         }else {
             Log.e("PokemonListViewModel", "Limite da lista excedido ${pokemon.name} nao pode ser adicionado!")
         }
 
         if (_onSelectPokemon.size == 2){ updateSelectedPokemons() }
-        Log.e("PokemonListViewModel", "Pokemons Selecionados: ${_onSelectPokemon.map { it.name }}")
+    }
+
+    fun removeAllBattle(){
+        _onSelectPokemon.removeAll(onSelectPokemon)
     }
 
     fun battleActionTips(context: Context, onStartBattleClick: Boolean){
