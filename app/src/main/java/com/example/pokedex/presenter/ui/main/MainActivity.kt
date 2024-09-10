@@ -58,9 +58,6 @@ class MainActivity : AppCompatActivity() {
             val pokemon1 by pokemonsListViewModel.pokemon1State.collectAsState()
             val pokemon2 by pokemonsListViewModel.pokemon2State.collectAsState()
 
-            val popupState by pokemonsListViewModel.popupState.collectAsState()
-
-
 
             val updatePokemon = if (!isFilteredView) {
                 pokemons.map { pokemon ->
@@ -99,8 +96,7 @@ class MainActivity : AppCompatActivity() {
                 isSelected = { pokemon -> pokemonsListViewModel.onSelectPokemon.contains(pokemon) },
                 onSelectPokemon = { pokemon ->
                     pokemonsListViewModel.selectPokemons(pokemon)
-                },
-                isPopupStart = popupState
+                }
             )
         }
 
