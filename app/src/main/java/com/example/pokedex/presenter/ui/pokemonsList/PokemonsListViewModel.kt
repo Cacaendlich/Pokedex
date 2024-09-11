@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.mutableStateListOf
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -30,8 +31,8 @@ class PokemonsListViewModel(
     private val _pokemonAllState = MutableStateFlow<List<Pokemon>>(emptyList())
     val pokemonsAllState: StateFlow<List<Pokemon>> = _pokemonAllState
 
-    private val _pokemonFavoriteState = MutableStateFlow<List<Pokemon>>(emptyList())
-    val pokemonsFavoriteState: StateFlow<List<Pokemon>> = _pokemonFavoriteState
+    private val _pokemonFavoriteState = MutableLiveData<List<Pokemon>>(emptyList())
+    val pokemonsFavoriteState: LiveData<List<Pokemon>> = _pokemonFavoriteState
 
     private val _isFilteredView = MutableStateFlow(false)
     val isFilteredView: StateFlow<Boolean> = _isFilteredView
@@ -114,7 +115,7 @@ class PokemonsListViewModel(
                 }
             }
 
-            _pokemonFavoriteState.value = filteredPokemons
+            _pokemonFavoriteState.postValue(filteredPokemons)
         }
     }
 
