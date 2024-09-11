@@ -88,14 +88,18 @@ class MainActivity : AppCompatActivity() {
                 isFilteredView = isFilteredView,
                 onStartBattle = {
                     Log.e("MAinActivity", "Pokemons Selecionados: $pokemon1 e $pokemon2")
-                    goToBattleActivity(
-                        pokemon1 = pokemon1,
-                        pokemon2 = pokemon2
-                    )
+                    if (pokemonsListViewModel.onSelectPokemon.size == 2){
+                        goToBattleActivity(
+                            pokemon1 = pokemon1,
+                            pokemon2 = pokemon2
+                        )
+                    }
+                    pokemonsListViewModel.showPokemonSelectionTips(this)
                 },
                 isSelected = { pokemon -> pokemonsListViewModel.onSelectPokemon.contains(pokemon) },
                 onSelectPokemon = { pokemon ->
                     pokemonsListViewModel.selectPokemons(pokemon)
+                    pokemonsListViewModel.showStartBattleTips(this)
                 }
             )
         }

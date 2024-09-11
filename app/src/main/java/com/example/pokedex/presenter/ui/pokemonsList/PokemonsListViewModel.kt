@@ -178,22 +178,34 @@ class PokemonsListViewModel(
         _onSelectPokemon.removeAll(onSelectPokemon)
     }
 
-    fun battleActionTips(context: Context, onStartBattleClick: Boolean){
-        when {
-            _onSelectPokemon.size == 0 -> {
+    fun showPokemonSelectionTips(context: Context){
+        when(_onSelectPokemon.size) {
+            0 -> {
                 Toast.makeText(context, "Selecione dois Pokémons para a BATALHA!", Toast.LENGTH_LONG).show()
             }
-            _onSelectPokemon.size == 1 -> {
+            1 -> {
                 Toast.makeText(context, "Selecione o segundo Pokémon para a BATALHA!", Toast.LENGTH_LONG).show()
-            }
-            _onSelectPokemon.size == 2 && onStartBattleClick-> {
-                Toast.makeText(context, "Click para BATALHAR!", Toast.LENGTH_LONG).show()
             }
             else -> {
                 updateSelectedPokemons()
             }
         }
     }
+
+    fun showStartBattleTips(context: Context){
+        when(_onSelectPokemon.size) {
+            1 -> {
+                Toast.makeText(context, "Selecione o segundo Pokémon para a BATALHA!", Toast.LENGTH_LONG).show()
+            }
+            2 -> {
+                Toast.makeText(context, "Click para BATALHAR!", Toast.LENGTH_SHORT).show()
+            }
+            else -> {}
+        }
+    }
+
+
+
 
 
 }
