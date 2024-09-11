@@ -1,6 +1,8 @@
 package com.example.pokedex.presenter.ui.pokemonsList
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.Observer
+import com.example.pokedex.data.local.model.PokemonEntity
 import com.example.pokedex.data.model.PokemonType
 import com.example.pokedex.data.model.Type
 import com.example.pokedex.data.repository.api.PokemonApiRepository
@@ -16,6 +18,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mock
+import org.mockito.Mockito
 import org.mockito.Mockito.anyInt
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
@@ -30,6 +33,8 @@ class PokemonsListViewModelTest {
     private lateinit var pokemonRepository: PokemonApiRepository
     @Mock
     private lateinit var pokemonLocalRepository: PokemonLocalRepository
+    @Mock
+    private lateinit var observerFav: Observer<List<PokemonEntity>>
 
     private val grassType = PokemonType(slot = 1, type = Type(name = "grass"))
     private val poisonType = PokemonType(slot = 2, type = Type(name = "poison"))
@@ -46,6 +51,11 @@ class PokemonsListViewModelTest {
         favorite = false
     )
 
+    private val fakePokemonFav = PokemonEntity(
+        pokemonId = 1,
+        name = "bulbasaur",
+    )
+
     private val fakePokemon2 = Pokemon(
         number = 4,
         name = "charmander",
@@ -54,6 +64,11 @@ class PokemonsListViewModelTest {
         stats = listOf(),
         type = listOf(fireType),
         favorite = false
+    )
+
+    private val fakePokemon2Fav = PokemonEntity(
+        pokemonId = 4,
+        name = "charmander",
     )
 
     private val fakePokemon3 = Pokemon(
@@ -65,14 +80,22 @@ class PokemonsListViewModelTest {
         type = listOf(waterType),
         favorite = true
     )
+
+    private val fakePokemon3Fav = PokemonEntity(
+        pokemonId = 7,
+        name = "squirtle",
+    )
+
     @Before
     fun setUp() {
         MockitoAnnotations.openMocks(this)
         viewModel = PokemonsListViewModel(pokemonRepository, pokemonLocalRepository)
+        viewModel.favoriteList.observeForever(observerFav)
     }
 
     @After
     fun tearDown() {
+        viewModel.favoriteList.removeObserver(observerFav)
     }
 
     @Test
@@ -121,5 +144,24 @@ class PokemonsListViewModelTest {
 
         Assert.assertEquals(expectedUpdatedList, viewModel.pokemonsAllState.first())
     }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun `loadFavorites - teste de carregamento da lista de favoritos no Room`() = runTest{
+        val allPokemonMock = listOf(
+            fakePokemonFav,
+            fakePokemon3Fav
+        )
+
+        `when`(pokemonLocalRepository.getAllPokemons()).thenReturn(allPokemonMock)
+
+        viewModel.loadFavorites()
+
+        advanceUntilIdle()
+
+        Mockito.verify(observerFav).onChanged(allPokemonMock)
+
+    }
+
 
 }

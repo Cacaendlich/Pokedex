@@ -83,24 +83,16 @@ class PokemonsListViewModel(
     }
 
 
-    // favorites metode
+    // favorites method
 
 
 
     fun loadFavorites() {
         viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val allPokemonsFavorites = pokemonLocalRepository.getAllPokemons()
-                val favorites = allPokemonsFavorites
-                    .map { pokemonEntity ->
-                        PokemonEntity(pokemonEntity.pokemonId, pokemonEntity.name)
-                    }
+            val allPokemonsFavorites = pokemonLocalRepository.getAllPokemons()
 
-                favoriteList.postValue(favorites)
-            } catch (e: Exception) {
-                // Tratar exceção, se necessário
-                favoriteList.postValue(emptyList())
-            }
+            favoriteList.postValue(allPokemonsFavorites)
+
         }
     }
 
