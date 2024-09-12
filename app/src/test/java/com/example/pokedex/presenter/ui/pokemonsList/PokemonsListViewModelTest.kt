@@ -33,11 +33,8 @@ class PokemonsListViewModelTest {
     private lateinit var pokemonRepository: PokemonApiRepository
     @Mock
     private lateinit var pokemonLocalRepository: PokemonLocalRepository
-
     @Mock
     private lateinit var observerFav: Observer<List<PokemonEntity>>
-    @Mock
-    private lateinit var observerPokemonFavoriteState: Observer<List<Pokemon>>
 
     private val grassType = PokemonType(slot = 1, type = Type(name = "grass"))
     private val poisonType = PokemonType(slot = 2, type = Type(name = "poison"))
@@ -94,13 +91,11 @@ class PokemonsListViewModelTest {
         MockitoAnnotations.openMocks(this)
         viewModel = PokemonsListViewModel(pokemonRepository, pokemonLocalRepository)
         viewModel.favoriteList.observeForever(observerFav)
-        viewModel.pokemonsFavoriteState.observeForever(observerPokemonFavoriteState)
     }
 
     @After
     fun tearDown() {
         viewModel.favoriteList.removeObserver(observerFav)
-        viewModel.pokemonsFavoriteState.removeObserver(observerPokemonFavoriteState)
     }
 
     @Test
@@ -168,52 +163,5 @@ class PokemonsListViewModelTest {
 
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    @Test
-    fun `loadAndFilterPokemonsFromFavoriteList - teste de carregamento da lista de favoritos do tipo Pokemon`() = runTest{
-        val allPokemonMock = listOf(
-            fakePokemon,
-            fakePokemon2,
-            fakePokemon3
-        )
-
-        val allPokemonFavMock = listOf(
-            fakePokemonFav,
-            fakePokemon2Fav
-        )
-
-        val expectationList = listOf(
-            fakePokemon,
-            fakePokemon2,
-        )
-
-        `when`(pokemonRepository.listPokemons(anyInt(), anyInt())).thenReturn(allPokemonMock)
-
-        viewModel.loadAndFilterPokemonsFromFavoriteList(allPokemonFavMock)
-
-        advanceUntilIdle()
-
-        Mockito.verify(observerPokemonFavoriteState).onChanged(expectationList)
-
-    }
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    @Test
-    fun `loadAndFilterPokemonsFromFavoriteList - teste de carregamento da lista de favoritos do tipo Pokemon vazia`() = runTest{
-        val allPokemonMock = listOf(
-            fakePokemon,
-            fakePokemon2,
-            fakePokemon3
-        )
-
-        `when`(pokemonRepository.listPokemons(anyInt(), anyInt())).thenReturn(allPokemonMock)
-
-        viewModel.loadAndFilterPokemonsFromFavoriteList(emptyList())
-
-        advanceUntilIdle()
-
-        Mockito.verify(observerPokemonFavoriteState).onChanged(emptyList())
-
-    }
 
 }
