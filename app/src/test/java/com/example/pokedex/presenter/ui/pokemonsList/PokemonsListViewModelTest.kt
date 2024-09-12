@@ -149,4 +149,33 @@ class PokemonsListViewModelTest {
 
     }
 
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun `loadAndFilterPokemonsFromFavoriteList - `() = runTest{
+        val loadPokemonsMock = listOf(
+            fakePokemon,
+            fakePokemon2,
+            fakePokemon3,
+        )
+        val favoriteListMock = listOf(
+            PokemonEntity(pokemonId = 1, name = "bulbasaur"),
+            PokemonEntity(pokemonId = 7, name = "squirtle")
+        )
+
+        val expectationList = listOf(
+            fakePokemon,
+            fakePokemon3,
+        )
+
+        `when`(pokemonRepository.listPokemons(anyInt(), anyInt())).thenReturn(loadPokemonsMock)
+
+        advanceUntilIdle()
+
+        viewModel.loadAndFilterPokemonsFromFavoriteList(favoriteListMock)
+
+        Assert.assertEquals(expectationList, viewModel.pokemonsFavoriteState.first())
+
+    }
+
 }
