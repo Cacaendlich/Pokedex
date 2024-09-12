@@ -1,6 +1,5 @@
 package com.example.pokedex.presenter.ui.battle
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.pokedex.data.repository.api.PokemonApiRepository
 import com.example.pokedex.domain.model.Pokemon

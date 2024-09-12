@@ -5,7 +5,9 @@ import com.example.pokedex.data.model.PokemonType
 import com.example.pokedex.data.model.Type
 import com.example.pokedex.data.repository.api.PokemonApiRepository
 import com.example.pokedex.domain.model.Pokemon
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
@@ -13,6 +15,8 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.Mock
+import org.mockito.Mockito.anyString
+import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 
 class BattleViewModelTest {
@@ -23,7 +27,7 @@ class BattleViewModelTest {
     private lateinit var viewModel: BattleViewModel
 
     @Mock
-    private lateinit var pokemonRepository: PokemonApiRepository
+    private lateinit var pokemonApiRepository: PokemonApiRepository
 
     private val grassType = PokemonType(slot = 1, type = Type(name = "grass"))
     private val poisonType = PokemonType(slot = 2, type = Type(name = "poison"))
@@ -41,7 +45,7 @@ class BattleViewModelTest {
     @Before
     fun setUp() {
         MockitoAnnotations.openMocks(this)
-        viewModel = BattleViewModel(pokemonRepository)
+        viewModel = BattleViewModel(pokemonApiRepository)
     }
 
     @After
@@ -49,7 +53,7 @@ class BattleViewModelTest {
     }
 
     @Test
-    fun `validar se pokemon n e null`() {
+    fun `validatePokemon - validar se pokemon e null`() {
         val result = viewModel.validatePokemon(fakePokemon)
 
         val exception = assertThrows<NullPointerException> {
@@ -60,5 +64,45 @@ class BattleViewModelTest {
 
         Assert.assertEquals("Attempt to invoke method on a null object reference", exception.message)
         Assert.assertEquals(fakePokemon,result)
+    }
+
+    @Test
+    fun `loadPokemon1 = validar se nome do pokemon e vazio`() = runTest {
+        val exception = assertThrows<IllegalArgumentException> {
+            runBlocking {
+                viewModel.loadPokemon1("")
+            }
+        }
+
+        Assert.assertEquals("Nome do Pokémon está vazio", exception.message)
+    }
+
+    @Test
+    fun `loadPokemon2 = validar se nome do pokemon e vazio`() = runTest {
+        val exception = assertThrows<IllegalArgumentException> {
+            runBlocking {
+                viewModel.loadPokemon1("")
+            }
+        }
+
+        Assert.assertEquals("Nome do Pokémon está vazio", exception.message)
+    }
+
+    @Test
+    fun `loadPokemon1 = validar se pokemon1StateFlow e atualizado`() = runTest {
+        `when`(pokemonApiRepository.getPokemons(anyString())).thenReturn(fakePokemon)
+
+        viewModel.loadPokemon1(fakePokemon.name)
+
+        Assert.assertEquals(fakePokemon,viewModel.pokemon1StateFlow.first())
+    }
+
+    @Test
+    fun `loadPokemon2 = validar se pokemon1StateFlow e atualizado`() = runTest {
+        `when`(pokemonApiRepository.getPokemons(anyString())).thenReturn(fakePokemon)
+
+        viewModel.loadPokemon2(fakePokemon.name)
+
+        Assert.assertEquals(fakePokemon,viewModel.pokemon2StateFlow.first())
     }
 }
