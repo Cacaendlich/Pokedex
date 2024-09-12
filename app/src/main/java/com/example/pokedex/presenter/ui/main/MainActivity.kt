@@ -7,7 +7,6 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.ViewModelProvider
 import com.example.pokedex.data.local.model.PokemonEntity
 import com.example.pokedex.data.network.RetrofitClient
@@ -52,9 +51,7 @@ class MainActivity : AppCompatActivity() {
         setContent {
             val pokemons by pokemonsListViewModel.pokemonsAllState.collectAsState()
 
-            val favoritePokemons by pokemonsListViewModel.pokemonsFavoriteState.observeAsState(
-                emptyList()
-            )
+            val favoritePokemons by pokemonsListViewModel.pokemonsFavoriteState.collectAsState()
 
             val isFilteredView by pokemonsListViewModel.isFilteredView.collectAsState()
 

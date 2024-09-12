@@ -53,7 +53,6 @@ android {
 }
 
 dependencies {
-    implementation("androidx.compose.runtime:runtime-livedata:1.7.1")
     val roomVersion = "2.6.1"
 
     implementation("androidx.test:core-ktx:1.6.1")
