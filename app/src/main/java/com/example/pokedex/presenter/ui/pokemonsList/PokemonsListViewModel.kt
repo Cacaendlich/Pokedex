@@ -33,12 +33,8 @@ class PokemonsListViewModel(
     private val _pokemonFavoriteState = MutableStateFlow<List<Pokemon>>(emptyList())
     val pokemonsFavoriteState: StateFlow<List<Pokemon>> = _pokemonFavoriteState
 
-    private val _isFilteredView = MutableStateFlow(false)
-    val isFilteredView: StateFlow<Boolean> = _isFilteredView
-
-    fun updateTesteState(value: Boolean) {
-        _isFilteredView.value = value
-    }
+    private val _isDisplayingFavorites = MutableStateFlow(false)
+    val isDisplayingFavorites: StateFlow<Boolean> = _isDisplayingFavorites
 
     private val _onSelectPokemon =  mutableStateListOf<Pokemon>()
     val onSelectPokemon: List<Pokemon> get() = _onSelectPokemon
@@ -124,6 +120,10 @@ class PokemonsListViewModel(
 
             _pokemonFavoriteState.value = filteredPokemons
         }
+    }
+
+    fun toggleFavoritesView(value: Boolean) {
+        _isDisplayingFavorites.value = value
     }
 
     fun updateFavoritesList(pokemon: Pokemon) {

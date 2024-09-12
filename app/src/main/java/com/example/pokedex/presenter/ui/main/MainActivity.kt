@@ -53,13 +53,13 @@ class MainActivity : AppCompatActivity() {
 
             val favoritePokemons by pokemonsListViewModel.pokemonsFavoriteState.collectAsState()
 
-            val isFilteredView by pokemonsListViewModel.isFilteredView.collectAsState()
+            val isDisplayingFavorites by pokemonsListViewModel.isDisplayingFavorites.collectAsState()
 
             val pokemon1 by pokemonsListViewModel.pokemon1State.collectAsState()
             val pokemon2 by pokemonsListViewModel.pokemon2State.collectAsState()
 
 
-            val updatePokemon = if (!isFilteredView) {
+            val updatePokemon = if (!isDisplayingFavorites) {
                 pokemons.map { pokemon ->
                     if (mFavoriteList.any { it.name == pokemon.name }) {
                         pokemon.copy(favorite = true)
@@ -78,14 +78,14 @@ class MainActivity : AppCompatActivity() {
             }
 
             MainScreen(
-                onFavoriteList = { pokemonsListViewModel.updateTesteState(!isFilteredView)},
+                onFavoriteList = { pokemonsListViewModel.toggleFavoritesView(!isDisplayingFavorites)},
                 pokemons = updatePokemon,
                 onPokemonImageClick = {pokemon -> goToDetailActivity(pokemon)},
                 onLoadMore = { pokemonsListViewModel.loadMorePokemons()},
                 onUpdateFavoritesList = { pokemon ->
                     pokemonsListViewModel.updateFavoritesList(pokemon)
                 },
-                isFilteredView = isFilteredView,
+                isFilteredView = isDisplayingFavorites,
                 onStartBattle = {
                     Log.e("MAinActivity", "Pokemons Selecionados: $pokemon1 e $pokemon2")
                     if (pokemonsListViewModel.onSelectPokemon.size == 2){
