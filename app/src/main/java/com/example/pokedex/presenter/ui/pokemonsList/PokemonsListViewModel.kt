@@ -161,9 +161,7 @@ class PokemonsListViewModel(
         if (_onSelectPokemon.size == 2){ updateSelectedPokemons() }
     }
 
-    fun removeAllBattle(){
-        _onSelectPokemon.removeAll(onSelectPokemon)
-    }
+    fun removeAllBattle() = _onSelectPokemon.removeAll(onSelectPokemon)
 
     fun showPokemonSelectionTips(context: Context){
         when(_onSelectPokemon.size) {

@@ -222,4 +222,19 @@ class PokemonsListViewModelTest {
 
     }
 
+    @Test
+    fun `removeAllBattle - `(){
+        viewModel.selectPokemons(fakePokemon)
+
+        viewModel.selectPokemons(fakePokemon2)
+
+        Assert.assertTrue(viewModel.onSelectPokemon.contains(fakePokemon))
+        Assert.assertTrue(viewModel.onSelectPokemon.contains(fakePokemon2))
+
+        viewModel.removeAllBattle()
+
+        Assert.assertFalse(viewModel.onSelectPokemon.contains(fakePokemon))
+        Assert.assertFalse(viewModel.onSelectPokemon.contains(fakePokemon2))
+    }
+
 }
