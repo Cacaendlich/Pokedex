@@ -85,7 +85,7 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `test initial loading of pokemons successfully`() = runTest {
+    fun `loadInitialPokemons - deve carregar pokemons com sucesso`() = runTest {
         val listMock = listOf(
             fakePokemon,
             fakePokemon2,
@@ -99,7 +99,7 @@ class MainViewModelTest {
         Assert.assertEquals(listMock, viewModel.pokemonsAllState.first())
     }
     @Test
-    fun `test initial load of pokemons emptyList`() = runTest {
+    fun `loadInitialPokemons - deve carregar uma lista vazia de pokemons`() = runTest {
         `when`(pokemonRepository.listPokemons(anyInt(), anyInt())).thenReturn(emptyList())
 
         viewModel.loadInitialPokemons()
@@ -109,7 +109,7 @@ class MainViewModelTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `teste carregamento de  mais pokemons com sucesso`() = runTest {
+    fun `loadMorePokemons - deve carregar mais pokemons a partir do ultimo carregamento`() = runTest {
         val initialList = listOf(
             fakePokemon,
             fakePokemon2
@@ -133,7 +133,7 @@ class MainViewModelTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `loadFavorites - carregamento da lista de favoritos`() = runTest{
+    fun `loadFavorites - deve carregar a lista de favoritos com sucesso`() = runTest{
         val allPokemonsFav = listOf(
             PokemonEntity(pokemonId = 1, name = "bulbasaur"),
             PokemonEntity(pokemonId = 4, name = "charmander"),
@@ -153,7 +153,7 @@ class MainViewModelTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `loadAndFilterPokemonsFromFavoriteList - `() = runTest{
+    fun `loadAndFilterPokemonsFromFavoriteList - deve filtrar e carregar pokemons favoritos do tipo Pokemon`() = runTest{
         val loadPokemonsMock = listOf(
             fakePokemon,
             fakePokemon2,
@@ -180,7 +180,7 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `toggleFavoritesView - states`() = runTest{
+    fun `toggleFavoritesView - deve alternar corretamente entre exibir e ocultar favoritos`() = runTest{
         viewModel.toggleFavoritesView(true)
         Assert.assertEquals(true, viewModel.isDisplayingFavorites.first())
 
@@ -189,9 +189,8 @@ class MainViewModelTest {
 
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `selectPokemons - add`() = runTest{
+    fun `selectPokemons - deve adicionar pokemon selecionado`() = runTest{
 
         viewModel.selectPokemons(fakePokemon)
 
@@ -200,7 +199,7 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `selectPokemons - remove`() = runTest{
+    fun `selectPokemons - deve remover pokemon ja selecionado`() = runTest{
 
         viewModel.selectPokemons(fakePokemon)
 
@@ -213,7 +212,7 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `selectPokemons - size == 2`() = runTest{
+    fun `selectPokemons - deve conter dois pokemons selecionados`() = runTest{
 
         viewModel.selectPokemons(fakePokemon)
 
@@ -224,7 +223,7 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `removeAllBattle - `(){
+    fun `removeAllBattle - deve remover todos os pokemons selecionados da batalha`(){
         viewModel.selectPokemons(fakePokemon)
 
         viewModel.selectPokemons(fakePokemon2)
