@@ -178,4 +178,14 @@ class PokemonsListViewModelTest {
 
     }
 
+    @Test
+    fun `toggleFavoritesView - states`() = runTest{
+        viewModel.toggleFavoritesView(true)
+        Assert.assertEquals(true, viewModel.isDisplayingFavorites.first())
+
+        viewModel.toggleFavoritesView(false)
+        Assert.assertEquals(false, viewModel.isDisplayingFavorites.first())
+
+    }
+
 }
