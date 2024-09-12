@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             MainScreen(
-                onFavoriteList = { pokemonsListViewModel.updateFilteredViewState(!isFilteredView)},
+                onFavoriteList = { pokemonsListViewModel.updateTesteState(!isFilteredView)},
                 pokemons = updatePokemon,
                 onPokemonImageClick = {pokemon -> goToDetailActivity(pokemon)},
                 onLoadMore = { pokemonsListViewModel.loadMorePokemons()},
