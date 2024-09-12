@@ -1,6 +1,8 @@
 package com.example.pokedex.presenter.ui.pokemonsList
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.Observer
+import com.example.pokedex.data.local.model.PokemonEntity
 import com.example.pokedex.data.model.PokemonType
 import com.example.pokedex.data.model.Type
 import com.example.pokedex.data.repository.api.PokemonApiRepository
@@ -16,6 +18,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mock
+import org.mockito.Mockito
 import org.mockito.Mockito.anyInt
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
@@ -30,6 +33,9 @@ class PokemonsListViewModelTest {
     private lateinit var pokemonRepository: PokemonApiRepository
     @Mock
     private lateinit var pokemonLocalRepository: PokemonLocalRepository
+
+    @Mock
+    private lateinit var observerFavoriteList: Observer<List<PokemonEntity>>
 
     private val grassType = PokemonType(slot = 1, type = Type(name = "grass"))
     private val poisonType = PokemonType(slot = 2, type = Type(name = "poison"))
@@ -69,10 +75,12 @@ class PokemonsListViewModelTest {
     fun setUp() {
         MockitoAnnotations.openMocks(this)
         viewModel = PokemonsListViewModel(pokemonRepository, pokemonLocalRepository)
+        viewModel.favoriteList.observeForever(observerFavoriteList)
     }
 
     @After
     fun tearDown() {
+        viewModel.favoriteList.removeObserver(observerFavoriteList)
     }
 
     @Test
@@ -120,6 +128,25 @@ class PokemonsListViewModelTest {
         //avançar o tempo até que todas as coroutines pendentes tenham concluído a execução
 
         Assert.assertEquals(expectedUpdatedList, viewModel.pokemonsAllState.first())
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun `loadFavorites - carregamento da lista de favoritos`() = runTest{
+        val allPokemonsFav = listOf(
+            PokemonEntity(pokemonId = 1, name = "bulbasaur"),
+            PokemonEntity(pokemonId = 4, name = "charmander"),
+            PokemonEntity(pokemonId = 7, name = "squirtle")
+        )
+
+        `when`(pokemonLocalRepository.getAllPokemons()).thenReturn(allPokemonsFav)
+
+        viewModel.loadFavorites()
+
+        advanceUntilIdle()
+
+        Mockito.verify(observerFavoriteList).onChanged(allPokemonsFav)
+
     }
 
 }

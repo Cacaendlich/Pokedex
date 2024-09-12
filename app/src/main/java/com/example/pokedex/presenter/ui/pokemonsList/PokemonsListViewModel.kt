@@ -87,12 +87,7 @@ class PokemonsListViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val allPokemonsFavorites = pokemonLocalRepository.getAllPokemons()
-                val favorites = allPokemonsFavorites
-                    .map { pokemonEntity ->
-                        PokemonEntity(pokemonEntity.pokemonId, pokemonEntity.name)
-                    }
-
-                favoriteList.postValue(favorites)
+                favoriteList.postValue(allPokemonsFavorites)
             } catch (e: Exception) {
                 // Tratar exceção, se necessário
                 favoriteList.postValue(emptyList())
