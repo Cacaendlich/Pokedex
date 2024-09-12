@@ -6,7 +6,7 @@ import com.example.pokedex.data.repository.api.PokemonApiRepository
 import com.example.pokedex.data.repository.local.PokemonLocalRepository
 import com.example.pokedex.presenter.ui.battle.BattleViewModel
 import com.example.pokedex.presenter.ui.details.PokemonDetailsViewModel
-import com.example.pokedex.presenter.ui.pokemonsList.MainViewModel
+import com.example.pokedex.presenter.ui.main.MainViewModel
 
 class ViewModelFactory(
     private val pokemonRepository: PokemonApiRepository,

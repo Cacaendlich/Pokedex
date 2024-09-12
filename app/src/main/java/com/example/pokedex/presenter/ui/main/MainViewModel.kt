@@ -1,4 +1,4 @@
-package com.example.pokedex.presenter.ui.pokemonsList
+package com.example.pokedex.presenter.ui.main
 
 import android.content.Context
 import android.widget.Toast

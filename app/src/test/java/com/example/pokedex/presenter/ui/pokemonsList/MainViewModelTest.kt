@@ -8,6 +8,7 @@ import com.example.pokedex.data.model.Type
 import com.example.pokedex.data.repository.api.PokemonApiRepository
 import com.example.pokedex.data.repository.local.PokemonLocalRepository
 import com.example.pokedex.domain.model.Pokemon
+import com.example.pokedex.presenter.ui.main.MainViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.advanceUntilIdle

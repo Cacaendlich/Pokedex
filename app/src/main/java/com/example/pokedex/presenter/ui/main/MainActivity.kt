@@ -16,7 +16,6 @@ import com.example.pokedex.presenter.ui.battle.BattleActivity
 import com.example.pokedex.presenter.ui.details.PokemonDetailActivity
 import com.example.pokedex.presenter.ui.factory.ViewModelFactory
 import com.example.pokedex.presenter.ui.main.view.MainScreen
-import com.example.pokedex.presenter.ui.pokemonsList.MainViewModel
 
 
 class MainActivity : AppCompatActivity() {
