@@ -53,7 +53,7 @@ class BattleViewModelTest {
     }
 
     @Test
-    fun `validatePokemon - validar se pokemon e null`() {
+    fun `validatePokemon - deve lancar excecao ao validar se pokemon e null`() {
         val result = viewModel.validatePokemon(fakePokemon)
 
         val exception = assertThrows<NullPointerException> {
@@ -67,7 +67,7 @@ class BattleViewModelTest {
     }
 
     @Test
-    fun `loadPokemon1 = validar se nome do pokemon e vazio`() = runTest {
+    fun `loadPokemon1 - deve lancar excecao ao tentar carregar pokemon com nome vazio`() = runTest {
         val exception = assertThrows<IllegalArgumentException> {
             runBlocking {
                 viewModel.loadPokemon1("")
@@ -78,10 +78,10 @@ class BattleViewModelTest {
     }
 
     @Test
-    fun `loadPokemon2 = validar se nome do pokemon e vazio`() = runTest {
+    fun `loadPokemon2 - deve lancar excecao ao tentar carregar pokemon com nome vazio`() = runTest {
         val exception = assertThrows<IllegalArgumentException> {
             runBlocking {
-                viewModel.loadPokemon1("")
+                viewModel.loadPokemon2("")
             }
         }
 
@@ -89,7 +89,7 @@ class BattleViewModelTest {
     }
 
     @Test
-    fun `loadPokemon1 = validar se pokemon1StateFlow e atualizado`() = runTest {
+    fun `loadPokemon1 - deve atualizar pokemon1StateFlow corretamente`() = runTest {
         `when`(pokemonApiRepository.getPokemons(anyString())).thenReturn(fakePokemon)
 
         viewModel.loadPokemon1(fakePokemon.name)
@@ -98,7 +98,7 @@ class BattleViewModelTest {
     }
 
     @Test
-    fun `loadPokemon2 = validar se pokemon1StateFlow e atualizado`() = runTest {
+    fun `loadPokemon2 - deve atualizar pokemon2StateFlow corretamente`() = runTest {
         `when`(pokemonApiRepository.getPokemons(anyString())).thenReturn(fakePokemon)
 
         viewModel.loadPokemon2(fakePokemon.name)

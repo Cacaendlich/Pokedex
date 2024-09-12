@@ -59,7 +59,7 @@ class PokemonDetailsViewModelTest {
     }
 
     @Test
-    fun `deve atualizar o LiveData com o Pokemon correto quando carregado com sucesso e chamar o repository com o nome correto do Pokemon`() = runTest{
+    fun `loadPokemon - deve atualizar o LiveData com o Pokemon correto quando carregado com sucesso e chamar o repository com o nome correto do Pokemon`() = runTest{
         val name = "bulbasaur"
         val expectedPokemon = fakePokemon
 
@@ -72,7 +72,7 @@ class PokemonDetailsViewModelTest {
 
     }
     @Test
-    fun `deve lancar uma excecao quando tentar carregar um Pokemon com nome vazio`() = runTest{
+    fun `loadPokemon - deve lancar uma excecao quando tentar carregar um Pokemon com nome vazio`() = runTest{
         val name = ""
 
         val exception = assertThrows<IllegalArgumentException> {
