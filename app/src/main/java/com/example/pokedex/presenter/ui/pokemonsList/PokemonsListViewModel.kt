@@ -1,7 +1,6 @@
 package com.example.pokedex.presenter.ui.pokemonsList
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.MutableLiveData
@@ -157,8 +156,6 @@ class PokemonsListViewModel(
         } else if (_onSelectPokemon.size < 2) {
             _onSelectPokemon.add(pokemon)
 
-        }else {
-            Log.e("PokemonListViewModel", "Limite da lista excedido ${pokemon.name} nao pode ser adicionado!")
         }
 
         if (_onSelectPokemon.size == 2){ updateSelectedPokemons() }

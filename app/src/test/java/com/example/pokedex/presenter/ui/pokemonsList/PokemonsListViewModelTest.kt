@@ -188,4 +188,38 @@ class PokemonsListViewModelTest {
 
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun `selectPokemons - add`() = runTest{
+
+        viewModel.selectPokemons(fakePokemon)
+
+        Assert.assertTrue(viewModel.onSelectPokemon.contains(fakePokemon))
+
+    }
+
+    @Test
+    fun `selectPokemons - remove`() = runTest{
+
+        viewModel.selectPokemons(fakePokemon)
+
+        Assert.assertTrue(viewModel.onSelectPokemon.contains(fakePokemon))
+
+        viewModel.selectPokemons(fakePokemon)
+
+        Assert.assertFalse(viewModel.onSelectPokemon.contains(fakePokemon))
+
+    }
+
+    @Test
+    fun `selectPokemons - size == 2`() = runTest{
+
+        viewModel.selectPokemons(fakePokemon)
+
+        viewModel.selectPokemons(fakePokemon2)
+
+        Assert.assertTrue(viewModel.onSelectPokemon.size == 2)
+
+    }
+
 }
