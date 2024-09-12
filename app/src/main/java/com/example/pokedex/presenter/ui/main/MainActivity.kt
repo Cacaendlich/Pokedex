@@ -2,7 +2,6 @@ package com.example.pokedex.presenter.ui.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.collectAsState
@@ -40,10 +39,6 @@ class MainActivity : AppCompatActivity() {
 
         pokemonsListViewModel.favoriteList.observe(this) { favoriteList ->
             mFavoriteList = favoriteList
-            Log.d(
-                "MainActivty",
-                "A lista de favoritos foi atualizada para: ${favoriteList.map { it.name }}"
-            )
             pokemonsListViewModel.loadAndFilterPokemonsFromFavoriteList(mFavoriteList)
         }
 
@@ -87,7 +82,6 @@ class MainActivity : AppCompatActivity() {
                 },
                 isFilteredView = isDisplayingFavorites,
                 onStartBattle = {
-                    Log.e("MAinActivity", "Pokemons Selecionados: $pokemon1 e $pokemon2")
                     if (pokemonsListViewModel.onSelectPokemon.size == 2){
                         goToBattleActivity(
                             pokemon1 = pokemon1,

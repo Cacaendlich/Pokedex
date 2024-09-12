@@ -78,7 +78,7 @@ class PokemonsListViewModel(
     }
 
 
-    // favorites metode
+    // favorites method
 
 
 
@@ -116,16 +116,14 @@ class PokemonsListViewModel(
     }
 
     fun updateFavoritesList(pokemon: Pokemon) {
-        // Atualiza instantaneamente o estado do favorito na lista de Pokémons
         val updatedPokemons = _pokemonAllState.value.map {
             if (it.name == pokemon.name) {
-                it.copy(favorite = !it.favorite) // Alterna o status de favorito
+                it.copy(favorite = !it.favorite)
             } else {
                 it
             }
         }
 
-        // Atualiza o estado com a lista modificada para refletir na UI imediatamente
         _pokemonAllState.value = updatedPokemons
 
         val pokemonFavorite = PokemonEntity(pokemon.number, pokemon.name)
@@ -141,7 +139,7 @@ class PokemonsListViewModel(
         }
     }
 
-    //Battle
+    //Battle method
 
     private fun updateSelectedPokemons(){
         val selectPokemons = _onSelectPokemon
