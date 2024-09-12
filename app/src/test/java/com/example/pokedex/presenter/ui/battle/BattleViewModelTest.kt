@@ -24,6 +24,9 @@ class BattleViewModelTest {
     private lateinit var viewModel: BattleViewModel
 
     @Mock
+    private lateinit var observer: Observer<Pokemon?>
+
+    @Mock
     private lateinit var pokemonRepository: PokemonApiRepository
 
     private val grassType = PokemonType(slot = 1, type = Type(name = "grass"))
@@ -43,10 +46,12 @@ class BattleViewModelTest {
     fun setUp() {
         MockitoAnnotations.openMocks(this)
         viewModel = BattleViewModel(pokemonRepository)
+        viewModel.pokemonLiveData.observeForever(observer)
     }
 
     @After
     fun tearDown() {
+        viewModel.pokemonLiveData.removeObserver(observer)
     }
 
     @Test
