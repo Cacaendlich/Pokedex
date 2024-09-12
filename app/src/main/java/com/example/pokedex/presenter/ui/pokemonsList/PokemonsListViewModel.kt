@@ -37,6 +37,10 @@ class PokemonsListViewModel(
     private val _isFilteredView = MutableStateFlow(false)
     val isFilteredView: StateFlow<Boolean> = _isFilteredView
 
+    fun updateFilteredViewState(value: Boolean) {
+        _isFilteredView.value = value
+    }
+
     private val _onSelectPokemon =  mutableStateListOf<Pokemon>()
     val onSelectPokemon: List<Pokemon> get() = _onSelectPokemon
 
@@ -115,10 +119,6 @@ class PokemonsListViewModel(
         }
     }
 
-    fun updateFilteredViewState(value: Boolean) {
-        _isFilteredView.value = value
-    }
-
     fun updateFavoritesList(pokemon: Pokemon) {
         // Atualiza instantaneamente o estado do favorito na lista de Pokémons
         val updatedPokemons = _pokemonAllState.value.map {
@@ -146,8 +146,6 @@ class PokemonsListViewModel(
     }
 
     //Battle
-
-
 
     private fun updateSelectedPokemons(){
         val selectPokemons = _onSelectPokemon
