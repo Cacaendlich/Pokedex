@@ -47,7 +47,7 @@ class LoginViewModelTest {
 
 
     @Test
-    fun loginIsValid_withValidCredentials_result1() {
+    fun `loginIsValid - deve retornar 1 com credenciais validas`() {
         // Create an active task
         // Given: Configurar condições iniciais e dependências para o teste
         val email = "example@example.com"
@@ -63,7 +63,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun loginIsValid_withInValidPassword_result2() {
+    fun `loginIsValid - deve retornar 2 com senha invalida`() {
         // Create an active task
         // Given: Configurar condições iniciais e dependências para o teste
         val email = "example@example.com"
@@ -79,7 +79,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun loginIsValid_withInValidEmail_result2() {
+    fun `loginIsValid - deve retornar 2 com e-mail invalido`() {
         // Create an active task
         // Given: Configurar condições iniciais e dependências para o teste
         val email = "example.com"
@@ -95,7 +95,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun loginIsValid_withEmptyEmail_result3() {
+    fun `loginIsValid - deve retornar 3 com e-mail vazio`() {
         // Create an active task
         // Given: Configurar condições iniciais e dependências para o teste
         val email = ""
@@ -111,7 +111,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun loginIsValid_withEmptyPassword_result3() {
+    fun `loginIsValid - deve retornar 3 com senha vazia`() {
         // Create an active task
         // Given: Configurar condições iniciais e dependências para o teste
         val email = "example@example.com"
@@ -126,7 +126,7 @@ class LoginViewModelTest {
         assertEquals( "3", result)
     }
     @Test
-    fun loginIsValid_withEmptyCredentials_result3() {
+    fun `loginIsValid - deve retornar 3 com credenciais vazias`() {
         // Create an active task
         // Given: Configurar condições iniciais e dependências para o teste
         val email = ""
@@ -142,7 +142,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun checkNotEmptyCredentials_withNullEmail_returnsFalse() {
+    fun `checkNotEmptyCredentials - deve retornar false com e-mail nulo`() {
         val email = null
         val senha = "1234"
 
@@ -152,7 +152,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun checkNotEmptyCredentials_withNullPassword_returnsFalse() {
+    fun `checkNotEmptyCredentials - deve retornar false com senha nula`() {
         val email = "example@example.com"
         val senha = null
 
@@ -161,7 +161,7 @@ class LoginViewModelTest {
         assertFalse(result)
     }
     @Test
-    fun checkNotEmptyCredentials_withValidCredentials_returnsTrue() {
+    fun `checkNotEmptyCredentials - deve retornar true com credenciais validas`() {
         val email = "example@example.com"
         val senha = "1234"
 
@@ -171,7 +171,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun checkNotEmptyCredentials_withEmptyEmail_returnsEmpty() {
+    fun `checkNotEmptyCredentials - deve retornar false com e-mail vazio`() {
         val email = ""
         val senha = "1234"
 
@@ -180,7 +180,7 @@ class LoginViewModelTest {
         assertFalse(result)
     }
     @Test
-    fun checkNotEmptyCredentials_withEmptyPassword_returnsEmpty() {
+    fun `checkNotEmptyCredentials - deve retornar false com senha vazia`() {
         val email = "example@example.com"
         val senha = ""
 
@@ -190,7 +190,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun saveLoginData_withEmptySharedPreferences_savesNewEmail() {
+    fun `saveLoginData - deve salvar novo e-mail com SharedPreferences vazio`() {
         // Given: Scenario where `getStoredLoginData(context)` returns an empty string.
         `when`(loginViewModel.getStoredLoginData(context)).thenReturn("")
 
@@ -209,7 +209,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun saveLoginData_withNotEmptySharedPreferences_NotSavesEmail() {
+    fun `saveLoginData - nao deve salvar e-mail com SharedPreferences nao vazio`() {
         //stubs
         `when`(loginViewModel.getStoredLoginData(context)).thenReturn("example@example.com")
 
@@ -225,7 +225,7 @@ class LoginViewModelTest {
 
 
     @Test
-    fun sharedPrefsIsNotEmpty_withEmptySharedPreferences_returnsFalse() {
+    fun `sharedPrefsIsNotEmpty - deve retornar false com SharedPreferences vazio`() {
         // Teste para verificar se SharedPreferences está vazio
 
         `when`(sharedPreferences.getString(anyString(), anyString())).thenReturn("")
@@ -236,7 +236,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun sharedPrefsIsNotEmpty_withSharedPreferencesValid_returnsTrue() {
+    fun `sharedPrefsIsNotEmpty - deve retornar true com SharedPreferences valido`() {
         // Teste para verificar se SharedPreferences não está vazio
 
         // Configuração do mock de SharedPreferences para retornar um valor específico
@@ -250,7 +250,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun sharedPrefsIsNotEmpty_withNullSharedPreferences_returnsFalse() {
+    fun `sharedPrefsIsNotEmpty - deve retornar false com SharedPreferences nulo`() {
         //stub
         `when`(sharedPreferences.getString(anyString(), anyString())).thenReturn(null)
 
