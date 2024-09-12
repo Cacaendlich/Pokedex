@@ -23,11 +23,11 @@ import org.mockito.Mockito.anyInt
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 
-class PokemonsListViewModelTest {
+class MainViewModelTest {
     @JvmField
     @Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
-    private lateinit var viewModel: PokemonsListViewModel
+    private lateinit var viewModel: MainViewModel
 
     @Mock
     private lateinit var pokemonRepository: PokemonApiRepository
@@ -74,7 +74,7 @@ class PokemonsListViewModelTest {
     @Before
     fun setUp() {
         MockitoAnnotations.openMocks(this)
-        viewModel = PokemonsListViewModel(pokemonRepository, pokemonLocalRepository)
+        viewModel = MainViewModel(pokemonRepository, pokemonLocalRepository)
         viewModel.favoriteList.observeForever(observerFavoriteList)
     }
 

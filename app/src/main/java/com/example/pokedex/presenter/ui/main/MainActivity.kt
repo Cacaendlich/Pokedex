@@ -14,14 +14,14 @@ import com.example.pokedex.data.repository.local.PokemonLocalRepositoryImpl
 import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presenter.ui.battle.BattleActivity
 import com.example.pokedex.presenter.ui.details.PokemonDetailActivity
-import com.example.pokedex.presenter.ui.factory.PokemonsViewModelFactory
+import com.example.pokedex.presenter.ui.factory.ViewModelFactory
 import com.example.pokedex.presenter.ui.main.view.MainScreen
-import com.example.pokedex.presenter.ui.pokemonsList.PokemonsListViewModel
+import com.example.pokedex.presenter.ui.pokemonsList.MainViewModel
 
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var pokemonsListViewModel: PokemonsListViewModel
+    private lateinit var mainViewModel: MainViewModel
     private lateinit var mFavoriteList: List<PokemonEntity>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,27 +31,27 @@ class MainActivity : AppCompatActivity() {
         val retrofitClient = RetrofitClient
         val pokemonApiRepository = PokemonApiRepositoryImpl(retrofitClient)
         val pokemonLocalRepository = PokemonLocalRepositoryImpl(this)
-        val factory = PokemonsViewModelFactory(pokemonApiRepository, pokemonLocalRepository)
+        val factory = ViewModelFactory(pokemonApiRepository, pokemonLocalRepository)
 
-        pokemonsListViewModel = ViewModelProvider(this, factory)[PokemonsListViewModel::class.java]
+        mainViewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
 
-        pokemonsListViewModel.loadFavorites()
+        mainViewModel.loadFavorites()
 
-        pokemonsListViewModel.favoriteList.observe(this) { favoriteList ->
+        mainViewModel.favoriteList.observe(this) { favoriteList ->
             mFavoriteList = favoriteList
-            pokemonsListViewModel.loadAndFilterPokemonsFromFavoriteList(mFavoriteList)
+            mainViewModel.loadAndFilterPokemonsFromFavoriteList(mFavoriteList)
         }
 
 
         setContent {
-            val pokemons by pokemonsListViewModel.pokemonsAllState.collectAsState()
+            val pokemons by mainViewModel.pokemonsAllState.collectAsState()
 
-            val favoritePokemons by pokemonsListViewModel.pokemonsFavoriteState.collectAsState()
+            val favoritePokemons by mainViewModel.pokemonsFavoriteState.collectAsState()
 
-            val isDisplayingFavorites by pokemonsListViewModel.isDisplayingFavorites.collectAsState()
+            val isDisplayingFavorites by mainViewModel.isDisplayingFavorites.collectAsState()
 
-            val pokemon1 by pokemonsListViewModel.pokemon1State.collectAsState()
-            val pokemon2 by pokemonsListViewModel.pokemon2State.collectAsState()
+            val pokemon1 by mainViewModel.pokemon1State.collectAsState()
+            val pokemon2 by mainViewModel.pokemon2State.collectAsState()
 
 
             val updatePokemon = if (!isDisplayingFavorites) {
@@ -73,27 +73,27 @@ class MainActivity : AppCompatActivity() {
             }
 
             MainScreen(
-                onFavoriteList = { pokemonsListViewModel.toggleFavoritesView(!isDisplayingFavorites)},
+                onFavoriteList = { mainViewModel.toggleFavoritesView(!isDisplayingFavorites)},
                 pokemons = updatePokemon,
                 onPokemonImageClick = {pokemon -> goToDetailActivity(pokemon)},
-                onLoadMore = { pokemonsListViewModel.loadMorePokemons()},
+                onLoadMore = { mainViewModel.loadMorePokemons()},
                 onUpdateFavoritesList = { pokemon ->
-                    pokemonsListViewModel.updateFavoritesList(pokemon)
+                    mainViewModel.updateFavoritesList(pokemon)
                 },
                 isFilteredView = isDisplayingFavorites,
                 onStartBattle = {
-                    if (pokemonsListViewModel.onSelectPokemon.size == 2){
+                    if (mainViewModel.onSelectPokemon.size == 2){
                         goToBattleActivity(
                             pokemon1 = pokemon1,
                             pokemon2 = pokemon2
                         )
                     }
-                    pokemonsListViewModel.showPokemonSelectionTips(this)
+                    mainViewModel.showPokemonSelectionTips(this)
                 },
-                isSelected = { pokemon -> pokemonsListViewModel.onSelectPokemon.contains(pokemon) },
+                isSelected = { pokemon -> mainViewModel.onSelectPokemon.contains(pokemon) },
                 onSelectPokemon = { pokemon ->
-                    pokemonsListViewModel.selectPokemons(pokemon)
-                    pokemonsListViewModel.showStartBattleTips(this)
+                    mainViewModel.selectPokemons(pokemon)
+                    mainViewModel.showStartBattleTips(this)
                 }
             )
         }
@@ -102,7 +102,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        pokemonsListViewModel.removeAllBattle()
+        mainViewModel.removeAllBattle()
         //onResume é invocado sempre que a Activity volta a ser exibida após estar em segundo plano
     }
 

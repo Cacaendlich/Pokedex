@@ -6,9 +6,9 @@ import com.example.pokedex.data.repository.api.PokemonApiRepository
 import com.example.pokedex.data.repository.local.PokemonLocalRepository
 import com.example.pokedex.presenter.ui.battle.BattleViewModel
 import com.example.pokedex.presenter.ui.details.PokemonDetailsViewModel
-import com.example.pokedex.presenter.ui.pokemonsList.PokemonsListViewModel
+import com.example.pokedex.presenter.ui.pokemonsList.MainViewModel
 
-class PokemonsViewModelFactory(
+class ViewModelFactory(
     private val pokemonRepository: PokemonApiRepository,
     private val pokemonLocalRepository: PokemonLocalRepository
 ) : ViewModelProvider.Factory{
@@ -16,8 +16,8 @@ class PokemonsViewModelFactory(
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
 
         return when {
-            modelClass.isAssignableFrom(PokemonsListViewModel::class.java) -> {
-                PokemonsListViewModel(pokemonRepository, pokemonLocalRepository) as T
+            modelClass.isAssignableFrom(MainViewModel::class.java) -> {
+                MainViewModel(pokemonRepository, pokemonLocalRepository) as T
             }
             modelClass.isAssignableFrom(PokemonDetailsViewModel::class.java) -> {
                 PokemonDetailsViewModel(pokemonRepository) as T
