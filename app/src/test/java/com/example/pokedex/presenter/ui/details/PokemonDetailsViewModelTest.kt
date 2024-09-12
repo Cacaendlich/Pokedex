@@ -83,4 +83,26 @@ class PokemonDetailsViewModelTest {
         }
         Assert.assertEquals("Nome do Pokémon está vazio", exception.message)
     }
+
+    @Test
+    fun `validatePokemon - deve lancar uma excecao quando tentar carregar um Pokemon null`() = runTest{
+
+        val exception = assertThrows<NullPointerException> {
+            runBlocking {
+                viewModel.validatePokemon(null)
+
+            }
+        }
+        Assert.assertEquals("Attempt to invoke method on a null object reference", exception.message)
+    }
+
+    @Test
+    fun `validatePokemon - deve retornar um Pokemon`() = runTest{
+
+       val result = viewModel.validatePokemon(fakePokemon)
+
+        Assert.assertEquals(fakePokemon, result)
+    }
+
+
 }
