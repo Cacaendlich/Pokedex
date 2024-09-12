@@ -216,4 +216,17 @@ class PokemonsListViewModelTest {
 
     }
 
+    @Test
+    fun `updateFilteredViewState - altera o estado de isFilteredView`() = runTest{
+        Assert.assertEquals(false, viewModel.isFilteredView.first())
+
+        viewModel.updateFilteredViewState(true)
+
+        Assert.assertEquals(true, viewModel.isFilteredView.first())
+
+        viewModel.updateFilteredViewState(false)
+
+        Assert.assertEquals(false, viewModel.isFilteredView.first())
+
+    }
 }
