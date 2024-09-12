@@ -181,10 +181,10 @@ class PokemonsListViewModel(
     fun showPokemonSelectionTips(context: Context){
         when(_onSelectPokemon.size) {
             0 -> {
-                Toast.makeText(context, "Selecione dois Pokémons para a BATALHA!", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Select two Pokémon to BATTLE!", Toast.LENGTH_SHORT).show()
             }
             1 -> {
-                Toast.makeText(context, "Selecione o segundo Pokémon para a BATALHA!", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Select the second Pokémon to BATTLE!", Toast.LENGTH_SHORT).show()
             }
             else -> {
                 updateSelectedPokemons()
@@ -195,10 +195,10 @@ class PokemonsListViewModel(
     fun showStartBattleTips(context: Context){
         when(_onSelectPokemon.size) {
             1 -> {
-                Toast.makeText(context, "Selecione o segundo Pokémon para a BATALHA!", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Select the second Pokémon to BATTLE!", Toast.LENGTH_SHORT).show()
             }
             2 -> {
-                Toast.makeText(context, "Click para BATALHAR!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Click to BATTLE!", Toast.LENGTH_SHORT).show()
             }
             else -> {}
         }

@@ -1,7 +1,6 @@
 package com.example.pokedex.presenter.ui.battle
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Observer
 import com.example.pokedex.data.model.PokemonType
 import com.example.pokedex.data.model.Type
 import com.example.pokedex.data.repository.api.PokemonApiRepository
@@ -24,9 +23,6 @@ class BattleViewModelTest {
     private lateinit var viewModel: BattleViewModel
 
     @Mock
-    private lateinit var observer: Observer<Pokemon?>
-
-    @Mock
     private lateinit var pokemonRepository: PokemonApiRepository
 
     private val grassType = PokemonType(slot = 1, type = Type(name = "grass"))
@@ -46,12 +42,10 @@ class BattleViewModelTest {
     fun setUp() {
         MockitoAnnotations.openMocks(this)
         viewModel = BattleViewModel(pokemonRepository)
-        viewModel.pokemonLiveData.observeForever(observer)
     }
 
     @After
     fun tearDown() {
-        viewModel.pokemonLiveData.removeObserver(observer)
     }
 
     @Test
