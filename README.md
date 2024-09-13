@@ -34,6 +34,11 @@ Tela de Lista de Pokemons:
 
 https://github.com/user-attachments/assets/b0ff8b57-be57-4dc8-8e39-60737272881b
 
+Tela de Detalhes do Pokemon:
+
+https://github.com/user-attachments/assets/3f99d9be-2dff-4dd7-be54-f514e8c6392d
+
+
 
 ## Tecnologias Utilizadas
 
