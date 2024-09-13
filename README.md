@@ -26,23 +26,23 @@ O projeto foi dividido em duas etapas principais, onde a primeira focou no uso d
 
 ## Demonstração
 
-Tela de Login:
+**Tela de Login:**
 
 ![Login view](https://github.com/Cacaendlich/Pokedex/blob/main/image/Captura%20de%20Tela%202024-09-12%20%C3%A0s%2023.11.29.png)
+
+**Tela de Detalhes:**
+
+![Detail view](https://github.com/Cacaendlich/Pokedex/blob/main/image/Captura%20de%20Tela%202024-09-12%20a%CC%80s%2023.52.13.png)
+![Detail view](https://github.com/Cacaendlich/Pokedex/blob/main/image/Captura%20de%20Tela%202024-09-12%20a%CC%80s%2023.51.26.png)
+
+**Tela de Comparação:**
+
+![Battle view](https://github.com/Cacaendlich/Pokedex/blob/main/image/Captura%20de%20Tela%202024-09-12%20a%CC%80s%2023.52.36.png)
+![Battle view](https://github.com/Cacaendlich/Pokedex/blob/main/image/Captura%20de%20Tela%202024-09-12%20a%CC%80s%2023.52.58.png)
 
 Tela de Lista de Pokemons:
 
 https://github.com/user-attachments/assets/b0ff8b57-be57-4dc8-8e39-60737272881b
-
-Tela de Detalhes do Pokemon:
-
-https://github.com/user-attachments/assets/3f99d9be-2dff-4dd7-be54-f514e8c6392d
-
-Tela de Comparação de 2 Pokemons:
-
-https://github.com/user-attachments/assets/cc6d05fb-cade-4e6a-8a84-aedd2440c31f
-
-https://github.com/user-attachments/assets/1822ca0c-eede-49a1-889f-2ae5e8fb5bb8
 
 
 ## Tecnologias Utilizadas
