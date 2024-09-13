@@ -171,9 +171,10 @@ class MainViewModelTest {
 
         `when`(pokemonRepository.listPokemons(anyInt(), anyInt())).thenReturn(loadPokemonsMock)
 
+        viewModel.loadAndFilterPokemonsFromFavoriteList(favoriteListMock)
+
         advanceUntilIdle()
 
-        viewModel.loadAndFilterPokemonsFromFavoriteList(favoriteListMock)
 
         Assert.assertEquals(expectationList, viewModel.pokemonsFavoriteState.first())
 

@@ -55,7 +55,7 @@ class MainViewModel(
             _pokemonAllState.value = pokemonsList
 
         }catch (e: Exception) {
-            handleError(e)
+            throw RuntimeException("Error loading pokemons: ${e.message}", e)
         }
 
     }
@@ -68,15 +68,10 @@ class MainViewModel(
                 val pokemonList = pokemonRepository.listPokemons(LIMIT, currentOffset)
                 _pokemonAllState.value += pokemonList
             } catch (e: Exception) {
-                handleError(e)
+                throw RuntimeException("Error loading pokemons: ${e.message}", e)
             }
         }
     }
-
-    private fun handleError(e: Exception): Nothing {
-        throw RuntimeException("Error loading pokemons: ${e.message}", e)
-    }
-
 
     // favorites method
 
