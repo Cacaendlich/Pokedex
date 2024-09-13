@@ -28,7 +28,7 @@ O projeto foi dividido em duas etapas principais, onde a primeira focou no uso d
 
 Tela de Login:
 
-![Login view](https://github.com/Cacaendlich/Pokedex/blob/main/Captura%20de%20Tela%202024-09-12%20a%CC%80s%2023.11.29.png)
+![Login view](https://github.com/Cacaendlich/Pokedex/blob/main/image/Captura%20de%20Tela%202024-09-12%20%C3%A0s%2023.11.29.png)
 
 Tela de Lista de Pokemons:
 
