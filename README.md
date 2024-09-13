@@ -24,6 +24,14 @@ O projeto foi dividido em duas etapas principais, onde a primeira focou no uso d
   - **Defense**: `it.base_stat * 1.2`
   - **Speed**: `it.base_stat * 1.4`
 
+## Demonstração
+
+Tela de Login:
+
+![Print do App](https://github.com/Cacaendlich/Pokedex/blob/main/Captura%20de%20Tela%202024-09-12%20a%CC%80s%2023.11.29.png)
+
+
+
 ## Tecnologias Utilizadas
 
 ### Primeira Etapa
