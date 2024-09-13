@@ -38,6 +38,11 @@ Tela de Detalhes do Pokemon:
 
 https://github.com/user-attachments/assets/3f99d9be-2dff-4dd7-be54-f514e8c6392d
 
+Tela de Comparação de 2 Pokemons:
+
+https://github.com/user-attachments/assets/cc6d05fb-cade-4e6a-8a84-aedd2440c31f
+
+https://github.com/user-attachments/assets/1822ca0c-eede-49a1-889f-2ae5e8fb5bb8
 
 
 ## Tecnologias Utilizadas
