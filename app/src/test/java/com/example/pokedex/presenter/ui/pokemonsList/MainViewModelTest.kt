@@ -11,6 +11,7 @@ import com.example.pokedex.domain.model.Pokemon
 import com.example.pokedex.presenter.ui.main.MainViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -153,7 +154,7 @@ class MainViewModelTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `loadAndFilterPokemonsFromFavoriteList - deve filtrar e carregar pokemons favoritos do tipo Pokemon`() = runTest{
+    fun `loadAndFilterPokemonsFromFavoriteList - deve filtrar e carregar pokemons favoritos do tipo Pokemon`() = runBlocking{
         val loadPokemonsMock = listOf(
             fakePokemon,
             fakePokemon2,
@@ -171,10 +172,7 @@ class MainViewModelTest {
 
         `when`(pokemonRepository.listPokemons(anyInt(), anyInt())).thenReturn(loadPokemonsMock)
 
-        viewModel.loadAndFilterPokemonsFromFavoriteList(favoriteListMock)
-
-        advanceUntilIdle()
-
+        viewModel.loadAndFilterPokemonsFromFavoriteList(favoriteListMock).join()
 
         Assert.assertEquals(expectationList, viewModel.pokemonsFavoriteState.first())
 

@@ -84,8 +84,7 @@ class MainViewModel(
         }
     }
 
-    fun loadAndFilterPokemonsFromFavoriteList(favoriteList: List<PokemonEntity>) {
-        viewModelScope.launch(Dispatchers.IO) {
+    fun loadAndFilterPokemonsFromFavoriteList(favoriteList: List<PokemonEntity>) = viewModelScope.launch(Dispatchers.IO) {
             val limit = 1000
             val offset = 0
 
@@ -104,7 +103,7 @@ class MainViewModel(
 
             _pokemonFavoriteState.value = filteredPokemons
         }
-    }
+
 
     fun toggleFavoritesView(value: Boolean) {
         _isDisplayingFavorites.value = value
