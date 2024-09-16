@@ -1,71 +1,120 @@
 package com.example.pokedex.presenter.ui.main
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.View
+import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.lifecycle.ViewModelProvider
-import com.example.pokedex.R
+import com.example.pokedex.data.local.model.PokemonEntity
 import com.example.pokedex.data.network.RetrofitClient
 import com.example.pokedex.data.repository.api.PokemonApiRepositoryImpl
 import com.example.pokedex.data.repository.local.PokemonLocalRepositoryImpl
-import com.example.pokedex.databinding.ActivityMainBinding
-import com.example.pokedex.presenter.ui.factory.PokemonsListViewModelFactory
-import com.example.pokedex.presenter.ui.favorites.PokemonFavoriteListFragment
-import com.example.pokedex.presenter.ui.pokemonsList.PokemonsListFragment
-import com.example.pokedex.presenter.ui.pokemonsList.PokemonsListViewModel
+import com.example.pokedex.domain.model.Pokemon
+import com.example.pokedex.presenter.ui.battle.BattleActivity
+import com.example.pokedex.presenter.ui.details.PokemonDetailActivity
+import com.example.pokedex.presenter.ui.factory.ViewModelFactory
+import com.example.pokedex.presenter.ui.main.view.MainScreen
 
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
-    private lateinit var pokemonsListViewModel: PokemonsListViewModel
+    private lateinit var mainViewModel: MainViewModel
+    private lateinit var mFavoriteList: List<PokemonEntity>
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        binding = ActivityMainBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
-
         RetrofitClient.initialize(this)
 
         val retrofitClient = RetrofitClient
         val pokemonApiRepository = PokemonApiRepositoryImpl(retrofitClient)
         val pokemonLocalRepository = PokemonLocalRepositoryImpl(this)
-        val factory = PokemonsListViewModelFactory(pokemonApiRepository, pokemonLocalRepository)
+        val factory = ViewModelFactory(pokemonApiRepository, pokemonLocalRepository)
 
-        pokemonsListViewModel = ViewModelProvider(this, factory)[PokemonsListViewModel::class.java]
+        mainViewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
 
-        binding.buttonFavorites.setOnClickListener {
-            Log.d("MainActivity", "Button Favorites clicked")
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, PokemonFavoriteListFragment.newInstance())
-                .commit()
+        mainViewModel.loadFavorites()
 
-            binding.buttonFavorites.visibility = View.GONE
-            binding.buttonBack.visibility = View.VISIBLE
-
-            binding.textViewTitle.text = getString(R.string.title_favorite)
+        mainViewModel.favoriteList.observe(this) { favoriteList ->
+            mFavoriteList = favoriteList
+            mainViewModel.loadAndFilterPokemonsFromFavoriteList(mFavoriteList)
         }
 
-        binding.buttonBack.setOnClickListener {
-            Log.d("MainActivity", "Button back clicked")
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, PokemonsListFragment.newInstance())
-                .commit()
 
-            // Chame a função refreshPokemons() no ViewModel
-            pokemonsListViewModel.refreshPokemons()
+        setContent {
+            val pokemons by mainViewModel.pokemonsAllState.collectAsState()
 
-            binding.buttonBack.visibility = View.GONE
-            binding.buttonFavorites.visibility = View.VISIBLE
+            val favoritePokemons by mainViewModel.pokemonsFavoriteState.collectAsState()
 
-            binding.textViewTitle.text = getString(R.string.Pokedex)
+            val isDisplayingFavorites by mainViewModel.isDisplayingFavorites.collectAsState()
 
+            val pokemon1 by mainViewModel.pokemon1State.collectAsState()
+            val pokemon2 by mainViewModel.pokemon2State.collectAsState()
+
+
+            val updatePokemon = if (!isDisplayingFavorites) {
+                pokemons.map { pokemon ->
+                    if (mFavoriteList.any { it.name == pokemon.name }) {
+                        pokemon.copy(favorite = true)
+                    } else {
+                        pokemon.copy(favorite = false)
+                    }
+                }
+            } else {
+                favoritePokemons.map { pokemon ->
+                    if (mFavoriteList.any { it.name == pokemon.name }) {
+                        pokemon.copy(favorite = true)
+                    } else {
+                        pokemon.copy(favorite = false)
+                    }
+                }
+            }
+
+            MainScreen(
+                onFavoriteList = { mainViewModel.toggleFavoritesView(!isDisplayingFavorites)},
+                pokemons = updatePokemon,
+                onPokemonImageClick = {pokemon -> goToDetailActivity(pokemon)},
+                onLoadMore = { mainViewModel.loadMorePokemons()},
+                onUpdateFavoritesList = { pokemon ->
+                    mainViewModel.updateFavoritesList(pokemon)
+                },
+                isFilteredView = isDisplayingFavorites,
+                onStartBattle = {
+                    if (mainViewModel.onSelectPokemon.size == 2){
+                        goToBattleActivity(
+                            pokemon1 = pokemon1,
+                            pokemon2 = pokemon2
+                        )
+                    }
+                    mainViewModel.showPokemonSelectionTips(this)
+                },
+                isSelected = { pokemon -> mainViewModel.onSelectPokemon.contains(pokemon) },
+                onSelectPokemon = { pokemon ->
+                    mainViewModel.selectPokemons(pokemon)
+                    mainViewModel.showStartBattleTips(this)
+                }
+            )
         }
 
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, PokemonsListFragment.newInstance())
-            .commit()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mainViewModel.removeAllBattle()
+        //onResume é invocado sempre que a Activity volta a ser exibida após estar em segundo plano
+    }
+
+    private fun goToDetailActivity(pokemon: Pokemon) {
+        val intent = Intent(this, PokemonDetailActivity::class.java)
+        intent.putExtra("EXTRA_POKEMON_NAME", pokemon.name)
+        startActivity(intent)
+    }
+    private fun goToBattleActivity(pokemon1: String, pokemon2: String) {
+        val intent = Intent(this, BattleActivity::class.java)
+        intent.putExtra("EXTRA_POKEMON_NAME_1", pokemon1)
+        intent.putExtra("EXTRA_POKEMON_NAME_2", pokemon2)
+        startActivity(intent)
     }
 
 }

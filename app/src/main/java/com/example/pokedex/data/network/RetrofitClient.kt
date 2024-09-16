@@ -37,14 +37,26 @@ object RetrofitClient {
     //chamadas à API
 
     // Método para listar os Pokémons
-    fun listPokemons(limit: Int, offset: Int): PokemonListResponse? {
+    fun listPokemons(limit: Int, offset: Int): PokemonListResponse {
         val call = service.listPokemons(limit, offset)
-        return call.execute().body()
+        val response = call.execute()
+
+        if (!response.isSuccessful || response.body() == null){
+            throw IllegalStateException("Falha ao carregar os Pokemons")
+        }
+
+        return response.body()!!
     }
 
     // Método para obter os detalhes de um Pokémon específico
-    fun getPokemon(name: String): PokemonApiResult? {
+    fun getPokemon(name: String): PokemonApiResult {
         val call = service.getPokemon(name)
-        return call.execute().body()
+        val response = call.execute()
+
+        if (!response.isSuccessful || response.body() == null){
+            throw IllegalStateException("Falha ao carregar o Pokemon")
+        }
+
+        return response.body()!!
     }
 }

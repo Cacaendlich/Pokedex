@@ -15,6 +15,86 @@
         android:theme="@style/Theme.Pokedex"
         tools:targetApi="s">
         <activity
+            android:name=".presenter.ui.details.view.HorizontalProgressIndicator"
+            android:exported="false"
+            android:label="@string/title_activity_horizontal_progress_indicator"
+            android:theme="@style/Theme.Pokedex" />
+        <activity
+            android:name=".presenter.ui.details.view.Heading"
+            android:exported="false"
+            android:label="@string/title_activity_heading"
+            android:theme="@style/Theme.Pokedex" />
+        <activity
+            android:name=".presenter.ui.details.view.BodyScope"
+            android:exported="false"
+            android:label="@string/title_activity_body_scope"
+            android:theme="@style/Theme.Pokedex" />
+        <activity
+            android:name=".presenter.ui.battle.view.PokemonDetail"
+            android:exported="false"
+            android:label="@string/title_activity_pokemon_detail"
+            android:theme="@style/Theme.Pokedex" />
+        <activity
+            android:name=".presenter.ui.main.view.FavoriteActionButton"
+            android:exported="false"
+            android:label="@string/title_activity_favorite_action_button"
+            android:theme="@style/Theme.Pokedex" />
+        <activity
+            android:name=".presenter.ui.main.view.HeadingPokedex"
+            android:exported="false"
+            android:label="@string/title_activity_heading_pokedex"
+            android:theme="@style/Theme.Pokedex" />
+        <activity
+            android:name=".presenter.ui.login.view.ButtonLogin"
+            android:exported="false"
+            android:label="@string/title_activity_button_login"
+            android:theme="@style/Theme.Pokedex" />
+        <activity
+            android:name=".presenter.ui.login.view.InputText"
+            android:exported="false"
+            android:label="@string/title_activity_input_text"
+            android:theme="@style/Theme.Pokedex" />
+        <activity
+            android:name=".presenter.ui.details.HeightWeight"
+            android:exported="false"
+            android:label="@string/title_activity_height_weight"
+            android:theme="@style/Theme.Pokedex" />
+        <activity
+            android:name=".presenter.ui.details.ProgressIndicator"
+            android:exported="false"
+            android:label="@string/title_activity_progress_indicator"
+            android:theme="@style/Theme.Pokedex" />
+        <activity
+            android:name=".presenter.ui.details.TypeCard"
+            android:exported="false"
+            android:label="@string/title_activity_type_card"
+            android:theme="@style/Theme.Pokedex" />
+        <activity
+            android:name=".presenter.ui.pokemonsList.PokemonItem"
+            android:exported="false"
+            android:label="@string/title_activity_pokemon_item"
+            android:theme="@style/Theme.Pokedex" />
+        <activity
+            android:name=".presenter.ui.pokemonsList.PokemonListScreen"
+            android:exported="false"
+            android:label="@string/title_activity_pokemon_list_screen"
+            android:theme="@style/Theme.Pokedex" />
+        <activity
+            android:name=".presenter.ui.main.MainScreen"
+            android:exported="false"
+            android:label="@string/title_activity_main_screen"
+            android:theme="@style/Theme.Pokedex" />
+        <activity
+            android:name=".presenter.ui.details.DetailScreen"
+            android:exported="false"
+            android:label="@string/title_activity_detail_screen"
+            android:theme="@style/Theme.Pokedex" />
+        <activity
+            android:name=".presenter.ui.battle.BattleActivity"
+            android:exported="false"
+            android:label="@string/title_activity_battle"
+            android:theme="@style/Theme.Pokedex" />
+        <activity
             android:name=".presenter.ui.details.PokemonDetailActivity"
             android:exported="false" />
         <activity

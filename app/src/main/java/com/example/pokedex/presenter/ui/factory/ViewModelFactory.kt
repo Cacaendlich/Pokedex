@@ -4,11 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.pokedex.data.repository.api.PokemonApiRepository
 import com.example.pokedex.data.repository.local.PokemonLocalRepository
+import com.example.pokedex.presenter.ui.battle.BattleViewModel
 import com.example.pokedex.presenter.ui.details.PokemonDetailsViewModel
-import com.example.pokedex.presenter.ui.favorites.PokemonFavoriteListViewModel
-import com.example.pokedex.presenter.ui.pokemonsList.PokemonsListViewModel
+import com.example.pokedex.presenter.ui.main.MainViewModel
 
-class PokemonsListViewModelFactory(
+class ViewModelFactory(
     private val pokemonRepository: PokemonApiRepository,
     private val pokemonLocalRepository: PokemonLocalRepository
 ) : ViewModelProvider.Factory{
@@ -16,14 +16,14 @@ class PokemonsListViewModelFactory(
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
 
         return when {
-            modelClass.isAssignableFrom(PokemonsListViewModel::class.java) -> {
-                PokemonsListViewModel(pokemonRepository) as T
-            }
-            modelClass.isAssignableFrom(PokemonFavoriteListViewModel::class.java) -> {
-                PokemonFavoriteListViewModel(pokemonRepository, pokemonLocalRepository) as T
+            modelClass.isAssignableFrom(MainViewModel::class.java) -> {
+                MainViewModel(pokemonRepository, pokemonLocalRepository) as T
             }
             modelClass.isAssignableFrom(PokemonDetailsViewModel::class.java) -> {
                 PokemonDetailsViewModel(pokemonRepository) as T
+            }
+            modelClass.isAssignableFrom(BattleViewModel::class.java) -> {
+                BattleViewModel(pokemonRepository) as T
             }
 
             else -> throw IllegalArgumentException("Unknown ViewModel class")

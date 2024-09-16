@@ -1,7 +1,5 @@
 package com.example.pokedex.presenter.ui.details
 
-import android.graphics.drawable.GradientDrawable
-import android.widget.RelativeLayout
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.example.pokedex.data.model.PokemonType
@@ -17,9 +15,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.Mock
-import org.mockito.Mockito.any
 import org.mockito.Mockito.anyString
-import org.mockito.Mockito.never
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
@@ -36,8 +32,6 @@ class PokemonDetailsViewModelTest {
     private lateinit var observer: Observer<Pokemon?>
     @Mock
     private lateinit var pokemonRepository: PokemonApiRepository
-    @Mock
-    private lateinit var relativeLayout: RelativeLayout
 
     private val grassType = PokemonType(slot = 1, type = Type(name = "grass"))
     private val poisonType = PokemonType(slot = 2, type = Type(name = "poison"))
@@ -65,7 +59,7 @@ class PokemonDetailsViewModelTest {
     }
 
     @Test
-    fun `deve atualizar o LiveData com o Pokemon correto quando carregado com sucesso e chamar o repository com o nome correto do Pokemon`() = runTest{
+    fun `loadPokemon - deve atualizar o LiveData com o Pokemon correto quando carregado com sucesso e chamar o repository com o nome correto do Pokemon`() = runTest{
         val name = "bulbasaur"
         val expectedPokemon = fakePokemon
 
@@ -78,7 +72,7 @@ class PokemonDetailsViewModelTest {
 
     }
     @Test
-    fun `deve lancar uma excecao quando tentar carregar um Pokemon com nome vazio`() = runTest{
+    fun `loadPokemon - deve lancar uma excecao quando tentar carregar um Pokemon com nome vazio`() = runTest{
         val name = ""
 
         val exception = assertThrows<IllegalArgumentException> {
@@ -91,20 +85,24 @@ class PokemonDetailsViewModelTest {
     }
 
     @Test
-    fun `deve chamar o metodo de atualizacao da cor de fundo quando a cor for valida`(){
-        val color = -12324
+    fun `validatePokemon - deve lancar uma excecao quando tentar carregar um Pokemon null`() = runTest{
 
-        viewModel.updateBackgroundColor(relativeLayout, color)
+        val exception = assertThrows<NullPointerException> {
+            runBlocking {
+                viewModel.validatePokemon(null)
 
-        verify(relativeLayout).background = any(GradientDrawable::class.java)
+            }
+        }
+        Assert.assertEquals("Attempt to invoke method on a null object reference", exception.message)
     }
 
     @Test
-    fun `nao deve chamar o metodo de atualizacao da cor de fundo quando a cor for invalida`(){
-        val color = -1
+    fun `validatePokemon - deve retornar um Pokemon`() = runTest{
 
-        viewModel.updateBackgroundColor(relativeLayout, color)
+       val result = viewModel.validatePokemon(fakePokemon)
 
-        verify(relativeLayout, never()).background = any(GradientDrawable::class.java)
+        Assert.assertEquals(fakePokemon, result)
     }
+
+
 }

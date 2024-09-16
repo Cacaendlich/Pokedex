@@ -5,6 +5,9 @@ import android.content.Context.MODE_PRIVATE
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 class LoginViewModel : ViewModel() {
     enum class LoginState {
@@ -13,8 +16,15 @@ class LoginViewModel : ViewModel() {
         EMPTY_FIELDS
     }
 
-    private val _loginState = MutableLiveData<LoginState>()
-    val loginState: LiveData<LoginState> = _loginState
+    // State for email and password
+    private val _email = MutableStateFlow("")
+    val email: StateFlow<String> get() = _email.asStateFlow()
+
+    private val _password = MutableStateFlow("")
+    val password: StateFlow<String> get() = _password.asStateFlow()
+
+    private val _loginState = MutableLiveData<LoginState?>(null)
+    val loginState: LiveData<LoginState?> get()  = _loginState
 
     fun checkNotEmptyCredentials(email: String?, password: String?): Boolean {
         return !(email.isNullOrEmpty() || password.isNullOrEmpty())
@@ -24,6 +34,15 @@ class LoginViewModel : ViewModel() {
     private fun isValidTestUser(email: String, password: String): Boolean {
         return email == "example@example.com" && password == "1234"
     }
+
+    fun updateEmail(newEmail: String) {
+        _email.value = newEmail
+    }
+
+    fun updatePassword(newPassword: String) {
+        _password.value = newPassword
+    }
+
 
     fun loginIsValid(email: String, password: String): String {
         return if(checkNotEmptyCredentials(email = email, password = password)){
